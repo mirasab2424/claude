@@ -40,8 +40,9 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            // На хостингах без symlink (InfinityFree и т.п.) файлы кладём прямо в публичную папку.
+            'root' => env('PUBLIC_DISK_IN_WEBROOT', false) ? public_path('storage') : storage_path('app/public'),
+            'url' => env('PUBLIC_DISK_IN_WEBROOT', false) ? '/storage' : rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
