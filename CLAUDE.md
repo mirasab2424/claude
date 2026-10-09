@@ -17,7 +17,9 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 - В Filament-замыканиях параметры внедряются по имени: пишем `$query`, `$record`, `$state`, а не `$q`.
 - Аналитика вся в `App\Services\UserStats`. Параметр `publicOnly` скрывает приватные записи.
 - Публичная страница `/u/{username}`. Владелец видит на ней и приватные данные.
-- 3D-логотип: `public/js/logo3d.js`, процедурная копия `design/logo.blend`.
+- Логотип только из `design/logo.blend`, ничего не рисуем вручную: `public/models/logo.glb` (экспорт
+  `design/export_glb.py`, 17 клипов склеиваются в один в `public/js/logo3d.js`), `public/img/logo.png`
+  и `favicon.png` — рендер `design/render_logo.py`. Blender ставится как `pip install bpy`.
 - Все строки в HTML всплывающих окон карты проходят через `escapeHtml`.
 
 ## Команды

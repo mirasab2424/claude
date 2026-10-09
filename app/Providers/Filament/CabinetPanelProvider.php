@@ -36,7 +36,7 @@ class CabinetPanelProvider extends PanelProvider
             ->brandName('Success')
             ->brandLogo(fn () => view('filament.brand'))
             ->brandLogoHeight('2.25rem')
-            ->favicon(asset('img/logo.svg'))
+            ->favicon(asset('img/favicon.png'))
             ->colors([
                 'primary' => Color::Green,
                 'gray' => Color::Zinc,

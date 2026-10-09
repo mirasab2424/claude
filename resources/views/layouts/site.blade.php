@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Success') — трекер целей и прогресса</title>
     <meta name="description" content="@yield('description', 'Цели, задачи, метрики и карта мест — аналитика прогресса (или регресса) в одном месте.')">
-    <link rel="icon" href="{{ asset('img/logo.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('vendor/fonts/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/site.css') }}?v={{ filemtime(public_path('css/site.css')) }}">
     <script type="importmap">
-        { "imports": { "three": "{{ asset('vendor/three/three.module.min.js') }}" } }
+        { "imports": { "three": "{{ asset('vendor/three/three.module.min.js') }}", "three/addons/": "{{ asset('vendor/three/addons') }}/" } }
     </script>
+    <meta name="logo-model" content="{{ asset('models/logo.glb') }}">
     @stack('head')
 </head>
 <body>
     <header class="site-header">
         <div class="container site-header__inner">
             <a href="{{ route('home') }}" class="brand">
-                <img src="{{ asset('img/logo.svg') }}" alt="" class="brand__logo">
+                <img src="{{ asset('img/logo.png') }}" alt="" class="brand__logo">
                 <span class="brand__name">success</span>
             </a>
             <nav class="site-nav">

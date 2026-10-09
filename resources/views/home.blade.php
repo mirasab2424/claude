@@ -88,8 +88,8 @@
 <section class="container section logo-story">
     <div>
         <h2 class="section__title">Логотип</h2>
-        <p>Логотип собран в Blender. Вверху страницы та же модель в реальном времени: её можно покрутить
-           мышкой, а клик собирает её заново. Справа исходный ролик.</p>
+        <p>Логотип собран в Blender. Вверху страницы та же модель с той же анимацией, только в реальном времени:
+           её можно покрутить мышкой, а клик проигрывает сборку заново. Справа исходный ролик.</p>
     </div>
     <video class="logo-story__video" src="{{ asset('media/logo.mp4') }}" muted loop playsinline controls preload="metadata"></video>
 </section>

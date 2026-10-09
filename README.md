@@ -38,10 +38,19 @@
 - блок «Выводы» показывает комментарии к закрытым целям;
 - карта посещённых мест (Leaflet).
 
-**Логотип.** `public/img/logo.svg` — плоская версия для шапки и favicon.
-`public/js/logo3d.js` — 3D-версия на Three.js: процедурно повторяет модель из
-`design/logo.blend` и анимацию сборки из ролика. Её можно крутить мышкой, клик собирает
-логотип заново. Исходный ролик лежит в `public/media/logo.mp4`.
+**Логотип.** Всё берётся из `design/logo.blend`:
+- `public/models/logo.glb` — модель с анимацией сборки, экспортированная из Blender. Её проигрывает
+  `public/js/logo3d.js` (Three.js): логотип можно крутить мышкой, клик проигрывает сборку заново.
+- `public/img/logo.png` и `public/img/favicon.png` — рендер последнего кадра с камеры из файла.
+- `public/media/logo.mp4` — исходный ролик.
+
+Если поменяете логотип в Blender, пересоберите файлы (нужен `pip install bpy`, Python 3.13):
+
+```bash
+python -I design/export_glb.py design/logo.blend public/models/logo.glb
+python -I design/render_logo.py design/logo.blend /tmp/logo-render.png
+convert /tmp/logo-render.png -trim +repage -resize x640 public/img/logo.png
+```
 
 ## Стек и почему он
 
