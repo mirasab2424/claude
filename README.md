@@ -64,7 +64,7 @@ cp .env.example .env          # здесь же можно поменять ADMI
 php artisan key:generate
 touch database/database.sqlite   # Windows: type nul > database\database.sqlite
 php artisan migrate --seed       # таблицы + типы задач + админ + демо-данные
-php artisan storage:link         # для аватаров и фото мест
+php artisan storage:link         # для аватаров и фото мест (или PUBLIC_DISK_IN_WEBROOT=true в .env)
 php artisan serve
 ```
 
@@ -106,7 +106,27 @@ public/js/profile.js      графики, тепловая карта, карт�
 design/                   исходники: logo.blend, TO_DO.xlsx
 ```
 
-## Деплой
+## Деплой на бесплатный хостинг без SSH (InfinityFree и похожие)
+
+На таком хостинге нет консоли и Composer, поэтому сайт собирается целиком у себя:
+
+```bash
+APP_URL=http://miras.page.gd deploy/build-shared-hosting.sh
+```
+
+Скрипт создаёт `build/shared-hosting/`. Внутри папка `htdocs/` и она же,
+разбитая на архивы `site-part*.zip` до 9 МБ. В сборке уже есть зависимости, готовая база SQLite
+с админом (случайный пароль выводится в конце) и всё нужное для работы без symlink.
+Ядро Laravel лежит в `htdocs/core` и закрыто от браузера через `.htaccess`.
+
+Как залить:
+
+1. Удалить из `htdocs` на хостинге стандартные файлы.
+2. Загрузить архивы в `htdocs` через файловый менеджер и распаковать каждый на месте.
+   Второй способ: залить содержимое `build/shared-hosting/htdocs/` по FTP через FileZilla.
+3. В панели хостинга выбрать PHP 8.3 или новее.
+
+## Деплой на хостинг с SSH
 
 Подойдёт любой хостинг с PHP 8.3, в том числе обычный shared-хостинг. Корень сайта
 указывайте на папку `public/`. После выкладки:
