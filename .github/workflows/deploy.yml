@@ -10,6 +10,11 @@ on:
       - main
       - claude/sharp-babbage-t64qnn
   workflow_dispatch:
+    inputs:
+      with_vendor:
+        description: 'Залить и библиотеки Composer (core/vendor, ~17 000 файлов)'
+        type: boolean
+        default: false
 
 concurrency:
   group: deploy
@@ -28,6 +33,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Библиотеки Composer заливаем, только если поменялся composer.lock (или попросили вручную).
+      - name: Need vendor?
+        id: vendor
+        run: |
+          if [ "${{ inputs.with_vendor }}" = "true" ]; then
+            echo "upload=true" >> "$GITHUB_OUTPUT"
+          elif git cat-file -e "${{ github.event.before }}^{commit}" 2>/dev/null \
+            && git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" | grep -qx composer.lock; then
+            echo "upload=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "upload=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -46,7 +66,7 @@ jobs:
       - name: Build
         run: deploy/build-ftp.sh build/ftp
 
-      - name: Upload by FTP
+      - name: Upload site by FTP
         if: env.HAS_SECRETS == 'true'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -57,7 +77,7 @@ jobs:
           local-dir: build/ftp/
           protocol: ftp
           timeout: 600000
-          # База, .env и загруженные файлы живут только на сервере.
+          # База, .env и загруженные файлы живут только на сервере; vendor — отдельным шагом ниже.
           exclude: |
             **/.git*
             **/.git*/**
@@ -65,3 +85,17 @@ jobs:
             core/database/*.sqlite
             core/storage/**
             storage/**
+            core/vendor/**
+
+      - name: Upload Composer libraries by FTP
+        if: env.HAS_SECRETS == 'true' && steps.vendor.outputs.upload == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}core/vendor/
+          local-dir: build/ftp/core/vendor/
+          protocol: ftp
+          timeout: 600000
+          state-name: .ftp-deploy-vendor-state.json

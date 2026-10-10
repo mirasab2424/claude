@@ -139,7 +139,8 @@ APP_URL=http://miras.page.gd deploy/build-shared-hosting.sh
 
 После каждого пуша в `main` или `claude/sharp-babbage-t64qnn` workflow `Deploy` прогоняет тесты,
 собирает сайт (`deploy/build-ftp.sh`) и заливает по FTP только изменённые файлы. `.env`, база и
-`storage` на сервере не трогаются. Первый запрос после заливки сам применяет миграции (`App\Support\PostDeploy`).
+`storage` на сервере не трогаются. Библиотеки Composer (`core/vendor`, около 17 000 файлов) уходят отдельным
+шагом и только когда меняется `composer.lock`. Залить их принудительно можно так: Actions → Deploy → Run workflow → with_vendor. Первый запрос после заливки сам применяет миграции (`App\Support\PostDeploy`).
 
 Один раз нужно добавить секреты: Settings → Secrets and variables → Actions → New repository secret.
 
