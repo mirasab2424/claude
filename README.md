@@ -135,7 +135,22 @@ APP_URL=http://miras.page.gd deploy/build-shared-hosting.sh
    Второй способ: залить содержимое `build/shared-hosting/htdocs/` по FTP через FileZilla.
 3. В панели хостинга выбрать PHP 8.3 или новее.
 
-### Обновление сайта на таком хостинге
+### Автодеплой (GitHub Actions → FTP)
+
+После каждого пуша в `main` или `claude/sharp-babbage-t64qnn` workflow `Deploy` прогоняет тесты,
+собирает сайт (`deploy/build-ftp.sh`) и заливает по FTP только изменённые файлы. `.env`, база и
+`storage` на сервере не трогаются. Первый запрос после заливки сам применяет миграции (`App\Support\PostDeploy`).
+
+Один раз нужно добавить секреты: Settings → Secrets and variables → Actions → New repository secret.
+
+| Секрет | Значение |
+|---|---|
+| `FTP_SERVER` | `ftpupload.net` |
+| `FTP_USERNAME` | `if0_43100396` |
+| `FTP_PASSWORD` | пароль FTP из панели InfinityFree |
+| `FTP_SERVER_DIR` | папка сайта на FTP, например `/to-do-miras.page.gd/htdocs/` (со слешем в конце) |
+
+### Обновление сайта вручную
 
 ```bash
 deploy/build-update.sh   # → build/update.zip

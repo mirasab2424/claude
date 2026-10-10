@@ -24,8 +24,9 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 - Данные пользователя — дневник из Telegram (`database/data/telegram/diary.json`, сид `TelegramDiarySeeder`).
   Демо-данных больше нет, ничего не выдумываем. Всё публично и только на `/u/miras`, не на главной.
 - Метрики с `is_duration` хранят секунды, показываются как м:сс (`Metric::format`, `Metric::parseDuration`).
-- Хостинг — InfinityFree (to-do-miras.page.gd), без SSH. Обновления: `deploy/build-update.sh` (без базы и vendor);
-  миграции и импорт на хостинге — через `deploy/import-telegram.php`.
+- Хостинг — InfinityFree (to-do-miras.page.gd), без SSH. Деплой автоматический: пуш → `.github/workflows/deploy.yml`
+  → FTP (секреты `FTP_*` в GitHub). Миграции применяет первый запрос (`App\Support\PostDeploy`, метка `deploy-version`).
+  Запасной ручной путь: `deploy/build-update.sh` + `deploy/import-telegram.php`. Из этой среды FTP недоступен.
 
 ## Команды
 - `php artisan migrate:fresh --seed`: база с демо-данными, админ `admin@example.com` / `password`.
