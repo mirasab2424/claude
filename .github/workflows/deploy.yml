@@ -1,0 +1,67 @@
+name: Deploy
+
+# Заливает сайт на InfinityFree по FTP после каждого пуша.
+# Нужны секреты репозитория: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_SERVER_DIR
+# (Settings → Secrets and variables → Actions). Без них шаг заливки пропускается.
+
+on:
+  push:
+    branches:
+      - main
+      - claude/sharp-babbage-t64qnn
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      HAS_SECRETS: ${{ secrets.FTP_PASSWORD != '' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, pdo_sqlite, sqlite3, zip, gd
+          coverage: none
+
+      - name: Tests
+        run: |
+          composer install --no-interaction --prefer-dist --quiet
+          cp .env.example .env
+          php artisan key:generate --quiet
+          php artisan test
+
+      - name: Build
+        run: deploy/build-ftp.sh build/ftp
+
+      - name: Upload by FTP
+        if: env.HAS_SECRETS == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          local-dir: build/ftp/
+          protocol: ftp
+          timeout: 600000
+          # База, .env и загруженные файлы живут только на сервере.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            core/.env
+            core/database/*.sqlite
+            core/storage/**
+            storage/**

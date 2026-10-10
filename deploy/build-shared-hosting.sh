@@ -59,47 +59,9 @@ php artisan migrate --force --seed --quiet
 sed -i 's/^ADMIN_PASSWORD=.*/ADMIN_PASSWORD=/' .env
 php artisan filament:assets --quiet
 
-# public/ становится корнем сайта (htdocs), ядро — в htdocs/core.
-shopt -s dotglob
-mv public/* "$WEB/"
-rmdir public
-rm -f "$WEB/storage"
-mkdir -p "$WEB/storage"
-
-cat > "$WEB/index.php" <<'PHP'
-<?php
-
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
-
-define('LARAVEL_START', microtime(true));
-
-$core = __DIR__.'/core';
-
-if (file_exists($maintenance = $core.'/storage/framework/maintenance.php')) {
-    require $maintenance;
-}
-
-require $core.'/vendor/autoload.php';
-
-/** @var Application $app */
-$app = require_once $core.'/bootstrap/app.php';
-$app->usePublicPath(__DIR__);
-
-$app->handleRequest(Request::capture());
-PHP
-
-# Закрываем ядро (код, .env, база) от доступа из браузера.
-cat > "$CORE/.htaccess" <<'HT'
-<IfModule mod_authz_core.c>
-    Require all denied
-</IfModule>
-<IfModule !mod_authz_core.c>
-    Order deny,allow
-    Deny from all
-</IfModule>
-HT
-sed -i 's|    RewriteEngine On|    RewriteEngine On\n\n    # Ядро Laravel недоступно снаружи\n    RewriteRule ^core(/\|$) - [F,L]|' "$WEB/.htaccess"
+source "$ROOT/deploy/layout.sh"
+cd "$ROOT"
+prepare_webroot "$WEB"
 
 # Архивы до 9 МБ для загрузки через файловый менеджер хостинга.
 python3 - "$WEB" "$OUT" <<'PY'

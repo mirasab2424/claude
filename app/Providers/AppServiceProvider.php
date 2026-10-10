@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Support\PostDeploy;
 use Filament\Resources\Resource;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // В русском языке Заглавные Буквы В Каждом Слове выглядят странно.
         Resource::titleCaseModelLabel(false);
+
+        if (! $this->app->runningInConsole()) {
+            PostDeploy::runIfNeeded();
+        }
     }
 }
