@@ -96,5 +96,5 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/logo3d.js') }}"></script>
+    <script type="module" src="{{ asset('js/logo3d.js') }}?v={{ filemtime(public_path('js/logo3d.js')) }}"></script>
 @endpush

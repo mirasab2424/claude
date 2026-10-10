@@ -11,7 +11,7 @@
     <script type="importmap">
         { "imports": { "three": "{{ asset('vendor/three/three.module.min.js') }}", "three/addons/": "{{ asset('vendor/three/addons') }}/" } }
     </script>
-    <meta name="logo-model" content="{{ asset('models/logo.glb') }}">
+    <meta name="logo-model" content="{{ asset('models/logo.glb') }}?v={{ filemtime(public_path('models/logo.glb')) }}">
     @stack('head')
 </head>
 <body>
