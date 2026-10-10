@@ -71,57 +71,106 @@
             options: { scales: axes, plugins: { legend: { position: 'top', align: 'start' } } },
         });
 
+        const fmtDuration = (sec) => {
+            const s = Math.round(Math.abs(sec));
+            const h = Math.floor(s / 3600), mnt = Math.floor((s % 3600) / 60), r = String(s % 60).padStart(2, '0');
+            return (sec < 0 ? '−' : '') + (h ? `${h}:${String(mnt).padStart(2, '0')}:${r}` : `${mnt}:${r}`);
+        };
+        const fmtDate = (ts, withDay = true) => new Date(ts).toLocaleDateString('ru-RU',
+            withDay ? { day: 'numeric', month: 'short', year: 'numeric' } : { month: 'short', year: '2-digit' });
+
         data.metrics.forEach((m) => {
             const canvas = document.querySelector(`[data-metric="${m.id}"]`);
             if (!canvas) return;
+            const fmt = (y) => (m.duration ? fmtDuration(y) : String(Math.round(y * 100) / 100).replace('.', ',')) + (m.unit ? ' ' + m.unit : '');
+            const points = m.points.map((p) => ({ x: new Date(p.x).getTime(), y: p.y, note: p.note }));
             const datasets = [{
                 label: m.name,
-                data: m.points.map((p) => p.y),
+                data: points,
                 borderColor: v('--accent'),
                 backgroundColor: v('--accent'),
-                borderWidth: 2, pointRadius: 3, pointHoverRadius: 5, tension: 0.25,
+                borderWidth: 2, pointRadius: 3, pointHoverRadius: 5, tension: 0.2,
             }];
-            if (m.target !== null) {
+            if (m.target !== null && points.length) {
                 datasets.push({
-                    label: 'Цель', data: m.points.map(() => m.target),
+                    label: 'Цель', data: [{ x: points[0].x, y: m.target }, { x: points[points.length - 1].x, y: m.target }],
                     borderColor: COLORS.text, borderDash: [4, 4], borderWidth: 1, pointRadius: 0,
                 });
             }
+            // Ось X — настоящее время, поэтому паузы между замерами видны как пропуски.
             new Chart(canvas, {
                 type: 'line',
-                data: { labels: m.points.map((p) => new Date(p.x).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })), datasets },
+                data: { datasets },
                 options: {
-                    plugins: { legend: { display: m.target !== null, position: 'top', align: 'end' } },
-                    scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 6 } }, y: { grid: { color: COLORS.grid } } },
+                    interaction: { mode: 'nearest', intersect: false },
+                    plugins: {
+                        legend: { display: m.target !== null, position: 'top', align: 'end' },
+                        tooltip: {
+                            callbacks: {
+                                title: (items) => fmtDate(items[0].parsed.x),
+                                label: (ctx) => ' ' + fmt(ctx.parsed.y) + (ctx.raw.note ? ` · ${ctx.raw.note}` : ''),
+                            },
+                        },
+                    },
+                    scales: {
+                        x: { type: 'linear', grid: { display: false }, ticks: { maxTicksLimit: 5, callback: (val) => fmtDate(val, false) } },
+                        y: { grid: { color: COLORS.grid }, ticks: { maxTicksLimit: 5, callback: (val) => (m.duration ? fmtDuration(val) : val) } },
+                    },
                 },
             });
         });
     }
 
-    // Тепловая карта в стиле GitHub: недели — столбцы, дни недели — строки.
+    // Тепловая карта в стиле GitHub: недели — столбцы, дни недели — строки. Вкладки — по годам.
     const heat = document.getElementById('heatmap');
-    if (heat) {
-        const days = data.heatmap;
-        // Шкала не ниже 3, чтобы единичная задача не выглядела «максимумом».
-        const max = Math.max(3, ...days.map((d) => d.count));
-        const firstDow = (new Date(days[0].date).getDay() + 6) % 7; // понедельник = 0
-        const frag = document.createDocumentFragment();
-        for (let i = 0; i < firstDow; i++) {
-            const pad = document.createElement('span');
-            pad.className = 'hm-cell hm-cell_pad';
-            frag.appendChild(pad);
-        }
-        days.forEach((d) => {
-            const cell = document.createElement('span');
-            const level = d.count === 0 ? 0 : Math.min(4, Math.ceil((d.count / max) * 4));
-            cell.className = 'hm-cell';
-            cell.dataset.level = level;
-            const date = new Date(d.date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            cell.title = `${date}: ${d.count ? 'выполнено ' + d.count : 'нет выполненных'}`;
-            frag.appendChild(cell);
+    const yearsBox = document.getElementById('heatmap-years');
+    if (heat && data.heatmap) {
+        const years = Object.keys(data.heatmap).sort().reverse();
+        const caption = document.getElementById('heatmap-caption');
+        const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+        const render = (year) => {
+            const counts = data.heatmap[year] || {};
+            const values = Object.values(counts);
+            // Шкала не ниже 3, чтобы единичная задача не выглядела «максимумом».
+            const max = Math.max(3, ...values);
+            const start = new Date(Number(year), 0, 1);
+            const today = new Date();
+            const end = Number(year) === today.getFullYear() ? today : new Date(Number(year), 11, 31);
+            const frag = document.createDocumentFragment();
+            for (let i = 0; i < (start.getDay() + 6) % 7; i++) {
+                const pad = document.createElement('span');
+                pad.className = 'hm-cell hm-cell_pad';
+                frag.appendChild(pad);
+            }
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                const count = counts[iso(d)] || 0;
+                const cell = document.createElement('span');
+                cell.className = 'hm-cell';
+                cell.dataset.level = count === 0 ? 0 : Math.min(4, Math.ceil((count / max) * 4));
+                cell.title = `${d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}: ${count ? 'выполнено ' + count : 'нет выполненных'}`;
+                frag.appendChild(cell);
+            }
+            heat.replaceChildren(frag);
+            heat.scrollLeft = heat.scrollWidth;
+            const days = values.length;
+            caption.textContent = days
+                ? `${year}: активных дней — ${days}, выполнено задач — ${values.reduce((a, b) => a + b, 0)}`
+                : `${year}: пока без выполненных задач`;
+            yearsBox.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.year === year)));
+        };
+
+        years.forEach((year) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.role = 'tab';
+            btn.dataset.year = year;
+            btn.textContent = year;
+            btn.addEventListener('click', () => render(year));
+            yearsBox.appendChild(btn);
         });
-        heat.appendChild(frag);
-        heat.scrollLeft = heat.scrollWidth;
+        // По умолчанию — самый свежий год, в котором есть активность.
+        render(years.find((y) => Object.keys(data.heatmap[y]).length) || years[0]);
     }
 
     // Карта мест.

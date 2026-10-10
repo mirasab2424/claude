@@ -17,7 +17,7 @@ class ProgressChart extends ChartWidget
 
     protected function getData(): array
     {
-        $t = UserStats::for(auth()->user(), publicOnly: false)->timeline(12);
+        $t = UserStats::for(auth()->user(), publicOnly: false)->timeline();
 
         return [
             'labels' => $t['labels'],

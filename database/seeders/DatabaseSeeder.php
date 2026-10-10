@@ -29,13 +29,11 @@ class DatabaseSeeder extends Seeder
                 'name' => env('ADMIN_NAME', 'Miras'),
                 'username' => 'miras',
                 'password' => env('ADMIN_PASSWORD', 'password'),
-                'tagline' => 'success2025 — двигаюсь к цели каждый день',
-                'city' => 'Астана',
-                'bio' => 'Веб-разработчик. Здесь я отслеживаю свои цели, привычки и поездки: что получилось, что нет и какие выводы я сделал.',
             ],
         );
         $admin->forceFill(['is_admin' => true])->save();
 
-        $this->call(DemoDataSeeder::class, parameters: ['user' => $admin]);
+        // Дневник из Telegram-канала: тренировки, метрики, достижения.
+        $this->call(TelegramDiarySeeder::class, parameters: ['user' => $admin]);
     }
 }

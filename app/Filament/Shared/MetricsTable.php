@@ -21,9 +21,9 @@ class MetricsTable
                 TextColumn::make('name')->label('Метрика')->searchable(),
                 TextColumn::make('last')
                     ->label('Последнее')
-                    ->state(fn (Metric $record) => $record->entries->last()?->value)
-                    ->suffix(fn (Metric $record) => $record->unit ? ' '.$record->unit : ''),
-                TextColumn::make('target')->label('Цель')->numeric(),
+                    ->state(fn (Metric $record) => $record->entries->last() ? $record->format($record->entries->last()->value) : null)
+                    ->suffix(fn (Metric $record) => $record->unit && ! $record->is_duration ? ' '.$record->unit : ''),
+                TextColumn::make('target')->label('Цель')->formatStateUsing(fn (Metric $record, $state) => $record->format((float) $state)),
                 TextColumn::make('trend')
                     ->label('Динамика')
                     ->badge()

@@ -16,7 +16,8 @@
             @if ($user->tagline)<p class="profile-head__tagline">{{ $user->tagline }}</p>@endif
             <p class="muted">
                 @if ($user->city){{ $user->city }} · @endif
-                с нами с {{ $user->created_at->translatedFormat('F Y') }}
+                ведёт дневник с {{ ($since ?? $user->created_at)->translatedFormat('F Y') }}
+                @if ($user->telegram) · <a href="{{ $user->telegram }}" target="_blank" rel="noopener">канал в Telegram ↗</a>@endif
                 @if ($isOwner) · <a href="/cabinet">редактировать в кабинете</a>@endif
             </p>
         </div>
@@ -63,8 +64,12 @@
 </section>
 
 <section class="container section">
-    <h2 class="section__title">Активность за год</h2>
+    <div class="section__head">
+        <h2 class="section__title">Активность</h2>
+        <div class="year-tabs" id="heatmap-years" role="tablist" aria-label="Год"></div>
+    </div>
     <div class="card">
+        <p class="heatmap-caption muted" id="heatmap-caption"></p>
         <div id="heatmap" class="heatmap" role="img" aria-label="Тепловая карта выполненных задач по дням"></div>
         <div class="heatmap-legend muted">
             меньше
@@ -104,16 +109,19 @@
                         </span>
                     @endif
                 </div>
-                @if ($trend)
+                @if ($metric['last_text'])
                     <p class="metric__value">
-                        {{ rtrim(rtrim(number_format($trend['last'], 2, ',', ' '), '0'), ',') }} {{ $metric['unit'] }}
-                        <span class="muted">
-                            ({{ $trend['delta'] >= 0 ? '+' : '' }}{{ rtrim(rtrim(number_format($trend['delta'], 2, ',', ' '), '0'), ',') }}@if ($trend['percent'] !== null), {{ $trend['percent'] > 0 ? '+' : '' }}{{ $trend['percent'] }}%@endif с начала)
-                        </span>
+                        {{ $metric['last_text'] }} {{ $metric['unit'] }}
+                        @if ($trend)
+                            <span class="muted">({{ $metric['delta_text'] }}@if ($trend['percent'] !== null), {{ $trend['percent'] > 0 ? '+' : '' }}{{ $trend['percent'] }}%@endif с первого замера)</span>
+                        @endif
+                    </p>
+                    <p class="muted">
+                        Последний замер {{ $metric['last_date'] }} · лучший результат {{ $metric['best_text'] }} {{ $metric['unit'] }} · замеров: {{ $metric['count'] }}
                     </p>
                 @endif
-                @if ($metric['target'])
-                    <p class="muted">Цель: {{ rtrim(rtrim(number_format($metric['target'], 2, ',', ' '), '0'), ',') }} {{ $metric['unit'] }}</p>
+                @if ($metric['target_text'])
+                    <p class="muted">Цель: {{ $metric['target_text'] }} {{ $metric['unit'] }}</p>
                 @endif
                 <div class="chart-box chart-box_small"><canvas data-metric="{{ $metric['id'] }}"></canvas></div>
             </div>
@@ -166,6 +174,28 @@
 </section>
 @endif
 
+@if ($gallery->isNotEmpty())
+<section class="container section">
+    <h2 class="section__title">Фото <span class="muted">{{ $gallery->count() }}</span></h2>
+    <div class="gallery">
+        @foreach ($gallery as $goal)
+            <figure class="gallery__item">
+                <a href="{{ Storage::disk('public')->url($goal->photo) }}" target="_blank" rel="noopener">
+                    <img src="{{ Storage::disk('public')->url($goal->photo) }}" alt="{{ $goal->title }}" loading="lazy">
+                </a>
+                <figcaption>
+                    <span>{{ $goal->title }}</span>
+                    <span class="muted">
+                        {{ ($goal->completed_at ?? $goal->created_at)->format('d.m.Y') }}
+                        @if ($goal->link) · <a href="{{ $goal->link }}" target="_blank" rel="noopener">пост ↗</a>@endif
+                    </span>
+                </figcaption>
+            </figure>
+        @endforeach
+    </div>
+</section>
+@endif
+
 @if ($recentDone->isNotEmpty())
 <section class="container section">
     <h2 class="section__title">Недавно выполнено</h2>
@@ -174,7 +204,10 @@
             <li>
                 <span class="done-list__check" aria-hidden="true">✓</span>
                 <span>{{ $goal->title }}</span>
-                <span class="muted">{{ $goal->horizon->getLabel() }} · {{ $goal->completed_at?->format('d.m.Y') }}</span>
+                <span class="muted">
+                    {{ $goal->completed_at?->format('d.m.Y') }}
+                    @if ($goal->link) · <a href="{{ $goal->link }}" target="_blank" rel="noopener">пост ↗</a>@endif
+                </span>
             </li>
         @endforeach
     </ul>

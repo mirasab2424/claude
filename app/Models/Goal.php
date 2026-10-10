@@ -14,7 +14,7 @@ class Goal extends Model
 {
     protected $fillable = [
         'user_id', 'category_id', 'parent_id', 'title', 'importance', 'horizon', 'status',
-        'progress', 'start_date', 'due_date', 'completed_at', 'notes', 'retrospective', 'is_public',
+        'progress', 'start_date', 'due_date', 'completed_at', 'notes', 'retrospective', 'photo', 'link', 'is_public',
     ];
 
     protected function casts(): array

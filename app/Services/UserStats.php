@@ -116,9 +116,17 @@ class UserStats
         return $streak;
     }
 
-    /** Выполненные и проваленные цели по месяцам за последние $months месяцев. */
-    public function timeline(int $months = 12): array
+    /**
+     * Выполненные и проваленные цели по месяцам. Без $months — вся история
+     * (но не меньше 12 месяцев и не больше 6 лет).
+     */
+    public function timeline(?int $months = null): array
     {
+        if ($months === null) {
+            $first = $this->goals->map(fn (Goal $g) => $g->completed_at ?? $g->created_at)->filter()->min();
+            $months = $first ? (int) CarbonImmutable::parse($first)->startOfMonth()->diffInMonths(CarbonImmutable::now()->startOfMonth()) + 1 : 12;
+            $months = max(12, min(72, $months));
+        }
         $start = CarbonImmutable::now()->startOfMonth()->subMonths($months - 1);
         $labels = [];
         $done = [];
@@ -175,22 +183,25 @@ class UserStats
             ->all();
     }
 
-    /** Активность по дням за год — для «тепловой карты» как на GitHub. */
-    public function heatmap(int $days = 365): array
+    /**
+     * Выполненные задачи по дням для «тепловой карты» как на GitHub:
+     * ['2024' => ['2024-02-13' => 2, ...], ...] — только дни с активностью, по годам.
+     */
+    public function heatmap(): array
     {
         $counts = $this->goals
             ->where('status', GoalStatus::Done)
             ->filter(fn (Goal $g) => $g->completed_at)
-            ->countBy(fn (Goal $g) => $g->completed_at->toDateString());
+            ->countBy(fn (Goal $g) => $g->completed_at->toDateString())
+            ->sortKeys();
 
-        $result = [];
-        $day = CarbonImmutable::today()->subDays($days - 1);
-        for ($i = 0; $i < $days; $i++) {
-            $date = $day->addDays($i)->toDateString();
-            $result[] = ['date' => $date, 'count' => $counts->get($date, 0)];
+        $years = [(string) CarbonImmutable::today()->year => []];
+        foreach ($counts as $date => $count) {
+            $years[substr($date, 0, 4)][$date] = $count;
         }
+        krsort($years);
 
-        return $result;
+        return $years;
     }
 
     public function metrics(): Collection

@@ -6,6 +6,7 @@ use App\Enums\GoalStatus;
 use App\Enums\Horizon;
 use App\Enums\Importance;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -98,6 +99,16 @@ class GoalForm
                             ->label('Комментарии')
                             ->helperText('Для анализа и выводов после выполнения')
                             ->rows(6),
+                        FileUpload::make('photo')
+                            ->label('Фото')
+                            ->image()
+                            ->disk('public')
+                            ->directory('goals'),
+                        TextInput::make('link')
+                            ->label('Ссылка')
+                            ->helperText('Например, пост в Telegram или видео')
+                            ->url()
+                            ->maxLength(255),
                     ]),
             ]);
     }

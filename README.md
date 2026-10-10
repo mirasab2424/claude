@@ -135,6 +135,23 @@ APP_URL=http://miras.page.gd deploy/build-shared-hosting.sh
    Второй способ: залить содержимое `build/shared-hosting/htdocs/` по FTP через FileZilla.
 3. В панели хостинга выбрать PHP 8.3 или новее.
 
+### Обновление сайта на таком хостинге
+
+```bash
+deploy/build-update.sh   # → build/update.zip
+```
+
+В архиве только код и статика, без `vendor`, базы, `.env` и загруженных файлов. Его распаковывают
+в `htdocs` поверх старых файлов, данные и пароли при этом остаются. Если в обновлении есть новые миграции,
+их применяет одноразовый скрипт `import-telegram.php` (см. ниже) или любой похожий.
+
+### Дневник из Telegram
+
+Данные канала t.me/successM2025 лежат в `database/data/telegram/diary.json` и `photos/`.
+Их загружает `TelegramDiarySeeder`: он заменяет цели, метрики и места администратора.
+Локально это делает `php artisan migrate:fresh --seed`. На хостинге нужно открыть
+`/import-telegram.php?confirm=yes`, а после этого удалить файл.
+
 ## Деплой на хостинг с SSH
 
 Подойдёт любой хостинг с PHP 8.3, в том числе обычный shared-хостинг. Корень сайта

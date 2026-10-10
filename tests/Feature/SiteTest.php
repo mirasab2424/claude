@@ -17,7 +17,7 @@ class SiteTest extends TestCase
         $this->seed();
 
         $this->get('/')->assertOk()->assertSee('Miras');
-        $this->get('/u/miras')->assertOk()->assertSee('Активность за год');
+        $this->get('/u/miras')->assertOk()->assertSee('Активность')->assertSee('half muscle-up')->assertSee('Бег 3 км');
     }
 
     public function test_username_is_generated_on_registration(): void

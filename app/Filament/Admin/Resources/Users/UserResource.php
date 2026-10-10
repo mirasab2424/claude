@@ -57,6 +57,7 @@ class UserResource extends Resource
             Section::make('Профиль')->columns(2)->schema([
                 FileUpload::make('avatar')->label('Аватар')->image()->avatar()->disk('public')->directory('avatars'),
                 TextInput::make('city')->label('Город'),
+                TextInput::make('telegram')->label('Telegram-канал')->url(),
                 TextInput::make('tagline')->label('Девиз')->columnSpanFull(),
                 Textarea::make('bio')->label('О себе')->rows(4)->columnSpanFull(),
             ]),

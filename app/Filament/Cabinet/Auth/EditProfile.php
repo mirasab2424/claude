@@ -34,6 +34,7 @@ class EditProfile extends BaseEditProfile
                         ->unique(ignoreRecord: true),
                     TextInput::make('tagline')->label('Девиз')->maxLength(120),
                     TextInput::make('city')->label('Город')->maxLength(80),
+                    TextInput::make('telegram')->label('Telegram-канал')->url()->placeholder('https://t.me/...')->maxLength(255),
                     Textarea::make('bio')->label('О себе')->rows(4),
                     Toggle::make('is_public')
                         ->label('Профиль виден всем')

@@ -16,7 +16,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-#[Fillable(['name', 'username', 'email', 'password', 'is_public', 'avatar', 'city', 'tagline', 'bio'])]
+#[Fillable(['name', 'username', 'email', 'password', 'is_public', 'avatar', 'city', 'tagline', 'telegram', 'bio'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {

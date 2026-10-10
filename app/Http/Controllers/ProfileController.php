@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\GoalStatus;
 use App\Enums\Horizon;
+use App\Enums\MetricDirection;
 use App\Models\Goal;
 use App\Models\Metric;
 use App\Models\Place;
@@ -40,14 +41,33 @@ class ProfileController extends Controller
             ->take(6)
             ->values();
 
-        $metrics = $stats->metrics()->map(fn (Metric $m) => [
-            'id' => $m->id,
-            'name' => $m->name,
-            'unit' => $m->unit,
-            'target' => $m->target,
-            'trend' => $m->trend(),
-            'points' => $m->entries->map(fn ($e) => ['x' => $e->date->toDateString(), 'y' => $e->value])->values(),
-        ]);
+        $metrics = $stats->metrics()->map(function (Metric $m) {
+            $trend = $m->trend();
+            $last = $m->entries->last();
+
+            return [
+                'id' => $m->id,
+                'name' => $m->name,
+                'unit' => $m->is_duration ? '' : $m->unit,
+                'duration' => $m->is_duration,
+                'target' => $m->target,
+                'target_text' => $m->target !== null ? $m->format($m->target) : null,
+                'trend' => $trend,
+                'last_text' => $last ? $m->format($last->value) : null,
+                'last_date' => $last?->date->translatedFormat('j M Y'),
+                'best_text' => $m->entries->isNotEmpty()
+                    ? $m->format($m->direction === MetricDirection::Down ? $m->entries->min('value') : $m->entries->max('value'))
+                    : null,
+                'delta_text' => $trend ? $m->format($trend['delta'], signed: true) : null,
+                'count' => $m->entries->count(),
+                'points' => $m->entries->map(fn ($e) => ['x' => $e->date->toDateString(), 'y' => $e->value, 'note' => $e->note])->values(),
+            ];
+        });
+
+        $gallery = $goals
+            ->filter(fn (Goal $g) => $g->photo)
+            ->sortByDesc(fn (Goal $g) => $g->completed_at ?? $g->created_at)
+            ->values();
 
         $places = $stats->places()->map(fn (Place $p) => [
             'title' => $p->title,
@@ -67,12 +87,14 @@ class ProfileController extends Controller
             'summary' => $stats->summary(),
             'board' => $board,
             'lessons' => $lessons,
+            'gallery' => $gallery,
+            'since' => $goals->map(fn (Goal $g) => $g->completed_at ?? $g->created_at)->filter()->min(),
             'recentDone' => $goals->where('status', GoalStatus::Done)->sortByDesc('completed_at')->take(8)->values(),
             'chartData' => [
-                'timeline' => $stats->timeline(12),
+                'timeline' => $stats->timeline(),
                 'categories' => $stats->byCategory(),
                 'horizons' => $stats->byHorizon(),
-                'heatmap' => $stats->heatmap(53 * 7),
+                'heatmap' => $stats->heatmap(),
                 'metrics' => $metrics,
                 'places' => $places,
             ],
