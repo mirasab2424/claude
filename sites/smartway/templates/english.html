@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% set c = COURSES[0] %}
+{% block content %}
+{{ m.course_hero(c, "Английский, на котором ребёнок начинает говорить",
+  "За 12 недель наши ученики проходят полный уровень английского — например, A2 → B1 или B1 → B2. Много разговорной практики, помощь со школьным английским и отчёт родителям каждый месяц.",
+  ["Группы 6–7 человек", "Speaking club каждую неделю", "Интенсивы с носителями"]) }}
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head("Программа курса", "Семь навыков в одной системе", "Не только грамматика: ребёнок читает, слушает, пишет и, главное, говорит.") }}
+    <ol class="modules">
+      {% for title, text in ENGLISH.modules %}<li><b>{{ title }}</b><span>{{ text }}</span></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split">
+    <div>
+      {{ m.head("Почему нас рекомендуют", "Авторская программа, которая уже дала результат " ~ SITE.students ~ " ученикам") }}
+      <div class="callout">
+        <p class="callout__title">Интенсив с носителями — 2 раза в год</p>
+        <p>{{ ENGLISH.intensive }}</p>
+      </div>
+    </div>
+    <ul class="ticks">{% for w in ENGLISH.why %}<li>{{ w }}</li>{% endfor %}</ul>
+  </div>
+</section>
+
+<section class="section" id="prices">
+  <div class="wrap">
+    {{ m.head("Стоимость", "Выберите формат", "Пробный урок поможет определить уровень и подобрать группу.") }}
+    <div class="prices">
+      {{ m.price("Группа · 3 раза в неделю", ENGLISH.group[0][1], items=ENGLISH.group_includes[:4], course=c.title) }}
+      {{ m.price("Группа · 5 раз в неделю", ENGLISH.group[1][1], items=ENGLISH.group_includes[4:], accent=True, course=c.title, note="Больше практики — быстрее прогресс") }}
+      <article class="price">
+        <h3>Индивидуально</h3>
+        <ul class="price__list">
+          {% for f, a in ENGLISH.individual %}<li><span>{{ f }}</span><b>{{ a }} ₸</b></li>{% endfor %}
+        </ul>
+        <p class="price__note">В месяц. {{ ENGLISH.individual_includes | join(", ") | capitalize }}.</p>
+        <button class="btn btn--outline btn--block" type="button" data-lead data-course="{{ c.title }} (индивидуально)">Записаться на пробный</button>
+      </article>
+    </div>
+    <p class="note">📘 {{ ENGLISH.books }}</p>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split split--reverse">
+    <div>
+      {{ m.head("Преподаватели английского", "Кто будет учить") }}
+      <p><a class="btn btn--outline" href="teachers.html">Вся команда</a></p>
+    </div>
+    <div class="teachers">
+      {% for t in TEACHERS if "Английский язык" in t.subjects %}{{ m.teacher(t) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ m.cta("Узнайте уровень ребёнка на пробном уроке", None, c.title) }}
+{% endblock %}

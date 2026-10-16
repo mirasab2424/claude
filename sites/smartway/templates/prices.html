@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% macro table(title, href, rows, note=None, unit=" ₸ / мес") %}
+<article class="ptable">
+  <h2><a href="{{ href }}">{{ title }} <span aria-hidden="true">→</span></a></h2>
+  <ul class="price__list">{% for f, a in rows %}<li><span>{{ f }}</span><b>{{ a }}{{ unit }}</b></li>{% endfor %}</ul>
+  {% if note %}<p class="price__note">{{ note }}</p>{% endif %}
+</article>
+{% endmacro %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">Главная</a> / Цены</p>
+    <h1>Цены на обучение</h1>
+    <p class="hero__lead">Все направления на одной странице. За двоих детей из одной семьи — скидка 10%.</p>
+  </div>
+</section>
+
+<section class="section section--flush">
+  <div class="wrap price-tables">
+    {{ table("Английский язык · группа 6–7 человек", "english.html", ENGLISH.group, "1 уровень — 3 месяца. Учебник и рабочая тетрадь оплачиваются отдельно.") }}
+    {{ table("Английский язык · индивидуально", "english.html", ENGLISH.individual) }}
+    {{ table("IELTS", "ielts.html", IELTS.prices, "Период оплаты уточняйте у администратора.", " ₸") }}
+    {{ table("Математика · группа до 6–7 человек", "math.html", MATH.group) }}
+    {{ table("Математика + геометрия или физика (комбо)", "math.html#combo", MATH.combo.prices | map("list") | map("batch", 2) | map("first") | list, "3 раза = 2 математики + 1 геометрия/физика; 5 раз = 3 математики + 2 геометрии/физики.") }}
+    <article class="ptable">
+      <h2><a href="nis.html">Подготовка к НИШ <span aria-hidden="true">→</span></a></h2>
+      <ul class="price__list">
+        {% for p in NIS.plans %}
+        <li><span>{{ p.grade }}, {{ p.freq }}</span><b>{{ p.month }} ₸ / мес</b></li>
+        <li><span>{{ p.grade }}: 3 мес. (−15%) / 9 мес. (−25%)</span><b>{{ p.q3 }} / {{ p.q9 }} ₸</b></li>
+        {% endfor %}
+      </ul>
+      <p class="price__note">{{ NIS.cash }}</p>
+    </article>
+    {{ table("Подготовка к школе", "school.html", SCHOOL.prices) }}
+    {{ table("Продлёнка 1–4 класс", "prodlenka.html", PRODLENKA.prices, "Книги в подарок.") }}
+  </div>
+  <div class="wrap">
+    <p class="note">{{ LANGUAGES_EXTRA }}</p>
+  </div>
+</section>
+
+{{ m.cta("Не знаете, с чего начать?", "Напишите нам — подскажем направление и формат по возрасту и целям ребёнка.") }}
+{% endblock %}

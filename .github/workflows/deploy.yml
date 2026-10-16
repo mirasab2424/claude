@@ -9,6 +9,9 @@ on:
     branches:
       - main
       - claude/sharp-babbage-t64qnn
+    paths-ignore:
+      - 'sites/**'
+      - '.github/workflows/deploy-smartway.yml'
   workflow_dispatch:
     inputs:
       with_vendor:

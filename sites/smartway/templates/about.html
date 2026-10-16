@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">Главная</a> / О центре</p>
+    <h1>Наша основа — образование, а не просто курсы</h1>
+    <p class="hero__lead">SMART WAY полностью закрывает школьные потребности: ученики проходят и закрепляют школьные темы, подтягивают пробелы и уверенно используют языки. А родители всегда знают, как идёт учёба.</p>
+  </div>
+</section>
+
+<section class="section section--flush">
+  <div class="wrap">
+    <div class="timeline">
+      {% for c in CONTROL %}
+      <article class="timeline__item">
+        <span class="control__when">{{ c.when }}</span>
+        <h2>{{ c.title }}</h2>
+        <p>{{ c.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split">
+    <div>
+      {{ m.head("Английский", "Интенсивы с носителями языка", ENGLISH.intensive) }}
+      <a class="btn btn--outline" href="english.html">Курс английского</a>
+    </div>
+    <a class="photo photo--big" href="{{ PHOTOS[1].href }}" target="_blank" rel="noopener">
+      <img src="img/{{ PHOTOS[1].img }}" alt="{{ PHOTOS[1].caption }}" loading="lazy" width="360" height="640">
+      <span>{{ PHOTOS[1].caption }}</span>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <ul class="stats stats--light">
+      {% for s in STATS %}<li><b>{{ s.value }}</b><span>{{ s.label }}</span></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap">
+    {{ m.head("Как начать", "Четыре шага до первого занятия", None, True) }}
+    {{ m.steps() }}
+  </div>
+</section>
+
+{{ m.cta("Приходите на открытый день или пробный урок") }}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap split">
+    <div>
+      <p class="crumbs"><a href="index.html">Главная</a> / Преподаватели</p>
+      <h1>С детьми работают только квалифицированные учителя</h1>
+      <p class="hero__lead">Профессионалы, которые любят своё дело и искренне заинтересованы в успехе каждого ученика.</p>
+      <ul class="ticks">{% for s in TEACHER_STANDARDS %}<li>{{ s }}</li>{% endfor %}</ul>
+    </div>
+    <img class="page-head__img" src="img/photos/team.jpg" alt="Команда преподавателей SMART" width="900" height="492">
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="teachers teachers--grid">
+      {% for t in TEACHERS %}{{ m.teacher(t) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ m.cta("Познакомьтесь с учителем на пробном уроке") }}
+{% endblock %}

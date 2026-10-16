@@ -28,6 +28,12 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
   → FTP (секреты `FTP_*` в GitHub). Миграции применяет первый запрос (`App\Support\PostDeploy`, метка `deploy-version`).
   Запасной ручной путь: `deploy/build-update.sh` + `deploy/import-telegram.php`. Из этой среды FTP недоступен.
 
+## Второй проект: сайт SMART WAY (`sites/smartway/`)
+Статический сайт образовательного центра клиента → smart.is-best.net (тот же FTP-аккаунт).
+Факты только в `sites/smartway/data.py` (из PDF-буклетов, Instagram @smartschool_ast, 2ГИС) — не выдумывать.
+Сборка `python3 sites/smartway/build.py` (Jinja2) → `dist/`; деплой `.github/workflows/deploy-smartway.yml`.
+Трекерный деплой игнорирует `sites/**`.
+
 ## Команды
 - `php artisan migrate:fresh --seed`: база с демо-данными, админ `admin@example.com` / `password`.
 - `php artisan test`: тесты в `tests/Feature`.

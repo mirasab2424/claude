@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ title }} — {{ SITE.name }}, {{ SITE.city }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="{{ SITE.full_name }}">
+  <meta property="og:title" content="{{ title }} — {{ SITE.name }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ url }}">
+  <meta property="og:image" content="{{ SITE.base_url }}/img/og.jpg">
+  <meta name="theme-color" content="#1E5F6B">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="preload" href="fonts/nunito-cyrillic-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v={{ version }}">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": {{ SITE.full_name | tojson }},
+    "url": {{ SITE.base_url | tojson }},
+    "logo": {{ (SITE.base_url ~ '/img/logo-full.png') | tojson }},
+    "telephone": {{ SITE.phone | tojson }},
+    "sameAs": [{{ SITE.instagram | tojson }}],
+    "department": [
+      {% for b in BRANCHES %}
+      {"@type": "EducationalOrganization", "name": {{ (SITE.name ~ ' — ' ~ b.name) | tojson }},
+       "address": {"@type": "PostalAddress", "streetAddress": {{ b.address | tojson }}, "addressLocality": "Астана", "addressCountry": "KZ"}}{{ "," if not loop.last }}
+      {% endfor %}
+    ]
+  }
+  </script>
+</head>
+<body class="page-{{ page }}">
+  <a class="skip" href="#main">К содержанию</a>
+
+  <header class="header" id="top">
+    <div class="wrap header__inner">
+      <a class="brand" href="index.html" aria-label="{{ SITE.full_name }} — на главную">
+        <img src="img/logo-mark.png" alt="" width="200" height="96">
+        <span class="brand__text"><b>SMART WAY</b><small>образовательный центр</small></span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Основное меню">
+        <div class="nav__group">
+          <button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="courses-menu">Курсы <span aria-hidden="true">▾</span></button>
+          <ul class="nav__menu" id="courses-menu">
+            {% for c in COURSES %}
+            <li><a href="{{ c.url }}" {% if page == c.slug %}aria-current="page"{% endif %}><i class="dot dot--{{ c.color }}"></i>{{ c.title }}<small>от {{ c.from }} ₸</small></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% for label, href in nav if href %}
+        <a class="nav__link" href="{{ href }}" {% if href == page ~ '.html' %}aria-current="page"{% endif %}>{{ label }}</a>
+        {% endfor %}
+        <a class="nav__phone" href="{{ SITE.phone_href }}">{{ SITE.phone }}</a>
+      </nav>
+
+      <button class="btn btn--pink btn--sm header__cta" type="button" data-lead>Пробный урок</button>
+      <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav"><span></span></button>
+    </div>
+  </header>
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div class="footer__brand">
+        <img src="img/logo-full.webp" alt="SMART — образовательный центр" width="180" height="152" loading="lazy">
+        <p>Наша основа — образование. С нами полюбят языки и поймут школу.</p>
+        <p class="footer__rating">★ {{ SITE.rating }} в 2ГИС · {{ SITE.ratings_count }} оценок</p>
+      </div>
+      <div>
+        <h3>Курсы</h3>
+        <ul>{% for c in COURSES %}<li><a href="{{ c.url }}">{{ c.title }}</a></li>{% endfor %}</ul>
+      </div>
+      <div>
+        <h3>Центр</h3>
+        <ul>
+          <li><a href="teachers.html">Преподаватели</a></li>
+          <li><a href="prices.html">Цены</a></li>
+          <li><a href="about.html">Как мы работаем</a></li>
+          <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Филиалы</h3>
+        {% for b in BRANCHES %}
+        <p><a href="{{ b.gis }}" target="_blank" rel="noopener">{{ b.address }}</a><br><span class="muted">{{ b.hours }}</span></p>
+        {% endfor %}
+        <p><a href="{{ SITE.phone_href }}">{{ SITE.phone }}</a><br><a href="{{ SITE.instagram }}" target="_blank" rel="noopener">{{ SITE.instagram_handle }}</a></p>
+      </div>
+    </div>
+    <div class="wrap footer__bottom">
+      <span>© {{ version[:4] }} {{ SITE.full_name }}, {{ SITE.city }}</span>
+      <span>{{ SITE.family_discount }}</span>
+    </div>
+  </footer>
+
+  <div class="mobile-bar">
+    <a class="btn btn--wa" href="{{ 'Здравствуйте! Хочу записаться на пробный урок в SMART WAY.' | wa }}" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn btn--ghost" href="{{ SITE.phone_href }}">Позвонить</a>
+  </div>
+
+  <dialog class="lead" id="lead" aria-labelledby="lead-title">
+    <form class="lead__form" id="lead-form" method="dialog">
+      <button class="lead__close" type="button" data-close aria-label="Закрыть">×</button>
+      <p class="eyebrow">Набор открыт</p>
+      <h2 id="lead-title">Запишитесь на пробный урок</h2>
+      <p class="muted">Заполните пару полей — откроется WhatsApp с готовым сообщением. Отправьте его, и администратор подберёт время.</p>
+      <label for="lead-name">Ваше имя</label>
+      <input id="lead-name" name="name" autocomplete="name" required placeholder="Например, Айгерим">
+      <label for="lead-child">Класс или возраст ребёнка</label>
+      <input id="lead-child" name="child" placeholder="Например, 5 класс">
+      <label for="lead-course">Направление</label>
+      <select id="lead-course" name="course">
+        {% for c in COURSES %}<option>{{ c.title }}</option>{% endfor %}
+        <option>Казахский / русский / турецкий язык</option>
+        <option>Пока не знаю — нужна консультация</option>
+      </select>
+      <label for="lead-branch">Филиал</label>
+      <select id="lead-branch" name="branch">
+        {% for b in BRANCHES %}<option>{{ b.address }}</option>{% endfor %}
+        <option>Любой</option>
+      </select>
+      <button class="btn btn--wa btn--block" type="submit">Отправить в WhatsApp</button>
+      <p class="lead__alt">Или позвоните: <a href="{{ SITE.phone_href }}">{{ SITE.phone }}</a></p>
+    </form>
+  </dialog>
+
+  <script>window.SMART = {{ {"whatsapp": SITE.whatsapp} | tojson }};</script>
+  <script src="js/main.js?v={{ version }}" defer></script>
+</body>
+</html>

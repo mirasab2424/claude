@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% set c = COURSES[3] %}
+{% block content %}
+{{ m.course_hero(c, "Подготовка к поступлению в НИШ",
+  "Системная подготовка. Понятный путь. Измеримый результат. Помогаем ученику 5–6 класса подготовиться к конкурсному отбору в Назарбаев Интеллектуальные школы.",
+  ["Группы до 7–8 учеников", "Пробные МОСК и БТС", "Консультации родителей"]) }}
+
+<section class="section">
+  <div class="wrap split">
+    <div>
+      {{ m.head("Почему НИШ", "НИШ — это не просто школа", "Высокие академические требования и серьёзная конкуренция при поступлении. Зато ребёнок учится среди мотивированных сильных ребят и развивает самостоятельность.") }}
+    </div>
+    <ul class="ticks ticks--big">{% for w in NIS.why_nis %}<li>{{ w | capitalize }}</li>{% endfor %}</ul>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap">
+    {{ m.head("Предметы и нагрузка", "Что изучаем", "Регулярность помогает не просто запоминать, а постепенно закреплять знания.") }}
+    <div class="grades">
+      {% for g, freq in [("5", "3 раза в неделю"), ("6", "5 раз в неделю")] %}
+      <article class="grade">
+        <h3>{{ g }} класс <span>{{ freq }}</span></h3>
+        <table>
+          <thead><tr><th>Предмет</th><th>Занятий в неделю</th></tr></thead>
+          <tbody>{% for s, n in NIS.subjects[g] %}<tr><td>{{ s }}</td><td>{{ n }}</td></tr>{% endfor %}</tbody>
+        </table>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head("Наша система", "Почему выбирают нас") }}
+    <ul class="features">
+      {% for t, d in NIS.system %}<li><h3>{{ t }}</h3><p>{{ d }}</p></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tint" id="prices">
+  <div class="wrap">
+    {{ m.head("Стоимость", "Чем дольше пакет — тем выгоднее", "В курс входит: " ~ (NIS.includes | join(", ")) ~ ".") }}
+    <div class="nis-plans">
+      {% for p in NIS.plans %}
+      <article class="nis-plan">
+        <h3>{{ p.grade }} <span>{{ p.freq }}</span></h3>
+        <ul class="price__list price__list--big">
+          <li><span>Помесячно</span><b>{{ p.month }} ₸ / мес</b></li>
+          <li><span>3 месяца <em>−15%</em></span><b>{{ p.q3 }} ₸</b></li>
+          <li class="best"><span>9 месяцев <em>−25%</em></span><b>{{ p.q9 }} ₸</b></li>
+        </ul>
+        <button class="btn btn--pink btn--block" type="button" data-lead data-course="Подготовка к НИШ, {{ p.grade }}">Записаться на диагностику</button>
+      </article>
+      {% endfor %}
+    </div>
+    <p class="note">{{ NIS.cash }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split">
+    <div>
+      {{ m.head("Почему начинать заранее", "НИШ — это конкурс", "Поступление требует не только знания школьной программы. Чем раньше начинается системная работа, тем больше времени на устранение пробелов.") }}
+    </div>
+    <div>
+      <p class="list-title">Ребёнку необходимо:</p>
+      <ul class="ticks">{% for e in NIS.early %}<li>{{ e | capitalize }}</li>{% endfor %}</ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap narrow">
+    {{ m.head("Вопросы родителей", "Частые вопросы о НИШ", None, True) }}
+    {{ m.faq(NIS.faq) }}
+  </div>
+</section>
+
+{{ m.cta("Начните с диагностики", "Определим уровень ребёнка и покажем план подготовки к конкурсному отбору.", "Подготовка к НИШ") }}
+{% endblock %}

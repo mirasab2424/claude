@@ -30,3 +30,5 @@ Homestead.yaml
 Thumbs.db
 /build
 /deploy-version
+/sites/smartway/dist
+__pycache__/

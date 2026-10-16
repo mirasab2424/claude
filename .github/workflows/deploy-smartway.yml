@@ -1,0 +1,54 @@
+name: Deploy SmartWay
+
+# Сайт образовательного центра SMART WAY → smart.is-best.net (тот же FTP-аккаунт InfinityFree).
+# Собирается из sites/smartway (python build.py) и заливается в папку домена.
+
+on:
+  push:
+    branches:
+      - main
+      - claude/sharp-babbage-t64qnn
+    paths:
+      - 'sites/smartway/**'
+      - '.github/workflows/deploy-smartway.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-smartway
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      HAS_SECRETS: ${{ secrets.FTP_PASSWORD != '' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build
+        run: |
+          pip install --quiet jinja2==3.1.6
+          python sites/smartway/build.py
+
+      - name: Upload by FTP
+        if: env.HAS_SECRETS == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /smart.is-best.net/htdocs/
+          local-dir: sites/smartway/dist/
+          protocol: ftp
+          timeout: 600000

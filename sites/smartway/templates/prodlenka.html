@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% set c = COURSES[5] %}
+{% block content %}
+{{ m.course_hero(c, "Продлёнка 1–4 класс: домашка сделана, темы поняты",
+  "Ребёнок приходит после школы, делает уроки с учителем, закрепляет программу и развивает чтение и логику. А вы видите его успеваемость в Kundelik.",
+  ["5 раз в неделю", "Книги в подарок", "Контроль Kundelik"]) }}
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head("Что входит", "Не просто присмотр — обучение") }}
+    <ul class="features features--numbered">
+      {% for t, d in PRODLENKA.blocks %}<li><span class="steps__n">{{ loop.index }}</span><h3>{{ t }}</h3><p>{{ d }}</p></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tint" id="prices">
+  <div class="wrap">
+    {{ m.head("Стоимость", "5 раз в неделю — выберите длительность", "Работаем по авторской программе. Книги — в подарок.") }}
+    <div class="prices prices--two">
+      {% for f, a in PRODLENKA.prices %}{{ m.price(f, a, accent=loop.last, course=c.title) }}{% endfor %}
+    </div>
+    <div class="books">
+      {% for i in range(1, 9) %}<img src="img/books/book{{ '%02d' % i }}.jpg" alt="Учебник SMART" loading="lazy" width="259" height="360">{% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ m.cta("Запишите ребёнка на продлёнку", None, c.title) }}
+{% endblock %}

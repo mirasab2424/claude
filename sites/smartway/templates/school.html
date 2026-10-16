@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m with context %}
+{% set c = COURSES[4] %}
+{% block content %}
+{{ m.course_hero(c, "Подготовка к школе: читать, писать и считать с удовольствием",
+  "Систематически обучаем по авторской методике SMART с учётом возраста и уровня ребёнка. Пять занятий в неделю — и к первому классу ребёнок приходит уверенным.",
+  ["5 раз в неделю", "2 или 3 часа в день", "Авторская методика"]) }}
+
+<section class="section">
+  <div class="wrap split">
+    <div>
+      {{ m.head("Программа", "Чему учимся") }}
+      <ul class="ticks ticks--big">{% for p in SCHOOL.program %}<li>{{ p }}</li>{% endfor %}</ul>
+    </div>
+    <div>
+      {{ m.head("Результат", "Что получает ребёнок") }}
+      <ul class="ticks">{% for o in SCHOOL.outcomes %}<li>{{ o }}</li>{% endfor %}</ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="prices">
+  <div class="wrap">
+    {{ m.head("Стоимость", "Формат обучения — 5 раз в неделю", "Учебные книги — от центра.") }}
+    <div class="prices prices--two">
+      {% for f, a in SCHOOL.prices %}{{ m.price(f, a, accent=loop.last, course=c.title) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split split--reverse">
+    <div>
+      {{ m.head("Уже в школе?", "Для 1–4 класса есть продлёнка", "Домашние задания, закрепление программы и контроль Kundelik — пока родители на работе.") }}
+      <a class="btn btn--outline" href="prodlenka.html">Про продлёнку</a>
+    </div>
+    <div class="books books--small">
+      {% for i in range(1, 6) %}<img src="img/books/book{{ '%02d' % i }}.jpg" alt="Учебник SMART" loading="lazy" width="259" height="360">{% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ m.cta("Приходите на пробное занятие", None, c.title) }}
+{% endblock %}
