@@ -1,0 +1,46 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% macro table(title, href, rows, note = null, unit = null) %}
+<article class="ptable">
+  <h2><a href="{{ href }}">{{ title }} <span aria-hidden="true">→</span></a></h2>
+  <ul class="price__list">{% for r in rows %}<li><span>{{ r.freq }}</span><b>{{ r.price }} {{ unit ?? __('price.per_month') }}</b></li>{% endfor %}</ul>
+  {% if note %}<p class="price__note">{{ note }}</p>{% endif %}
+</article>
+{% endmacro %}
+{% block content %}
+{% import _self as p %}
+<section class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / {{ __('nav.prices') }}</p>
+    <h1>{{ __('prices.h1') }}</h1>
+    <p class="hero__lead">{{ __('prices.lead') }}</p>
+  </div>
+</section>
+
+<section class="section section--flush">
+  <div class="wrap price-tables">
+    {{ p.table(__('prices.english_group'), url('english'), ENGLISH.group, __('prices.english_group_note')) }}
+    {{ p.table(__('prices.english_individual'), url('english'), ENGLISH.individual) }}
+    {{ p.table('IELTS', url('ielts'), IELTS.prices, __('prices.ielts_note'), '₸') }}
+    {{ p.table(__('prices.math_group'), url('math'), MATH.group) }}
+    {{ p.table(__('prices.math_combo'), url('math') ~ '#combo', MATH.combo_prices, __('prices.combo_note')) }}
+    <article class="ptable">
+      <h2><a href="{{ url('nis') }}">{{ COURSES|filter(x => x.slug == 'nis')|first.title ?? 'НИШ' }} <span aria-hidden="true">→</span></a></h2>
+      <ul class="price__list">
+        {% for x in NIS.plans %}
+        <li><span>{{ x.grade }}, {{ x.freq }}</span><b>{{ x.month }} {{ __('price.per_month') }}</b></li>
+        <li><span>{{ x.grade }}: {{ __('prices.nis_packages') }}</span><b>{{ x.q3 }} / {{ x.q9 }} ₸</b></li>
+        {% endfor %}
+      </ul>
+      <p class="price__note">{{ NIS.cash }}</p>
+    </article>
+    {{ p.table(COURSES|filter(x => x.slug == 'school')|first.title ?? '', url('school'), SCHOOL.prices) }}
+    {{ p.table(COURSES|filter(x => x.slug == 'prodlenka')|first.title ?? '', url('prodlenka'), PRODLENKA.prices, __('prices.prodlenka_note')) }}
+  </div>
+  <div class="wrap">
+    <p class="note">{{ LANGUAGES_EXTRA }}</p>
+  </div>
+</section>
+
+{{ m.cta(__('prices.cta'), __('prices.cta_text')) }}
+{% endblock %}

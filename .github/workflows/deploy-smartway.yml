@@ -1,7 +1,8 @@
 name: Deploy SmartWay
 
 # Сайт образовательного центра SMART WAY → smart.is-best.net (тот же FTP-аккаунт InfinityFree).
-# Собирается из sites/smartway (python build.py) и заливается в папку домена.
+# PHP + Twig: sites/smartway/public → htdocs, sites/smartway/app → htdocs/app (закрыта .htaccess).
+# Правки из админки, заявки и загруженные фото живут на сервере (app/storage, uploads) и деплоем не трогаются.
 
 on:
   push:
@@ -31,15 +32,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          python-version: '3.12'
+          php-version: '8.2'
+          tools: composer:v2
 
       - name: Build
+        working-directory: sites/smartway
         run: |
-          pip install --quiet jinja2==3.1.6
-          python sites/smartway/build.py
+          composer install --working-dir=app --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress
+          # Twig без документации и тестов: меньше файлов на хостинге
+          rm -rf app/vendor/twig/twig/{doc,tests,extra,bin} app/vendor/*/*/{tests,Tests,doc,docs}
+          for f in app/lib/*.php app/lang/*.php app/config.php public/index.php; do php -l "$f" > /dev/null; done
+          mkdir -p dist
+          cp -r public/. dist/
+          cp -r app dist/app && rm -rf dist/app/storage
+          rm -f dist/uploads/.gitkeep
+          find dist -type f | wc -l
 
       - name: Upload by FTP
         if: env.HAS_SECRETS == 'true'
@@ -52,3 +62,10 @@ jobs:
           local-dir: sites/smartway/dist/
           protocol: ftp
           timeout: 600000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            app/storage/**
+            uploads/*.jpg
+            uploads/*.png
+            uploads/*.webp

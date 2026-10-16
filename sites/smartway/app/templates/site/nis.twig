@@ -1,0 +1,82 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+{% set c = COURSE %}
+{{ m.course_hero(c, __('nis.h1'), __('nis.lead'), __('nis.chips')) }}
+
+<section class="section">
+  <div class="wrap split">
+    <div>
+      {{ m.head(__('nis.why_eyebrow'), __('nis.why_title'), __('nis.why_lead')) }}
+    </div>
+    <ul class="ticks ticks--big">{% for w in NIS.why_nis %}<li>{{ w|ucfirst }}</li>{% endfor %}</ul>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap">
+    {{ m.head(__('nis.subjects_eyebrow'), __('nis.subjects_title'), __('nis.subjects_lead')) }}
+    <div class="grades">
+      {% for g in ['5', '6'] %}
+      <article class="grade">
+        <h3>{{ __('nis.grade' ~ g) }} {% if NIS.plans[loop.index0] is defined %}<span>{{ NIS.plans[loop.index0].freq }}</span>{% endif %}</h3>
+        <table>
+          <thead><tr><th>{{ __('nis.subject') }}</th><th>{{ __('nis.per_week') }}</th></tr></thead>
+          <tbody>{% for s in attribute(NIS, 'subjects_' ~ g) %}<tr><td>{{ s.subject }}</td><td>{{ s.per_week }}</td></tr>{% endfor %}</tbody>
+        </table>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head(__('nis.system_eyebrow'), __('nis.system_title')) }}
+    <ul class="features">
+      {% for s in NIS.system %}<li><h3>{{ s.title }}</h3><p>{{ s.text }}</p></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tint" id="prices">
+  <div class="wrap">
+    {{ m.head(__('nis.prices_eyebrow'), __('nis.prices_title'), __('nis.includes') ~ ' ' ~ NIS.includes|join(', ') ~ '.') }}
+    <div class="nis-plans">
+      {% for p in NIS.plans %}
+      <article class="nis-plan">
+        <h3>{{ p.grade }} <span>{{ p.freq }}</span></h3>
+        <ul class="price__list price__list--big">
+          <li><span>{{ __('nis.monthly') }}</span><b>{{ p.month }} {{ __('price.per_month') }}</b></li>
+          <li><span>{{ __('nis.months3') }} <em>−15%</em></span><b>{{ p.q3 }} ₸</b></li>
+          <li class="best"><span>{{ __('nis.months9') }} <em>−25%</em></span><b>{{ p.q9 }} ₸</b></li>
+        </ul>
+        <button class="btn btn--pink btn--block" type="button" data-lead data-course="{{ c.title }}">{{ __('cta.diagnostics') }}</button>
+      </article>
+      {% endfor %}
+    </div>
+    <p class="note">{{ NIS.cash }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split">
+    <div>
+      {{ m.head(__('nis.early_eyebrow'), __('nis.early_title'), __('nis.early_lead')) }}
+    </div>
+    <div>
+      <p class="list-title">{{ __('nis.early_need') }}</p>
+      <ul class="ticks">{% for e in NIS.early %}<li>{{ e|ucfirst }}</li>{% endfor %}</ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap narrow">
+    {{ m.head(__('nis.faq_eyebrow'), __('nis.faq_title'), null, true) }}
+    {{ m.faq(NIS.faq) }}
+  </div>
+</section>
+
+{{ m.cta(__('nis.cta'), __('nis.cta_text'), c.title) }}
+{% endblock %}

@@ -29,10 +29,12 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
   Запасной ручной путь: `deploy/build-update.sh` + `deploy/import-telegram.php`. Из этой среды FTP недоступен.
 
 ## Второй проект: сайт SMART WAY (`sites/smartway/`)
-Статический сайт образовательного центра клиента → smart.is-best.net (тот же FTP-аккаунт).
-Факты только в `sites/smartway/data.py` (из PDF-буклетов, Instagram @smartschool_ast, 2ГИС) — не выдумывать.
-Сборка `python3 sites/smartway/build.py` (Jinja2) → `dist/`; деплой `.github/workflows/deploy-smartway.yml`.
-Трекерный деплой игнорирует `sites/**`.
+Сайт образовательного центра клиента → smart.is-best.net (тот же FTP-аккаунт). PHP + Twig, три языка
+(`/`, `/kz/`, `/en/`), админка `/admin` (заявки, контент, тексты, пароль).
+Факты только в `sites/smartway/app/content/default.json` (из PDF-буклетов, Instagram @smartschool_ast, 2ГИС) — не выдумывать.
+Тексты всегда `{"ru","kz","en"}`; строки интерфейса — `app/lang/*.php` с одинаковыми ключами.
+Правки админки, заявки и фото живут на сервере (`app/storage`, `public/uploads`) и в репозиторий не попадают.
+Деплой `.github/workflows/deploy-smartway.yml` (composer → dist → FTP). Трекерный деплой игнорирует `sites/**`.
 
 ## Команды
 - `php artisan migrate:fresh --seed`: база с демо-данными, админ `admin@example.com` / `password`.

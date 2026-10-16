@@ -1,0 +1,67 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+{% set c = COURSE %}
+{{ m.course_hero(c, __('math.h1'), __('math.lead'), __('math.chips')) }}
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head(__('math.system_eyebrow'), __('math.system_title')) }}
+    <ol class="steps steps--four">
+      {% for s in MATH.steps %}<li><span class="steps__n">{{ loop.index }}</span><h3>{{ s.title }}</h3><p>{{ s.text }}</p></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section stats-band">
+  <div class="wrap">
+    <h2 class="stats-band__title">{{ __('math.results_title') }}</h2>
+    <ul class="stats stats--five">{% for r in MATH.results %}<li><b>{{ r.value }}</b><span>{{ r.label }}</span></li>{% endfor %}</ul>
+  </div>
+</section>
+
+<section class="section" id="prices">
+  <div class="wrap">
+    {{ m.head(__('math.prices_eyebrow'), __('math.prices_title')) }}
+    <div class="prices prices--two">
+      {% for g in MATH.group %}
+      {{ m.price(g.freq, g.price, null, null, loop.first ? MATH.includes[:3] : MATH.includes[2:], loop.last, c.title) }}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="combo">
+  <div class="wrap">
+    {{ m.head('SMART COMBO', __('math.combo_title'), __('math.combo_lead')) }}
+    <div class="combo">
+      <article class="combo__card">
+        <h3>{{ __('math.combo_geometry') }}</h3>
+        <ul class="checks">{% for i in MATH.combo_geometry %}<li>{{ i }}</li>{% endfor %}</ul>
+      </article>
+      <article class="combo__card combo__card--pink">
+        <h3>{{ __('math.combo_physics') }}</h3>
+        <ul class="checks">{% for i in MATH.combo_physics %}<li>{{ i }}</li>{% endfor %}</ul>
+      </article>
+    </div>
+    <div class="prices prices--two">
+      {% for p in MATH.combo_prices %}
+      {{ m.price(__('math.combo') ~ ' · ' ~ p.freq, p.price, null, p.note, [], loop.last, c.title ~ ' — ' ~ __('combo')) }}
+      {% endfor %}
+    </div>
+    <p class="note">{{ MATH.combo_result }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split split--reverse">
+    <div>
+      {{ m.head(__('math.teachers_eyebrow'), __('math.teachers_title')) }}
+      <p><a class="btn btn--outline" href="{{ url('nis') }}">{{ __('math.nis_btn') }}</a></p>
+    </div>
+    <div class="teachers">{{ m.teachers_for('math') }}</div>
+  </div>
+</section>
+
+{{ m.cta(__('math.cta'), __('math.cta_text'), c.title) }}
+{% endblock %}

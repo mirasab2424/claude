@@ -1,0 +1,29 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+{% set c = COURSE %}
+{{ m.course_hero(c, __('prodlenka.h1'), __('prodlenka.lead'), __('prodlenka.chips')) }}
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head(__('prodlenka.what_eyebrow'), __('prodlenka.what_title')) }}
+    <ul class="features features--numbered">
+      {% for b in PRODLENKA.blocks %}<li><span class="steps__n">{{ loop.index }}</span><h3>{{ b.title }}</h3><p>{{ b.text }}</p></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tint" id="prices">
+  <div class="wrap">
+    {{ m.head(__('prodlenka.prices_eyebrow'), __('prodlenka.prices_title'), __('prodlenka.prices_lead')) }}
+    <div class="prices prices--two">
+      {% for p in PRODLENKA.prices %}{{ m.price(p.freq, p.price, null, null, [], loop.last, c.title) }}{% endfor %}
+    </div>
+    <div class="books">
+      {% for b in BOOKS[:8] %}<img src="/{{ b }}" alt="{{ __('home.book_alt') }}" loading="lazy" width="259" height="360">{% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ m.cta(__('prodlenka.cta'), null, c.title) }}
+{% endblock %}

@@ -1,0 +1,16 @@
+{
+    "name": "smartway/site",
+    "description": "Сайт образовательного центра SMART WAY: публичная часть на трёх языках и админка.",
+    "type": "project",
+    "require": {
+        "php": ">=8.2",
+        "twig/twig": "^3.14"
+    },
+    "autoload": {
+        "psr-4": { "Smart\\": "lib/" }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

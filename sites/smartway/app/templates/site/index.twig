@@ -1,0 +1,141 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+<section class="hero hero--home">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="badge badge--sun">{{ __('home.badge') }}</p>
+      <h1>{{ __('home.h1') }} <span class="mark">{{ __('home.h1_mark') }}</span></h1>
+      <p class="hero__lead">{{ __('home.lead') }}</p>
+      <div class="hero__actions">
+        <button class="btn btn--pink btn--lg" type="button" data-lead>{{ __('cta.signup_trial') }}</button>
+        <a class="btn btn--outline btn--lg" href="#courses">{{ __('home.courses_btn') }}</a>
+      </div>
+      <ul class="proof">
+        <li><b>★ {{ SITE.rating }}</b><span>{{ __('rating_2gis') }}, {{ SITE.ratings_count }} {{ __('ratings') }}</span></li>
+        <li><b>{{ SITE.students }}</b><span>{{ __('home.proof_students') }}</span></li>
+        <li><b>{{ __('home.proof_branches') }}</b><span>{{ __('home.proof_branches_sub') }}</span></li>
+      </ul>
+    </div>
+    <div class="hero__art hero__art--home">
+      <div class="hero__book" aria-hidden="true"><i></i><i></i></div>
+      <img src="/img/cut/kids.webp" alt="{{ __('home.kids_alt') }}" width="760" height="640">
+      <p class="sticker sticker--pink">−10% <small>{{ __('home.sticker_discount') }}</small></p>
+      <p class="sticker sticker--teal">Speaking club <small>{{ __('home.sticker_speaking') }}</small></p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="courses">
+  <div class="wrap">
+    {{ m.head(__('home.courses_eyebrow'), __('home.courses_title'), __('home.courses_lead')) }}
+    <div class="courses">
+      {% for c in COURSES %}
+      <a class="course course--{{ c.color }}" href="{{ c.url }}">
+        <span class="course__tag">{{ c.tag }}</span>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.lead }}</p>
+        <span class="course__price">{{ __('price.from', '<b>' ~ (c.from|e) ~ ' ₸</b>')|raw }}{% if c.per_month %} / {{ __('price.month_short') }}{% endif %}</span>
+        <span class="course__more" aria-hidden="true">→</span>
+      </a>
+      {% endfor %}
+    </div>
+    <p class="note">{{ LANGUAGES_EXTRA }}</p>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split">
+    <div>
+      {{ m.head(__('home.control_eyebrow'), __('home.control_title'), __('home.control_lead')) }}
+      <a class="btn btn--outline" href="{{ url('about') }}">{{ __('home.control_btn') }}</a>
+    </div>
+    <ol class="control">
+      {% for c in CONTROL %}
+      <li>
+        <span class="control__when">{{ c.when }}</span>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.text }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section stats-band">
+  <div class="wrap">
+    <ul class="stats">
+      {% for s in STATS %}<li><b>{{ s.value }}</b><span>{{ s.label }}</span></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head(__('home.team_eyebrow'), __('home.team_title'), __('home.team_lead')) }}
+    <div class="teachers teachers--row">
+      {% for t in TEACHERS %}
+      <a class="mini-teacher" href="{{ url('teachers') }}">
+        <img src="/{{ t.photo }}" alt="{{ t.name }}" loading="lazy" width="460" height="600">
+        <b>{{ t.name }}</b>
+        <span>{{ t.subjects }}</span>
+      </a>
+      {% endfor %}
+    </div>
+    <p class="center"><a class="btn btn--outline" href="{{ url('teachers') }}">{{ __('all_teachers') }}</a></p>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split split--reverse">
+    <div>
+      {{ m.head(__('home.books_eyebrow'), __('home.books_title'), __('home.books_lead')) }}
+      <a class="btn btn--outline" href="{{ url('prodlenka') }}">{{ __('home.books_btn') }}</a>
+    </div>
+    <div class="books">
+      {% for b in BOOKS %}<img src="/{{ b }}" alt="{{ __('home.book_alt') }}" loading="lazy" width="259" height="360">{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head(__('home.life_eyebrow'), __('home.life_title'), __('home.life_lead') ~ ' ' ~ SITE.instagram_handle ~ '.') }}
+    <div class="photos">
+      {% for p in PHOTOS %}
+      <a class="photo" href="{{ p.href }}" target="_blank" rel="noopener">
+        <img src="/{{ p.img }}" alt="{{ p.caption }}" loading="lazy" width="360" height="640">
+        <span>{{ p.caption }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap">
+    {{ m.head(__('home.steps_eyebrow'), __('home.steps_title'), null, true) }}
+    {{ m.steps() }}
+  </div>
+</section>
+
+<section class="section" id="branches">
+  <div class="wrap">
+    {{ m.head(__('home.branches_eyebrow'), __('home.branches_title')) }}
+    <div class="branches">
+      {% for b in BRANCHES %}
+      <article class="branch">
+        <p class="branch__name">{{ b.name }}</p>
+        <h3>{{ b.address }}</h3>
+        <p class="muted">{{ b.note }} · {{ b.district }}</p>
+        <p><b>{{ b.hours }}</b></p>
+        <p class="branch__rating">★ {{ b.rating }} · {{ b.ratings }} · {{ b.reviews }} {{ __('rating_2gis') }}</p>
+        <a class="btn btn--outline btn--sm" href="{{ b.gis }}" target="_blank" rel="noopener">{{ __('open_2gis') }}</a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ m.cta() }}
+{% endblock %}

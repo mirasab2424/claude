@@ -1,0 +1,61 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+{% set c = COURSE %}
+{{ m.course_hero(c, __('english.h1'), __('english.lead'), __('english.chips')) }}
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head(__('english.program_eyebrow'), __('english.program_title'), __('english.program_lead')) }}
+    <ol class="modules">
+      {% for x in ENGLISH.modules %}<li><b>{{ x.title }}</b><span>{{ x.text }}</span></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split">
+    <div>
+      {{ m.head(__('english.why_eyebrow'), __('english.why_title')) }}
+      <div class="callout">
+        <p class="callout__title">{{ __('english.intensive_title') }}</p>
+        <p>{{ ENGLISH.intensive }}</p>
+      </div>
+    </div>
+    <ul class="ticks">{% for w in ENGLISH.why %}<li>{{ w }}</li>{% endfor %}</ul>
+  </div>
+</section>
+
+<section class="section" id="prices">
+  <div class="wrap">
+    {{ m.head(__('english.prices_eyebrow'), __('english.prices_title'), __('english.prices_lead')) }}
+    <div class="prices">
+      {% for g in ENGLISH.group %}
+      {{ m.price(__('english.group') ~ ' · ' ~ g.freq, g.price, null, loop.last ? __('english.more_practice') : null,
+        loop.first ? ENGLISH.group_includes[:4] : ENGLISH.group_includes[4:], loop.last, c.title) }}
+      {% endfor %}
+      <article class="price">
+        <h3>{{ __('english.individual') }}</h3>
+        <ul class="price__list">
+          {% for x in ENGLISH.individual %}<li><span>{{ x.freq }}</span><b>{{ x.price }} ₸</b></li>{% endfor %}
+        </ul>
+        <p class="price__note">{{ __('english.per_month_incl') }} {{ ENGLISH.individual_includes|join(', ') }}.</p>
+        <button class="btn btn--outline btn--block" type="button" data-lead data-course="{{ c.title }}">{{ __('cta.signup_trial_short') }}</button>
+      </article>
+    </div>
+    <p class="note">📘 {{ ENGLISH.books }}</p>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split split--reverse">
+    <div>
+      {{ m.head(__('english.teachers_eyebrow'), __('english.teachers_title')) }}
+      <p><a class="btn btn--outline" href="{{ url('teachers') }}">{{ __('whole_team') }}</a></p>
+    </div>
+    <div class="teachers">{{ m.teachers_for('english') }}</div>
+  </div>
+</section>
+
+{{ m.cta(__('english.cta'), null, c.title) }}
+{% endblock %}

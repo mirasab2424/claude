@@ -1,0 +1,23 @@
+{% extends "layout.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1>Тексты: {{ title }}</h1>
+<p class="muted">Изменённые строки отмечены розовой полосой. Очистите поле, чтобы вернуть исходный текст. <code>%s</code> — место для подстановки (цены и т. п.), его не удаляйте.</p>
+<form class="editor" method="post" action="/admin/texts/{{ group }}">
+  <input type="hidden" name="_csrf" value="{{ csrf }}">
+  {% for r in rows %}
+  <div class="box" style="padding:10px 14px;margin-bottom:10px">
+    <div class="key">{{ r.key }}</div>
+    <div class="l10n">
+      {% for l in ['ru', 'kz', 'en'] %}
+      <label class="{{ attribute(r, l ~ '_changed') ? 'changed' : '' }}"><i>{{ l|upper }}</i>
+        {% if attribute(r, l)|length > 70 %}<textarea name="ui[{{ l }}][{{ r.key }}]" rows="3">{{ attribute(r, l) }}</textarea>
+        {% else %}<input name="ui[{{ l }}][{{ r.key }}]" value="{{ attribute(r, l) }}">{% endif %}
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+  <div class="savebar"><button class="btn btn--pink" type="submit">Сохранить</button></div>
+</form>
+{% endblock %}

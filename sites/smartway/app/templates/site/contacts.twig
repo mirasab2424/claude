@@ -1,0 +1,38 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / {{ __('nav.contacts') }}</p>
+    <h1>{{ __('contacts.h1') }}</h1>
+    <p class="hero__lead">{{ __('contacts.lead') }}</p>
+    <div class="hero__actions">
+      <a class="btn btn--wa btn--lg" href="{{ __('contacts.wa_message')|wa }}" target="_blank" rel="noopener">{{ __('contacts.wa') }}</a>
+      <a class="btn btn--outline btn--lg" href="{{ SITE.phone_href }}">{{ SITE.phone }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--flush">
+  <div class="wrap branches">
+    {% for b in BRANCHES %}
+    <article class="branch branch--big">
+      <p class="branch__name">{{ b.name }}</p>
+      <h2>{{ b.address }}</h2>
+      <p class="muted">{{ b.note }} · {{ b.district }}, {{ SITE.city }}</p>
+      <dl>
+        <dt>{{ __('hours') }}</dt><dd>{{ b.hours }}</dd>
+        <dt>{{ __('phone') }}</dt><dd><a href="{{ SITE.phone_href }}">{{ SITE.phone }}</a></dd>
+        <dt>{{ __('rating') }}</dt><dd>★ {{ b.rating }} · {{ b.ratings }}, {{ b.reviews }} {{ __('rating_2gis') }}</dd>
+      </dl>
+      <a class="btn btn--pink" href="{{ b.gis }}" target="_blank" rel="noopener">{{ __('route_2gis') }}</a>
+    </article>
+    {% endfor %}
+  </div>
+  <div class="wrap">
+    <p class="note">Instagram: <a href="{{ SITE.instagram }}" target="_blank" rel="noopener">{{ SITE.instagram_handle }}</a> — {{ __('contacts.instagram') }}</p>
+  </div>
+</section>
+
+{{ m.cta() }}
+{% endblock %}

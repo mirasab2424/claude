@@ -1,0 +1,57 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / {{ __('nav.about') }}</p>
+    <h1>{{ __('about.h1') }}</h1>
+    <p class="hero__lead">{{ __('about.lead') }}</p>
+  </div>
+</section>
+
+<section class="section section--flush">
+  <div class="wrap">
+    <div class="timeline">
+      {% for c in CONTROL %}
+      <article class="timeline__item">
+        <span class="control__when">{{ c.when }}</span>
+        <h2>{{ c.title }}</h2>
+        <p>{{ c.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split">
+    <div>
+      {{ m.head(__('about.english_eyebrow'), __('about.english_title'), ENGLISH.intensive) }}
+      <a class="btn btn--outline" href="{{ url('english') }}">{{ __('about.english_btn') }}</a>
+    </div>
+    {% if PHOTOS[1] is defined %}
+    <a class="photo photo--big" href="{{ PHOTOS[1].href }}" target="_blank" rel="noopener">
+      <img src="/{{ PHOTOS[1].img }}" alt="{{ PHOTOS[1].caption }}" loading="lazy" width="360" height="640">
+      <span>{{ PHOTOS[1].caption }}</span>
+    </a>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <ul class="stats stats--light">
+      {% for s in STATS %}<li><b>{{ s.value }}</b><span>{{ s.label }}</span></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap">
+    {{ m.head(__('home.steps_eyebrow'), __('home.steps_title'), null, true) }}
+    {{ m.steps() }}
+  </div>
+</section>
+
+{{ m.cta(__('about.cta')) }}
+{% endblock %}

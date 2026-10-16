@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="{{ html_lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ title }} — {{ SITE.name }}, {{ SITE.city }}</title>
+  {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+  <link rel="canonical" href="{{ canonical }}">
+  {% if page != '404' %}
+  {% for l, href in alternates %}<link rel="alternate" hreflang="{{ l == 'kz' ? 'kk' : l }}" href="{{ SITE.base_url|trim('/', 'right') ~ href }}">
+  {% endfor %}<link rel="alternate" hreflang="x-default" href="{{ SITE.base_url|trim('/', 'right') ~ alternates.ru }}">
+  {% else %}<meta name="robots" content="noindex">{% endif %}
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="{{ og_locale }}">
+  <meta property="og:site_name" content="{{ SITE.full_name }}">
+  <meta property="og:title" content="{{ title }} — {{ SITE.name }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ SITE.base_url|trim('/', 'right') }}/img/og.jpg">
+  <meta name="theme-color" content="#1E5F6B">
+  <link rel="icon" href="/img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preload" href="/fonts/nunito-cyrillic-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <script type="application/ld+json">
+  {{ {
+    '@context': 'https://schema.org',
+    '@type': 'EducationalOrganization',
+    'name': SITE.full_name,
+    'url': SITE.base_url,
+    'logo': SITE.base_url|trim('/', 'right') ~ '/img/logo-full.png',
+    'telephone': SITE.phone,
+    'sameAs': [SITE.instagram],
+    'department': BRANCHES|map(b => {
+      '@type': 'EducationalOrganization',
+      'name': SITE.name ~ ' — ' ~ b.name,
+      'address': {'@type': 'PostalAddress', 'streetAddress': b.address, 'addressLocality': SITE.city, 'addressCountry': 'KZ'}
+    })
+  }|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+  </script>
+</head>
+<body class="page-{{ page }}">
+  <a class="skip" href="#main">{{ __('skip') }}</a>
+
+  <header class="header" id="top">
+    <div class="wrap header__inner">
+      <a class="brand" href="{{ url('index') }}" aria-label="{{ SITE.full_name }} — {{ __('home_aria') }}">
+        <img src="/img/logo-mark.png" alt="" width="200" height="96">
+        <span class="brand__text"><b>SMART WAY</b><small>{{ __('tagline') }}</small></span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="{{ __('nav.courses') }}">
+        <div class="nav__group">
+          <button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="courses-menu">{{ __('nav.courses') }} <span aria-hidden="true">▾</span></button>
+          <ul class="nav__menu" id="courses-menu">
+            {% for c in COURSES %}
+            <li><a href="{{ c.url }}" {% if page == c.slug %}aria-current="page"{% endif %}><i class="dot dot--{{ c.color }}"></i>{{ c.title }}<small>{{ __('price.from', c.from ~ ' ₸') }}</small></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% for p in ['teachers', 'prices', 'about', 'contacts'] %}
+        <a class="nav__link" href="{{ url(p) }}" {% if page == p %}aria-current="page"{% endif %}>{{ __('nav.' ~ p) }}</a>
+        {% endfor %}
+        <a class="nav__phone" href="{{ SITE.phone_href }}">{{ SITE.phone }}</a>
+        <div class="langs" role="group" aria-label="{{ __('lang_switch') }}">
+          {% for l, label in langs %}
+          <a href="{{ alternates[l] }}" hreflang="{{ l == 'kz' ? 'kk' : l }}" lang="{{ l == 'kz' ? 'kk' : l }}" {% if l == lang %}aria-current="true"{% endif %}>{{ label }}</a>
+          {% endfor %}
+        </div>
+      </nav>
+
+      <button class="btn btn--pink btn--sm header__cta" type="button" data-lead>{{ __('cta.trial') }}</button>
+      <button class="burger" type="button" aria-label="{{ __('menu_open') }}" aria-expanded="false" aria-controls="nav"><span></span></button>
+    </div>
+  </header>
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div class="footer__brand">
+        <img src="/img/logo-full.webp" alt="SMART" width="180" height="152" loading="lazy">
+        <p>{{ SITE.slogan }}</p>
+        <p class="footer__rating">★ {{ SITE.rating }} {{ __('rating_2gis') }} · {{ SITE.ratings_count }} {{ __('ratings') }}</p>
+      </div>
+      <div>
+        <h3>{{ __('footer.courses') }}</h3>
+        <ul>{% for c in COURSES %}<li><a href="{{ c.url }}">{{ c.title }}</a></li>{% endfor %}</ul>
+      </div>
+      <div>
+        <h3>{{ __('footer.centre') }}</h3>
+        <ul>
+          <li><a href="{{ url('teachers') }}">{{ __('nav.teachers') }}</a></li>
+          <li><a href="{{ url('prices') }}">{{ __('nav.prices') }}</a></li>
+          <li><a href="{{ url('about') }}">{{ __('footer.how') }}</a></li>
+          <li><a href="{{ url('contacts') }}">{{ __('nav.contacts') }}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>{{ __('footer.branches') }}</h3>
+        {% for b in BRANCHES %}
+        <p><a href="{{ b.gis }}" target="_blank" rel="noopener">{{ b.address }}</a><br><span class="muted">{{ b.hours }}</span></p>
+        {% endfor %}
+        <p><a href="{{ SITE.phone_href }}">{{ SITE.phone }}</a><br><a href="{{ SITE.instagram }}" target="_blank" rel="noopener">{{ SITE.instagram_handle }}</a></p>
+      </div>
+    </div>
+    <div class="wrap footer__bottom">
+      <span>© {{ year }} {{ SITE.full_name }}, {{ SITE.city }}</span>
+      <span>{{ SITE.family_discount }}</span>
+    </div>
+  </footer>
+
+  <div class="mobile-bar">
+    <a class="btn btn--wa" href="{{ __('lead.wa_message')|wa }}" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn btn--ghost" href="{{ SITE.phone_href }}">{{ __('cta.call') }}</a>
+  </div>
+
+  <dialog class="lead" id="lead" aria-labelledby="lead-title">
+    <form class="lead__form" id="lead-form" method="post" action="/lead" novalidate>
+      <button class="lead__close" type="button" data-close aria-label="×">×</button>
+      <div class="lead__step" data-step="form">
+        <p class="eyebrow">{{ __('lead.eyebrow') }}</p>
+        <h2 id="lead-title">{{ __('lead.title') }}</h2>
+        <p class="muted">{{ __('lead.text') }}</p>
+        <label for="lead-name">{{ __('lead.name') }}</label>
+        <input id="lead-name" name="name" autocomplete="name" required maxlength="80" placeholder="{{ __('lead.name_ph') }}">
+        <label for="lead-phone">{{ __('lead.phone') }}</label>
+        <input id="lead-phone" name="phone" type="tel" autocomplete="tel" required maxlength="30" inputmode="tel" placeholder="{{ __('lead.phone_ph') }}">
+        <label for="lead-child">{{ __('lead.child') }}</label>
+        <input id="lead-child" name="child" maxlength="120" placeholder="{{ __('lead.child_ph') }}">
+        <label for="lead-course">{{ __('lead.course') }}</label>
+        <select id="lead-course" name="course">
+          {% for c in COURSES %}<option value="{{ c.title }}" data-slug="{{ c.slug }}">{{ c.title }}</option>{% endfor %}
+          <option>{{ __('lead.course_other') }}</option>
+          <option>{{ __('lead.course_unknown') }}</option>
+        </select>
+        <label for="lead-branch">{{ __('lead.branch') }}</label>
+        <select id="lead-branch" name="branch">
+          {% for b in BRANCHES %}<option>{{ b.address }}</option>{% endfor %}
+          <option>{{ __('lead.branch_any') }}</option>
+        </select>
+        <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+        <input type="hidden" name="lang" value="{{ lang }}">
+        <input type="hidden" name="page" value="{{ page }}">
+        <p class="lead__error" role="alert" hidden>{{ __('lead.error') }}</p>
+        <button class="btn btn--pink btn--block" type="submit">{{ __('lead.submit') }}</button>
+        <p class="lead__alt">{{ __('lead.or_call') }} <a href="{{ SITE.phone_href }}">{{ SITE.phone }}</a></p>
+      </div>
+      <div class="lead__step lead__done" data-step="done" hidden>
+        <p class="lead__check" aria-hidden="true">✓</p>
+        <h2>{{ __('lead.done_title') }}</h2>
+        <p class="muted">{{ __('lead.done_text') }}</p>
+        <a class="btn btn--wa btn--block" data-wa href="{{ __('lead.wa_message')|wa }}" target="_blank" rel="noopener">{{ __('lead.done_wa') }}</a>
+      </div>
+    </form>
+  </dialog>
+
+  <script>window.SMART = {{ {
+    whatsapp: SITE.whatsapp,
+    t: {
+      menu_open: __('menu_open'), menu_close: __('menu_close'), sending: __('lead.sending'), submit: __('lead.submit'),
+      wa_message: __('lead.wa_message'), name: __('lead.name'), phone: __('lead.phone'), child: __('lead.child'),
+      course: __('lead.course'), branch: __('lead.branch')
+    }
+  }|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG'))|raw }};</script>
+  <script src="{{ asset('js/main.js') }}" defer></script>
+</body>
+</html>

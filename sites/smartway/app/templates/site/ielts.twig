@@ -1,0 +1,44 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+{% set c = COURSE %}
+{{ m.course_hero(c, __('ielts.h1'), __('ielts.lead'), __('ielts.chips')) }}
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head(__('ielts.program_eyebrow'), __('ielts.program_title')) }}
+    <div class="ielts-modules">
+      {% for x in IELTS.modules %}<article><b>{{ x.title }}</b><span>{{ x.text }}</span></article>{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap split">
+    <div>
+      {{ m.head(__('ielts.results_eyebrow'), IELTS.results, __('ielts.results_lead')) }}
+      <ul class="ticks">{% for f in IELTS.features %}<li>{{ f }}</li>{% endfor %}</ul>
+    </div>
+    {% if PHOTOS[0] is defined %}
+    <a class="photo photo--big" href="{{ PHOTOS[0].href }}" target="_blank" rel="noopener">
+      <img src="/{{ PHOTOS[0].img }}" alt="{{ PHOTOS[0].caption }}" loading="lazy" width="360" height="640">
+      <span>{{ PHOTOS[0].caption }}</span>
+    </a>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section" id="prices">
+  <div class="wrap">
+    {{ m.head(__('ielts.prices_eyebrow'), __('ielts.prices_title')) }}
+    <div class="prices prices--two">
+      {% for p in IELTS.prices %}
+      {{ m.price(p.freq, p.price, '₸', null, __(loop.first ? 'ielts.group_items' : 'ielts.individual_items')|split('|'), loop.last, c.title) }}
+      {% endfor %}
+    </div>
+    <p class="note">{{ __('ielts.period_note') }}</p>
+  </div>
+</section>
+
+{{ m.cta(__('ielts.cta'), __('ielts.cta_text'), c.title) }}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layout.twig" %}
+{% block title %}Вход{% endblock %}
+{% block body %}
+<main style="max-width:380px;margin:12vh auto;padding:16px">
+  <div class="box">
+    <h1 style="font-size:22px">SMART WAY · вход</h1>
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    <form method="post" action="/admin/login">
+      <input type="hidden" name="_csrf" value="{{ csrf }}">
+      <label class="f"><span class="f__label">Пароль</span><input type="password" name="password" autocomplete="current-password" required autofocus></label>
+      <button class="btn" type="submit" style="width:100%;margin-top:8px">Войти</button>
+    </form>
+  </div>
+</main>
+{% endblock %}

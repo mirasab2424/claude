@@ -32,3 +32,7 @@ Thumbs.db
 /deploy-version
 /sites/smartway/dist
 __pycache__/
+/sites/smartway/app/vendor
+/sites/smartway/app/storage
+/sites/smartway/public/uploads/*
+!/sites/smartway/public/uploads/.htaccess

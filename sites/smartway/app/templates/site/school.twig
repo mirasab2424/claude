@@ -1,0 +1,42 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+{% set c = COURSE %}
+{{ m.course_hero(c, __('school.h1'), __('school.lead'), __('school.chips')) }}
+
+<section class="section">
+  <div class="wrap split">
+    <div>
+      {{ m.head(__('school.program_eyebrow'), __('school.program_title')) }}
+      <ul class="ticks ticks--big">{% for p in SCHOOL.program %}<li>{{ p }}</li>{% endfor %}</ul>
+    </div>
+    <div>
+      {{ m.head(__('school.outcomes_eyebrow'), __('school.outcomes_title')) }}
+      <ul class="ticks">{% for o in SCHOOL.outcomes %}<li>{{ o }}</li>{% endfor %}</ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="prices">
+  <div class="wrap">
+    {{ m.head(__('school.prices_eyebrow'), __('school.prices_title'), __('school.prices_lead')) }}
+    <div class="prices prices--two">
+      {% for p in SCHOOL.prices %}{{ m.price(p.freq, p.price, null, null, [], loop.last, c.title) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split split--reverse">
+    <div>
+      {{ m.head(__('school.already_eyebrow'), __('school.already_title'), __('school.already_lead')) }}
+      <a class="btn btn--outline" href="{{ url('prodlenka') }}">{{ __('home.books_btn') }}</a>
+    </div>
+    <div class="books books--small">
+      {% for b in BOOKS[:5] %}<img src="/{{ b }}" alt="{{ __('home.book_alt') }}" loading="lazy" width="259" height="360">{% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ m.cta(__('school.cta'), null, c.title) }}
+{% endblock %}

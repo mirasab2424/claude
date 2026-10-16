@@ -1,0 +1,14 @@
+{% extends "base.twig" %}
+{% block content %}
+<section class="page-head page-head--center">
+  <div class="wrap narrow">
+    <p class="eyebrow">{{ __('404.eyebrow') }}</p>
+    <h1>{{ __('404.title') }}</h1>
+    <p class="hero__lead">{{ __('404.text') }}</p>
+    <div class="hero__actions hero__actions--center">
+      <a class="btn btn--pink btn--lg" href="{{ url('index') }}">{{ __('404.home') }}</a>
+      <a class="btn btn--outline btn--lg" href="{{ url('prices') }}">{{ __('404.prices') }}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

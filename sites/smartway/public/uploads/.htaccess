@@ -1,0 +1,4 @@
+# Сюда админка кладёт только картинки. Скрипты не выполняем.
+<FilesMatch "\.(php\d?|phtml|phar|pl|py|cgi|sh)$">
+  Require all denied
+</FilesMatch>

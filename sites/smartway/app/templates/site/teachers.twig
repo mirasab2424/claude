@@ -1,0 +1,25 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap split">
+    <div>
+      <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / {{ __('nav.teachers') }}</p>
+      <h1>{{ __('teachers.h1') }}</h1>
+      <p class="hero__lead">{{ __('teachers.lead') }}</p>
+      <ul class="ticks">{% for s in TEACHER_STANDARDS %}<li>{{ s }}</li>{% endfor %}</ul>
+    </div>
+    <img class="page-head__img" src="/img/photos/team.jpg" alt="{{ __('teachers.team_alt') }}" width="900" height="492">
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="teachers teachers--grid">
+      {% for t in TEACHERS %}{{ m.teacher(t) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ m.cta(__('teachers.cta')) }}
+{% endblock %}

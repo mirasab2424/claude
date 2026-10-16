@@ -1,0 +1,90 @@
+{% macro head(eyebrow, title, lead = null, center = false) %}
+<div class="section-head{% if center %} section-head--center{% endif %}">
+  {% if eyebrow %}<p class="eyebrow">{{ eyebrow }}</p>{% endif %}
+  <h2>{{ title }}</h2>
+  {% if lead %}<p class="lead-text">{{ lead }}</p>{% endif %}
+</div>
+{% endmacro %}
+
+{% macro price(title, amount, period = null, note = null, items = [], accent = false, course = '') %}
+<article class="price{% if accent %} price--accent{% endif %}">
+  <h3>{{ title }}</h3>
+  <p class="price__amount"><b>{{ amount }}</b> <span>{{ period ?? __('price.per_month') }}</span></p>
+  {% if note %}<p class="price__note">{{ note }}</p>{% endif %}
+  {% if items %}
+  <ul class="checks">{% for i in items %}<li>{{ i }}</li>{% endfor %}</ul>
+  {% endif %}
+  <button class="btn {{ accent ? 'btn--pink' : 'btn--outline' }} btn--block" type="button" data-lead data-course="{{ course }}">{{ __('cta.signup_trial_short') }}</button>
+</article>
+{% endmacro %}
+
+{% macro cta(title = null, text = null, course = '') %}
+<section class="cta">
+  <div class="wrap cta__inner">
+    <div>
+      <p class="eyebrow eyebrow--light">{{ __('cta.open') }} · {{ SITE.family_discount }}</p>
+      <h2>{{ title ?: __('cta.default_title') }}</h2>
+      <p>{{ text ?: __('cta.default_text') }}</p>
+    </div>
+    <div class="cta__actions">
+      <button class="btn btn--sun btn--lg" type="button" data-lead data-course="{{ course }}">{{ __('cta.signup') }}</button>
+      <a class="btn btn--light" href="{{ SITE.phone_href }}">{{ SITE.phone }}</a>
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{% macro teacher(t) %}
+<article class="teacher">
+  <div class="teacher__photo"><img src="/{{ t.photo }}" alt="{{ t.name }}" loading="lazy" width="460" height="600"></div>
+  <div class="teacher__body">
+    <p class="teacher__tags">{% for s in t.subjects|split(',') %}<span>{{ s|trim }}</span>{% endfor %}</p>
+    <h3>{{ t.name }}</h3>
+    <p class="teacher__exp">{{ t.experience }}</p>
+    <p class="teacher__edu">{{ t.edu }}</p>
+    <p>{{ t.about }}</p>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro steps() %}
+<ol class="steps">
+  {% for s in STEPS %}
+  <li><span class="steps__n">{{ loop.index }}</span><h3>{{ s.title }}</h3><p>{{ s.text }}</p></li>
+  {% endfor %}
+</ol>
+{% endmacro %}
+
+{% macro faq(items) %}
+<div class="faq">
+  {% for f in items %}
+  <details{% if loop.first %} open{% endif %}><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro course_hero(c, title, text, chips) %}
+<section class="hero hero--course hero--{{ c.color }}">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / <a href="{{ url('prices') }}">{{ __('nav.courses') }}</a> / {{ c.short }}</p>
+      <p class="badge">{{ c.tag }}</p>
+      <h1>{{ title }}</h1>
+      <p class="hero__lead">{{ text }}</p>
+      <div class="hero__actions">
+        <button class="btn btn--pink btn--lg" type="button" data-lead data-course="{{ c.title }}">{{ __('cta.signup_trial') }}</button>
+        <a class="btn btn--outline btn--lg" href="#prices">{{ __('price.prices_from', c.from ~ ' ₸') }}</a>
+      </div>
+      <ul class="chips">{% for ch in chips|split('|') %}<li>{{ ch }}</li>{% endfor %}</ul>
+    </div>
+    <div class="hero__art">
+      <div class="hero__blob" aria-hidden="true"></div>
+      <img src="/{{ c.img }}" alt="" width="600" height="760">
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{% macro teachers_for(slug) %}
+{% for t in TEACHERS|filter(t => slug in (t.courses ?? [])) %}{{ _self.teacher(t) }}{% endfor %}
+{% endmacro %}

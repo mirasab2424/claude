@@ -1,0 +1,30 @@
+{% extends "layout.twig" %}
+{% block title %}Обзор{% endblock %}
+{% block content %}
+<h1>Обзор</h1>
+<div class="cards">
+  <div><b>{{ counts.new }}</b>новых заявок</div>
+  <div><b>{{ counts.week }}</b>за 7 дней</div>
+  <div><b>{{ counts.done }}</b>записались</div>
+  <div><b>{{ counts.all }}</b>всего</div>
+</div>
+<section class="box">
+  <h2>Последние заявки</h2>
+  {% if leads %}
+  <div class="tbl-wrap"><table>
+    <tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Направление</th><th>Статус</th></tr>
+    {% for l in leads %}
+    <tr><td>{{ l.created_at|date('d.m H:i') }}</td><td>{{ l.name }}</td><td><a href="tel:{{ l.phone }}">{{ l.phone }}</a></td><td>{{ l.course }}</td><td><span class="status status--{{ l.status }}">{{ statuses[l.status] ?? l.status }}</span></td></tr>
+    {% endfor %}
+  </table></div>
+  <p><a href="/admin/leads">Все заявки →</a></p>
+  {% else %}
+  <p class="muted">Заявок пока нет. Они появятся здесь, когда посетители заполнят форму «Пробный урок».</p>
+  {% endif %}
+</section>
+<section class="box">
+  <h2>Что можно менять</h2>
+  <p>Слева — разделы сайта: цены, курсы, преподаватели с фото, филиалы и контакты. У каждого текста три поля: <b>RU</b>, <b>KZ</b> и <b>EN</b>. Если казахский или английский перевод пустой, на сайте покажется русский.</p>
+  <p>«Тексты интерфейса» — заголовки, кнопки и подписи страниц. Всё сохраняется сразу; прошлые версии хранятся в резервных копиях (последние 30).</p>
+</section>
+{% endblock %}

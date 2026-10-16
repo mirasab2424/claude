@@ -1,0 +1,14 @@
+{% extends "layout.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1>{{ title }}</h1>
+<p class="muted">Три поля у текста — русский, казахский и английский. Пустой перевод заменяется русским. <a href="{{ preview }}" target="_blank" rel="noopener">Посмотреть на сайте ↗</a></p>
+<form class="editor" method="post" enctype="multipart/form-data" action="/admin/edit/{{ section }}">
+  <input type="hidden" name="_csrf" value="{{ csrf }}">
+  {{ form|raw }}
+  <div class="savebar">
+    <button class="btn btn--pink" type="submit" name="action" value="save">Сохранить</button>
+    <button class="btn btn--ghost" type="submit" name="action" value="reset" formnovalidate onclick="return confirm('Вернуть раздел к исходным данным? Ваши правки в нём пропадут (останется резервная копия).')">Вернуть исходное</button>
+  </div>
+</form>
+{% endblock %}

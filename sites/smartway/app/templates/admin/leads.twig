@@ -1,0 +1,31 @@
+{% extends "layout.twig" %}
+{% block title %}Заявки{% endblock %}
+{% block content %}
+<h1>Заявки</h1>
+<p class="tabs">
+  <a href="/admin/leads" {% if not status %}aria-current="page"{% endif %}>Все · {{ counts.all }}</a>
+  {% for k, v in statuses %}<a href="/admin/leads?status={{ k }}" {% if status == k %}aria-current="page"{% endif %}>{{ v }} · {{ counts[k] }}</a>{% endfor %}
+  <a href="/admin/leads.csv" style="margin-left:auto">Скачать CSV (Excel)</a>
+</p>
+{% for l in leads %}
+<section class="box lead-row">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+    <div>
+      <b>№{{ l.id }} · {{ l.name }}</b> · <a href="tel:{{ l.phone }}">{{ l.phone }}</a>
+      · <a href="https://wa.me/{{ l.phone|replace({'+': '', ' ': '', '-': '', '(': '', ')': ''}) }}" target="_blank" rel="noopener">WhatsApp</a>
+      <div class="muted">{{ l.created_at|date('d.m.Y H:i') }} · {{ l.course }}{% if l.child %} · {{ l.child }}{% endif %} · {{ l.branch }} · {{ l.lang|upper }}{% if l.page %} · /{{ l.page }}{% endif %}</div>
+    </div>
+    <span class="status status--{{ l.status }}">{{ statuses[l.status] ?? l.status }}</span>
+  </div>
+  <form method="post" action="/admin/leads{% if status %}?status={{ status }}{% endif %}">
+    <input type="hidden" name="_csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ l.id }}">
+    <select name="status">{% for k, v in statuses %}<option value="{{ k }}" {% if k == l.status %}selected{% endif %}>{{ v }}</option>{% endfor %}</select>
+    <input name="note" value="{{ l.note }}" placeholder="Заметка администратора">
+    <button class="btn btn--sm" name="action" value="save">Сохранить</button>
+    <button class="btn btn--sm btn--ghost" name="action" value="delete" onclick="return confirm('Удалить заявку №{{ l.id }}?')">Удалить</button>
+  </form>
+</section>
+{% else %}
+<p class="muted">Здесь пока пусто.</p>
+{% endfor %}
+{% endblock %}

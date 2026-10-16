@@ -1,0 +1,1865 @@
+{
+ "version": 1,
+ "site": {
+  "name": "SMART WAY",
+  "full_name": {
+   "ru": "Образовательный центр SMART WAY",
+   "kz": "SMART WAY оқу орталығы",
+   "en": "SMART WAY Education Centre"
+  },
+  "city": {
+   "ru": "Астана",
+   "kz": "Астана",
+   "en": "Astana"
+  },
+  "base_url": "https://smart.is-best.net",
+  "phone": "+7 778 929 4886",
+  "whatsapp": "77789294886",
+  "instagram": "https://www.instagram.com/smartschool_ast/",
+  "instagram_handle": "@smartschool_ast",
+  "students": "2000+",
+  "rating": "5,0",
+  "ratings_count": "250+",
+  "family_discount": {
+   "ru": "−10% за двоих детей",
+   "kz": "2 оқушыға — 10% жеңілдік",
+   "en": "−10% for two children"
+  },
+  "slogan": {
+   "ru": "Наша основа — образование. С нами полюбят языки и поймут школу.",
+   "kz": "Біздің негізіміз — білім. Бізбен тілдерді жақсы көріп, мектепті түсінесіз.",
+   "en": "Education is our foundation. With us, children come to love languages and understand school."
+  }
+ },
+ "branches": [
+  {
+   "name": {
+    "ru": "Главный филиал",
+    "kz": "Бас филиал",
+    "en": "Main branch"
+   },
+   "address": {
+    "ru": "ул. Ахмет Байтурсынулы, 39/1",
+    "kz": "Ахмет Байтұрсынұлы көшесі, 39/1",
+    "en": "39/1 Akhmet Baitursynuly St"
+   },
+   "note": {
+    "ru": "ЖК «Сатурн-3», цокольный этаж",
+    "kz": "«Сатурн-3» ТК, цокольдық қабат",
+    "en": "Saturn-3 residential complex, ground floor"
+   },
+   "district": {
+    "ru": "район Сарайшык",
+    "kz": "Сарайшық ауданы",
+    "en": "Saraishyk district"
+   },
+   "hours": "08:00–20:00",
+   "rating": "5,0",
+   "ratings": {
+    "ru": "234 оценки",
+    "kz": "234 баға",
+    "en": "234 ratings"
+   },
+   "reviews": {
+    "ru": "167 отзывов",
+    "kz": "167 пікір",
+    "en": "167 reviews"
+   },
+   "gis": "https://2gis.kz/astana/firm/70000001063518530"
+  },
+  {
+   "name": {
+    "ru": "Второй филиал",
+    "kz": "Екінші филиал",
+    "en": "Second branch"
+   },
+   "address": {
+    "ru": "ул. Ахмет Байтурсынулы, 18",
+    "kz": "Ахмет Байтұрсынұлы көшесі, 18",
+    "en": "18 Akhmet Baitursynuly St"
+   },
+   "note": {
+    "ru": "Открыт в октябре 2026",
+    "kz": "2026 жылдың қазанында ашылды",
+    "en": "Opened in October 2026"
+   },
+   "district": {
+    "ru": "район Сарайшык",
+    "kz": "Сарайшық ауданы",
+    "en": "Saraishyk district"
+   },
+   "hours": "09:00–20:00",
+   "rating": "5,0",
+   "ratings": {
+    "ru": "19 оценок",
+    "kz": "19 баға",
+    "en": "19 ratings"
+   },
+   "reviews": {
+    "ru": "16 отзывов",
+    "kz": "16 пікір",
+    "en": "16 reviews"
+   },
+   "gis": "https://2gis.kz/astana/firm/70000001117035716"
+  }
+ ],
+ "control": [
+  {
+   "when": {
+    "ru": "Каждую неделю",
+    "kz": "Апта сайын",
+    "en": "Every week"
+   },
+   "title": {
+    "ru": "Проверяем Kundelik",
+    "kz": "Kundelik-ті тексереміз",
+    "en": "We check Kundelik"
+   },
+   "text": {
+    "ru": "Смотрим оценки, баллы и домашние задания. Если что-то проседает — сразу корректируем занятия.",
+    "kz": "Бағаларды, ұпайларды және үй тапсырмаларын қараймыз. Бір нәрсе төмендесе — сабақты бірден түзетеміз.",
+    "en": "We look at grades, scores and homework in the school e-diary. If something slips, we adjust lessons right away."
+   }
+  },
+  {
+   "when": {
+    "ru": "Каждый месяц",
+    "kz": "Ай сайын",
+    "en": "Every month"
+   },
+   "title": {
+    "ru": "Отчёт от преподавателя",
+    "kz": "Мұғалімнен есеп",
+    "en": "A report from the teacher"
+   },
+   "text": {
+    "ru": "Какие темы ребёнок прошёл, что уже знает и что нужно подтянуть. Плюс диагностика прогресса.",
+    "kz": "Бала қандай тақырыптарды өтті, нені біледі және нені толықтыру керек. Сонымен қатар прогресс диагностикасы.",
+    "en": "Which topics your child covered, what they already know and what needs work — plus a progress check."
+   }
+  },
+  {
+   "when": {
+    "ru": "Каждый месяц",
+    "kz": "Ай сайын",
+    "en": "Every month"
+   },
+   "title": {
+    "ru": "Звонок руководителя",
+    "kz": "Басшының қоңырауы",
+    "en": "A call from the director"
+   },
+   "text": {
+    "ru": "Руководитель центра лично созванивается с каждым родителем: узнаёт запросы, отвечает на вопросы.",
+    "kz": "Орталық басшысы әр ата-анамен жеке сөйлесіп, тілектерін біліп, сұрақтарына жауап береді.",
+    "en": "The head of the centre personally calls every parent to hear their requests and answer questions."
+   }
+  },
+  {
+   "when": {
+    "ru": "Раз в месяц",
+    "kz": "Айына бір рет",
+    "en": "Once a month"
+   },
+   "title": {
+    "ru": "Открытый день",
+    "kz": "Ашық есік күні",
+    "en": "Open day"
+   },
+   "text": {
+    "ru": "Родители приходят в центр, знакомятся с преподавателями и видят, как проходят занятия.",
+    "kz": "Ата-аналар орталыққа келіп, мұғалімдермен танысып, сабақтың қалай өтетінін көреді.",
+    "en": "Parents visit the centre, meet the teachers and see how lessons run."
+   }
+  }
+ ],
+ "stats": [
+  {
+   "value": {
+    "ru": "2000+",
+    "kz": "2000+",
+    "en": "2000+"
+   },
+   "label": {
+    "ru": "учеников прошли нашу авторскую программу",
+    "kz": "оқушы біздің авторлық бағдарламамен оқыды",
+    "en": "students have studied with our own programme"
+   }
+  },
+  {
+   "value": {
+    "ru": "99%",
+    "kz": "99%",
+    "en": "99%"
+   },
+   "label": {
+    "ru": "учеников по математике выходят в школе на «4» и «5»",
+    "kz": "математика оқушыларының мектептегі бағасы «4» және «5»",
+    "en": "of our maths students get 4s and 5s at school"
+   }
+  },
+  {
+   "value": {
+    "ru": "3 мес.",
+    "kz": "3 ай",
+    "en": "3 months"
+   },
+   "label": {
+    "ru": "на один полный уровень английского: A2 → B1, B1 → B2",
+    "kz": "ағылшын тілінің бір толық деңгейіне: A2 → B1, B1 → B2",
+    "en": "per full English level: A2 → B1, B1 → B2"
+   }
+  },
+  {
+   "value": {
+    "ru": "5+ лет",
+    "kz": "5+ жыл",
+    "en": "5+ years"
+   },
+   "label": {
+    "ru": "помогаем детям и взрослым учиться",
+    "kz": "балалар мен ересектерге білім алуға көмектесеміз",
+    "en": "helping children and adults learn"
+   }
+  }
+ ],
+ "courses": [
+  {
+   "slug": "english",
+   "color": "teal",
+   "from": "25 000",
+   "per_month": true,
+   "img": "img/cut/student-girl3.webp",
+   "title": {
+    "ru": "Английский язык",
+    "kz": "Ағылшын тілі",
+    "en": "English"
+   },
+   "short": {
+    "ru": "Английский",
+    "kz": "Ағылшын",
+    "en": "English"
+   },
+   "tag": {
+    "ru": "1 уровень за 3 месяца",
+    "kz": "1 деңгей — 3 ай",
+    "en": "1 level in 3 months"
+   },
+   "lead": {
+    "ru": "Грамматика, лексика, чтение, аудирование, говорение и письмо. Speaking club каждую неделю и интенсивы с носителями языка.",
+    "kz": "Грамматика, сөздік қор, оқылым, тыңдалым, сөйлеу және жазылым. Апта сайын Speaking club және тіл тасымалдаушыларымен интенсивтер.",
+    "en": "Grammar, vocabulary, reading, listening, speaking and writing. A weekly speaking club and intensives with native speakers."
+   }
+  },
+  {
+   "slug": "ielts",
+   "color": "pink",
+   "from": "55 000",
+   "per_month": false,
+   "img": "img/cut/student-girl.webp",
+   "title": {
+    "ru": "Подготовка к IELTS",
+    "kz": "IELTS-ке дайындық",
+    "en": "IELTS preparation"
+   },
+   "short": {
+    "ru": "IELTS",
+    "kz": "IELTS",
+    "en": "IELTS"
+   },
+   "tag": {
+    "ru": "Цель — 6.5+",
+    "kz": "Мақсат — 6.5+",
+    "en": "Target 6.5+"
+   },
+   "lead": {
+    "ru": "Все четыре модуля экзамена, стратегии и формат. Преподаватель с результатом IELTS 8.0 и 10-летним опытом.",
+    "kz": "Емтиханның төрт модулі, стратегиялар мен формат. IELTS 8.0 нәтижесі және 10 жылдық тәжірибесі бар мұғалім.",
+    "en": "All four exam modules, strategies and format. Taught by a teacher with IELTS 8.0 and 10 years of experience."
+   }
+  },
+  {
+   "slug": "math",
+   "color": "teal",
+   "from": "25 000",
+   "per_month": true,
+   "img": "img/cut/student-boy.webp",
+   "title": {
+    "ru": "Математика и точные науки",
+    "kz": "Математика және нақты ғылымдар",
+    "en": "Maths and sciences"
+   },
+   "short": {
+    "ru": "Математика",
+    "kz": "Математика",
+    "en": "Maths"
+   },
+   "tag": {
+    "ru": "+1–2 балла к школьной оценке",
+    "kz": "Мектеп бағасына +1–2 балл",
+    "en": "+1–2 points to school grades"
+   },
+   "lead": {
+    "ru": "Алгебра, геометрия, физика. Закрываем пробелы, разбираем школьные темы и идём на шаг впереди программы.",
+    "kz": "Алгебра, геометрия, физика. Олқылықтарды толтырып, мектеп тақырыптарын талдап, бағдарламадан бір қадам алда жүреміз.",
+    "en": "Algebra, geometry and physics. We fill gaps, work through school topics and stay a step ahead of the curriculum."
+   }
+  },
+  {
+   "slug": "nis",
+   "color": "pink",
+   "from": "85 000",
+   "per_month": true,
+   "img": "img/cut/student-girl2.webp",
+   "title": {
+    "ru": "Подготовка к НИШ",
+    "kz": "НЗМ-ге дайындық",
+    "en": "NIS entrance preparation"
+   },
+   "short": {
+    "ru": "НИШ",
+    "kz": "НЗМ",
+    "en": "NIS"
+   },
+   "tag": {
+    "ru": "5–6 класс",
+    "kz": "5–6 сынып",
+    "en": "Grades 5–6"
+   },
+   "lead": {
+    "ru": "Системная подготовка к конкурсному отбору в Назарбаев Интеллектуальные школы: предметы, пробные тесты МОСК и БТС, контроль прогресса.",
+    "kz": "Назарбаев Зияткерлік мектептеріне конкурстық іріктеуге жүйелі дайындық: пәндер, МОСК және БТС сынақ тесттері, прогресті бақылау.",
+    "en": "Structured preparation for Nazarbayev Intellectual Schools admission: core subjects, MOSK and BTS mock tests, progress tracking."
+   }
+  },
+  {
+   "slug": "school",
+   "color": "sun",
+   "from": "40 000",
+   "per_month": true,
+   "img": "img/cut/kids.webp",
+   "title": {
+    "ru": "Подготовка к школе",
+    "kz": "Мектепке дайындық",
+    "en": "School readiness"
+   },
+   "short": {
+    "ru": "К школе",
+    "kz": "Мектепке",
+    "en": "School readiness"
+   },
+   "tag": {
+    "ru": "Чтение, письмо, счёт",
+    "kz": "Оқу, жазу, санау",
+    "en": "Reading, writing, counting"
+   },
+   "lead": {
+    "ru": "Алфавит, красивое и безошибочное письмо, скорочтение, занимательная математика и нейрогимнастика.",
+    "kz": "Әліпби, көркем және қатесіз жазу, жылдам оқу, қызықты математика және нейрогимнастика.",
+    "en": "Alphabet, neat and error-free handwriting, speed reading, fun maths and brain-gym exercises."
+   }
+  },
+  {
+   "slug": "prodlenka",
+   "color": "sun",
+   "from": "40 000",
+   "per_month": true,
+   "img": "img/cut/kids.webp",
+   "title": {
+    "ru": "Продлёнка 1–4 класс",
+    "kz": "Ұзартылған күн тобы, 1–4 сынып",
+    "en": "After-school club, grades 1–4"
+   },
+   "short": {
+    "ru": "Продлёнка",
+    "kz": "Ұзартылған күн",
+    "en": "After-school"
+   },
+   "tag": {
+    "ru": "Домашка сделана",
+    "kz": "Үй тапсырмасы орындалды",
+    "en": "Homework done"
+   },
+   "lead": {
+    "ru": "Помогаем с домашними заданиями, закрепляем школьную программу, развиваем чтение и логику. Книги в подарок.",
+    "kz": "Үй тапсырмаларына көмектесеміз, мектеп бағдарламасын бекітеміз, оқу мен логиканы дамытамыз. Кітаптар сыйлыққа.",
+    "en": "Homework help, reinforcing the school curriculum, reading and logic. Books included as a gift."
+   }
+  }
+ ],
+ "languages_extra": {
+  "ru": "Также ведём казахский, русский и турецкий языки — стоимость и расписание уточняйте у администратора.",
+  "kz": "Сондай-ақ қазақ, орыс және түрік тілдерін оқытамыз — бағасы мен кестесін әкімшіден біліңіз.",
+  "en": "We also teach Kazakh, Russian and Turkish — ask the administrator about prices and timetable."
+ },
+ "english": {
+  "modules": [
+   {
+    "title": {
+     "ru": "Грамматика",
+     "kz": "Грамматика",
+     "en": "Grammar"
+    },
+    "text": {
+     "ru": "Правила и структуры английского языка.",
+     "kz": "Ағылшын тілінің ережелері мен құрылымдарын меңгеру.",
+     "en": "Rules and structures of English."
+    }
+   },
+   {
+    "title": {
+     "ru": "Лексика",
+     "kz": "Сөздік қор",
+     "en": "Vocabulary"
+    },
+    "text": {
+     "ru": "Словарный запас и новая тематическая лексика.",
+     "kz": "Сөздік қорды кеңейту және жаңа тақырыптық сөздерді үйрену.",
+     "en": "Building vocabulary and new topic words."
+    }
+   },
+   {
+    "title": {
+     "ru": "Чтение",
+     "kz": "Оқылым",
+     "en": "Reading"
+    },
+    "text": {
+     "ru": "Работа с текстами: навык чтения и понимания.",
+     "kz": "Мәтіндермен жұмыс арқылы оқу және түсіну дағдыларын дамыту.",
+     "en": "Working with texts to build reading and comprehension."
+    }
+   },
+   {
+    "title": {
+     "ru": "Аудирование",
+     "kz": "Тыңдалым",
+     "en": "Listening"
+    },
+    "text": {
+     "ru": "Диалоги и аудиоматериалы — учимся понимать речь на слух.",
+     "kz": "Диалогтар мен аудиоматериалдар арқылы тілді есту арқылы түсіну.",
+     "en": "Dialogues and audio to understand spoken English."
+    }
+   },
+   {
+    "title": {
+     "ru": "Говорение",
+     "kz": "Сөйлеу",
+     "en": "Speaking"
+    },
+    "text": {
+     "ru": "Устная речь, диалоги, обсуждения, уверенность в общении.",
+     "kz": "Ауызекі сөйлеу, диалогтар, пікірталас және еркін сөйлеу.",
+     "en": "Speech, dialogues, discussions and confident conversation."
+    }
+   },
+   {
+    "title": {
+     "ru": "Письмо",
+     "kz": "Жазылым",
+     "en": "Writing"
+    },
+    "text": {
+     "ru": "Тексты, эссе и письма.",
+     "kz": "Мәтін, эссе және хат жазу дағдылары.",
+     "en": "Texts, essays and letters."
+    }
+   },
+   {
+    "title": {
+     "ru": "Культурный контекст",
+     "kz": "Мәдени контекст",
+     "en": "Cultural context"
+    },
+    "text": {
+     "ru": "Культура, традиции и особенности англоязычных стран.",
+     "kz": "Ағылшын тілді елдердің мәдениеті, дәстүрлері мен ерекшеліктері.",
+     "en": "The culture and traditions of English-speaking countries."
+    }
+   }
+  ],
+  "why": [
+   {
+    "ru": "Дипломированные учителя",
+    "kz": "Дипломы бар білікті мұғалімдер",
+    "en": "Qualified, certified teachers"
+   },
+   {
+    "ru": "Speaking club 1 раз в неделю",
+    "kz": "Аптасына 1 рет Speaking club",
+    "en": "Speaking club once a week"
+   },
+   {
+    "ru": "Авторские визуальные карточки для лучшего усвоения",
+    "kz": "Материалды жақсы меңгеру үшін авторлық визуалды карточкалар",
+    "en": "Our own visual cards for better retention"
+   },
+   {
+    "ru": "Помощь со школьным английским",
+    "kz": "Мектептегі ағылшын тілі бойынша көмек",
+    "en": "Help with school English"
+   },
+   {
+    "ru": "Фокус на прогрессе каждого ученика",
+    "kz": "Әр оқушының жеке прогресіне назар",
+    "en": "Focus on each student's progress"
+   },
+   {
+    "ru": "Тематические мероприятия каждую неделю",
+    "kz": "Апта сайын тақырыптық іс-шаралар",
+    "en": "Themed events every week"
+   },
+   {
+    "ru": "Интенсивы с носителями языка 2 раза в год",
+    "kz": "Жылына 2 рет тіл тасымалдаушыларымен интенсив",
+    "en": "Intensives with native speakers twice a year"
+   },
+   {
+    "ru": "Диагностика прогресса и отчёт родителям каждый месяц",
+    "kz": "Ай сайын прогресс диагностикасы және ата-анаға есеп",
+    "en": "Monthly progress check and report to parents"
+   }
+  ],
+  "group": [
+   {
+    "freq": {
+     "ru": "3 раза в неделю",
+     "kz": "Аптасына 3 рет",
+     "en": "3 times a week"
+    },
+    "price": "25 000"
+   },
+   {
+    "freq": {
+     "ru": "5 раз в неделю",
+     "kz": "Аптасына 5 рет",
+     "en": "5 times a week"
+    },
+    "price": "40 000"
+   }
+  ],
+  "individual": [
+   {
+    "freq": {
+     "ru": "3 раза в неделю",
+     "kz": "Аптасына 3 рет",
+     "en": "3 times a week"
+    },
+    "price": "50 000"
+   },
+   {
+    "freq": {
+     "ru": "4 раза в неделю",
+     "kz": "Аптасына 4 рет",
+     "en": "4 times a week"
+    },
+    "price": "55 000"
+   },
+   {
+    "freq": {
+     "ru": "5 раз в неделю",
+     "kz": "Аптасына 5 рет",
+     "en": "5 times a week"
+    },
+    "price": "60 000"
+   }
+  ],
+  "group_includes": [
+   {
+    "ru": "группа 6–7 человек",
+    "kz": "6–7 оқушыға дейінгі топ",
+    "en": "groups of 6–7 students"
+   },
+   {
+    "ru": "дипломированные учителя",
+    "kz": "білікті мұғалімдер",
+    "en": "certified teachers"
+   },
+   {
+    "ru": "авторские визуальные карточки",
+    "kz": "авторлық визуалды карточкалар",
+    "en": "our own visual cards"
+   },
+   {
+    "ru": "помощь со школьным английским",
+    "kz": "мектептегі ағылшын тіліне көмек",
+    "en": "help with school English"
+   },
+   {
+    "ru": "Speaking club 1 раз в неделю",
+    "kz": "аптасына 1 рет Speaking club",
+    "en": "speaking club once a week"
+   },
+   {
+    "ru": "тематические мероприятия 1 раз в неделю",
+    "kz": "аптасына 1 рет тақырыптық іс-шаралар",
+    "en": "a themed event once a week"
+   },
+   {
+    "ru": "индивидуальный подход к каждому ученику",
+    "kz": "әр оқушыға жеке көңіл бөлу",
+    "en": "an individual approach to every student"
+   },
+   {
+    "ru": "1 уровень — 3 месяца",
+    "kz": "1 деңгей — 3 ай",
+    "en": "1 level — 3 months"
+   }
+  ],
+  "individual_includes": [
+   {
+    "ru": "занятия с дипломированными преподавателями",
+    "kz": "дипломы бар оқытушылармен сабақтар",
+    "en": "lessons with certified teachers"
+   },
+   {
+    "ru": "авторские учебные материалы и карточки",
+    "kz": "авторлық оқу материалдары мен карточкалар",
+    "en": "our own materials and cards"
+   },
+   {
+    "ru": "дополнительные материалы для обучения",
+    "kz": "қосымша оқу материалдары",
+    "en": "extra study materials"
+   },
+   {
+    "ru": "практические занятия и Speaking club",
+    "kz": "практикалық сабақтар және Speaking Club",
+    "en": "practice sessions and speaking club"
+   },
+   {
+    "ru": "мероприятия и дополнительные активности",
+    "kz": "іс-шаралар мен қосымша белсенділіктер",
+    "en": "events and extra activities"
+   },
+   {
+    "ru": "система обучения по уровням",
+    "kz": "деңгейлер бойынша оқыту жүйесі",
+    "en": "a level-based system"
+   }
+  ],
+  "intensive": {
+   "ru": "Два раза в год — 10-дневный интенсив с носителями языка: только разговорный английский (speaking). За это время программа обновляется, а ученики получают прорыв в уверенности.",
+   "kz": "Жылына екі рет — тіл тасымалдаушыларымен 10 күндік интенсив: тек ауызекі ағылшын тілі (speaking). Бұл уақытта бағдарлама жаңартылады, ал оқушылар сөйлеуге батылдана түседі.",
+   "en": "Twice a year we run a 10-day intensive with native speakers — speaking only. It gives students a real boost in confidence while we refresh the programme."
+  },
+  "books": {
+   "ru": "Обучение идёт по двум книгам: цветной учебник и рабочая тетрадь. Комплект приобретается в центре и оплачивается отдельно от обучения.",
+   "kz": "Оқу екі кітаптан тұрады: түрлі-түсті оқулық және жұмыс дәптері. Кітаптар орталықта сатылады және оқу ақысына кірмейді.",
+   "en": "Lessons use two books: a colour coursebook and a workbook. The set is bought at the centre and paid for separately."
+  }
+ },
+ "ielts": {
+  "modules": [
+   {
+    "title": {
+     "ru": "Reading",
+     "kz": "Reading",
+     "en": "Reading"
+    },
+    "text": {
+     "ru": "понимание и анализ текстов",
+     "kz": "мәтіндерді түсіну және талдау",
+     "en": "understanding and analysing texts"
+    }
+   },
+   {
+    "title": {
+     "ru": "Listening",
+     "kz": "Listening",
+     "en": "Listening"
+    },
+    "text": {
+     "ru": "навыки аудирования",
+     "kz": "тыңдалым дағдыларын дамыту",
+     "en": "listening skills"
+    }
+   },
+   {
+    "title": {
+     "ru": "Writing",
+     "kz": "Writing",
+     "en": "Writing"
+    },
+    "text": {
+     "ru": "структура эссе и академическая лексика",
+     "kz": "эссе құрылымы мен академиялық лексика",
+     "en": "essay structure and academic vocabulary"
+    }
+   },
+   {
+    "title": {
+     "ru": "Speaking",
+     "kz": "Speaking",
+     "en": "Speaking"
+    },
+    "text": {
+     "ru": "свободная речь и ответы в формате IELTS",
+     "kz": "еркін сөйлеу және IELTS форматындағы жауаптар",
+     "en": "fluent speech and IELTS-style answers"
+    }
+   }
+  ],
+  "features": [
+   {
+    "ru": "Преподаватель с результатом IELTS 8.0 и 10-летним опытом",
+    "kz": "IELTS 8.0 нәтижесі және 10 жылдық тәжірибесі бар мұғалім",
+    "en": "A teacher with IELTS 8.0 and 10 years of experience"
+   },
+   {
+    "ru": "Определение уровня и отслеживание прогресса",
+    "kz": "Деңгейді анықтау және прогресті бақылау",
+    "en": "Level check and progress tracking"
+   },
+   {
+    "ru": "Авторские учебные материалы",
+    "kz": "Авторлық оқу материалдары",
+    "en": "Our own study materials"
+   },
+   {
+    "ru": "Обратная связь от опытного преподавателя",
+    "kz": "Тәжірибелі мұғалімнің кері байланысы",
+    "en": "Feedback from an experienced teacher"
+   },
+   {
+    "ru": "Освоение формата и стратегий IELTS",
+    "kz": "IELTS форматы мен стратегияларын меңгеру",
+    "en": "Mastering the IELTS format and strategies"
+   }
+  ],
+  "prices": [
+   {
+    "freq": {
+     "ru": "Групповое обучение",
+     "kz": "Топтық оқу",
+     "en": "Group course"
+    },
+    "price": "55 000"
+   },
+   {
+    "freq": {
+     "ru": "Индивидуальное обучение",
+     "kz": "Жеке оқу",
+     "en": "Individual course"
+    },
+    "price": "75 000"
+   }
+  ],
+  "results": {
+   "ru": "Наши ученики получают IELTS 6.0, 7.0 и 7.5",
+   "kz": "Оқушыларымыз IELTS 6.0, 7.0 және 7.5 алады",
+   "en": "Our students score IELTS 6.0, 7.0 and 7.5"
+  }
+ },
+ "math": {
+  "steps": [
+   {
+    "title": {
+     "ru": "Диагностика",
+     "kz": "Диагностика",
+     "en": "Diagnostics"
+    },
+    "text": {
+     "ru": "Определяем уровень знаний и выявляем пробелы.",
+     "kz": "Білім деңгейін және олқылықтарды анықтаймыз.",
+     "en": "We check the level and find the gaps."
+    }
+   },
+   {
+    "title": {
+     "ru": "Основа",
+     "kz": "Негізгі білім",
+     "en": "Foundations"
+    },
+    "text": {
+     "ru": "Устраняем пробелы и закрепляем базовые знания.",
+     "kz": "Олқылықтарды толтырып, негізгі білімді бекітеміз.",
+     "en": "We close the gaps and secure the basics."
+    }
+   },
+   {
+    "title": {
+     "ru": "Текущая программа",
+     "kz": "Қазіргі бағдарлама",
+     "en": "Current curriculum"
+    },
+    "text": {
+     "ru": "Разбираем школьные темы, решаем задачи, закрепляем материал.",
+     "kz": "Мектеп тақырыптарын түсіндіріп, есеп шығару арқылы бекітеміз.",
+     "en": "We work through school topics and practise problems."
+    }
+   },
+   {
+    "title": {
+     "ru": "Опережающее обучение",
+     "kz": "Озық оқыту",
+     "en": "Learning ahead"
+    },
+    "text": {
+     "ru": "Заранее знакомимся с будущими темами, чтобы в школе было легче.",
+     "kz": "Алдағы тақырыптарды алдын ала меңгеріп, жаңа материалға дайындаймыз.",
+     "en": "We preview upcoming topics so school feels easier."
+    }
+   }
+  ],
+  "results": [
+   {
+    "value": {
+     "ru": "99%",
+     "kz": "99%",
+     "en": "99%"
+    },
+    "label": {
+     "ru": "учеников выходят в школе на «4» и «5»",
+     "kz": "оқушы мектепте «4» және «5» алады",
+     "en": "of students get 4s and 5s at school"
+    }
+   },
+   {
+    "value": {
+     "ru": "+15–30%",
+     "kz": "+15–30%",
+     "en": "+15–30%"
+    },
+    "label": {
+     "ru": "к результатам после устранения пробелов",
+     "kz": "олқылықтарды толтырғаннан кейінгі нәтиже",
+     "en": "better results once gaps are closed"
+    }
+   },
+   {
+    "value": {
+     "ru": "1–2 балла",
+     "kz": "1–2 балл",
+     "en": "1–2 points"
+    },
+    "label": {
+     "ru": "средний рост школьной оценки — уже через месяц",
+     "kz": "мектеп бағасының орташа өсуі — 1 айдан кейін",
+     "en": "average rise in school grade — within a month"
+    }
+   },
+   {
+    "value": {
+     "ru": "2–3 раза",
+     "kz": "2–3 рет",
+     "en": "2–3 times"
+    },
+    "label": {
+     "ru": "регулярно повторяем ключевые темы",
+     "kz": "негізгі тақырыптарды жүйелі қайталаймыз",
+     "en": "we revisit key topics regularly"
+    }
+   },
+   {
+    "value": {
+     "ru": "Еженедельно",
+     "kz": "Апта сайын",
+     "en": "Weekly"
+    },
+    "label": {
+     "ru": "контроль знаний и отслеживание прогресса",
+     "kz": "білімді бақылау және прогресті қадағалау",
+     "en": "knowledge checks and progress tracking"
+    }
+   }
+  ],
+  "group": [
+   {
+    "freq": {
+     "ru": "3 раза в неделю",
+     "kz": "Аптасына 3 рет",
+     "en": "3 times a week"
+    },
+    "price": "25 000"
+   },
+   {
+    "freq": {
+     "ru": "5 раз в неделю",
+     "kz": "Аптасына 5 рет",
+     "en": "5 times a week"
+    },
+    "price": "40 000"
+   }
+  ],
+  "includes": [
+   {
+    "ru": "группа до 6–7 человек",
+    "kz": "6–7 адамға дейінгі топ",
+    "en": "groups of up to 6–7"
+   },
+   {
+    "ru": "дипломированные учителя",
+    "kz": "дипломды мұғалімдер",
+    "en": "certified teachers"
+   },
+   {
+    "ru": "авторская учебная программа и книги",
+    "kz": "авторлық оқу бағдарламасы мен кітаптар",
+    "en": "our own programme and books"
+   },
+   {
+    "ru": "устранение пробелов в знаниях",
+    "kz": "білімді толықтыру",
+    "en": "closing knowledge gaps"
+   },
+   {
+    "ru": "индивидуальный подход к каждому ученику",
+    "kz": "әр оқушыға жеке тәсіл",
+    "en": "an individual approach to every student"
+   }
+  ],
+  "combo_geometry": [
+   {
+    "ru": "Алгебраические задачи",
+    "kz": "Алгебралық есептер",
+    "en": "Algebra problems"
+   },
+   {
+    "ru": "Геометрические фигуры",
+    "kz": "Геометриялық фигуралар",
+    "en": "Geometric shapes"
+   },
+   {
+    "ru": "Формулы и измерения",
+    "kz": "Формулалар мен өлшемдер",
+    "en": "Formulas and measurement"
+   },
+   {
+    "ru": "Логическое мышление",
+    "kz": "Логикалық ойлау",
+    "en": "Logical thinking"
+   },
+   {
+    "ru": "Решение и доказательство геометрических задач",
+    "kz": "Геометриялық есептерді шығару және дәлелдеу",
+    "en": "Solving and proving geometry problems"
+   },
+   {
+    "ru": "Работа с чертежами",
+    "kz": "Сызбалармен жұмыс",
+    "en": "Working with drawings"
+   }
+  ],
+  "combo_physics": [
+   {
+    "ru": "Математические операции",
+    "kz": "Математикалық амалдар",
+    "en": "Mathematical operations"
+   },
+   {
+    "ru": "Работа с формулами",
+    "kz": "Формулалармен жұмыс",
+    "en": "Working with formulas"
+   },
+   {
+    "ru": "Физические законы",
+    "kz": "Физикалық заңдар",
+    "en": "Laws of physics"
+   },
+   {
+    "ru": "Разбор физических задач",
+    "kz": "Физикалық есептерді шығару",
+    "en": "Solving physics problems"
+   },
+   {
+    "ru": "Выбор и использование правильной формулы",
+    "kz": "Формуланы дұрыс таңдау және қолдану",
+    "en": "Choosing and using the right formula"
+   },
+   {
+    "ru": "Логическое и аналитическое мышление",
+    "kz": "Логикалық және аналитикалық ойлау",
+    "en": "Logical and analytical thinking"
+   }
+  ],
+  "combo_prices": [
+   {
+    "freq": {
+     "ru": "3 раза в неделю",
+     "kz": "Аптасына 3 рет",
+     "en": "3 times a week"
+    },
+    "price": "35 000",
+    "note": {
+     "ru": "2 раза математика + 1 раз геометрия или физика",
+     "kz": "2 рет математика + 1 рет геометрия немесе физика",
+     "en": "2× maths + 1× geometry or physics"
+    }
+   },
+   {
+    "freq": {
+     "ru": "5 раз в неделю",
+     "kz": "Аптасына 5 рет",
+     "en": "5 times a week"
+    },
+    "price": "40 000",
+    "note": {
+     "ru": "3 раза математика + 2 раза геометрия или физика",
+     "kz": "3 рет математика + 2 рет геометрия немесе физика",
+     "en": "3× maths + 2× geometry or physics"
+    }
+   }
+  ],
+  "combo_result": {
+   "ru": "Ученик учится правильно применять математические методы в задачах по физике и геометрии. Темп подбираем по целям и уровню.",
+   "kz": "Оқушы математикалық тәсілдерді физика мен геометрия есептерінде дұрыс қолдануды үйренеді. Оқу қарқыны мақсат пен деңгейге қарай таңдалады.",
+   "en": "Students learn to apply maths correctly in physics and geometry problems. We set the pace to their goals and level."
+  }
+ },
+ "nis": {
+  "why_nis": [
+   {
+    "ru": "Сильная академическая среда",
+    "kz": "Мықты академиялық орта",
+    "en": "A strong academic environment"
+   },
+   {
+    "ru": "Расширенные образовательные возможности",
+    "kz": "Кеңейтілген білім беру мүмкіндіктері",
+    "en": "Wider educational opportunities"
+   },
+   {
+    "ru": "Развитие критического и аналитического мышления",
+    "kz": "Сыни және аналитикалық ойлауды дамыту",
+    "en": "Critical and analytical thinking"
+   },
+   {
+    "ru": "Хорошая база для дальнейшего образования",
+    "kz": "Әрі қарай білім алуға жақсы негіз",
+    "en": "A solid base for further education"
+   }
+  ],
+  "subjects_5": [
+   {
+    "subject": {
+     "ru": "Математика",
+     "kz": "Математика",
+     "en": "Maths"
+    },
+    "per_week": "3"
+   },
+   {
+    "subject": {
+     "ru": "Английский язык",
+     "kz": "Ағылшын тілі",
+     "en": "English"
+    },
+    "per_week": "3"
+   },
+   {
+    "subject": {
+     "ru": "Казахский язык",
+     "kz": "Қазақ тілі",
+     "en": "Kazakh"
+    },
+    "per_week": "2"
+   },
+   {
+    "subject": {
+     "ru": "Русский язык",
+     "kz": "Орыс тілі",
+     "en": "Russian"
+    },
+    "per_week": "2"
+   },
+   {
+    "subject": {
+     "ru": "Естествознание",
+     "kz": "Жаратылыстану",
+     "en": "Natural science"
+    },
+    "per_week": "2"
+   }
+  ],
+  "subjects_6": [
+   {
+    "subject": {
+     "ru": "Математика",
+     "kz": "Математика",
+     "en": "Maths"
+    },
+    "per_week": "3"
+   },
+   {
+    "subject": {
+     "ru": "Английский язык",
+     "kz": "Ағылшын тілі",
+     "en": "English"
+    },
+    "per_week": "5"
+   },
+   {
+    "subject": {
+     "ru": "Казахский язык",
+     "kz": "Қазақ тілі",
+     "en": "Kazakh"
+    },
+    "per_week": "3"
+   },
+   {
+    "subject": {
+     "ru": "Русский язык",
+     "kz": "Орыс тілі",
+     "en": "Russian"
+    },
+    "per_week": "3"
+   },
+   {
+    "subject": {
+     "ru": "Естествознание",
+     "kz": "Жаратылыстану",
+     "en": "Natural science"
+    },
+    "per_week": "2"
+   },
+   {
+    "subject": {
+     "ru": "Количественные характеристики",
+     "kz": "Сандық сипаттамалар",
+     "en": "Quantitative reasoning"
+    },
+    "per_week": "2"
+   }
+  ],
+  "system": [
+   {
+    "title": {
+     "ru": "Не просто уроки",
+     "kz": "Жай сабақ емес",
+     "en": "More than lessons"
+    },
+    "text": {
+     "ru": "Каждое занятие — часть общей программы подготовки.",
+     "kz": "Әр сабақ — жалпы дайындық бағдарламасының бөлігі.",
+     "en": "Every lesson is part of one preparation plan."
+    }
+   },
+   {
+    "title": {
+     "ru": "Небольшие группы",
+     "kz": "Шағын топтар",
+     "en": "Small groups"
+    },
+    "text": {
+     "ru": "До 7–8 учеников: преподаватель видит уровень и ошибки каждого.",
+     "kz": "7–8 оқушыға дейін: мұғалім әркімнің деңгейі мен қатесін көреді.",
+     "en": "Up to 7–8 students, so the teacher sees everyone's level and mistakes."
+    }
+   },
+   {
+    "title": {
+     "ru": "Диагностика",
+     "kz": "Диагностика",
+     "en": "Diagnostics"
+    },
+    "text": {
+     "ru": "Определяем уровень до начала системной подготовки.",
+     "kz": "Жүйелі дайындық басталмас бұрын деңгейді анықтаймыз.",
+     "en": "We assess the level before preparation starts."
+    }
+   },
+   {
+    "title": {
+     "ru": "Тестирование",
+     "kz": "Тестілеу",
+     "en": "Testing"
+    },
+    "text": {
+     "ru": "Регулярно проверяем знания, проводим пробные МОСК и БТС.",
+     "kz": "Білімді үнемі тексеріп, МОСК және БТС сынақтарын өткіземіз.",
+     "en": "Regular knowledge checks plus MOSK and BTS mock tests."
+    }
+   },
+   {
+    "title": {
+     "ru": "Контроль прогресса",
+     "kz": "Прогресті бақылау",
+     "en": "Progress tracking"
+    },
+    "text": {
+     "ru": "Отслеживаем динамику каждого ученика.",
+     "kz": "Әр оқушының динамикасын қадағалаймыз.",
+     "en": "We follow each student's progress."
+    }
+   },
+   {
+    "title": {
+     "ru": "План подготовки",
+     "kz": "Дайындық жоспары",
+     "en": "A clear plan"
+    },
+    "text": {
+     "ru": "Родитель понимает, над чем ребёнок работает сейчас и что будет дальше.",
+     "kz": "Ата-ана бала қазір неге дайындалып жатқанын және әрі қарай не болатынын біледі.",
+     "en": "Parents know what their child is working on now and what comes next."
+    }
+   },
+   {
+    "title": {
+     "ru": "Консультации",
+     "kz": "Кеңестер",
+     "en": "Consultations"
+    },
+    "text": {
+     "ru": "Помогаем родителям разобраться в вопросах подготовки и поступления.",
+     "kz": "Ата-аналарға дайындық пен түсу мәселелерінде көмектесеміз.",
+     "en": "We help parents navigate preparation and admission."
+    }
+   }
+  ],
+  "includes": [
+   {
+    "ru": "занятия по профильным предметам",
+    "kz": "бейінді пәндер бойынша сабақтар",
+    "en": "lessons in core subjects"
+   },
+   {
+    "ru": "систематическая практика",
+    "kz": "жүйелі практика",
+    "en": "regular practice"
+   },
+   {
+    "ru": "проверка домашних и учебных заданий",
+    "kz": "үй және оқу тапсырмаларын тексеру",
+    "en": "homework and classwork checks"
+   },
+   {
+    "ru": "пробное тестирование",
+    "kz": "сынақ тестілеу",
+    "en": "mock testing"
+   },
+   {
+    "ru": "анализ ошибок",
+    "kz": "қателерді талдау",
+    "en": "error analysis"
+   },
+   {
+    "ru": "диагностика уровня",
+    "kz": "деңгей диагностикасы",
+    "en": "level diagnostics"
+   },
+   {
+    "ru": "отслеживание динамики",
+    "kz": "динамиканы қадағалау",
+    "en": "progress tracking"
+   },
+   {
+    "ru": "рекомендации по дальнейшей подготовке",
+    "kz": "әрі қарай дайындыққа ұсыныстар",
+    "en": "recommendations for next steps"
+   },
+   {
+    "ru": "консультации родителей",
+    "kz": "ата-аналарға кеңес",
+    "en": "parent consultations"
+   }
+  ],
+  "plans": [
+   {
+    "grade": {
+     "ru": "5 класс",
+     "kz": "5 сынып",
+     "en": "Grade 5"
+    },
+    "freq": {
+     "ru": "3 раза в неделю",
+     "kz": "Аптасына 3 рет",
+     "en": "3 times a week"
+    },
+    "month": "85 000",
+    "q3": "215 000",
+    "q9": "575 000"
+   },
+   {
+    "grade": {
+     "ru": "6 класс",
+     "kz": "6 сынып",
+     "en": "Grade 6"
+    },
+    "freq": {
+     "ru": "5 раз в неделю",
+     "kz": "Аптасына 5 рет",
+     "en": "5 times a week"
+    },
+    "month": "100 000",
+    "q3": "255 000",
+    "q9": "675 000"
+   }
+  ],
+  "cash": {
+   "ru": "При оплате наличными может предоставляться скидка до 10%.",
+   "kz": "Қолма-қол төлегенде 10%-ға дейін жеңілдік берілуі мүмкін.",
+   "en": "Paying in cash may give a discount of up to 10%."
+  },
+  "early": [
+   {
+    "ru": "Быстро анализировать задания",
+    "kz": "Тапсырмаларды тез талдау",
+    "en": "Analyse tasks quickly"
+   },
+   {
+    "ru": "Уверенно работать с большим объёмом материала",
+    "kz": "Көп материалмен сенімді жұмыс істеу",
+    "en": "Handle a large volume of material confidently"
+   },
+   {
+    "ru": "Правильно распределять время",
+    "kz": "Уақытты дұрыс бөлу",
+    "en": "Manage time well"
+   },
+   {
+    "ru": "Понимать формат тестирования",
+    "kz": "Тестілеу форматын түсіну",
+    "en": "Understand the test format"
+   }
+  ],
+  "faq": [
+   {
+    "q": {
+     "ru": "С какого класса можно поступить в НИШ?",
+     "kz": "НЗМ-ге қай сыныптан түсуге болады?",
+     "en": "Which grade do students enter NIS in?"
+    },
+    "a": {
+     "ru": "Основной конкурсный набор проводится в 7-й класс. Поэтому подготовку желательно начинать заранее — уже с 5–6 класса.",
+     "kz": "Негізгі конкурстық қабылдау 7-сыныпқа жүргізіледі. Сондықтан дайындықты алдын ала — 5–6 сыныптан бастаған жөн.",
+     "en": "The main intake is into grade 7, so it's best to start preparing early — in grades 5–6."
+    }
+   },
+   {
+    "q": {
+     "ru": "Какие предметы нужно сдавать?",
+     "kz": "Қандай пәндерді тапсыру керек?",
+     "en": "Which subjects are tested?"
+    },
+    "a": {
+     "ru": "Вступительное тестирование включает задания по математике, естествознанию, языкам и другим направлениям, предусмотренным форматом конкурса.",
+     "kz": "Түсу тестілеуі математика, жаратылыстану, тілдер және конкурс форматында көзделген басқа бағыттар бойынша тапсырмаларды қамтиды.",
+     "en": "The entrance test covers maths, natural science, languages and other areas set by the competition format."
+    }
+   },
+   {
+    "q": {
+     "ru": "Обязательно ли ребёнку иметь отличные оценки?",
+     "kz": "Балаға үздік бағалар міндетті ме?",
+     "en": "Does my child need top grades?"
+    },
+    "a": {
+     "ru": "Нет. Школьные оценки сами по себе не гарантируют поступление. Главное — уровень знаний, логическое мышление, скорость и умение работать с тестовыми заданиями.",
+     "kz": "Жоқ. Мектеп бағалары түсуге кепілдік бермейді. Ең бастысы — білім деңгейі, логикалық ойлау, жылдамдық және тест тапсырмаларымен жұмыс істей білу.",
+     "en": "No. School grades alone don't guarantee admission. What matters is knowledge, logical thinking, speed and test-taking skills."
+    }
+   },
+   {
+    "q": {
+     "ru": "Когда лучше начинать подготовку?",
+     "kz": "Дайындықты қашан бастаған дұрыс?",
+     "en": "When should we start?"
+    },
+    "a": {
+     "ru": "Чем раньше, тем лучше. В 5–6 классе ребёнок успевает спокойно сформировать базу и привыкнуть к формату экзамена.",
+     "kz": "Неғұрлым ертерек болса, соғұрлым жақсы. 5–6 сыныпта бала негізді асықпай қалыптастырып, емтихан форматына үйреніп үлгереді.",
+     "en": "The earlier the better. In grades 5–6 there is time to build a base calmly and get used to the format."
+    }
+   },
+   {
+    "q": {
+     "ru": "Будут ли пробные тестирования?",
+     "kz": "Сынақ тестілеулер бола ма?",
+     "en": "Are there mock tests?"
+    },
+    "a": {
+     "ru": "Да. Мы проводим МОСК и БТС, чтобы ребёнок заранее привыкал к формату и мог отслеживать свой прогресс.",
+     "kz": "Иә. Бала форматқа алдын ала үйреніп, өз прогресін қадағалай алуы үшін МОСК және БТС өткіземіз.",
+     "en": "Yes. We run MOSK and BTS mocks so students get used to the format and see their progress."
+    }
+   },
+   {
+    "q": {
+     "ru": "Можно ли совмещать с обычной школой?",
+     "kz": "Мектеппен қатар оқуға бола ма?",
+     "en": "Can it be combined with regular school?"
+    },
+    "a": {
+     "ru": "Да. Расписание составляется так, чтобы ребёнок мог совмещать занятия в центре со школой.",
+     "kz": "Иә. Кесте бала орталықтағы сабақты мектеппен қатар алып жүре алатындай құрылады.",
+     "en": "Yes. The timetable is built so students can combine it with school."
+    }
+   },
+   {
+    "q": {
+     "ru": "Почему именно у вас?",
+     "kz": "Неге дәл сіздер?",
+     "en": "Why choose you?"
+    },
+    "a": {
+     "ru": "Мы работаем системно: небольшие группы, профильные предметы, регулярные тестирования, анализ ошибок и контроль прогресса каждого ученика.",
+     "kz": "Біз жүйелі жұмыс істейміз: шағын топтар, бейінді пәндер, тұрақты тестілеу, қателерді талдау және әр оқушының прогресін бақылау.",
+     "en": "We work systematically: small groups, core subjects, regular testing, error analysis and progress tracking for every student."
+    }
+   },
+   {
+    "q": {
+     "ru": "Гарантируете ли вы поступление?",
+     "kz": "Түсуге кепілдік бересіздер ме?",
+     "en": "Do you guarantee admission?"
+    },
+    "a": {
+     "ru": "Ни один учебный центр не может гарантировать результат конкурсного отбора. Но мы создаём систему подготовки, которая помогает ребёнку максимально раскрыть знания и подготовиться к испытаниям.",
+     "kz": "Ешбір оқу орталығы конкурстық іріктеу нәтижесіне кепілдік бере алмайды. Бірақ біз балаға білімін барынша көрсетіп, сынаққа дайындалуға көмектесетін жүйе құрамыз.",
+     "en": "No centre can guarantee the outcome of a competitive selection. But we build a system that helps your child show their best and be ready."
+    }
+   }
+  ]
+ },
+ "school": {
+  "program": [
+   {
+    "ru": "Алфавит",
+    "kz": "Әліпби",
+    "en": "Alphabet"
+   },
+   {
+    "ru": "Красивое письмо",
+    "kz": "Көркем жазу",
+    "en": "Neat handwriting"
+   },
+   {
+    "ru": "Чтение и скорочтение",
+    "kz": "Оқу және жылдам оқу",
+    "en": "Reading and speed reading"
+   },
+   {
+    "ru": "Занимательная математика",
+    "kz": "Қызықты математика",
+    "en": "Fun maths"
+   },
+   {
+    "ru": "Нейрогимнастические упражнения",
+    "kz": "Нейрогимнастикалық жаттығулар",
+    "en": "Brain-gym exercises"
+   },
+   {
+    "ru": "Безошибочное письмо",
+    "kz": "Қатесіз жазу",
+    "en": "Error-free writing"
+   }
+  ],
+  "outcomes": [
+   {
+    "ru": "Развитие мыслительных навыков и внимания",
+    "kz": "Ойлау қабілеті мен зейінді дамыту",
+    "en": "Thinking skills and attention"
+   },
+   {
+    "ru": "Формирование навыков чтения и письма",
+    "kz": "Оқу және жазу дағдыларын қалыптастыру",
+    "en": "Reading and writing skills"
+   },
+   {
+    "ru": "Интерес к чтению",
+    "kz": "Оқуға деген қызығушылық",
+    "en": "A love of reading"
+   },
+   {
+    "ru": "Базовые навыки, необходимые для школы",
+    "kz": "Мектепке қажетті негізгі дағдылар",
+    "en": "Core skills needed for school"
+   },
+   {
+    "ru": "Уверенность в себе",
+    "kz": "Өзіне деген сенімділік",
+    "en": "Self-confidence"
+   }
+  ],
+  "prices": [
+   {
+    "freq": {
+     "ru": "5 раз в неделю по 2 часа",
+     "kz": "Аптасына 5 рет, 2 сағаттан",
+     "en": "5 days a week, 2 hours"
+    },
+    "price": "40 000"
+   },
+   {
+    "freq": {
+     "ru": "5 раз в неделю по 3 часа",
+     "kz": "Аптасына 5 рет, 3 сағаттан",
+     "en": "5 days a week, 3 hours"
+    },
+    "price": "50 000"
+   }
+  ]
+ },
+ "prodlenka": {
+  "blocks": [
+   {
+    "title": {
+     "ru": "Помощь с домашними заданиями",
+     "kz": "Үй тапсырмаларына көмек",
+     "en": "Homework help"
+    },
+    "text": {
+     "ru": "Помогаем выполнить домашнюю работу и разобраться в сложных темах.",
+     "kz": "Үй тапсырмасын орындауға және күрделі тақырыптарды түсінуге көмектесеміз.",
+     "en": "We help with homework and tricky topics."
+    }
+   },
+   {
+    "title": {
+     "ru": "Закрепление школьной программы",
+     "kz": "Мектеп бағдарламасын бекіту",
+     "en": "Reinforcing the curriculum"
+    },
+    "text": {
+     "ru": "Повторяем пройденное и закрепляем знания дополнительными заданиями.",
+     "kz": "Өткенді қайталап, қосымша тапсырмалармен білімді бекітеміз.",
+     "en": "We revise lessons and reinforce them with extra tasks."
+    }
+   },
+   {
+    "title": {
+     "ru": "Устранение пробелов",
+     "kz": "Білімді толықтыру",
+     "en": "Closing gaps"
+    },
+    "text": {
+     "ru": "Находим темы, которые вызывают трудности, и прорабатываем индивидуально.",
+     "kz": "Қиын тақырыптарды анықтап, әр оқушымен жеке пысықтаймыз.",
+     "en": "We find difficult topics and work through them one-to-one."
+    }
+   },
+   {
+    "title": {
+     "ru": "Чтение и письмо",
+     "kz": "Оқу және жазу",
+     "en": "Reading and writing"
+    },
+    "text": {
+     "ru": "Техника и скорость чтения, понимание текста, грамотность.",
+     "kz": "Оқу техникасы мен жылдамдығы, мәтінді түсіну, сауаттылық.",
+     "en": "Reading technique and speed, comprehension and literacy."
+    }
+   },
+   {
+    "title": {
+     "ru": "Логика и мышление",
+     "kz": "Логика және ойлау",
+     "en": "Logic and thinking"
+    },
+    "text": {
+     "ru": "Внимание, память, логическое мышление и самостоятельность.",
+     "kz": "Зейін, есте сақтау, логикалық ойлау және дербестік.",
+     "en": "Attention, memory, logic and independence."
+    }
+   },
+   {
+    "title": {
+     "ru": "Успеваемость в Kundelik",
+     "kz": "Kundelik-тегі үлгерім",
+     "en": "Grades in Kundelik"
+    },
+    "text": {
+     "ru": "Контролируем оценки и домашние задания — родители всегда в курсе.",
+     "kz": "Бағалар мен үй тапсырмаларын бақылаймыз — ата-аналар әрдайым хабардар.",
+     "en": "We monitor grades and homework so parents always know where things stand."
+    }
+   }
+  ],
+  "prices": [
+   {
+    "freq": {
+     "ru": "5 раз в неделю по 2 часа",
+     "kz": "Аптасына 5 рет, 2 сағаттан",
+     "en": "5 days a week, 2 hours"
+    },
+    "price": "40 000"
+   },
+   {
+    "freq": {
+     "ru": "5 раз в неделю по 3 часа",
+     "kz": "Аптасына 5 рет, 3 сағаттан",
+     "en": "5 days a week, 3 hours"
+    },
+    "price": "50 000"
+   }
+  ]
+ },
+ "teachers": [
+  {
+   "name": {
+    "ru": "Исаев Нурадин",
+    "kz": "Исаев Нұрадин",
+    "en": "Nuradin Isayev"
+   },
+   "photo": "img/teachers/isaev-nuradin.jpg",
+   "subjects": {
+    "ru": "Математика, Физика, Геометрия",
+    "kz": "Математика, Физика, Геометрия",
+    "en": "Maths, Physics, Geometry"
+   },
+   "experience": {
+    "ru": "Стаж 5 лет",
+    "kz": "Тәжірибесі 5 жыл",
+    "en": "5 years of experience"
+   },
+   "edu": {
+    "ru": "Выпускник Евразийского национального университета имени Л. Н. Гумилёва.",
+    "kz": "Л. Н. Гумилев атындағы Еуразия ұлттық университетінің түлегі.",
+    "en": "Graduate of L. N. Gumilyov Eurasian National University."
+   },
+   "about": {
+    "ru": "Объясняет сложное просто и понятно. Помогает без стресса разобраться в теме, выстроить логику и уверенность в своих знаниях. Ученики повышают успеваемость и справляются с контрольными.",
+    "kz": "Күрделіні қарапайым әрі түсінікті түсіндіреді. Тақырыпты күйзеліссіз түсініп, логика мен өз біліміне сенімділік қалыптастыруға көмектеседі. Оқушылары үлгерімін жақсартып, бақылау жұмыстарын сәтті жазады.",
+    "en": "Explains complex ideas simply. Helps students understand topics without stress and build logic and confidence. His students raise their grades and pass their tests."
+   },
+   "courses": [
+    "math"
+   ]
+  },
+  {
+   "name": {
+    "ru": "Жумабай Дильназ",
+    "kz": "Жұмабай Дильназ",
+    "en": "Dilnaz Zhumabay"
+   },
+   "photo": "img/teachers/zhumabai-dilnaz.jpg",
+   "subjects": {
+    "ru": "Математика, Физика, Геометрия",
+    "kz": "Математика, Физика, Геометрия",
+    "en": "Maths, Physics, Geometry"
+   },
+   "experience": {
+    "ru": "Стаж более 4 лет",
+    "kz": "Тәжірибесі 4 жылдан астам",
+    "en": "4+ years of experience"
+   },
+   "edu": {
+    "ru": "ЕНУ имени Л. Н. Гумилёва, магистрант по направлению «математическая педагогика».",
+    "kz": "Л. Н. Гумилев атындағы ЕҰУ, «математикалық педагогика» бағыты бойынша магистрант.",
+    "en": "L. N. Gumilyov ENU, master's student in mathematics education."
+   },
+   "about": {
+    "ru": "Объясняет математику и физику доступно и увлекательно. Её ученики успешно сдают экзамены и поступают в НИШ, БИЛ и РФМШ.",
+    "kz": "Математика мен физиканы қолжетімді әрі қызықты түсіндіреді. Оқушылары емтихандарды сәтті тапсырып, НЗМ, БИЛ және РФМШ-ға түседі.",
+    "en": "Makes maths and physics clear and engaging. Her students pass exams and get into NIS, BIL and RPhMS schools."
+   },
+   "courses": [
+    "math"
+   ]
+  },
+  {
+   "name": {
+    "ru": "Искендырова Айганым",
+    "kz": "Искендырова Айганым",
+    "en": "Aiganym Iskendyrova"
+   },
+   "photo": "img/teachers/iskendyrova-aiganym.jpg",
+   "subjects": {
+    "ru": "Английский язык",
+    "kz": "Ағылшын тілі",
+    "en": "English"
+   },
+   "experience": {
+    "ru": "Стаж 5 лет",
+    "kz": "Тәжірибесі 5 жыл",
+    "en": "5 years of experience"
+   },
+   "edu": {
+    "ru": "Выпускница Северо-Казахстанского государственного университета им. Манаша Козыбаева.",
+    "kz": "Манаш Қозыбаев атындағы Солтүстік Қазақстан мемлекеттік университетінің түлегі.",
+    "en": "Graduate of Manash Kozybayev North Kazakhstan State University."
+   },
+   "about": {
+    "ru": "Объясняет материал доступно и интересно, выстраивает прочную базу и помогает видеть реальный прогресс.",
+    "kz": "Материалды қолжетімді әрі қызықты түсіндіріп, берік негіз қалайды және нақты прогресті көруге көмектеседі.",
+    "en": "Explains material clearly and engagingly, builds a solid base and helps students see real progress."
+   },
+   "courses": [
+    "english"
+   ]
+  },
+  {
+   "name": {
+    "ru": "Айтимбетова Анель",
+    "kz": "Айтимбетова Әнел",
+    "en": "Anel Aitimbetova"
+   },
+   "photo": "img/teachers/aitimbetova-anel.jpg",
+   "subjects": {
+    "ru": "Английский язык",
+    "kz": "Ағылшын тілі",
+    "en": "English"
+   },
+   "experience": {
+    "ru": "Стаж 4 года · IELTS 7.0",
+    "kz": "Тәжірибесі 4 жыл · IELTS 7.0",
+    "en": "4 years of experience · IELTS 7.0"
+   },
+   "edu": {
+    "ru": "Окончила Павлодарский педагогический университет имени А. Маргулана.",
+    "kz": "Ә. Марғұлан атындағы Павлодар педагогикалық университетін бітірген.",
+    "en": "Graduate of A. Margulan Pavlodar Pedagogical University."
+   },
+   "about": {
+    "ru": "Работает по современным методикам с акцентом на разговорную практику и уверенное использование языка в реальных ситуациях.",
+    "kz": "Заманауи әдістемелермен жұмыс істеп, ауызекі практикаға және тілді өмірде сенімді қолдануға басымдық береді.",
+    "en": "Uses modern methods with a focus on speaking practice and using English confidently in real situations."
+   },
+   "courses": [
+    "english"
+   ]
+  },
+  {
+   "name": {
+    "ru": "Хабыл Акмейир",
+    "kz": "Хабыл Ақмейір",
+    "en": "Akmeiyr Khabyl"
+   },
+   "photo": "img/teachers/khabyl-akmeyir.jpg",
+   "subjects": {
+    "ru": "Қазақ тілі, Начальные классы",
+    "kz": "Қазақ тілі, Бастауыш сынып",
+    "en": "Kazakh, Primary school"
+   },
+   "experience": {
+    "ru": "Стаж более 4 лет",
+    "kz": "Тәжірибесі 4 жылдан астам",
+    "en": "4+ years of experience"
+   },
+   "edu": {
+    "ru": "Аркалыкский педагогический университет им. Ыбырая Алтынсарина.",
+    "kz": "Ыбырай Алтынсарин атындағы Арқалық педагогикалық университеті.",
+    "en": "Ybyrai Altynsarin Arkalyk Pedagogical University."
+   },
+   "about": {
+    "ru": "Индивидуальный подход, творческая работа на уроке, национальные ценности и литература, современные онлайн-инструменты.",
+    "kz": "Жеке тәсіл, сабақтағы шығармашылық жұмыс, ұлттық құндылықтар мен әдебиет, заманауи онлайн-құралдар.",
+    "en": "An individual approach, creative lessons, national values and literature, and modern online tools."
+   },
+   "courses": [
+    "school",
+    "prodlenka"
+   ]
+  }
+ ],
+ "teacher_standards": [
+  {
+   "ru": "Только дипломированные преподаватели",
+   "kz": "Тек дипломы бар мұғалімдер",
+   "en": "Only certified teachers"
+  },
+  {
+   "ru": "Опыт работы — минимум 3 года",
+   "kz": "Жұмыс тәжірибесі — кемінде 3 жыл",
+   "en": "At least 3 years of experience"
+  },
+  {
+   "ru": "Дипломы и сертификаты можно посмотреть в центре",
+   "kz": "Дипломдар мен сертификаттарды орталықта көруге болады",
+   "en": "Diplomas and certificates are available to view at the centre"
+  }
+ ],
+ "steps": [
+  {
+   "title": {
+    "ru": "Заявка",
+    "kz": "Өтінім",
+    "en": "Request"
+   },
+   "text": {
+    "ru": "Оставляете заявку на сайте, пишете в WhatsApp или звоните.",
+    "kz": "Сайтта өтінім қалдырасыз, WhatsApp-қа жазасыз немесе қоңырау шаласыз.",
+    "en": "Leave a request on the site, message us on WhatsApp or call."
+   }
+  },
+  {
+   "title": {
+    "ru": "Пробный урок и диагностика",
+    "kz": "Сынақ сабақ және диагностика",
+    "en": "Trial lesson and assessment"
+   },
+   "text": {
+    "ru": "Знакомимся, определяем уровень и пробелы.",
+    "kz": "Танысып, деңгей мен олқылықтарды анықтаймыз.",
+    "en": "We get to know your child and assess their level."
+   }
+  },
+  {
+   "title": {
+    "ru": "Подбор группы",
+    "kz": "Топ таңдау",
+    "en": "Choosing a group"
+   },
+   "text": {
+    "ru": "Предлагаем направление, формат и удобное время.",
+    "kz": "Бағытты, форматты және ыңғайлы уақытты ұсынамыз.",
+    "en": "We suggest the course, format and a convenient time."
+   }
+  },
+  {
+   "title": {
+    "ru": "Старт и отчёты",
+    "kz": "Бастау және есептер",
+    "en": "Start and reports"
+   },
+   "text": {
+    "ru": "Учимся, а вы каждый месяц получаете отчёт о прогрессе.",
+    "kz": "Оқимыз, ал сіз ай сайын прогресс туралы есеп аласыз.",
+    "en": "Lessons begin, and you get a progress report every month."
+   }
+  }
+ ],
+ "photos": [
+  {
+   "img": "img/photos/ielts-results.jpg",
+   "caption": {
+    "ru": "Результаты IELTS наших учеников: от 6.0 до 7.5",
+    "kz": "Оқушыларымыздың IELTS нәтижелері: 6.0-ден 7.5-ке дейін",
+    "en": "Our students' IELTS results: 6.0 to 7.5"
+   },
+   "href": "https://www.instagram.com/smartschool_ast/reel/DeimRq8Mj5S/"
+  },
+  {
+   "img": "img/photos/speaking-native.jpg",
+   "caption": {
+    "ru": "Speaking-неделя с носителем языка",
+    "kz": "Тіл тасымалдаушымен speaking апталығы",
+    "en": "Speaking week with a native speaker"
+   },
+   "href": "https://www.instagram.com/smartschool_ast/reel/DebYPaCsFla/"
+  },
+  {
+   "img": "img/photos/altyn-kuz.jpg",
+   "caption": {
+    "ru": "Праздник «Алтын күз» у младших учеников",
+    "kz": "Кішкентай оқушылардың «Алтын күз» мерекесі",
+    "en": "The Altyn Kuz autumn festival with our youngest students"
+   },
+   "href": "https://www.instagram.com/smartschool_ast/reel/DdvtDXfsijy/"
+  },
+  {
+   "img": "img/photos/new-branch.jpg",
+   "caption": {
+    "ru": "Второй филиал на Байтурсынулы, 18",
+    "kz": "Байтұрсынұлы, 18 мекенжайындағы екінші филиал",
+    "en": "Our second branch at 18 Baitursynuly St"
+   },
+   "href": "https://www.instagram.com/smartschool_ast/reel/DeO0yBFMYxh/"
+  }
+ ],
+ "books": [
+  "img/books/book01.jpg",
+  "img/books/book02.jpg",
+  "img/books/book03.jpg",
+  "img/books/book04.jpg",
+  "img/books/book05.jpg",
+  "img/books/book06.jpg",
+  "img/books/book07.jpg",
+  "img/books/book08.jpg",
+  "img/books/book09.jpg",
+  "img/books/book10.jpg"
+ ]
+}
