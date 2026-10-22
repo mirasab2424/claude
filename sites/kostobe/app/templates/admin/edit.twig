@@ -1,0 +1,75 @@
+{% extends "layout.twig" %}
+{% block title %}{{ test.id ? test.title|l : 'Новый тест' }}{% endblock %}
+{% block content %}
+<div class="head">
+  <h1>{{ test.id ? 'Тест: ' ~ test.title|l : 'Новый тест' }}</h1>
+  {% if test.id %}<span class="head__links"><a href="/t/{{ test.id }}" target="_blank" rel="noopener">Открыть как ученик ↗</a>{% if attempts %} · <a href="/admin/stats?test={{ test.id }}">Результаты ({{ attempts }})</a>{% endif %}</span>{% endif %}
+</div>
+
+<form class="editor" id="editor" method="post" action="/admin/tests/{{ test.id ?: 'new' }}">
+  <input type="hidden" name="_csrf" value="{{ csrf }}">
+  <input type="hidden" name="questions" id="questions-field">
+
+  <section class="box">
+    <h2>О тесте</h2>
+    <div class="grid3">
+      {% for l in langs %}
+      <label class="f"><span>Название · {{ l|upper }}</span><input name="title[{{ l }}]" value="{{ test.title[l] ?? '' }}" maxlength="200" {% if l == 'ru' %}required{% endif %}></label>
+      {% endfor %}
+      {% for l in langs %}
+      <label class="f"><span>Описание · {{ l|upper }}</span><textarea name="description[{{ l }}]" rows="2">{{ test.description[l] ?? '' }}</textarea></label>
+      {% endfor %}
+    </div>
+    <div class="grid4">
+      <label class="f"><span>Предмет</span>
+        <select name="subject_id"><option value="">— без предмета —</option>
+          {% for s in subjects %}<option value="{{ s.id }}" {% if s.id == test.subject_id %}selected{% endif %}>{{ s.name|l }}</option>{% endfor %}
+        </select>
+        <small><a href="/admin/subjects" target="_blank">Список предметов</a></small>
+      </label>
+      <label class="f"><span>Классы</span><input name="grades" value="{{ test.grades }}" placeholder="например, 5 или 7–8" maxlength="60"></label>
+      <label class="f"><span>Время, минут</span><input name="time_limit" type="number" min="0" max="600" value="{{ test.time_limit }}"><small>0 — без ограничения</small></label>
+      <div class="f"><span>Языки теста</span>
+        <div class="checks">{% for l in langs %}<label><input type="checkbox" name="langs[]" value="{{ l }}" {% if l in test.langs %}checked{% endif %}> {{ l|upper }}</label>{% endfor %}</div>
+      </div>
+    </div>
+    <div class="checks checks--col">
+      <label><input type="checkbox" name="shuffle_questions" value="1" {% if test.shuffle_questions %}checked{% endif %}> Перемешивать вопросы для каждого ученика</label>
+      <label><input type="checkbox" name="shuffle_options" value="1" {% if test.shuffle_options %}checked{% endif %}> Перемешивать варианты ответов</label>
+      <label><input type="checkbox" name="show_answers" value="1" {% if test.show_answers %}checked{% endif %}> Показывать ученику правильные ответы после теста</label>
+      <label><input type="checkbox" name="published" value="1" {% if test.published %}checked{% endif %}> <b>Опубликован</b> — виден ученикам на сайте</label>
+    </div>
+  </section>
+
+  <section class="box qbox">
+    <div class="qtools">
+      <h2>Вопросы <span class="muted" id="q-count"></span></h2>
+      <div class="langtabs" role="tablist" aria-label="Язык редактирования">
+        {% for l in langs %}<button type="button" data-lang="{{ l }}" role="tab">{{ l|upper }}</button>{% endfor %}
+      </div>
+    </div>
+    <p class="muted small" id="lang-hint"></p>
+    <div id="qlist"></div>
+    <div class="addq">
+      <span>Добавить вопрос:</span>
+      {% for k, v in types %}<button type="button" class="btn btn--ghost btn--sm" data-add="{{ k }}">{{ v }}</button>{% endfor %}
+    </div>
+  </section>
+
+  <div class="savebar">
+    <button class="btn" type="submit">Сохранить тест</button>
+    {% if test.id %}
+    <button class="btn btn--ghost" type="submit" form="copy-form">Сделать копию</button>
+    <button class="btn btn--danger" type="submit" form="delete-form">Удалить тест</button>
+    {% endif %}
+    <span class="muted small" id="dirty-note"></span>
+  </div>
+</form>
+{% if test.id %}
+<form id="copy-form" method="post" action="/admin/tests/{{ test.id }}/copy"><input type="hidden" name="_csrf" value="{{ csrf }}"></form>
+<form id="delete-form" method="post" action="/admin/tests/{{ test.id }}/delete" onsubmit="return confirm('Удалить тест{{ attempts ? ' и все его результаты (' ~ attempts ~ ')' }}? Это нельзя отменить.')"><input type="hidden" name="_csrf" value="{{ csrf }}"></form>
+{% endif %}
+<script type="application/json" id="qdata">{{ questions_json|raw }}</script>
+<script type="application/json" id="qtypes">{{ types|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG'))|raw }}</script>
+{% endblock %}
+{% block scripts %}<script src="{{ asset('js/editor.js') }}" defer></script>{% endblock %}

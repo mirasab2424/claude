@@ -1,0 +1,1038 @@
+{
+ "subjects": [
+  {
+   "key": "math",
+   "name": {
+    "ru": "Математика",
+    "kz": "Математика",
+    "en": "Mathematics"
+   }
+  },
+  {
+   "key": "english",
+   "name": {
+    "ru": "Английский язык",
+    "kz": "Ағылшын тілі",
+    "en": "English"
+   }
+  },
+  {
+   "key": "geo",
+   "name": {
+    "ru": "География",
+    "kz": "География",
+    "en": "Geography"
+   }
+  }
+ ],
+ "tests": [
+  {
+   "subject": "math",
+   "grades": "5",
+   "time_limit": 15,
+   "shuffle_questions": false,
+   "shuffle_options": true,
+   "show_answers": true,
+   "published": true,
+   "langs": [
+    "ru",
+    "kz",
+    "en"
+   ],
+   "title": {
+    "ru": "Натуральные числа и дроби",
+    "kz": "Натурал сандар және бөлшектер",
+    "en": "Whole numbers and fractions"
+   },
+   "description": {
+    "ru": "Пример теста: здесь собраны все виды заданий — один ответ, несколько ответов, верно/неверно, ответ числом и текстом, порядок и пары.",
+    "kz": "Тест үлгісі: мұнда тапсырманың барлық түрі бар — бір жауап, бірнеше жауап, дұрыс/бұрыс, санмен және мәтінмен жауап, рет және сәйкестендіру.",
+    "en": "Sample test with every task type: single and multiple choice, true/false, number and text answers, ordering and matching."
+   },
+   "questions": [
+    {
+     "type": "single",
+     "text": {
+      "ru": "Сколько будет 7 · 8?",
+      "kz": "7 · 8 неше болады?",
+      "en": "What is 7 × 8?"
+     },
+     "points": 1,
+     "data": {
+      "options": [
+       {
+        "id": "o1",
+        "text": {
+         "ru": "54",
+         "kz": "54",
+         "en": "54"
+        },
+        "correct": false
+       },
+       {
+        "id": "o2",
+        "text": {
+         "ru": "56",
+         "kz": "56",
+         "en": "56"
+        },
+        "correct": true
+       },
+       {
+        "id": "o3",
+        "text": {
+         "ru": "64",
+         "kz": "64",
+         "en": "64"
+        },
+        "correct": false
+       },
+       {
+        "id": "o4",
+        "text": {
+         "ru": "48",
+         "kz": "48",
+         "en": "48"
+        },
+        "correct": false
+       }
+      ]
+     }
+    },
+    {
+     "type": "multiple",
+     "text": {
+      "ru": "Выберите все простые числа.",
+      "kz": "Барлық жай сандарды таңдаңыз.",
+      "en": "Choose all the prime numbers."
+     },
+     "points": 2,
+     "data": {
+      "options": [
+       {
+        "id": "o1",
+        "text": {
+         "ru": "2",
+         "kz": "2",
+         "en": "2"
+        },
+        "correct": true
+       },
+       {
+        "id": "o2",
+        "text": {
+         "ru": "9",
+         "kz": "9",
+         "en": "9"
+        },
+        "correct": false
+       },
+       {
+        "id": "o3",
+        "text": {
+         "ru": "11",
+         "kz": "11",
+         "en": "11"
+        },
+        "correct": true
+       },
+       {
+        "id": "o4",
+        "text": {
+         "ru": "15",
+         "kz": "15",
+         "en": "15"
+        },
+        "correct": false
+       },
+       {
+        "id": "o5",
+        "text": {
+         "ru": "17",
+         "kz": "17",
+         "en": "17"
+        },
+        "correct": true
+       }
+      ],
+      "partial": true,
+      "explain": {
+       "ru": "Простое число делится только на 1 и на само себя. 9 = 3 · 3, 15 = 3 · 5.",
+       "kz": "Жай сан тек 1-ге және өзіне бөлінеді. 9 = 3 · 3, 15 = 3 · 5.",
+       "en": "A prime number is divisible only by 1 and itself. 9 = 3 × 3, 15 = 3 × 5."
+      }
+     }
+    },
+    {
+     "type": "truefalse",
+     "text": {
+      "ru": "0,5 = 1/2",
+      "kz": "0,5 = 1/2",
+      "en": "0.5 = 1/2"
+     },
+     "points": 1,
+     "data": {
+      "answer": true
+     }
+    },
+    {
+     "type": "number",
+     "text": {
+      "ru": "Найдите периметр квадрата со стороной 6 см.",
+      "kz": "Қабырғасы 6 см шаршының периметрін табыңыз.",
+      "en": "Find the perimeter of a square with a side of 6 cm."
+     },
+     "points": 1,
+     "data": {
+      "answer": 24,
+      "tolerance": 0,
+      "unit": {
+       "ru": "см",
+       "kz": "см",
+       "en": "cm"
+      },
+      "explain": {
+       "ru": "P = 4 · 6 = 24 см.",
+       "kz": "P = 4 · 6 = 24 см.",
+       "en": "P = 4 × 6 = 24 cm."
+      }
+     }
+    },
+    {
+     "type": "text",
+     "text": {
+      "ru": "Как называется результат сложения?",
+      "kz": "Қосу нәтижесі қалай аталады?",
+      "en": "What is the result of addition called?"
+     },
+     "points": 1,
+     "data": {
+      "answers": {
+       "ru": [
+        "сумма"
+       ],
+       "kz": [
+        "қосынды"
+       ],
+       "en": [
+        "sum",
+        "the sum"
+       ]
+      }
+     }
+    },
+    {
+     "type": "order",
+     "text": {
+      "ru": "Расположите числа в порядке возрастания.",
+      "kz": "Сандарды өсу ретімен орналастырыңыз.",
+      "en": "Put the numbers in ascending order."
+     },
+     "points": 2,
+     "data": {
+      "items": [
+       {
+        "id": "i1",
+        "text": {
+         "ru": "1/4",
+         "kz": "1/4",
+         "en": "1/4"
+        }
+       },
+       {
+        "id": "i2",
+        "text": {
+         "ru": "0,3",
+         "kz": "0,3",
+         "en": "0.3"
+        }
+       },
+       {
+        "id": "i3",
+        "text": {
+         "ru": "0,35",
+         "kz": "0,35",
+         "en": "0.35"
+        }
+       },
+       {
+        "id": "i4",
+        "text": {
+         "ru": "1/2",
+         "kz": "1/2",
+         "en": "1/2"
+        }
+       }
+      ],
+      "explain": {
+       "ru": "1/4 = 0,25 и 1/2 = 0,5.",
+       "kz": "1/4 = 0,25 және 1/2 = 0,5.",
+       "en": "1/4 = 0.25 and 1/2 = 0.5."
+      }
+     }
+    },
+    {
+     "type": "match",
+     "text": {
+      "ru": "Сопоставьте фигуру и число её сторон.",
+      "kz": "Фигураны оның қабырғалар санымен сәйкестендіріңіз.",
+      "en": "Match each shape with its number of sides."
+     },
+     "points": 2,
+     "data": {
+      "pairs": [
+       {
+        "id": "p1",
+        "left": {
+         "ru": "Треугольник",
+         "kz": "Үшбұрыш",
+         "en": "Triangle"
+        },
+        "right": {
+         "ru": "3",
+         "kz": "3",
+         "en": "3"
+        }
+       },
+       {
+        "id": "p2",
+        "left": {
+         "ru": "Квадрат",
+         "kz": "Шаршы",
+         "en": "Square"
+        },
+        "right": {
+         "ru": "4",
+         "kz": "4",
+         "en": "4"
+        }
+       },
+       {
+        "id": "p3",
+        "left": {
+         "ru": "Пятиугольник",
+         "kz": "Бесбұрыш",
+         "en": "Pentagon"
+        },
+        "right": {
+         "ru": "5",
+         "kz": "5",
+         "en": "5"
+        }
+       },
+       {
+        "id": "p4",
+        "left": {
+         "ru": "Шестиугольник",
+         "kz": "Алтыбұрыш",
+         "en": "Hexagon"
+        },
+        "right": {
+         "ru": "6",
+         "kz": "6",
+         "en": "6"
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "single",
+     "text": {
+      "ru": "Сколько сантиметров в одном метре?",
+      "kz": "Бір метрде неше сантиметр бар?",
+      "en": "How many centimetres are there in one metre?"
+     },
+     "points": 1,
+     "data": {
+      "options": [
+       {
+        "id": "o1",
+        "text": {
+         "ru": "10",
+         "kz": "10",
+         "en": "10"
+        },
+        "correct": false
+       },
+       {
+        "id": "o2",
+        "text": {
+         "ru": "100",
+         "kz": "100",
+         "en": "100"
+        },
+        "correct": true
+       },
+       {
+        "id": "o3",
+        "text": {
+         "ru": "1000",
+         "kz": "1000",
+         "en": "1000"
+        },
+        "correct": false
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "subject": "english",
+   "grades": "6–7",
+   "time_limit": 10,
+   "shuffle_questions": false,
+   "shuffle_options": true,
+   "show_answers": true,
+   "published": true,
+   "langs": [
+    "ru",
+    "kz",
+    "en"
+   ],
+   "title": {
+    "ru": "Present Simple и Past Simple",
+    "kz": "Present Simple және Past Simple",
+    "en": "Present Simple and Past Simple"
+   },
+   "description": {
+    "ru": "Глаголы в настоящем и прошедшем времени, неправильные глаголы, антонимы.",
+    "kz": "Осы шақ пен өткен шақтағы етістіктер, бұрыс етістіктер, антонимдер.",
+    "en": "Verbs in the present and past, irregular verbs, opposites."
+   },
+   "questions": [
+    {
+     "type": "single",
+     "text": {
+      "ru": "Вставьте слово: «She ___ to school every day.»",
+      "kz": "Сөзді қойыңыз: «She ___ to school every day.»",
+      "en": "Fill in the gap: “She ___ to school every day.”"
+     },
+     "points": 1,
+     "data": {
+      "options": [
+       {
+        "id": "o1",
+        "text": {
+         "ru": "goes",
+         "kz": "goes",
+         "en": "goes"
+        },
+        "correct": true
+       },
+       {
+        "id": "o2",
+        "text": {
+         "ru": "go",
+         "kz": "go",
+         "en": "go"
+        },
+        "correct": false
+       },
+       {
+        "id": "o3",
+        "text": {
+         "ru": "going",
+         "kz": "going",
+         "en": "going"
+        },
+        "correct": false
+       },
+       {
+        "id": "o4",
+        "text": {
+         "ru": "gone",
+         "kz": "gone",
+         "en": "gone"
+        },
+        "correct": false
+       }
+      ]
+     }
+    },
+    {
+     "type": "text",
+     "text": {
+      "ru": "Напишите форму Past Simple глагола go.",
+      "kz": "go етістігінің Past Simple формасын жазыңыз.",
+      "en": "Write the Past Simple form of the verb go."
+     },
+     "points": 1,
+     "data": {
+      "answers": {
+       "ru": [
+        "went"
+       ],
+       "kz": [
+        "went"
+       ],
+       "en": [
+        "went"
+       ]
+      }
+     }
+    },
+    {
+     "type": "multiple",
+     "text": {
+      "ru": "Какие из этих глаголов неправильные?",
+      "kz": "Бұл етістіктердің қайсысы бұрыс етістік?",
+      "en": "Which of these verbs are irregular?"
+     },
+     "points": 2,
+     "data": {
+      "options": [
+       {
+        "id": "o1",
+        "text": {
+         "ru": "go",
+         "kz": "go",
+         "en": "go"
+        },
+        "correct": true
+       },
+       {
+        "id": "o2",
+        "text": {
+         "ru": "play",
+         "kz": "play",
+         "en": "play"
+        },
+        "correct": false
+       },
+       {
+        "id": "o3",
+        "text": {
+         "ru": "see",
+         "kz": "see",
+         "en": "see"
+        },
+        "correct": true
+       },
+       {
+        "id": "o4",
+        "text": {
+         "ru": "watch",
+         "kz": "watch",
+         "en": "watch"
+        },
+        "correct": false
+       },
+       {
+        "id": "o5",
+        "text": {
+         "ru": "take",
+         "kz": "take",
+         "en": "take"
+        },
+        "correct": true
+       }
+      ],
+      "partial": true,
+      "explain": {
+       "ru": "go — went, see — saw, take — took. play и watch — правильные: played, watched.",
+       "kz": "go — went, see — saw, take — took. play және watch — дұрыс етістіктер: played, watched.",
+       "en": "go — went, see — saw, take — took. play and watch are regular: played, watched."
+      }
+     }
+    },
+    {
+     "type": "truefalse",
+     "text": {
+      "ru": "Множественное число от child — childs.",
+      "kz": "child сөзінің көпше түрі — childs.",
+      "en": "The plural of child is childs."
+     },
+     "points": 1,
+     "data": {
+      "answer": false,
+      "explain": {
+       "ru": "Правильно: children.",
+       "kz": "Дұрысы: children.",
+       "en": "The correct form is children."
+      }
+     }
+    },
+    {
+     "type": "match",
+     "text": {
+      "ru": "Подберите антонимы.",
+      "kz": "Антонимдерді сәйкестендіріңіз.",
+      "en": "Match the opposites."
+     },
+     "points": 2,
+     "data": {
+      "pairs": [
+       {
+        "id": "p1",
+        "left": {
+         "ru": "big",
+         "kz": "big",
+         "en": "big"
+        },
+        "right": {
+         "ru": "small",
+         "kz": "small",
+         "en": "small"
+        }
+       },
+       {
+        "id": "p2",
+        "left": {
+         "ru": "hot",
+         "kz": "hot",
+         "en": "hot"
+        },
+        "right": {
+         "ru": "cold",
+         "kz": "cold",
+         "en": "cold"
+        }
+       },
+       {
+        "id": "p3",
+        "left": {
+         "ru": "fast",
+         "kz": "fast",
+         "en": "fast"
+        },
+        "right": {
+         "ru": "slow",
+         "kz": "slow",
+         "en": "slow"
+        }
+       },
+       {
+        "id": "p4",
+        "left": {
+         "ru": "up",
+         "kz": "up",
+         "en": "up"
+        },
+        "right": {
+         "ru": "down",
+         "kz": "down",
+         "en": "down"
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "order",
+     "text": {
+      "ru": "Составьте предложение из слов.",
+      "kz": "Сөздерден сөйлем құраңыз.",
+      "en": "Put the words in order to make a sentence."
+     },
+     "points": 1,
+     "data": {
+      "items": [
+       {
+        "id": "i1",
+        "text": {
+         "ru": "I",
+         "kz": "I",
+         "en": "I"
+        }
+       },
+       {
+        "id": "i2",
+        "text": {
+         "ru": "like",
+         "kz": "like",
+         "en": "like"
+        }
+       },
+       {
+        "id": "i3",
+        "text": {
+         "ru": "reading",
+         "kz": "reading",
+         "en": "reading"
+        }
+       },
+       {
+        "id": "i4",
+        "text": {
+         "ru": "books",
+         "kz": "books",
+         "en": "books"
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "single",
+     "text": {
+      "ru": "Вставьте слово: «They ___ football yesterday.»",
+      "kz": "Сөзді қойыңыз: «They ___ football yesterday.»",
+      "en": "Fill in the gap: “They ___ football yesterday.”"
+     },
+     "points": 1,
+     "data": {
+      "options": [
+       {
+        "id": "o1",
+        "text": {
+         "ru": "play",
+         "kz": "play",
+         "en": "play"
+        },
+        "correct": false
+       },
+       {
+        "id": "o2",
+        "text": {
+         "ru": "played",
+         "kz": "played",
+         "en": "played"
+        },
+        "correct": true
+       },
+       {
+        "id": "o3",
+        "text": {
+         "ru": "plays",
+         "kz": "plays",
+         "en": "plays"
+        },
+        "correct": false
+       },
+       {
+        "id": "o4",
+        "text": {
+         "ru": "playing",
+         "kz": "playing",
+         "en": "playing"
+        },
+        "correct": false
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "subject": "geo",
+   "grades": "8–9",
+   "time_limit": 0,
+   "shuffle_questions": true,
+   "shuffle_options": true,
+   "show_answers": true,
+   "published": true,
+   "langs": [
+    "ru",
+    "kz",
+    "en"
+   ],
+   "title": {
+    "ru": "Казахстан на карте",
+    "kz": "Қазақстан картада",
+    "en": "Kazakhstan on the map"
+   },
+   "description": {
+    "ru": "Столица, соседи, валюта и известные места Казахстана. Вопросы идут в случайном порядке.",
+    "kz": "Қазақстанның астанасы, көршілері, валютасы және белгілі жерлері. Сұрақтар кездейсоқ ретпен беріледі.",
+    "en": "The capital, neighbours, currency and famous places of Kazakhstan. Questions come in random order."
+   },
+   "questions": [
+    {
+     "type": "single",
+     "text": {
+      "ru": "Столица Казахстана —",
+      "kz": "Қазақстанның астанасы —",
+      "en": "The capital of Kazakhstan is"
+     },
+     "points": 1,
+     "data": {
+      "options": [
+       {
+        "id": "o1",
+        "text": {
+         "ru": "Астана",
+         "kz": "Астана",
+         "en": "Astana"
+        },
+        "correct": true
+       },
+       {
+        "id": "o2",
+        "text": {
+         "ru": "Алматы",
+         "kz": "Алматы",
+         "en": "Almaty"
+        },
+        "correct": false
+       },
+       {
+        "id": "o3",
+        "text": {
+         "ru": "Шымкент",
+         "kz": "Шымкент",
+         "en": "Shymkent"
+        },
+        "correct": false
+       },
+       {
+        "id": "o4",
+        "text": {
+         "ru": "Караганда",
+         "kz": "Қарағанды",
+         "en": "Karaganda"
+        },
+        "correct": false
+       }
+      ]
+     }
+    },
+    {
+     "type": "truefalse",
+     "text": {
+      "ru": "Казахстан — самая большая по площади страна в мире, не имеющая выхода к Мировому океану.",
+      "kz": "Қазақстан — Дүниежүзілік мұхитқа шыға алмайтын елдердің ішіндегі аумағы ең үлкені.",
+      "en": "Kazakhstan is the largest landlocked country in the world."
+     },
+     "points": 1,
+     "data": {
+      "answer": true
+     }
+    },
+    {
+     "type": "multiple",
+     "text": {
+      "ru": "С какими странами граничит Казахстан?",
+      "kz": "Қазақстан қай елдермен шектеседі?",
+      "en": "Which countries border Kazakhstan?"
+     },
+     "points": 2,
+     "data": {
+      "options": [
+       {
+        "id": "o1",
+        "text": {
+         "ru": "Россия",
+         "kz": "Ресей",
+         "en": "Russia"
+        },
+        "correct": true
+       },
+       {
+        "id": "o2",
+        "text": {
+         "ru": "Китай",
+         "kz": "Қытай",
+         "en": "China"
+        },
+        "correct": true
+       },
+       {
+        "id": "o3",
+        "text": {
+         "ru": "Кыргызстан",
+         "kz": "Қырғызстан",
+         "en": "Kyrgyzstan"
+        },
+        "correct": true
+       },
+       {
+        "id": "o4",
+        "text": {
+         "ru": "Узбекистан",
+         "kz": "Өзбекстан",
+         "en": "Uzbekistan"
+        },
+        "correct": true
+       },
+       {
+        "id": "o5",
+        "text": {
+         "ru": "Туркменистан",
+         "kz": "Түрікменстан",
+         "en": "Turkmenistan"
+        },
+        "correct": true
+       },
+       {
+        "id": "o6",
+        "text": {
+         "ru": "Монголия",
+         "kz": "Моңғолия",
+         "en": "Mongolia"
+        },
+        "correct": false
+       },
+       {
+        "id": "o7",
+        "text": {
+         "ru": "Таджикистан",
+         "kz": "Тәжікстан",
+         "en": "Tajikistan"
+        },
+        "correct": false
+       }
+      ],
+      "partial": true,
+      "explain": {
+       "ru": "С Монголией и Таджикистаном у Казахстана общей границы нет.",
+       "kz": "Қазақстанның Моңғолиямен және Тәжікстанмен ортақ шекарасы жоқ.",
+       "en": "Kazakhstan shares no border with Mongolia or Tajikistan."
+      }
+     }
+    },
+    {
+     "type": "text",
+     "text": {
+      "ru": "Как называется национальная валюта Казахстана?",
+      "kz": "Қазақстанның ұлттық валютасы қалай аталады?",
+      "en": "What is the national currency of Kazakhstan called?"
+     },
+     "points": 1,
+     "data": {
+      "answers": {
+       "ru": [
+        "тенге"
+       ],
+       "kz": [
+        "теңге"
+       ],
+       "en": [
+        "tenge"
+       ]
+      }
+     }
+    },
+    {
+     "type": "number",
+     "text": {
+      "ru": "В каком году Казахстан провозгласил независимость?",
+      "kz": "Қазақстан тәуелсіздігін қай жылы жариялады?",
+      "en": "In what year did Kazakhstan declare independence?"
+     },
+     "points": 1,
+     "data": {
+      "answer": 1991,
+      "tolerance": 0,
+      "explain": {
+       "ru": "16 декабря 1991 года.",
+       "kz": "1991 жылғы 16 желтоқсан.",
+       "en": "On 16 December 1991."
+      }
+     }
+    },
+    {
+     "type": "order",
+     "text": {
+      "ru": "Расположите города с запада на восток.",
+      "kz": "Қалаларды батыстан шығысқа қарай орналастырыңыз.",
+      "en": "Put the cities in order from west to east."
+     },
+     "points": 2,
+     "data": {
+      "items": [
+       {
+        "id": "i1",
+        "text": {
+         "ru": "Атырау",
+         "kz": "Атырау",
+         "en": "Atyrau"
+        }
+       },
+       {
+        "id": "i2",
+        "text": {
+         "ru": "Актобе",
+         "kz": "Ақтөбе",
+         "en": "Aktobe"
+        }
+       },
+       {
+        "id": "i3",
+        "text": {
+         "ru": "Караганда",
+         "kz": "Қарағанды",
+         "en": "Karaganda"
+        }
+       },
+       {
+        "id": "i4",
+        "text": {
+         "ru": "Усть-Каменогорск",
+         "kz": "Өскемен",
+         "en": "Oskemen (Ust-Kamenogorsk)"
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "match",
+     "text": {
+      "ru": "Сопоставьте название и что это.",
+      "kz": "Атауын және оның не екенін сәйкестендіріңіз.",
+      "en": "Match each name with what it is."
+     },
+     "points": 2,
+     "data": {
+      "pairs": [
+       {
+        "id": "p1",
+        "left": {
+         "ru": "Байконур",
+         "kz": "Байқоңыр",
+         "en": "Baikonur"
+        },
+        "right": {
+         "ru": "космодром",
+         "kz": "ғарыш айлағы",
+         "en": "spaceport"
+        }
+       },
+       {
+        "id": "p2",
+        "left": {
+         "ru": "Медеу",
+         "kz": "Медеу",
+         "en": "Medeu"
+        },
+        "right": {
+         "ru": "высокогорный каток",
+         "kz": "биік таулы мұз айдыны",
+         "en": "high-mountain skating rink"
+        }
+       },
+       {
+        "id": "p3",
+        "left": {
+         "ru": "Байтерек",
+         "kz": "Бәйтерек",
+         "en": "Baiterek"
+        },
+        "right": {
+         "ru": "монумент в Астане",
+         "kz": "Астанадағы монумент",
+         "en": "monument in Astana"
+        }
+       },
+       {
+        "id": "p4",
+        "left": {
+         "ru": "Чарын",
+         "kz": "Шарын",
+         "en": "Charyn"
+        },
+        "right": {
+         "ru": "каньон",
+         "kz": "шатқал",
+         "en": "canyon"
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

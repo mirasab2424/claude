@@ -1,0 +1,16 @@
+{
+    "name": "kostobe/tests",
+    "description": "Сайт тестов kostobe.site.je: прохождение тестов на трёх языках, админка учителя, статистика.",
+    "type": "project",
+    "require": {
+        "php": ">=8.2",
+        "twig/twig": "^3.14"
+    },
+    "autoload": {
+        "psr-4": { "Kost\\": "lib/" }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

@@ -1,0 +1,31 @@
+{% extends "layout.twig" %}
+{% block title %}{{ a.full_name }}{% endblock %}
+{% block content %}
+<p class="small"><a href="/admin/stats?test={{ test.id }}">← Результаты теста</a></p>
+<div class="head"><h1>{{ a.full_name }}, {{ a.class_name }}</h1>
+  <form method="post" onsubmit="return confirm('Удалить этот результат?')"><input type="hidden" name="_csrf" value="{{ csrf }}"><button class="btn btn--danger btn--sm" name="action" value="delete">Удалить результат</button></form></div>
+<div class="cards">
+  <div><b><span class="mk mk--{{ a.mark }}">{{ a.mark ?? '—' }}</span></b>оценка</div>
+  <div><b>{{ a.percent is null ? '—' : a.percent|num ~ '%' }}</b>{{ a.score|num }} из {{ a.max_score|num }} баллов</div>
+  <div><b>{{ test.title|l }}</b>{{ a.subject }} · язык {{ a.lang|upper }}</div>
+  <div><b>{{ a.started_at|date('d.m H:i') }}{% if a.finished_at %} – {{ a.finished_at|date('H:i') }}{% endif %}</b>{% if a.finished_at %}{% set d = date(a.finished_at).timestamp - date(a.started_at).timestamp %}{{ d // 60 }} мин {{ d % 60 }} с{% else %}не завершён{% endif %}</div>
+</div>
+{% if late %}<p class="alert alert--warn">Ответы отправлены позже отведённого времени.</p>{% endif %}
+{% for r in review %}
+<article class="rv {{ r.correct ? 'rv--ok' : (r.partial ? 'rv--part' : 'rv--bad') }}">
+  <div class="rv__head"><span>{{ r.n }}. {{ types[r.type] }}</span><b>{{ r.score|num }} / {{ r.max|num }}</b></div>
+  <p class="rv__text">{{ r.text }}</p>
+  {% if r.type == 'single' or r.type == 'multiple' %}
+    <ul class="rv__opts">{% for o in r.options %}<li class="{{ o.chosen ? 'chosen' }} {{ o.right ? 'right' }}">{{ o.text }}{% if o.chosen %} <i>← выбрал</i>{% endif %}</li>{% endfor %}</ul>
+  {% elseif r.type == 'truefalse' %}
+    <p>Ответ: <b>{{ r.given is null ? 'нет ответа' : (r.given ? 'Верно' : 'Неверно') }}</b> · правильно: {{ r.answer ? 'Верно' : 'Неверно' }}</p>
+  {% elseif r.type == 'text' or r.type == 'number' %}
+    <p>Ответ: <b>{{ r.given ?: 'нет ответа' }}</b> · правильно: {{ r.answer }}</p>
+  {% elseif r.type == 'order' %}
+    <p>Ответ: {{ r.given_list ? r.given_list|join(' → ') : 'нет ответа' }}<br>Правильно: {{ r.answer_list|join(' → ') }}</p>
+  {% elseif r.type == 'match' %}
+    <ul>{% for m in r.pairs %}<li>{{ m.left }} → <b class="{{ m.ok ? 'ok' : 'bad' }}">{{ m.given ?? '—' }}</b>{% if not m.ok %} (правильно: {{ m.right }}){% endif %}</li>{% endfor %}</ul>
+  {% endif %}
+</article>
+{% else %}<p class="muted">Ученик ещё не завершил тест.</p>{% endfor %}
+{% endblock %}

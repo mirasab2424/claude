@@ -1,0 +1,67 @@
+{% extends "base.twig" %}
+{% block title %}{{ test.title|l(attempt.lang) }}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block body_class %}is-taking{% endblock %}
+{% block content %}
+<form class="take" id="take" method="post" action="{{ url('a/' ~ token) }}" data-token="{{ token }}"
+      data-confirm="{{ __('take.confirm', '%n') }}" data-time-up="{{ __('take.time_up') }}" data-up="{{ __('take.up') }}" data-down="{{ __('take.down') }}">
+  <div class="takebar">
+    <div class="wrap takebar__inner">
+      <div class="takebar__who"><b>{{ test.title|l(attempt.lang) }}</b><span>{{ attempt.full_name }} · {{ attempt.class_name }}</span></div>
+      <div class="takebar__progress" aria-live="polite"><span id="answered" data-tpl="{{ __('take.answered', '%a', questions|length) }}">{{ __('take.answered', 0, questions|length) }}</span><i><s id="bar"></s></i></div>
+      {% if seconds_left is not null %}<div class="timer" id="timer" data-left="{{ seconds_left }}" role="timer" aria-label="{{ __('take.timer') }}">--:--</div>{% endif %}
+    </div>
+  </div>
+
+  <div class="wrap narrow questions">
+    {% for q in questions %}
+    <fieldset class="q q--{{ q.type }}" id="q{{ q.n }}" data-q="{{ q.id }}" data-type="{{ q.type }}">
+      <legend class="q__head"><span class="q__n">{{ __('take.question', q.n, questions|length) }}</span><span class="q__pts">{{ __('take.points', q.points|num) }}</span></legend>
+      <p class="q__text">{{ q.text|nl2br }}</p>
+      <p class="q__hint">{{ __('take.hint.' ~ q.type) }}</p>
+
+      {% if q.type == 'single' or q.type == 'multiple' %}
+      <div class="opts">
+        {% for o in q.options %}
+        <label class="opt"><input type="{{ q.type == 'single' ? 'radio' : 'checkbox' }}" name="q[{{ q.id }}]{{ q.type == 'multiple' ? '[]' }}" value="{{ o.id }}"><span class="opt__key">{{ "ABCDEFGHIJKLMNOP"[loop.index0:1] }}</span><span class="opt__text">{{ o.text }}</span></label>
+        {% endfor %}
+      </div>
+      {% elseif q.type == 'truefalse' %}
+      <div class="opts opts--row">
+        <label class="opt"><input type="radio" name="q[{{ q.id }}]" value="1"><span class="opt__text">{{ __('take.true') }}</span></label>
+        <label class="opt"><input type="radio" name="q[{{ q.id }}]" value="0"><span class="opt__text">{{ __('take.false') }}</span></label>
+      </div>
+      {% elseif q.type == 'text' %}
+      <input class="answer" name="q[{{ q.id }}]" maxlength="300" autocomplete="off" placeholder="{{ __('take.text_ph') }}" aria-label="{{ __('take.text_ph') }}">
+      {% elseif q.type == 'number' %}
+      <div class="numrow"><input class="answer answer--num" name="q[{{ q.id }}]" inputmode="decimal" maxlength="40" autocomplete="off" placeholder="{{ __('take.number_ph') }}" aria-label="{{ __('take.number_ph') }}">{% if q.unit %}<span>{{ q.unit }}</span>{% endif %}</div>
+      {% elseif q.type == 'order' %}
+      <ol class="order">
+        {% for it in q.items %}
+        <li class="order__item"><input type="hidden" name="q[{{ q.id }}][]" value="{{ it.id }}"><span class="order__n"></span><span class="order__text">{{ it.text }}</span>
+          <span class="order__btns"><button type="button" data-move="-1" aria-label="{{ __('take.up') }}">↑</button><button type="button" data-move="1" aria-label="{{ __('take.down') }}">↓</button></span></li>
+        {% endfor %}
+      </ol>
+      {% elseif q.type == 'match' %}
+      <div class="match">
+        {% for l in q.left %}
+        <div class="match__row">
+          <span class="match__left">{{ l.text }}</span>
+          <select name="q[{{ q.id }}][{{ l.id }}]" aria-label="{{ l.text }}">
+            <option value="">{{ __('take.choose') }}</option>
+            {% for r in q.right %}<option value="{{ r.id }}">{{ r.text }}</option>{% endfor %}
+          </select>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </fieldset>
+    {% endfor %}
+
+    <div class="finish">
+      <button class="btn btn--primary btn--lg btn--block" type="submit">{{ __('take.finish') }}</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
+{% block scripts %}<script src="{{ asset('js/take.js') }}" defer></script>{% endblock %}

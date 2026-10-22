@@ -1,0 +1,83 @@
+{% extends "layout.twig" %}
+{% block title %}Статистика{% endblock %}
+{% block content %}
+<div class="head"><h1>Статистика</h1><a class="btn btn--ghost" href="/admin/stats.csv{{ query ? '?' ~ query }}">Скачать CSV (Excel)</a></div>
+<form class="filters box" method="get" action="/admin/stats">
+  <label class="f"><span>Тест</span><select name="test" onchange="this.form.submit()"><option value="">Все тесты</option>
+    {% for t in tests %}<option value="{{ t.id }}" {% if t.id == test_id %}selected{% endif %}>{{ t.title|l }}{{ t.subject_name|l ? ' · ' ~ t.subject_name|l }}</option>{% endfor %}</select></label>
+  <label class="f"><span>Класс</span><select name="class" onchange="this.form.submit()"><option value="">Все</option>
+    {% for c in all_classes %}<option {% if c == class %}selected{% endif %}>{{ c }}</option>{% endfor %}</select></label>
+  <label class="f"><span>Ученик</span><input name="q" value="{{ q }}" placeholder="Часть фамилии или имени"></label>
+  <button class="btn">Показать</button>
+</form>
+
+<div class="cards">
+  <div><b>{{ total }}</b>результатов</div>
+  <div><b>{{ avg is null ? '—' : avg|num ~ '%' }}</b>средний процент</div>
+  <div><b>{{ avg_mark is null ? '—' : avg_mark|num }}</b>средняя оценка</div>
+  <div><b>{{ best is null ? '—' : best|num ~ '%' }}</b>лучший результат</div>
+</div>
+
+{% if total %}
+<div class="grid2">
+  <section class="box">
+    <h2>Оценки</h2>
+    {% set mx = max(marks) ?: 1 %}
+    <div class="bars">
+      {% for m, n in marks %}
+      <div class="bars__row"><span class="mk mk--{{ m }}">{{ m }}</span><i><s class="b{{ m }}" style="width: {{ n / mx * 100 }}%"></s></i><b>{{ n }}</b><span class="muted small">{{ (n / total * 100)|round }}%</span></div>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="box">
+    <h2>По классам</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Класс</th><th class="r">Результатов</th><th class="r">Средний %</th></tr></thead>
+      <tbody>{% for c, s in class_stats %}<tr><td><a href="/admin/stats?{{ {test: test_id, class: c}|url_encode }}">{{ c }}</a></td><td class="r">{{ s.n }}</td><td class="r">{{ s.avg|num }}</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </section>
+</div>
+{% endif %}
+
+{% if per_question %}
+<section class="box">
+  <h2>По вопросам</h2>
+  <p class="muted small">Доля набранных баллов по каждому вопросу. Красные — вопросы, с которыми класс справился хуже всего: их стоит разобрать на уроке.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>№</th><th>Вопрос</th><th>Вид</th><th class="r">Ответили верно</th><th style="width: 30%">Баллы</th></tr></thead>
+    <tbody>
+    {% for p in per_question %}
+    <tr>
+      <td>{{ p.n }}</td><td>{{ p.text|length > 90 ? p.text|slice(0, 90) ~ '…' : p.text }}</td><td class="small muted">{{ types[p.type] }}</td>
+      <td class="r">{{ p.right }} / {{ p.count }}</td>
+      <td>{% if p.percent is not null %}<div class="meter"><i><s class="{{ p.percent < 50 ? 'low' : (p.percent < 75 ? 'mid' : 'hi') }}" style="width: {{ p.percent }}%"></s></i><b>{{ p.percent|round }}%</b></div>{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endif %}
+
+<section class="box">
+  <h2>Результаты{% if total > rows|length %} <span class="muted small">(последние {{ rows|length }} из {{ total }}, все — в CSV)</span>{% endif %}</h2>
+  {% if rows %}
+  <div class="tbl"><table>
+    <thead><tr><th>Завершён</th><th>Ученик</th><th>Класс</th><th>Тест</th><th>Яз.</th><th class="r">Баллы</th><th class="r">%</th><th class="r">Оценка</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+    <tr>
+      <td class="nowrap">{{ r.finished_at|date('d.m.Y H:i') }}</td>
+      <td><a href="/admin/attempts/{{ r.id }}">{{ r.full_name }}</a></td>
+      <td>{{ r.class_name }}</td>
+      <td>{{ r.title|l }}</td>
+      <td>{{ r.lang|upper }}</td>
+      <td class="r nowrap">{{ r.score|num }} / {{ r.max_score|num }}</td>
+      <td class="r">{{ r.percent|num }}</td>
+      <td class="r"><span class="mk mk--{{ r.mark }}">{{ r.mark }}</span></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}<p class="muted">По этому фильтру результатов нет.</p>{% endif %}
+</section>
+{% endblock %}

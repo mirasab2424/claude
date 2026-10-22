@@ -1,0 +1,48 @@
+{% extends "base.twig" %}
+{% block title %}{{ test.title|l }}{% endblock %}
+{% block content %}
+<section class="wrap narrow page">
+  <p class="crumbs"><a href="{{ url() }}">{{ __('all_tests') }}</a>{% if test.subject_name %} / {{ test.subject_name|l }}{% endif %}</p>
+  {% if not test.published %}<p class="notice">{{ __('test.draft') }}</p>{% endif %}
+  <h1>{{ test.title|l }}</h1>
+  {% if test.description|l %}<p class="lead">{{ test.description|l|nl2br }}</p>{% endif %}
+
+  <ul class="facts">
+    <li><b>{{ q_count }}</b><span>{{ __('start.questions') }}</span></li>
+    <li><b>{{ max|num }}</b><span>{{ __('start.points') }}</span></li>
+    <li><b>{{ test.time_limit ? __('start.minutes', test.time_limit) : '∞' }}</b><span>{{ __('start.time') }}{% if not test.time_limit %}: {{ __('start.unlimited') }}{% endif %}</span></li>
+  </ul>
+  {% if types %}<p class="types"><span>{{ __('start.types') }}:</span> {% for t in types %}<i>{{ __('type.' ~ t) }}</i>{% endfor %}</p>{% endif %}
+
+  {% if not q_count %}
+    <p class="notice">{{ __('start.empty') }}</p>
+  {% elseif not available %}
+    <div class="notice">
+      <p>{{ __('start.not_available') }}</p>
+      <p class="langs-big">{% for l in test.langs %}<a class="btn btn--ghost" href="{{ url('t/' ~ test.id, l) }}">{{ lang_names[l] }}</a>{% endfor %}</p>
+    </div>
+  {% else %}
+  <form class="form box" method="post" action="{{ url('t/' ~ test.id) }}">
+    <h2>{{ __('start.title') }}</h2>
+    {% if errors.rate %}<p class="error">{{ __('start.rate_err') }}</p>{% endif %}
+    <label for="full_name">{{ __('start.full_name') }}</label>
+    <input id="full_name" name="full_name" value="{{ old.full_name }}" required minlength="3" maxlength="120" autocomplete="name" placeholder="{{ __('start.full_name_ph') }}" {% if errors.full_name %}aria-invalid="true" aria-describedby="fn-err"{% endif %}>
+    {% if errors.full_name %}<p class="field-err" id="fn-err">{{ __('start.full_name_err') }}</p>{% endif %}
+    <div class="row">
+      <div>
+        <label for="class_name">{{ __('start.class') }}</label>
+        <input id="class_name" name="class_name" value="{{ old.class_name }}" required maxlength="20" placeholder="{{ __('start.class_ph') }}" {% if errors.class_name %}aria-invalid="true" aria-describedby="cl-err"{% endif %}>
+        {% if errors.class_name %}<p class="field-err" id="cl-err">{{ __('start.class_err') }}</p>{% endif %}
+      </div>
+      <div>
+        <label for="subject">{{ __('start.subject') }}</label>
+        <input id="subject" value="{{ test.subject_name|l }}" readonly>
+      </div>
+    </div>
+    <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <p class="muted small">{{ __('start.note') }}</p>
+    <button class="btn btn--primary btn--lg btn--block" type="submit">{{ __('start.button') }}</button>
+  </form>
+  {% endif %}
+</section>
+{% endblock %}

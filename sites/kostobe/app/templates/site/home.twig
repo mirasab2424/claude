@@ -1,0 +1,38 @@
+{% extends "base.twig" %}
+{% block content %}
+<section class="hero">
+  <div class="wrap">
+    <h1>{{ __('home.h1') }}</h1>
+    <p class="lead">{{ __('home.lead') }}</p>
+    <ol class="steps">
+      {% for i in 1..4 %}<li><span>{{ i }}</span>{{ __('home.step' ~ i) }}</li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="wrap tests">
+  {% for g in groups %}
+  <h2 class="subject">{{ g.name|l ?: __('home.no_subject') }}</h2>
+  <div class="cards">
+    {% for t in g.tests %}
+    {% set ok = lang in t.langs %}
+    <a class="card{% if not ok %} card--muted{% endif %}" href="{{ url('t/' ~ t.id) }}">
+      <h3>{{ t.title|l }}</h3>
+      {% if t.description|l %}<p>{{ t.description|l|length > 140 ? (t.description|l)|slice(0, 140) ~ '…' : t.description|l }}</p>{% endif %}
+      <ul class="meta">
+        <li>{{ __('test.questions', t.q_count) }}</li>
+        <li>{{ t.time_limit ? __('test.minutes', t.time_limit) : __('test.no_limit') }}</li>
+        {% if t.grades %}<li>{{ __('test.grades', t.grades) }}</li>{% endif %}
+      </ul>
+      <p class="card__foot">
+        <span class="chips">{% for l in t.langs %}<i{% if l == lang %} class="on"{% endif %}>{{ lang_short[l] }}</i>{% endfor %}</span>
+        <span class="card__go">{{ __('test.start') }} →</span>
+      </p>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty">{{ __('home.empty') }}</p>
+  {% endfor %}
+</section>
+{% endblock %}

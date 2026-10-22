@@ -1,0 +1,68 @@
+{% extends "base.twig" %}
+{% block title %}{{ __('result.title') }}: {{ test.title|l(attempt.lang) }}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+{% set p = attempt.percent %}
+<section class="wrap narrow page result">
+  <p class="crumbs"><a href="{{ url() }}">{{ __('all_tests') }}</a> / {{ test.title|l(attempt.lang) }}</p>
+  <div class="box result__card mark--{{ attempt.mark }}">
+    <div class="ring" style="--p: {{ p }}"><b>{{ p|num }}%</b></div>
+    <div class="result__main">
+      <p class="eyebrow">{{ __('result.h1') }}</p>
+      <h1>{{ attempt.full_name }}</h1>
+      <p class="muted">{{ attempt.class_name }} · {{ attempt.subject }} · {{ attempt.finished_at|date('d.m.Y H:i') }}</p>
+      <p class="result__msg">{{ __(p >= marks[5] ? 'result.great' : (p >= marks[4] ? 'result.good' : (p >= marks[3] ? 'result.ok' : 'result.bad'))) }}</p>
+    </div>
+    <ul class="facts facts--result">
+      <li><b class="big-mark">{{ attempt.mark }}</b><span>{{ __('result.mark') }}</span></li>
+      <li><b>{{ attempt.score|num }} / {{ attempt.max_score|num }}</b><span>{{ __('result.score') }}</span></li>
+      <li><b>{{ right }} / {{ review|length }}</b><span>{{ __('result.right') }}</span></li>
+      <li><b>{{ __('result.min_sec', duration // 60, duration % 60) }}</b><span>{{ __('result.time') }}</span></li>
+    </ul>
+    <p class="muted small">{{ __('result.marks_scale', marks[5], marks[4], marks[3]) }}</p>
+    {% if attempt.answers.late %}<p class="notice small">{{ __('result.late') }}</p>{% endif %}
+    <p class="actions">
+      <a class="btn btn--primary" href="{{ url('t/' ~ test.id) }}">{{ __('result.again') }}</a>
+      <a class="btn btn--ghost" href="{{ url() }}">{{ __('result.home') }}</a>
+      <button class="btn btn--ghost" type="button" onclick="print()">{{ __('result.print') }}</button>
+    </p>
+  </div>
+
+  <h2>{{ __('result.review') }}</h2>
+  {% if not show_answers %}<p class="notice">{{ __('result.hidden') }}</p>{% endif %}
+  {% for r in review %}
+  <article class="rv {{ r.correct ? 'rv--ok' : (r.partial ? 'rv--part' : 'rv--bad') }}">
+    <header class="rv__head">
+      <span>{{ r.n }}. {{ __('type.' ~ r.type) }}</span>
+      <span class="rv__badge">{{ r.correct ? __('result.correct') : (r.partial ? __('result.partial') : __('result.wrong')) }} · {{ r.score|num }}/{{ r.max|num }}</span>
+    </header>
+    <p class="rv__text">{{ r.text|nl2br }}</p>
+    {% if r.type == 'single' or r.type == 'multiple' %}
+      <ul class="rv__opts">
+        {% for o in r.options %}
+        <li class="{{ o.chosen ? 'chosen' }} {{ show_answers and o.right ? 'right' }}">{{ o.text }}</li>
+        {% endfor %}
+      </ul>
+    {% elseif r.type == 'truefalse' %}
+      <p><span class="lbl">{{ __('result.your') }}:</span> {{ r.given is null ? __('result.no_answer') : (r.given ? __('take.true') : __('take.false')) }}</p>
+      {% if show_answers %}<p><span class="lbl">{{ __('result.correct_answer') }}:</span> {{ r.answer ? __('take.true') : __('take.false') }}</p>{% endif %}
+    {% elseif r.type == 'text' or r.type == 'number' %}
+      <p><span class="lbl">{{ __('result.your') }}:</span> {{ r.given ?: __('result.no_answer') }}</p>
+      {% if show_answers %}<p><span class="lbl">{{ __('result.correct_answer') }}:</span> {{ r.answer }}</p>{% endif %}
+    {% elseif r.type == 'order' %}
+      <div class="rv__cols">
+        <div><span class="lbl">{{ __('result.your') }}</span>{% if r.given_list %}<ol>{% for x in r.given_list %}<li>{{ x }}</li>{% endfor %}</ol>{% else %}<p>{{ __('result.no_answer') }}</p>{% endif %}</div>
+        {% if show_answers %}<div><span class="lbl">{{ __('result.correct_answer') }}</span><ol>{% for x in r.answer_list %}<li>{{ x }}</li>{% endfor %}</ol></div>{% endif %}
+      </div>
+    {% elseif r.type == 'match' %}
+      <table class="rv__match">
+        {% for m in r.pairs %}
+        <tr class="{{ m.ok ? 'ok' : 'bad' }}"><td>{{ m.left }}</td><td>{{ m.given ?? '—' }}</td>{% if show_answers and not m.ok %}<td class="right">{{ m.right }}</td>{% endif %}</tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+    {% if show_answers and r.explain %}<p class="rv__explain">{{ r.explain|nl2br }}</p>{% endif %}
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

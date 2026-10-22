@@ -1,0 +1,14 @@
+{% extends "layout.twig" %}
+{% block title %}Настройки{% endblock %}
+{% block content %}
+<h1>Настройки</h1>
+<form class="box" method="post" style="max-width: 760px">
+  <input type="hidden" name="_csrf" value="{{ csrf }}">
+  <h2>Название сайта</h2>
+  <div class="grid3">{% for l in langs %}<label class="f"><span>{{ l|upper }}</span><input name="site_name[{{ l }}]" value="{{ names[l] }}" maxlength="80"></label>{% endfor %}</div>
+  <h2>Шкала оценок</h2>
+  <p class="muted small">Минимальный процент для оценки. Ниже порога «3» — оценка «2».</p>
+  <div class="grid3">{% for m in [5, 4, 3] %}<label class="f"><span>«{{ m }}» от, %</span><input name="marks[{{ m }}]" type="number" min="0" max="100" step="0.1" value="{{ marks[m] }}"></label>{% endfor %}</div>
+  <button class="btn">Сохранить</button>
+</form>
+{% endblock %}

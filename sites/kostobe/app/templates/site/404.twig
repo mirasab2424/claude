@@ -1,0 +1,10 @@
+{% extends "base.twig" %}
+{% block title %}{{ __('404.title') }}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<section class="wrap narrow page center">
+  <h1>{{ __('404.title') }}</h1>
+  <p class="lead">{{ __('404.text') }}</p>
+  <p><a class="btn btn--primary" href="{{ url() }}">{{ __('all_tests') }}</a></p>
+</section>
+{% endblock %}

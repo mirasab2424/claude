@@ -1,0 +1,35 @@
+{% extends "layout.twig" %}
+{% block title %}Обзор{% endblock %}
+{% block content %}
+<div class="head"><h1>Здравствуйте, {{ me.name }}</h1><a class="btn" href="/admin/tests/new">+ Новый тест</a></div>
+<div class="cards">
+  <div><b>{{ tests|length }}</b>тестов{% if not me.is_admin %} у вас{% endif %}</div>
+  <div><b>{{ published }}</b>опубликовано</div>
+  <div><b>{{ stats.n ?? 0 }}</b>прохождений</div>
+  <div><b>{{ stats.week ?? 0 }}</b>за 7 дней</div>
+  <div><b>{{ stats.avg is null ? '—' : stats.avg|num ~ '%' }}</b>средний результат</div>
+</div>
+<section class="box">
+  <div class="head"><h2>Последние результаты</h2><a href="/admin/stats">Вся статистика →</a></div>
+  {% if recent %}
+  <div class="tbl"><table>
+    <thead><tr><th>Когда</th><th>Ученик</th><th>Класс</th><th>Тест</th><th class="r">%</th><th class="r">Оценка</th></tr></thead>
+    <tbody>
+    {% for r in recent %}
+    <tr><td>{{ r.finished_at|date('d.m H:i') }}</td><td><a href="/admin/attempts/{{ r.id }}">{{ r.full_name }}</a></td><td>{{ r.class_name }}</td><td>{{ r.title|l }}</td>
+      <td class="r">{{ r.percent|num }}</td><td class="r"><span class="mk mk--{{ r.mark }}">{{ r.mark }}</span></td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}<p class="muted">Пока никто не проходил тесты. Откройте любой тест на сайте и пройдите его сами — результат появится здесь.</p>{% endif %}
+</section>
+<section class="box">
+  <h2>Как это устроено</h2>
+  <ol class="howto">
+    <li><b>Тест</b> — название, предмет, классы, время и языки. Вопросы добавляются в редакторе: 7 видов заданий.</li>
+    <li><b>Переводы</b> — переключатель RU / KZ / EN над вопросами. Варианты ответа общие для всех языков, переводится только их текст, поэтому правильный ответ один и тот же.</li>
+    <li><b>Публикация</b> — опубликованный тест виден ученикам на главной. Черновик можно открыть по ссылке, только когда вы вошли в кабинет.</li>
+    <li><b>Результаты</b> — ученик видит оценку и разбор сразу. Вы видите всё в «Статистике»: по классам, по вопросам, с выгрузкой в Excel.</li>
+  </ol>
+</section>
+{% endblock %}

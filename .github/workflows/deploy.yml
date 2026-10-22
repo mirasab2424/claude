@@ -12,6 +12,7 @@ on:
     paths-ignore:
       - 'sites/**'
       - '.github/workflows/deploy-smartway.yml'
+      - '.github/workflows/deploy-kostobe.yml'
   workflow_dispatch:
     inputs:
       with_vendor:

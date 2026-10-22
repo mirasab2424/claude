@@ -1,0 +1,30 @@
+{% extends "layout.twig" %}
+{% block title %}Учителя{% endblock %}
+{% block content %}
+<h1>Учителя</h1>
+<p class="muted">Учитель видит и редактирует только свои тесты и их результаты. Администратор видит всё и управляет учителями.</p>
+<div class="tbl box box--flush"><table>
+  <thead><tr><th>Имя</th><th>Логин</th><th>Роль</th><th class="r">Тестов</th><th>Новый пароль</th><th></th></tr></thead>
+  <tbody>
+  {% for t in teachers %}
+  <tr>
+    <td>{{ t.name }}</td><td><code>{{ t.login }}</code></td><td>{{ t.is_admin ? 'администратор' : 'учитель' }}</td><td class="r">{{ t.tests }}</td>
+    <td><form class="inline" method="post"><input type="hidden" name="_csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ t.id }}">
+      <input name="password" type="password" minlength="8" placeholder="от 8 символов" autocomplete="new-password" required><button class="btn btn--sm" name="action" value="password">Сменить</button></form></td>
+    <td>{% if t.id != me.id %}<form method="post" onsubmit="return confirm('Удалить учётную запись {{ t.login }}?')"><input type="hidden" name="_csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ t.id }}"><button class="btn btn--sm btn--ghost" name="action" value="delete">Удалить</button></form>{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+<form class="box" method="post" style="max-width: 640px">
+  <h2>Добавить учителя</h2>
+  <input type="hidden" name="_csrf" value="{{ csrf }}">
+  <div class="grid2">
+    <label class="f"><span>Имя</span><input name="name" required maxlength="80" placeholder="Например, Айгуль Серикова"></label>
+    <label class="f"><span>Логин (латиница)</span><input name="login" required pattern="[a-zA-Z0-9._\-]{3,32}" autocapitalize="none" placeholder="aigul"></label>
+    <label class="f"><span>Пароль</span><input name="password" type="password" required minlength="8" autocomplete="new-password"></label>
+    <label class="f f--check"><input type="checkbox" name="is_admin" value="1"> Администратор</label>
+  </div>
+  <button class="btn" name="action" value="add">Добавить</button>
+</form>
+{% endblock %}

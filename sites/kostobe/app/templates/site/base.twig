@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="{{ html_lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}{{ __('home.title') }}{% endblock %} — {{ site_name }}</title>
+  <meta name="description" content="{{ __('home.lead') }}">
+  {% block robots %}{% endblock %}
+  <meta name="theme-color" content="#2d3a8c">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/nunito-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <a class="skip" href="#main">{{ __('skip') }}</a>
+  <header class="header">
+    <div class="wrap header__inner">
+      <a class="brand" href="{{ url() }}">
+        <span class="brand__mark" aria-hidden="true">✓</span>
+        <span class="brand__text"><b>{{ site_name }}</b><small>{{ __('tagline') }}</small></span>
+      </a>
+      <nav class="langs" aria-label="{{ __('lang_switch') }}">
+        {% for l, href in alternates %}
+        <a href="{{ href }}" lang="{{ l == 'kz' ? 'kk' : l }}" hreflang="{{ l == 'kz' ? 'kk' : l }}" title="{{ lang_names[l] }}" {% if l == lang %}aria-current="true"{% endif %}>{{ lang_short[l] }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span>© {{ "now"|date("Y") }} {{ site_name }}</span>
+      <a href="/admin">{{ __('teacher') }}</a>
+    </div>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

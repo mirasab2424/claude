@@ -1,0 +1,67 @@
+name: Deploy Kostobe tests
+
+# Сайт тестов → kostobe.site.je (тот же FTP-аккаунт InfinityFree).
+# PHP + Twig + SQLite: sites/kostobe/public → htdocs, sites/kostobe/app → htdocs/app (закрыта .htaccess).
+# База с тестами и результатами (app/storage) живёт на сервере и деплоем не трогается.
+
+on:
+  push:
+    branches:
+      - main
+      - claude/sharp-babbage-t64qnn
+    paths:
+      - 'sites/kostobe/**'
+      - '.github/workflows/deploy-kostobe.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-kostobe
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      HAS_SECRETS: ${{ secrets.FTP_PASSWORD != '' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+
+      - name: Build
+        working-directory: sites/kostobe
+        run: |
+          composer install --working-dir=app --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress
+          # Twig без документации и тестов: меньше файлов на хостинге
+          rm -rf app/vendor/twig/twig/{doc,tests,extra,bin} app/vendor/*/*/{tests,Tests,doc,docs}
+          for f in app/lib/*.php app/lang/*.php app/config.php public/index.php; do php -l "$f" > /dev/null; done
+          mkdir -p dist
+          cp -r public/. dist/
+          cp -r app dist/app && rm -rf dist/app/storage
+          find dist -type f | wc -l
+
+      - name: Upload by FTP
+        if: env.HAS_SECRETS == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /kostobe.site.je/htdocs/
+          local-dir: sites/kostobe/dist/
+          protocol: ftp
+          timeout: 600000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            app/storage/**

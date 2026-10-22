@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+{% block title %}Вход{% endblock %}
+{% block body %}
+<main class="login">
+  <form class="box" method="post" action="/admin/login">
+    <p class="login__mark">✓</p>
+    <h1>Кабинет учителя</h1>
+    <p class="muted">{{ site_name }}</p>
+    {% if error %}<p class="alert alert--warn">{{ error }}</p>{% endif %}
+    <input type="hidden" name="_csrf" value="{{ csrf }}">
+    <label class="f"><span>Логин</span><input name="login" value="{{ login }}" autocomplete="username" required autofocus autocapitalize="none"></label>
+    <label class="f"><span>Пароль</span><input type="password" name="password" autocomplete="current-password" required></label>
+    <button class="btn btn--block" type="submit">Войти</button>
+    <p class="small muted"><a href="/">← К тестам</a></p>
+  </form>
+</main>
+{% endblock %}

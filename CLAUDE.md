@@ -36,6 +36,12 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 Правки админки, заявки и фото живут на сервере (`app/storage`, `public/uploads`) и в репозиторий не попадают.
 Деплой `.github/workflows/deploy-smartway.yml` (composer → dist → FTP). Трекерный деплой игнорирует `sites/**`.
 
+## Третий проект: тесты Kostobe (`sites/kostobe/`)
+Сайт онлайн-тестов → kostobe.site.je (тот же FTP-аккаунт). PHP + Twig + SQLite, три языка (`/`, `/kz/`, `/en/`),
+кабинет учителя `/admin` (тесты, 7 видов заданий, статистика, предметы, учителя). Ответы проверяются только на сервере
+по снимку вопросов в попытке. Примеры тестов — `app/content/samples.json` (загружаются в пустую базу).
+База `app/storage/tests.sqlite` живёт на сервере. Деплой `.github/workflows/deploy-kostobe.yml`.
+
 ## Команды
 - `php artisan migrate:fresh --seed`: база с демо-данными, админ `admin@example.com` / `password`.
 - `php artisan test`: тесты в `tests/Feature`.

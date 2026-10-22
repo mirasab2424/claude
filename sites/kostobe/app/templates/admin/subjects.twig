@@ -1,0 +1,23 @@
+{% extends "layout.twig" %}
+{% block title %}Предметы{% endblock %}
+{% block content %}
+<h1>Предметы</h1>
+<p class="muted">По предметам тесты группируются на главной. Название предмета ученик видит на своём языке и в результатах.</p>
+{% for s in subjects %}
+<form class="box row-form" method="post" action="/admin/subjects">
+  <input type="hidden" name="_csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ s.id }}">
+  {% for l in langs %}<label class="f"><span>{{ l|upper }}</span><input name="name[{{ l }}]" value="{{ s.name[l] ?? '' }}" maxlength="80"></label>{% endfor %}
+  <label class="f f--narrow"><span>Порядок</span><input name="position" type="number" value="{{ s.position }}"></label>
+  <div class="row-form__btns">
+    <button class="btn btn--sm" name="action" value="save">Сохранить</button>
+    <button class="btn btn--sm btn--ghost" name="action" value="delete" onclick="return confirm('Удалить предмет? Тесты ({{ counts[s.id] ?? 0 }}) останутся без предмета.')">Удалить</button>
+    <span class="muted small">тестов: {{ counts[s.id] ?? 0 }}</span>
+  </div>
+</form>
+{% endfor %}
+<form class="box row-form" method="post" action="/admin/subjects">
+  <input type="hidden" name="_csrf" value="{{ csrf }}">
+  {% for l in langs %}<label class="f"><span>Новый предмет · {{ l|upper }}</span><input name="name[{{ l }}]" maxlength="80"></label>{% endfor %}
+  <div class="row-form__btns"><button class="btn btn--sm" name="action" value="add">+ Добавить</button></div>
+</form>
+{% endblock %}

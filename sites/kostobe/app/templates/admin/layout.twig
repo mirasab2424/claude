@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}Кабинет учителя{% endblock %} — {{ site_name }}</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+</head>
+<body>
+{% block body %}
+  <header class="top">
+    <button class="menu-btn" type="button" aria-label="Меню" onclick="document.querySelector('.side').classList.toggle('open')">☰</button>
+    <a class="top__brand" href="/admin"><span class="mark">✓</span> {{ site_name }} · кабинет учителя</a>
+    <span class="sp">
+      <span class="who">{{ me.name }}</span>
+      <a href="/" target="_blank" rel="noopener">Сайт ↗</a>
+      <form method="post" action="/admin/logout"><input type="hidden" name="_csrf" value="{{ csrf }}"><button>Выйти</button></form>
+    </span>
+  </header>
+  <div class="layout">
+    <nav class="side">
+      {% set nav = [['/admin', 'Обзор'], ['/admin/tests', 'Тесты'], ['/admin/tests/new', '+ Новый тест'], ['/admin/stats', 'Статистика'], ['/admin/subjects', 'Предметы']] %}
+      {% if me.is_admin %}{% set nav = nav|merge([['/admin/teachers', 'Учителя'], ['/admin/settings', 'Настройки']]) %}{% endif %}
+      {% set nav = nav|merge([['/admin/password', 'Мой пароль']]) %}
+      {% for n in nav %}<a href="{{ n[0] }}" {% if uri == n[0] or (n[0] == '/admin/tests' and uri starts with '/admin/tests/' and uri != '/admin/tests/new') %}aria-current="page"{% endif %}>{{ n[1] }}</a>{% endfor %}
+    </nav>
+    <main>
+      {% if initial_pw and uri != '/admin/password' %}<p class="alert alert--warn">Вы вошли с начальным паролем. <a href="/admin/password">Смените его</a>.</p>{% endif %}
+      {% if flash %}<p class="alert alert--{{ flash.kind }}">{{ flash.text|nl2br }}</p>{% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+{% endblock %}
+{% block scripts %}{% endblock %}
+</body>
+</html>
