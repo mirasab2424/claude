@@ -13,6 +13,8 @@ on:
       - 'sites/**'
       - '.github/workflows/deploy-smartway.yml'
       - '.github/workflows/deploy-kostobe.yml'
+      - '.github/workflows/backup.yml'
+      - '.github/backup/**'
   workflow_dispatch:
     inputs:
       with_vendor:
