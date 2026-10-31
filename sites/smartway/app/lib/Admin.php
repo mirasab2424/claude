@@ -24,7 +24,7 @@ final class Admin
         'common' => 'Общие (меню, кнопки, подвал)', 'lead' => 'Форма заявки', 'meta' => 'Заголовки и описания для поиска',
         'home' => 'Главная', 'cta' => 'Призывы', 'english' => 'Английский', 'ielts' => 'IELTS', 'math' => 'Математика', 'nis' => 'НИШ',
         'school' => 'Подготовка к школе', 'prodlenka' => 'Продлёнка', 'teachers' => 'Преподаватели', 'prices' => 'Цены',
-        'about' => 'О центре', 'contacts' => 'Контакты', '404' => 'Страница 404',
+        'about' => 'О центре', 'contacts' => 'Контакты', 'diag' => 'Диагностика (тест)', '404' => 'Страница 404',
     ];
 
     private \Twig\Environment $twig;
@@ -61,6 +61,8 @@ final class Admin
             $path === '/logout' && $method === 'POST' => $this->logout(),
             $path === '/leads' => $this->leads($method),
             $path === '/leads.csv' => $this->csv(),
+            $path === '/diag' => $this->diag($method),
+            (bool) preg_match('~^/diag/(\d+)$~', $path, $m) => $this->diagAttempt((int) $m[1], $method),
             $path === '/password' => $this->password($method),
             (bool) preg_match('~^/edit/([a-z]+)$~', $path, $m) && isset(self::SECTIONS[$m[1]]) => $this->edit($m[1], $method),
             (bool) preg_match('~^/texts/([a-z0-9]+)$~', $path, $m) && isset(self::TEXT_GROUPS[$m[1]]) => $this->texts($m[1], $method),
@@ -147,6 +149,126 @@ final class Admin
         }
         $status = isset($_GET['status']) ? (string) $_GET['status'] : null;
         echo $this->view('leads', ['leads' => $leads->list($status), 'status' => $status, 'statuses' => Leads::STATUSES, 'counts' => $leads->counts()]);
+    }
+
+    /** Диагностика: сводная статистика, список прохождений, демо-данные. */
+    private function diag(string $method): void
+    {
+        $store = $this->app->diag();
+        if ($method === 'POST') {
+            $action = $_POST['action'] ?? '';
+            if ($action === 'delete_demo') {
+                $this->flash('Удалено демо-прохождений: ' . $store->deleteDemo() . '.');
+            } elseif ($action === 'seed_demo') {
+                $store->seedDemo();
+                $this->flash('Добавлено 20 демо-прохождений.');
+            }
+            $this->app->redirect('/admin/diag');
+        }
+        $f = [
+            'grade' => (int) ($_GET['grade'] ?? 0) ?: null,
+            'lang' => in_array($_GET['lang'] ?? '', Content::LANGS, true) ? $_GET['lang'] : null,
+            'demo' => !isset($_GET['real']),
+        ];
+        $data = $store->data();
+        $topics = Content::localize($data['topics'], 'ru');
+        $stats = $store->stats($f);
+        $usedTopics = [];
+        foreach ($stats['heat'] as $row) {
+            $usedTopics += array_fill_keys(array_keys($row), true);
+        }
+        echo $this->view('diag', [
+            'f' => $f,
+            'stats' => $stats,
+            'rows' => $store->list($f, 200),
+            'grades' => $store->grades(),
+            'topics' => $topics,
+            'heat_topics' => array_values(array_filter(array_keys($topics), fn ($k) => isset($usedTopics[$k]))),
+            'demo_count' => $store->demoCount(),
+            'statuses' => Leads::STATUSES,
+            'query' => http_build_query(array_filter(['grade' => $f['grade'], 'lang' => $f['lang'], 'real' => $f['demo'] ? null : 1])),
+        ]);
+    }
+
+    private function diagAttempt(int $id, string $method): void
+    {
+        $store = $this->app->diag();
+        $a = $store->get($id);
+        $test = $a ? $store->test((int) $a['grade']) : null;
+        if (!$a || !$test) {
+            http_response_code(404);
+            echo $this->view('message', ['title' => 'Не найдено', 'text' => '']);
+
+            return;
+        }
+        if ($method === 'POST') {
+            $action = $_POST['action'] ?? '';
+            if ($action === 'delete') {
+                $store->delete($id);
+                $this->flash('Прохождение удалено.');
+                $this->app->redirect('/admin/diag');
+            }
+            if ($action === 'score' && isset($a['answers'][$_POST['q'] ?? ''])) {
+                $v = $_POST['value'] ?? 'auto';
+                $store->override($a, (string) $_POST['q'], $v === 'auto' ? null : (float) $v);
+                $this->flash('Балл пересчитан.');
+            }
+            if ($action === 'status' && $a['lead_id']) {
+                $this->app->leads->update((int) $a['lead_id'], (string) ($_POST['status'] ?? ''), (string) ($_POST['note'] ?? ''));
+                $this->flash('Статус заявки сохранён.');
+            }
+            $this->app->redirect('/admin/diag/' . $id);
+        }
+        $lead = null;
+        if ($a['lead_id']) {
+            $st = $this->app->leads->db()->prepare('SELECT * FROM leads WHERE id = ?');
+            $st->execute([$a['lead_id']]);
+            $lead = $st->fetch() ?: null;
+        }
+        $topics = Content::localize($store->data()['topics'], 'ru');
+        $items = [];
+        foreach ($test['questions'] as $i => $q) {
+            $ans = $a['answers'][$q['id']] ?? ['given' => null, 'score' => 0, 'max' => $q['points'], 'auto' => 0];
+            $c = $q['check'];
+            $given = $ans['given'];
+            if ($c['type'] === 'choice' && $given !== null && $given !== '') {
+                $given = ($c['options'][(int) $given]['ru'] ?? '?');
+            }
+            $items[] = [
+                'id' => $q['id'], 'n' => $i + 1, 'text' => $q['text']['ru'], 'topic' => $topics[$q['topic']] ?? $q['topic'],
+                'given' => $given, 'score' => $ans['score'], 'max' => $ans['max'], 'manual' => !empty($ans['manual']),
+                'key' => self::answerKey($q),
+            ];
+        }
+        $pct = rtrim(rtrim(number_format((float) $a['percent'], 1, ',', ''), '0'), ',');
+        $wa = 'Здравствуйте! Это SMART WAY. ' . $a['name'] . ' прошёл(а) диагностику по математике за ' . $a['grade'] . ' класс: ' . $pct . '%. Предлагаем бесплатно разобрать ошибки с преподавателем. Когда вам удобно?';
+        echo $this->view('diag_attempt', [
+            'a' => $a, 'items' => $items, 'lead' => $lead, 'statuses' => Leads::STATUSES, 'level' => \Smart\Diag\Store::level((float) $a['percent']),
+            'topics' => $topics, 'pct' => $pct,
+            'wa' => 'https://wa.me/' . preg_replace('~\D~', '', preg_replace('~^8~', '7', preg_replace('~\D~', '', $a['phone']))) . '?text=' . rawurlencode($wa),
+        ]);
+    }
+
+    /** Правильный ответ для учителя — коротко, по-русски. */
+    private static function answerKey(array $q): string
+    {
+        $c = $q['check'];
+        $fmt = fn ($v) => rtrim(rtrim(number_format((float) $v, 3, ',', ''), '0'), ',');
+
+        return match ($c['type']) {
+            'choice' => $c['options'][$c['answer']]['ru'],
+            'number' => implode(' или ', array_map($fmt, $c['answer'])),
+            'seq' => implode('; ', array_map($fmt, $c['answer'])) . (($c['ordered'] ?? true) ? '' : ' (в любом порядке)'),
+            'pairs' => implode('; ', array_map(fn ($p) => '(' . $fmt($p[0]) . '; ' . $fmt($p[1]) . ')', $c['answer'])),
+            'expr' => $c['answer'] . (!empty($c['product']) ? ' (в виде произведения)' : ''),
+            'ineq' => $c['answer'],
+            'letters' => strtoupper(implode(', ', $c['answer'])),
+            'keywords', 'parts' => match ($q['id']) {
+                'g7q1' => 'НОК = 1440; 3:4:5', 'g8q13' => '65°, остроугольный', 'g10q4' => 'треугольник с вершинами (0;0), (5;0), (0;5)',
+                'g11q1' => 'D = R; E = R', 'g11q2' => 'чётная', 'g11q3' => 'сдвиг графика вверх на 2', 'g11q4' => 'x = 0 и y = 0', default => '',
+            },
+            default => '',
+        };
     }
 
     private function csv(): void

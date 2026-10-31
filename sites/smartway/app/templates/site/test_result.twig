@@ -1,0 +1,59 @@
+{% extends "base.twig" %}
+{% block content %}
+<section class="section diag-res">
+  <div class="wrap">
+    <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / <a href="{{ url('test') }}">{{ __('diag.title') }}</a> / {{ __('diag.result') }}</p>
+    <div class="diag-card diag-card--{{ level }}">
+      <div class="ring" style="--p: {{ attempt.percent }}"><b>{{ pct }}%</b></div>
+      <div>
+        <p class="eyebrow">{{ __('diag.result') }} · {{ test.title }}</p>
+        <h1>{{ attempt.name }}</h1>
+        <p class="diag-card__level">{{ __('diag.level.' ~ level) }}</p>
+        <p>{{ __('diag.level_text.' ~ level) }}</p>
+        <ul class="diag-card__facts">
+          <li>{{ __('diag.score', attempt.score|number_format(1, ',')|replace({',0': ''}), attempt.max_score) }}</li>
+          <li>⏱ {{ __('diag.minutes_spent', minutes) }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="diag-grid">
+      <section class="diag-box">
+        <h2>{{ __('diag.topics') }}</h2>
+        <ul class="tbars">
+          {% for t in topics %}
+          <li><span>{{ t.name }}</span><i><s class="{{ t.percent >= 75 ? 'hi' : (t.percent >= 50 ? 'mid' : 'low') }}" style="width: {{ t.percent }}%"></s></i><b>{{ t.percent|round }}%</b></li>
+          {% endfor %}
+        </ul>
+        <div class="sw">
+          <div><h3>💪 {{ __('diag.strong') }}</h3><p>{{ strong ? strong|map(t => t.name)|join(', ') : __('diag.none') }}</p></div>
+          <div><h3>🎯 {{ __('diag.weak') }}</h3><p>{{ weak ? weak|map(t => t.name)|join(', ') : __('diag.none') }}</p></div>
+        </div>
+      </section>
+      <section class="diag-box">
+        <h2>{{ __('diag.map') }}</h2>
+        <ol class="qmap">
+          {% for q in map %}<li class="qmap__{{ q.state }}" title="{{ q.n }}. {{ q.text }} — {{ __('diag.' ~ q.state) }} ({{ q.score }}/{{ q.max }})">{{ q.n }}</li>{% endfor %}
+        </ol>
+        <p class="qmap__legend"><i class="qmap__ok"></i> {{ __('diag.ok') }} <i class="qmap__part"></i> {{ __('diag.part') }} <i class="qmap__bad"></i> {{ __('diag.bad') }} <i class="qmap__empty"></i> {{ __('diag.empty') }}</p>
+        <p class="muted">{{ __('diag.map_note') }}</p>
+      </section>
+    </div>
+
+    <section class="cta cta--inline">
+      <div class="cta__inner">
+        <div>
+          <p class="diag-saved">✓ {{ __('diag.saved') }}</p>
+          <h2>{{ __('diag.cta_title') }}</h2>
+          <p>{{ __('diag.cta_text') }}</p>
+          {% if courses %}<p class="diag-rec">{{ __('diag.recommend') }}: {% for c in courses %}<a href="{{ c.url }}">{{ c.title }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+        </div>
+        <div class="cta__actions">
+          <a class="btn btn--wa btn--lg" href="{{ wa_text|wa }}" target="_blank" rel="noopener">{{ __('diag.cta_wa') }}</a>
+          <a class="btn btn--light" href="{{ url('test') }}">{{ __('diag.again') }}</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+{% endblock %}

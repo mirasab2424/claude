@@ -1,0 +1,148 @@
+{% extends "layout.twig" %}
+{% block title %}Диагностика{% endblock %}
+{% block content %}
+<style>
+  .d-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .d-filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 4px 0 14px; }
+  .d-filters a { padding: 5px 12px; border-radius: 999px; background: var(--tint); text-decoration: none; color: var(--ink); font-weight: 600; font-size: 14px; }
+  .d-filters a[aria-current] { background: var(--teal-deep); color: #fff; }
+  .d-filters .sep { width: 1px; height: 22px; background: var(--line); }
+  .kpi { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .kpi div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; font-size: 13px; color: var(--muted); }
+  .kpi b { display: block; font-size: 26px; color: var(--ink); line-height: 1.2; }
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .hist { display: flex; align-items: flex-end; gap: 4px; height: 140px; padding-top: 8px; }
+  .hist div { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; font-size: 11px; color: var(--muted); }
+  .hist s { display: block; width: 100%; border-radius: 5px 5px 0 0; background: var(--teal); min-height: 2px; }
+  .hist span { margin-top: 4px; }
+  .lvl { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--tint); min-width: 120px; }
+  .lvl i { display: block; height: 100%; }
+  .c-high { background: #2b8a3e; } .c-good { background: #2e8692; } .c-base { background: #ffc83d; } .c-low { background: #e5427a; }
+  .legend { font-size: 12px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; }
+  .heat-wrap { overflow-x: auto; }
+  .heat td.h { text-align: center; font-weight: 700; font-size: 13px; border: 2px solid #fff; border-radius: 6px; }
+  .heat th { font-size: 11px; text-transform: none; letter-spacing: 0; vertical-align: bottom; }
+  .hard li { margin-bottom: 10px; }
+  .hard .meter { display: inline-block; width: 90px; height: 8px; border-radius: 4px; background: var(--tint); vertical-align: middle; margin-right: 6px; overflow: hidden; }
+  .hard .meter s { display: block; height: 100%; background: #e5427a; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--tint); color: var(--muted); }
+  .tag--demo { background: #fff1c9; color: #6b4510; }
+  .pct { font-weight: 800; }
+  @media (max-width: 860px) { .g2 { grid-template-columns: 1fr; } }
+</style>
+<div class="d-head">
+  <h1>Диагностика по математике</h1>
+  <span><a href="/test" target="_blank" rel="noopener">Открыть тест ↗</a></span>
+</div>
+<p class="muted">Ученики проходят тест на сайте (<code>/test</code>, <code>/kz/test</code>, <code>/en/test</code>). Каждое прохождение сразу попадает и сюда, и в «Заявки» со статусом «Новая».</p>
+
+<div class="d-filters">
+  {% set base = f.demo ? {} : {real: 1} %}
+  <a href="/admin/diag?{{ base|merge({lang: f.lang})|url_encode }}" {% if not f.grade %}aria-current="page"{% endif %}>Все классы</a>
+  {% for g in grades %}<a href="/admin/diag?{{ base|merge({grade: g, lang: f.lang})|url_encode }}" {% if f.grade == g %}aria-current="page"{% endif %}>{{ g }} кл.</a>{% endfor %}
+  <span class="sep"></span>
+  {% for l, name in {'': 'Все языки', ru: 'RU', kz: 'KZ', en: 'EN'} %}<a href="/admin/diag?{{ base|merge({grade: f.grade, lang: l ?: null})|url_encode }}" {% if (f.lang ?? '') == l %}aria-current="page"{% endif %}>{{ name }}</a>{% endfor %}
+  <span class="sep"></span>
+  <a href="/admin/diag?{{ {grade: f.grade, lang: f.lang}|url_encode }}" {% if f.demo %}aria-current="page"{% endif %}>С демо</a>
+  <a href="/admin/diag?{{ {grade: f.grade, lang: f.lang, real: 1}|url_encode }}" {% if not f.demo %}aria-current="page"{% endif %}>Только настоящие</a>
+</div>
+{% if demo_count %}
+<p class="warn">В статистике есть {{ demo_count }} демо-прохождений (помечены «демо») — чтобы было видно, как всё выглядит.
+  <form method="post" style="display:inline"><input type="hidden" name="_csrf" value="{{ csrf }}"><button class="btn btn--sm btn--ghost" name="action" value="delete_demo" onclick="return confirm('Удалить все демо-прохождения?')">Удалить демо</button></form></p>
+{% endif %}
+
+<div class="kpi">
+  <div><b>{{ stats.total }}</b>прохождений</div>
+  <div><b>{{ stats.avg is null ? '—' : stats.avg|number_format(1, ',') ~ '%' }}</b>средний результат</div>
+  <div><b>{{ stats.median_minutes is null ? '—' : stats.median_minutes|round ~ ' мин' }}</b>обычно уходит на тест</div>
+  <div><b>{{ stats.leads }}</b>заявок из теста</div>
+  <div><b>{{ stats.leads ? (stats.won / stats.leads * 100)|round ~ '%' : '—' }}</b>записались ({{ stats.won }})</div>
+</div>
+
+{% if stats.total %}
+<div class="g2">
+  <section class="box">
+    <h2>Распределение результатов</h2>
+    {% set hmax = max(stats.hist) ?: 1 %}
+    <div class="hist">
+      {% for i, n in stats.hist %}<div title="{{ i * 10 }}–{{ i * 10 + 10 }}%: {{ n }}"><b>{{ n ?: '' }}</b><s style="height: {{ n / hmax * 100 }}%; background: {{ i >= 8 ? '#2b8a3e' : (i >= 6 ? '#2e8692' : (i >= 4 ? '#ffc83d' : '#e5427a')) }}"></s><span>{{ i * 10 }}</span></div>{% endfor %}
+    </div>
+    <p class="legend"><span><i class="c-high"></i>85%+ высокий</span><span><i class="c-good"></i>60–84% хороший</span><span><i class="c-base"></i>40–59% базовый</span><span><i class="c-low"></i>&lt;40% нужна поддержка</span></p>
+  </section>
+  <section class="box">
+    <h2>Прохождения за 30 дней</h2>
+    {% set smax = max(stats.series) ?: 1 %}
+    <svg viewBox="0 0 300 120" width="100%" height="140" role="img" aria-label="Прохождения по дням">
+      {% for d, n in stats.series %}<rect x="{{ loop.index0 * 10 + 1 }}" y="{{ 110 - n / smax * 100 }}" width="8" height="{{ n / smax * 100 }}" rx="2" fill="#2e8692"><title>{{ d|date('d.m') }}: {{ n }}</title></rect>{% endfor %}
+      <line x1="0" y1="110.5" x2="300" y2="110.5" stroke="#ecdccb"/>
+    </svg>
+    <p class="legend"><span>{{ stats.series|keys|first|date('d.m') }}</span><span style="margin-left:auto">сегодня</span></p>
+  </section>
+</div>
+
+<section class="box">
+  <h2>По классам</h2>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Класс</th><th>Прохождений</th><th>Средний %</th><th>Уровни</th></tr></thead>
+    <tbody>
+    {% for g, s in stats.by_grade %}
+    <tr><td><a href="/admin/diag?{{ base|merge({grade: g})|url_encode }}">{{ g }} класс</a></td><td>{{ s.n }}</td><td class="pct">{{ s.avg|number_format(1, ',') }}%</td>
+      <td><div class="lvl">{% for k in ['high', 'good', 'base', 'low'] %}{% if s.levels[k] ?? 0 %}<i class="c-{{ k }}" style="width: {{ s.levels[k] / s.n * 100 }}%" title="{{ s.levels[k] }}"></i>{% endif %}{% endfor %}</div></td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+
+<section class="box">
+  <h2>Карта тем: где пробелы</h2>
+  <p class="muted small">Средний процент по теме в каждом классе. Красные клетки — темы, которые стоит включить в программу групп и предлагать родителям.</p>
+  <div class="heat-wrap"><table class="heat">
+    <thead><tr><th>Класс</th>{% for t in heat_topics %}<th>{{ topics[t] }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for g, row in stats.heat %}
+    <tr><td><b>{{ g }}</b></td>{% for t in heat_topics %}
+      {% set v = row[t] ?? null %}
+      <td class="h" style="{% if v is not null %}background: hsl({{ (v * 1.2)|round }}, 65%, {{ 88 - v / 10 }}%){% endif %}">{{ v is null ? '' : v|round ~ '%' }}</td>
+    {% endfor %}</tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+
+<section class="box">
+  <h2>Самые трудные задания</h2>
+  <p class="muted small">Доля набранных баллов и самый частый неверный ответ — по нему видно, в чём именно ошибка.</p>
+  <ol class="hard">
+    {% for h in stats.hard %}
+    <li><span class="meter"><s style="width: {{ 100 - h.rate }}%"></s></span><b>{{ h.rate|round }}%</b> · <span class="tag">{{ h.grade }} кл., №{{ h.n }}</span> <span class="tag">{{ topics[h.topic] }}</span><br>
+      {{ h.text }}<br>
+      <span class="muted small">{% if h.wrong %}Частая ошибка: «{{ h.wrong }}» ({{ h.wrong_n }} из {{ h.count }}){% endif %}{% if h.empty %} · без ответа: {{ h.empty }}{% endif %}</span></li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+<section class="box">
+  <div class="d-head"><h2>Прохождения</h2>{% if not demo_count %}<form method="post"><input type="hidden" name="_csrf" value="{{ csrf }}"><button class="btn btn--sm btn--ghost" name="action" value="seed_demo">Добавить демо-примеры</button></form>{% endif %}</div>
+  {% if rows %}
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Когда</th><th>Ученик</th><th>Телефон</th><th>Класс</th><th>Яз.</th><th>Результат</th><th>Заявка</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+    {% set lv = r.percent >= 85 ? 'high' : (r.percent >= 60 ? 'good' : (r.percent >= 40 ? 'base' : 'low')) %}
+    <tr>
+      <td>{{ r.finished_at|date('d.m H:i') }}</td>
+      <td><a href="/admin/diag/{{ r.id }}">{{ r.name }}</a> {% if r.demo %}<span class="tag tag--demo">демо</span>{% endif %}</td>
+      <td>{{ r.phone }}</td>
+      <td>{{ r.grade }}</td>
+      <td>{{ r.lang|upper }}</td>
+      <td><span class="pct">{{ r.percent|number_format(1, ',') }}%</span> <span class="lvl" style="display:inline-flex;width:60px;vertical-align:middle"><i class="c-{{ lv }}" style="width: {{ r.percent }}%"></i></span></td>
+      <td>{% if r.lead_status %}<span class="status status--{{ r.lead_status }}">{{ statuses[r.lead_status] }}</span>{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}<p class="muted">Пока никто не прошёл тест.</p>{% endif %}
+</section>
+{% endblock %}

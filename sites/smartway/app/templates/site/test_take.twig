@@ -1,0 +1,36 @@
+{% extends "base.twig" %}
+{% block content %}
+<form class="diag" id="diag" method="post" action="{{ url('test/a/' ~ token) }}" data-token="{{ token }}" data-started="{{ started }}" data-confirm="{{ __('diag.confirm') }}">
+  <div class="diag-bar">
+    <div class="wrap diag-bar__inner">
+      <div class="diag-bar__who"><b>{{ test.title }}</b><span>{{ attempt.name }}</span></div>
+      <div class="diag-bar__progress"><span id="d-answered" data-tpl="{{ __('diag.answered', '%a', questions|length) }}">{{ __('diag.answered', 0, questions|length) }}</span><i><s id="d-bar"></s></i></div>
+      <div class="diag-bar__time" title="{{ __('diag.elapsed') }}">⏱ <span id="d-time">0:00</span></div>
+    </div>
+  </div>
+  <div class="wrap diag-wrap">
+    <p class="diag-note">{{ __('diag.recommended', test.minutes) }}</p>
+    {% for q in questions %}
+    <fieldset class="dq" data-q="{{ q.id }}" data-type="{{ q.type }}">
+      <legend class="dq__head"><span>{{ __('diag.task', q.n, questions|length) }}</span><span>{{ __('diag.pts', q.points) }}</span></legend>
+      <p class="dq__text">{{ q.text }}</p>
+      {% if q.type == 'choice' %}
+      <div class="dq__opts">
+        {% for o in q.options %}
+        <label class="dq__opt"><input type="radio" name="q[{{ q.id }}]" value="{{ loop.index0 }}"><span class="dq__key">{{ "ABCDEF"[loop.index0:1] }}</span><span>{{ o }}</span></label>
+        {% endfor %}
+      </div>
+      {% else %}
+      <label class="dq__label" for="a-{{ q.id }}">{{ q.hint }}</label>
+      <input class="dq__input{{ q.math ? ' is-math' }}" id="a-{{ q.id }}" name="q[{{ q.id }}]" maxlength="200" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="{{ __('diag.answer_ph') }}">
+      {% endif %}
+    </fieldset>
+    {% endfor %}
+    <button class="btn btn--pink btn--lg btn--block diag-finish" type="submit">{{ __('diag.finish') }}</button>
+  </div>
+  <div class="mathpad" id="mathpad" hidden aria-label="{{ __('diag.symbols') }}">
+    {% for s in ['√', '²', '³', '−', '·', '/', '(', ')', ';', '≤', '≥', '<', '>', '±', '∞', '∪', 'x', 'π'] %}<button type="button" data-ins="{{ s }}">{{ s }}</button>{% endfor %}
+  </div>
+</form>
+{% endblock %}
+{% block scripts %}<script src="{{ asset('js/diag.js') }}" defer></script>{% endblock %}

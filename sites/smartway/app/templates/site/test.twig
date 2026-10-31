@@ -1,0 +1,49 @@
+{% extends "base.twig" %}
+{% import "_macros.twig" as m %}
+{% block content %}
+<section class="hero hero--course hero--teal diag-hero">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / {{ __('diag.title') }}</p>
+      <p class="badge badge--sun">{{ __('diag.badge') }}</p>
+      <h1>{{ __('diag.h1') }}</h1>
+      <p class="hero__lead">{{ __('diag.lead') }}</p>
+      <ul class="chips">{% for i in 1..3 %}<li>{{ __('diag.what' ~ i) }}</li>{% endfor %}</ul>
+    </div>
+    <form class="diag-start" method="post" action="{{ url('test') }}" novalidate>
+      <h2>{{ __('diag.choose') }}</h2>
+      {% if errors.rate %}<p class="form-error">{{ __('diag.err_rate') }}</p>{% endif %}
+      <div class="grade-pick" role="radiogroup" aria-label="{{ __('diag.grade_label') }}">
+        {% for g in grades %}
+        <label class="grade-pick__item">
+          <input type="radio" name="grade" value="{{ g.grade }}" {% if old.grade == g.grade %}checked{% endif %} required>
+          <span><b>{{ g.grade }}</b><small>{{ __('diag.questions', g.questions) }}</small></span>
+        </label>
+        {% endfor %}
+      </div>
+      {% if errors.grade %}<p class="form-error">{{ __('diag.choose') }}</p>{% endif %}
+      <label for="d-name">{{ __('diag.name') }}</label>
+      <input id="d-name" name="name" value="{{ old.name }}" required maxlength="80" autocomplete="name" placeholder="{{ __('diag.name_ph') }}" {% if errors.name %}aria-invalid="true"{% endif %}>
+      {% if errors.name %}<p class="form-error">{{ __('diag.err_name') }}</p>{% endif %}
+      <label for="d-phone">{{ __('diag.phone') }}</label>
+      <input id="d-phone" name="phone" type="tel" value="{{ old.phone }}" required maxlength="30" autocomplete="tel" inputmode="tel" placeholder="{{ __('lead.phone_ph') }}" {% if errors.phone %}aria-invalid="true"{% endif %}>
+      {% if errors.phone %}<p class="form-error">{{ __('diag.err_phone') }}</p>{% endif %}
+      <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn btn--pink btn--lg btn--block" type="submit">{{ __('diag.start') }} →</button>
+      <p class="diag-start__note">{{ __('diag.consent') }}</p>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {{ m.head(__('home.steps_eyebrow'), __('diag.title')) }}
+    <ol class="steps">
+      <li><span class="steps__n">1</span><h3>{{ __('diag.choose') }}</h3><p>{{ __('diag.badge') }}</p></li>
+      <li><span class="steps__n">2</span><h3>{{ __('diag.what1') }}</h3><p>{{ __('diag.hint.number') }}</p></li>
+      <li><span class="steps__n">3</span><h3>{{ __('diag.what2') }}</h3><p>{{ __('diag.level_text.good') }}</p></li>
+      <li><span class="steps__n">4</span><h3>{{ __('diag.what3') }}</h3><p>{{ __('diag.cta_text') }}</p></li>
+    </ol>
+  </div>
+</section>
+{% endblock %}

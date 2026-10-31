@@ -1,0 +1,68 @@
+{% extends "layout.twig" %}
+{% block title %}{{ a.name }} — диагностика{% endblock %}
+{% block content %}
+<style>
+  .qa { border: 1px solid var(--line); border-left: 5px solid #e5427a; border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; background: #fff; }
+  .qa--ok { border-left-color: #2b8a3e; } .qa--part { border-left-color: #ffc83d; }
+  .qa__head { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); }
+  .qa__text { font-weight: 700; margin: 4px 0; }
+  .qa__ans { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px; }
+  .qa__ans b { font-size: 15px; }
+  .qa form { display: inline-flex; gap: 4px; margin-left: 8px; }
+  .qa form button { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 1px 8px; cursor: pointer; font: inherit; font-size: 12px; }
+  .qa form button:hover { background: var(--tint); }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--tint); color: var(--muted); }
+  .tag--manual { background: #fff1c9; color: #6b4510; }
+  .tb { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  .tb li { display: grid; grid-template-columns: 200px 1fr 50px; gap: 8px; align-items: center; font-size: 14px; }
+  .tb i { height: 10px; border-radius: 5px; background: var(--tint); overflow: hidden; }
+  .tb s { display: block; height: 100%; }
+  @media (max-width: 700px) { .qa__ans, .tb li { grid-template-columns: 1fr; } }
+</style>
+<p class="small"><a href="/admin/diag">← Диагностика</a></p>
+<h1>{{ a.name }} · {{ a.grade }} класс {% if a.demo %}<span class="tag">демо</span>{% endif %}</h1>
+<div class="cards">
+  <div><b>{{ pct }}%</b>{{ a.score }} из {{ a.max_score }} баллов</div>
+  <div><b>{{ {high: 'Высокий', good: 'Хороший', base: 'Базовый', low: 'Нужна поддержка'}[level] }}</b>уровень</div>
+  <div><b>{{ ((date(a.finished_at).timestamp - date(a.created_at).timestamp) / 60)|round }} мин</b>{{ a.finished_at|date('d.m.Y H:i') }}, {{ a.lang|upper }}</div>
+  <div><b><a href="tel:{{ a.phone }}">{{ a.phone }}</a></b><a href="{{ wa }}" target="_blank" rel="noopener">Написать в WhatsApp с предложением разбора ↗</a></div>
+</div>
+
+<div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <section class="box">
+    <h2>По темам</h2>
+    <ul class="tb">
+      {% for key, t in a.topics %}{% set p = t[1] ? t[0] / t[1] * 100 : 0 %}
+      <li><span>{{ topics[key] ?? key }}</span><i><s style="width: {{ p }}%; background: {{ p >= 75 ? '#2b8a3e' : (p >= 50 ? '#ffc83d' : '#e5427a') }}"></s></i><b>{{ p|round }}%</b></li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section class="box">
+    <h2>Заявка</h2>
+    {% if lead %}
+    <form method="post"><input type="hidden" name="_csrf" value="{{ csrf }}">
+      <p class="muted small">№{{ lead.id }} от {{ lead.created_at|date('d.m.Y H:i') }}</p>
+      <label class="f"><span class="f__label">Статус</span><select name="status">{% for k, v in statuses %}<option value="{{ k }}" {% if k == lead.status %}selected{% endif %}>{{ v }}</option>{% endfor %}</select></label>
+      <label class="f"><span class="f__label">Заметка</span><input name="note" value="{{ lead.note }}" placeholder="Например: записали на разбор в субботу"></label>
+      <button class="btn btn--sm" name="action" value="status">Сохранить</button>
+    </form>
+    {% else %}<p class="muted">{{ a.demo ? 'Демо-прохождение — без заявки.' : 'Заявка не создана.' }}</p>{% endif %}
+  </section>
+</div>
+
+<h2>Ответы</h2>
+<p class="muted small">Ответы проверяются автоматически. Если ученик написал верно, но в другой форме, — нажмите «засчитать»; итог пересчитается.</p>
+{% for q in items %}
+{% set fr = q.max ? q.score / q.max : 0 %}
+<article class="qa {{ fr >= 1 ? 'qa--ok' : (fr > 0 ? 'qa--part') }}">
+  <div class="qa__head"><span>№{{ q.n }} · {{ q.topic }}{% if q.manual %} <span class="tag tag--manual">исправлено вручную</span>{% endif %}</span>
+    <span><b>{{ q.score }} / {{ q.max }}</b>
+      <form method="post"><input type="hidden" name="_csrf" value="{{ csrf }}"><input type="hidden" name="q" value="{{ q.id }}"><input type="hidden" name="action" value="score">
+        <button name="value" value="1" title="Полный балл">засчитать</button><button name="value" value="0.5">½</button><button name="value" value="0">0</button>{% if q.manual %}<button name="value" value="auto">авто</button>{% endif %}
+      </form></span></div>
+  <p class="qa__text">{{ q.text }}</p>
+  <div class="qa__ans"><span>Ответ ученика: <b>{{ q.given is null or q.given == '' ? '—' : q.given }}</b></span><span>Ключ: <b>{{ q.key }}</b></span></div>
+</article>
+{% endfor %}
+<form method="post" onsubmit="return confirm('Удалить это прохождение?')" style="margin-top:16px"><input type="hidden" name="_csrf" value="{{ csrf }}"><button class="btn btn--sm btn--ghost" name="action" value="delete">Удалить прохождение</button></form>
+{% endblock %}

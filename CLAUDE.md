@@ -34,6 +34,8 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 Факты только в `sites/smartway/app/content/default.json` (из PDF-буклетов, Instagram @smartschool_ast, 2ГИС) — не выдумывать.
 Тексты всегда `{"ru","kz","en"}`; строки интерфейса — `app/lang/*.php` с одинаковыми ключами.
 Правки админки, заявки и фото живут на сервере (`app/storage`, `public/uploads`) и в репозиторий не попадают.
+Диагностика по математике `/test` (5–11 кл.): тесты и ключи в `app/content/diagnostics.json`, проверка `app/lib/Diag/*`,
+результаты в `diag_attempts` (storage/leads.sqlite) + заявка; демо-прохождения помечены `demo = 1`.
 Деплой `.github/workflows/deploy-smartway.yml` (composer → dist → FTP). Трекерный деплой игнорирует `sites/**`.
 
 ## Третий проект: тесты Kostobe (`sites/kostobe/`)

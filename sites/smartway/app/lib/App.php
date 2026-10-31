@@ -16,10 +16,13 @@ final class App
     public Content $content;
     public Leads $leads;
     public Auth $auth;
+    private ?Diag\Store $diag = null;
     public string $storage;
 
     public function __construct(public string $root, public string $public)
     {
+        // Время Астаны (UTC+5) для заявок и результатов; сервер хостинга работает в UTC
+        date_default_timezone_set('Etc/GMT-5');
         $this->storage = $root . '/storage';
         foreach ([$this->storage, $this->storage . '/cache', $this->storage . '/backups'] as $d) {
             if (!is_dir($d)) {
@@ -30,6 +33,11 @@ final class App
         $this->content = new Content($root . '/content/default.json', $this->storage . '/content.json', $this->storage . '/backups');
         $this->leads = new Leads($this->storage . '/leads.sqlite');
         $this->auth = new Auth($this->storage, $config['admin_password_hash']);
+    }
+
+    public function diag(): Diag\Store
+    {
+        return $this->diag ??= new Diag\Store($this->leads->db(), $this->root . '/content/diagnostics.json');
     }
 
     public static function isHttps(): bool
@@ -80,6 +88,11 @@ final class App
             $this->redirect(self::url($parts[1] ?? 'index'), 301);
         }
         $page = $parts[0] ?? 'index';
+        if ($page === 'test') {
+            (new Diag\Pages($this, $lang))->handle(array_slice($parts, 1), $method);
+
+            return;
+        }
         if (count($parts) > 1 || !in_array($page, self::PAGES, true) || ($page === 'index' && $parts)) {
             http_response_code(404);
             $page = '404';
@@ -115,7 +128,8 @@ final class App
         return $twig;
     }
 
-    public function render(string $page, string $lang): string
+    /** $extra — дополнительные переменные шаблона, $template — другой шаблон (по умолчанию = $page). */
+    public function render(string $page, string $lang, array $extra = [], ?string $template = null, array $alt = []): string
     {
         $c = Content::localize($this->content->all(), $lang);
         $site = $c['site'];
@@ -125,9 +139,9 @@ final class App
         $i18n = new I18n($this->root . '/lang', $lang, (array) $this->content->get('ui', []));
         $alternates = [];
         foreach (Content::LANGS as $l) {
-            $alternates[$l] = self::url($page === '404' ? 'index' : $page, $l);
+            $alternates[$l] = $alt[$l] ?? self::url($page === '404' ? 'index' : $page, $l);
         }
-        $template = in_array($page, self::PAGES, true) ? $page : '404';
+        $template ??= in_array($page, [...self::PAGES, 'test'], true) ? $page : '404';
 
         $vars = [
             'page' => $page,
@@ -158,7 +172,7 @@ final class App
             'STEPS' => $c['steps'],
             'PHOTOS' => $c['photos'],
             'BOOKS' => $c['books'],
-        ];
+        ] + $extra;
         // Глобальные переменные видны и в макросах
         foreach ($vars as $k => $v) {
             $twig->addGlobal($k, $v);

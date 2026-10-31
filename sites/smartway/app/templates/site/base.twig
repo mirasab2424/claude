@@ -58,6 +58,7 @@
             {% endfor %}
           </ul>
         </div>
+        <a class="nav__link nav__link--test" href="{{ url('test') }}" {% if page == 'test' %}aria-current="page"{% endif %}>{{ __('nav.test') }}</a>
         {% for p in ['teachers', 'prices', 'about', 'contacts'] %}
         <a class="nav__link" href="{{ url(p) }}" {% if page == p %}aria-current="page"{% endif %}>{{ __('nav.' ~ p) }}</a>
         {% endfor %}
@@ -92,6 +93,7 @@
       <div>
         <h3>{{ __('footer.centre') }}</h3>
         <ul>
+          <li><a href="{{ url('test') }}">{{ __('diag.title') }}</a></li>
           <li><a href="{{ url('teachers') }}">{{ __('nav.teachers') }}</a></li>
           <li><a href="{{ url('prices') }}">{{ __('nav.prices') }}</a></li>
           <li><a href="{{ url('about') }}">{{ __('footer.how') }}</a></li>
@@ -166,5 +168,6 @@
     }
   }|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG'))|raw }};</script>
   <script src="{{ asset('js/main.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>
