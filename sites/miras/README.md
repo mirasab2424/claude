@@ -5,7 +5,7 @@
 
 ## Данные — в одном месте
 
-`public/data/measurements.json` — единственный источник чисел. План (`assets/plan.js`), таблицы (`plan.html`) и 3D
+`public/data/measurements.json` — единственный источник чисел. План (`assets/plan.js`), таблицы (`plan.html`) и 3D на весь экран
 (`assets/view3d.js`) строятся из него в браузере. Когда появятся замеры рулеткой, замените файл — всё пересчитается.
 
 Правила показа (см. `docs/HANDOFF.md`):

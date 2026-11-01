@@ -3,38 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>3D — Наш дом</title>
+<title>Наш дом — 3D</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/icon.svg">
-<link rel="stylesheet" href="assets/style.css">
-<script type="importmap">{"imports": {"three": "./vendor/three/three.module.min.js"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --sky-top: #cfd8dc; --sky-bottom: #eef1f2; --ink: #22303a; --muted: #5d6d78; --panel: rgba(255,255,255,.86); --accent: #2f6f8f; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { font-family: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: linear-gradient(var(--sky-top), var(--sky-bottom)); }
+  #scene { position: fixed; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+  #scene:active { cursor: grabbing; }
+  .title { position: fixed; left: 24px; top: calc(20px + env(safe-area-inset-top, 0px)); margin: 0; font-size: clamp(22px, 3vw, 32px); font-weight: 600; letter-spacing: -.01em; pointer-events: none; }
+  .title small { display: block; font-size: 14px; font-weight: 400; color: var(--muted); margin-top: 4px; max-width: 420px; }
+  .links { position: fixed; right: 24px; top: calc(20px + env(safe-area-inset-top, 0px)); display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .links a { font-size: 14px; color: var(--accent); text-decoration: none; background: var(--panel); padding: 7px 12px; border-radius: 9px; box-shadow: 0 4px 14px rgba(34,48,58,.12); }
+  .links a:hover { text-decoration: underline; }
+  .controls { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 6px; width: max-content; max-width: calc(100vw - 24px);
+    background: var(--panel); backdrop-filter: blur(10px); border-radius: 14px; box-shadow: 0 6px 24px rgba(34,48,58,.15); }
+  .controls button { font: inherit; font-size: 14px; color: var(--ink); background: transparent; border: 0; border-radius: 9px; padding: 9px 14px; cursor: pointer; }
+  .controls button:hover { background: rgba(47,111,143,.1); }
+  .controls button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .controls button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .controls .sep { width: 1px; background: rgba(34,48,58,.15); margin: 4px 2px; }
+  .card { position: fixed; left: 24px; top: calc(140px + env(safe-area-inset-top, 0px)); width: min(360px, calc(100vw - 48px)); max-height: calc(100vh - 240px); overflow: auto;
+    background: var(--panel); backdrop-filter: blur(10px); border-radius: 14px; box-shadow: 0 6px 24px rgba(34,48,58,.15); padding: 16px 18px; font-size: 14px; line-height: 1.45; }
+  .card[hidden] { display: none; }
+  .card h2 { margin: 0 24px 2px 0; font-size: 19px; }
+  .card .close { position: absolute; right: 10px; top: 8px; border: 0; background: none; font-size: 22px; cursor: pointer; color: var(--muted); }
+  .card .big { font-size: 22px; font-weight: 600; margin: 6px 0 2px; }
+  .card .muted { color: var(--muted); }
+  .card h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 12px 0 4px; }
+  .card ul { margin: 0; padding-left: 18px; }
+  .hint { position: fixed; left: 24px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); font-size: 12px; color: var(--muted); max-width: 260px; }
+  @media (max-width: 900px) { .hint { display: none; } }
+  @media (max-width: 520px) {
+    .controls button { padding: 8px 9px; font-size: 13px; }
+    .card { top: auto; bottom: 150px; max-height: 40vh; }
+    .links { right: 12px; } .title { left: 12px; }
+  }
+</style>
+<script type="importmap">{"imports": {"three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/"}}</script>
 </head>
 <body>
-<header class="top"><div class="top-in">
-  <a class="brand" href="index.html"><img src="assets/icon.svg" alt="" width="24" height="24"> Наш дом</a>
-  <nav class="nav"><a href="index.html">Главная</a><a href="plan.html">План и размеры</a><a href="3d.html" aria-current="page">3D</a></nav>
-</div></header>
-<main class="wrap">
-  <h1>3D-модель</h1>
-  <p class="notice"><b>Модель примерная.</b> Её строят те же числа, что и план: стены, окна и проёмы по видео, масштаб — предположение. Высота межкомнатных проёмов — тоже предположение. Мансарда изнутри и крыша над выступом не сняты.</p>
-  <div class="toggles">
-    <label><input type="checkbox" id="t-labels" checked> Подписи</label>
-    <label><input type="checkbox" id="t-roof"> Крыша (оценка)</label>
-    <label><input type="checkbox" id="t-stair"> Вариант лестницы (предварительно)</label>
-    <button class="btn" type="button" id="b-persp">Сбоку</button>
-    <button class="btn" type="button" id="b-top">Сверху</button>
+  <canvas id="scene"></canvas>
+  <h1 class="title">Наш дом<small>Вращайте мышью, колесо — масштаб. Нажмите на комнату — покажу её размеры, окна, двери и розетки. Размеры примерные: по видео, без рулетки.</small></h1>
+  <nav class="links">
+    <a href="index.html">← На главную</a>
+    <a href="plan.html">План и размеры</a>
+  </nav>
+  <aside class="card" id="card" hidden aria-live="polite"></aside>
+  <div class="controls" role="toolbar" aria-label="Управление видом">
+    <button data-view="reset">Сбросить вид</button>
+    <button data-view="front">Спереди</button>
+    <button data-view="side">Сбоку</button>
+    <button data-view="back">Сзади</button>
+    <button data-view="top">Сверху</button>
+    <span class="sep"></span>
+    <button data-layer="dims" aria-pressed="false">Размеры</button>
+    <button data-layer="electric" aria-pressed="false">Электрика</button>
+    <button data-layer="roof" aria-pressed="false">Крыша</button>
+    <button data-layer="stair" aria-pressed="false">Лестница (вариант)</button>
+    <button data-layer="labels" aria-pressed="true">Подписи</button>
+    <span class="sep"></span>
+    <button id="btnRotate" aria-pressed="false">Автоповорот</button>
+    <button id="btnWire" aria-pressed="false">Каркас</button>
   </div>
-  <div id="view3d"></div>
-  <p class="note small">Вращать — левой кнопкой или пальцем, масштаб — колесом или двумя пальцами.</p>
-</main>
 <script type="module">
-import { loadHouse } from './assets/house.js';
-import { build3D } from './assets/view3d.js';
+import { loadHouse } from './assets/house.js?v=3';
+import { createViewer } from './assets/view3d.js?v=3';
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const card = document.getElementById('card');
+const list = (title, items, empty) => `<h3>${title}</h3>` + (items.length ? `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : `<p class="muted">${empty}</p>`);
 const h = await loadHouse();
-build3D(document.getElementById('view3d'), h, {
-  roof: document.getElementById('t-roof'), stair: document.getElementById('t-stair'), labels: document.getElementById('t-labels'),
-  top: document.getElementById('b-top'), persp: document.getElementById('b-persp'),
+const v = createViewer(document.getElementById('scene'), h, (r) => {
+  if (!r) { card.hidden = true; return; }
+  card.innerHTML = `<button class="close" type="button" aria-label="Закрыть">×</button>
+    <h2>${esc(r.name)}</h2>${r.hint ? `<div class="muted">пометка: ${esc(r.hint)}</div>` : ''}
+    <div class="big">${esc(r.size)} <small class="muted">${esc(r.tol)}</small></div>
+    <div class="muted">площадь ${esc(r.area)} · высота стен ${esc(r.height)} · уверенность: ${esc(r.confidence)}</div>
+    ${r.note ? `<p class="muted">${esc(r.note)}</p>` : ''}
+    ${list('Окна', r.windows, 'нет')}
+    ${list('Двери и проёмы', r.doors, 'нет')}
+    ${list('Электрика (места не измерены)', r.electric, 'на видео не видно')}
+    ${r.plumbing.length ? list('Трубы', r.plumbing, '') : ''}`;
+  card.hidden = false;
+  card.querySelector('.close').onclick = () => v.select(null);
 });
+document.querySelectorAll('[data-view]').forEach((b) => b.onclick = () => v.view(b.dataset.view));
+document.querySelectorAll('[data-layer]').forEach((b) => b.onclick = () => {
+  const on = b.getAttribute('aria-pressed') !== 'true';
+  b.setAttribute('aria-pressed', on);
+  v.layer(b.dataset.layer, on);
+});
+const toggle = (id, fn) => { const b = document.getElementById(id); b.onclick = () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); fn(on); }; };
+toggle('btnRotate', v.autoRotate);
+toggle('btnWire', v.wireframe);
+// ?view=front&show=dims,electric — для ссылок с главной
+const q = new URLSearchParams(location.search);
+if (q.get('view')) v.view(q.get('view'));
+for (const l of (q.get('show') || '').split(',').filter(Boolean)) document.querySelector(`[data-layer="${l}"]`)?.click();
 </script>
 </body>
 </html>

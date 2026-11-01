@@ -6,12 +6,14 @@
 <title>План и размеры — Наш дом</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/icon.svg">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=3">
 </head>
 <body>
 <header class="top"><div class="top-in">
-  <a class="brand" href="index.html"><img src="assets/icon.svg" alt="" width="24" height="24"> Наш дом</a>
-  <nav class="nav"><a href="index.html">Главная</a><a href="plan.html" aria-current="page">План и размеры</a><a href="3d.html">3D</a></nav>
+  <a class="brand" href="index.html">Наш дом</a>
+  <nav class="nav"><a href="index.html">Главная</a><a href="3d.html">3D-модель</a><a href="plan.html" aria-current="page">План и размеры</a></nav>
 </div></header>
 <main class="wrap">
   <h1>План и размеры</h1>
@@ -90,8 +92,8 @@
   <p class="note small" style="margin-top:20px">Все числа берутся из одного файла <code>data/measurements.json</code>. После замеров рулеткой достаточно заменить его.</p>
 </main>
 <script type="module">
-import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS } from './assets/house.js';
-import { planSVG } from './assets/plan.js';
+import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS } from './assets/house.js?v=3';
+import { planSVG } from './assets/plan.js?v=3';
 const h = await loadHouse();
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const $ = (id) => document.getElementById(id);
