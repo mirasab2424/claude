@@ -75,7 +75,7 @@
 
   <section class="card stair-box" id="stair" style="margin-top:16px">
     <h2>Лестница на мансарду — вариант, предварительно</h2>
-    <p><b>Маршрут не подтверждён.</b> Вариант собран по жестам и обрывкам разговора на видео, это не проект.</p>
+    <p><b>Это вариант, а не проект.</b> Он собран по жестам и обрывкам разговора на видео. <span id="stair-owner"></span></p>
     <ol id="stair-route"></ol>
     <h3>Проверочный расчёт на предполагаемых числах</h3>
     <div class="tbl"><table><tbody id="t-stair"></tbody></table></div>
@@ -146,7 +146,7 @@ $('t-doors').innerHTML = h.doors.map((d) => `<tr><td><b>${esc(d.id.replace('_ent
   <td>${d.between.map((x) => esc(roomLabel(h, x))).join(' ↔ ')}</td>
   <td class="num">${val(d.width_mm)}${(d.width_mm.tolerance_mm || 0) >= 300 ? ' <span class="badge st-assumed">очень приблизительно</span>' : ''}</td>
   <td class="num">${val(d.height_mm)} ${d.height_mm.status === 'assumed' ? statusBadge('assumed') : ''}</td>
-  <td class="note">${esc(d.width_mm.note || '')}</td></tr>`).join('');
+  <td class="note">${esc([d.width_mm.note, d.note].filter(Boolean).join(' '))}</td></tr>`).join('');
 
 // Электрика и трубы по комнатам
 const byRoom = (list, fmt) => h.rooms.map((r) => {
@@ -156,7 +156,7 @@ const byRoom = (list, fmt) => h.rooms.map((r) => {
 }).join('');
 $('el-rooms').innerHTML = byRoom(h.electrical, (x) => `<li>${esc(ELECTRIC[x.kind] || x.kind)}${x.count > 1 ? ' × ' + x.count : ''}${x.wall ? ', ' + esc(wallName(x.wall)) : ''}${x.note ? ' — ' + esc(x.note) : ''}</li>`)
   + `<section><h3>Сводка</h3><ul>${Object.entries(h.electrical.reduce((a, x) => (a[x.kind] = (a[x.kind] || 0) + (x.count || 1), a), {})).map(([k, n]) => `<li>${esc(ELECTRIC[k] || k)}: ${n}</li>`).join('')}</ul><p class="note small">${statusBadge('observed_position_not_measured')}</p></section>`;
-$('pl-rooms').innerHTML = byRoom(h.plumbing, (x) => `<li>${esc(x.note || PLUMBING[x.kind] || x.kind)}</li>`);
+$('pl-rooms').innerHTML = byRoom(h.plumbing, (x) => `<li>${esc(x.note && /труб/.test(x.note) ? x.note : (PLUMBING[x.kind] || x.kind) + (x.note ? ' — ' + x.note : ''))}</li>`);
 
 // Лестница
 const s = h.stair_to_attic, c = s.design_check_not_a_design;
@@ -172,6 +172,7 @@ $('t-stair').innerHTML = [
 ].map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('');
 $('stair-conflict').textContent = 'Возможен конфликт с дверью санузла (D7): ' + c.conflict_door_D7.replace(/^Площадка выходит на высоте около \d+ мм, /, '');
 $('stair-roof').textContent = s.roof_headroom.note;
+if (s.owner_feedback) $('stair-owner').textContent = [s.owner_feedback.route, s.owner_feedback.door_D7].join(' ');
 
 // Неизвестно
 $('t-unknown').innerHTML = [
@@ -179,7 +180,7 @@ $('t-unknown').innerHTML = [
   'Назначение комнат: на видео подтверждён только санузел',
   'Мансарда изнутри: нет ни в одном видео',
   'Крыша над выступом со входом: нет данных',
-  'Панель под окном мансарды WA1: дверь на балкон или обшивка — не ясно',
+  'Ширина марша лестницы и её точное место: не измерены',
 ].map((t) => `<li>${esc(t)}</li>`).join('');
 </script>
 </body>

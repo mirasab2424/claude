@@ -37,6 +37,14 @@
       </section>
     </div>
   </div>
+  <section class="card" style="margin-top:16px">
+    <h2>Гараж и мастерская</h2>
+    <p class="note">Старая схема: вариант планировки по генплану, после перестройки дома не обновлялась. Размеры ориентировочные.</p>
+    <div class="grid2">
+      <a href="garage/view-garage.webp" target="_blank"><img src="garage/view-garage.webp" alt="Гараж и мастерская, схема без крыши" loading="lazy" style="width:100%;border-radius:10px"></a>
+      <p class="btns" style="align-self:start"><a class="btn" href="garage/plan-garage.svg" target="_blank">План гаража и мастерской</a></p>
+    </div>
+  </section>
   <p class="note small" id="source" style="margin-top:24px"></p>
 </main>
 <script type="module">
@@ -57,7 +65,7 @@ document.getElementById('plan-mini').innerHTML = planSVG(h, { compact: true, win
 const unk = ['Точный масштаб: нужен хотя бы один замер рулеткой',
   'Назначение комнат: подтверждён только санузел',
   'Мансарда изнутри: не снята', 'Места розеток и выключателей: видны, но не измерены',
-  'Лестница на мансарду: маршрут не подтверждён'];
+  'Лестница на мансарду: только вариант, размеры не измерены'];
 document.getElementById('unknown').innerHTML = unk.map((u) => `<li>${u}</li>`).join('');
 document.getElementById('source').textContent = 'Данные: data/measurements.json (' + h.schema + '). Округление: дом до 0,5 м, комнаты и проёмы до 0,1 м.';
 </script>
