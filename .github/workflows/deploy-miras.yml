@@ -1,0 +1,36 @@
+name: Deploy miras.page.gd
+
+# Сайт «Наш дом» (sites/miras/public) → корневая папка /htdocs/ аккаунта InfinityFree.
+# Только ручной запуск: публикуем после того, как владелец посмотрел изменения.
+# clean_slate удаляет со старого сайта всё, чего нет в public/ (старые схемы, 3D, координаты).
+
+on:
+  workflow_dispatch:
+    inputs:
+      clean_slate:
+        description: 'Удалить на сервере старые файлы, которых нет в sites/miras/public'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check data
+        run: python3 -c "import json; json.load(open('sites/miras/public/data/measurements.json'))"
+      - name: Upload by FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /htdocs/
+          local-dir: sites/miras/public/
+          protocol: ftp
+          timeout: 600000
+          dangerous-clean-slate: ${{ inputs.clean_slate }}

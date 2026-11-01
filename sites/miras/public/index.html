@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Наш дом</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/icon.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html"><img src="assets/icon.svg" alt="" width="24" height="24"> Наш дом</a>
+  <nav class="nav"><a href="index.html" aria-current="page">Главная</a><a href="plan.html">План и размеры</a><a href="3d.html">3D</a></nav>
+</div></header>
+<main class="wrap">
+  <h1>Наш дом</h1>
+  <p class="lead">Дом после перестройки: планировка, окна, двери и проводка по видео. Все размеры примерные.</p>
+  <p class="notice" id="scale-note"><b>Размеры примерные.</b> Рулетки на видео не было. Масштаб посчитан из предположения, что блок кладки — 600 × 300 мм. Когда появятся замеры рулеткой, все размеры изменятся.</p>
+  <ul class="figs" id="figs"></ul>
+  <div class="grid2">
+    <section class="card">
+      <h2>План этажа</h2>
+      <div id="plan-mini" class="plan-wrap"></div>
+      <p class="btns" style="margin-top:12px"><a class="btn primary" href="plan.html">Подробный план и размеры</a></p>
+    </section>
+    <div class="stack">
+      <section class="card">
+        <h2>3D-модель</h2>
+        <p class="note">Стены, окна и проёмы, построенные из тех же примерных размеров. Крыша и лестница — по желанию, с пометками.</p>
+        <p class="btns"><a class="btn primary" href="3d.html">Открыть 3D</a></p>
+      </section>
+      <section class="card">
+        <h2>Что пока неизвестно</h2>
+        <ul class="unknown" id="unknown"></ul>
+        <p class="note"><a href="plan.html#unknown">Подробнее</a></p>
+      </section>
+    </div>
+  </div>
+  <p class="note small" id="source" style="margin-top:24px"></p>
+</main>
+<script type="module">
+import { loadHouse, m05, m1, tol, area } from './assets/house.js';
+import { planSVG } from './assets/plan.js';
+const h = await loadHouse();
+const e = h.exterior;
+const total = h.rooms.reduce((a, r) => a + r.floor_area_m2, 0);
+const figs = [
+  [`${m05(e.total_width_x.value)} × ${m05(e.total_depth_y.value).replace('≈ ', '')}`, 'дом снаружи вместе с выступом, примерно'],
+  [m05(e.main_body_depth_y.value), 'глубина основного корпуса, примерно'],
+  [h.rooms.length, 'помещений на этаже'],
+  [area(total), 'сумма по помещениям, примерно'],
+  [m1(e.wall_height_blocks.value), 'высота кладки, потолка пока нет'],
+];
+document.getElementById('figs').innerHTML = figs.map(([b, t]) => `<li><b>${b}</b>${t}</li>`).join('');
+document.getElementById('plan-mini').innerHTML = planSVG(h, { compact: true, windows: true, doors: true });
+const unk = ['Точный масштаб: нужен хотя бы один замер рулеткой',
+  'Назначение комнат: подтверждён только санузел',
+  'Мансарда изнутри: не снята', 'Места розеток и выключателей: видны, но не измерены',
+  'Лестница на мансарду: маршрут не подтверждён'];
+document.getElementById('unknown').innerHTML = unk.map((u) => `<li>${u}</li>`).join('');
+document.getElementById('source').textContent = 'Данные: data/measurements.json (' + h.schema + '). Округление: дом до 0,5 м, комнаты и проёмы до 0,1 м.';
+</script>
+</body>
+</html>

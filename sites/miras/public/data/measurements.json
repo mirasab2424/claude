@@ -1,0 +1,2421 @@
+{
+ "schema": "home-measurements/1",
+ "units": "mm",
+ "coordinate_system": {
+  "origin": "наружный передний угол со стороны входа, если смотреть с улицы слева, на линии фасада выступа",
+  "x": "вправо вдоль улицы, если смотреть на дом с улицы",
+  "y": "от улицы вглубь дома",
+  "z": "вверх от уровня низа блоков, принятого за уровень пола",
+  "footprint_note": "Углы приведены к прямым; отклонение плоскостей в модели 1-2 градуса."
+ },
+ "scale": {
+  "mm_per_model_unit": 3430.0,
+  "status": "assumed",
+  "tolerance_pct": 3,
+  "basis": "Гипотеза: газоблок 600×300 мм. Ряд 0.0871 ед., блок 0.1796 ед., отношение 2.06 совместимо с 2.00.",
+  "check_entrance_door": "Проём входа при этом масштабе 892 × 2160 мм, это реалистично, но не доказательство.",
+  "important": "Рулетки в кадре нет. Статуса measured нет ни у одного числа. Один замер в мм уточнит все размеры сразу."
+ },
+ "status_legend": {
+  "measured": "рулетка или точный эталон: сейчас таких значений нет",
+  "estimated": "вычислено по реконструкции при масштабе-гипотезе",
+  "assumed": "предположение или стандартный размер"
+ },
+ "exterior": {
+  "footprint_mm": {
+   "value": [
+    [
+     0,
+     2236
+    ],
+    [
+     4672,
+     2236
+    ],
+    [
+     4672,
+     0
+    ],
+    [
+     9179,
+     0
+    ],
+    [
+     9179,
+     2236
+    ],
+    [
+     12372,
+     2236
+    ],
+    [
+     12372,
+     13586
+    ],
+    [
+     0,
+     13586
+    ]
+   ],
+   "status": "estimated",
+   "tolerance_mm": 400,
+   "source": {
+    "video": "20261101_111059",
+    "second": 29
+   }
+  },
+  "total_width_x": {
+   "value": 12372,
+   "status": "estimated",
+   "tolerance_mm": 400,
+   "source": {
+    "video": "20261101_111059",
+    "second": 44
+   }
+  },
+  "total_depth_y": {
+   "value": 13586,
+   "status": "estimated",
+   "tolerance_mm": 410,
+   "source": {
+    "video": "20261101_111059",
+    "second": 29
+   }
+  },
+  "main_body_depth_y": {
+   "value": 11350,
+   "status": "estimated",
+   "tolerance_mm": 350,
+   "source": {
+    "video": "20261101_111059",
+    "second": 29
+   }
+  },
+  "porch_width_x": {
+   "value": 4507,
+   "status": "estimated",
+   "tolerance_mm": 170,
+   "source": {
+    "video": "20261101_111059",
+    "second": 1
+   }
+  },
+  "porch_projection_y": {
+   "value": 2236,
+   "status": "estimated",
+   "tolerance_mm": 120,
+   "source": {
+    "video": "20261101_111059",
+    "second": 29
+   }
+  },
+  "wall_height_blocks": {
+   "value": 2984,
+   "status": "estimated",
+   "tolerance_mm": 150,
+   "source": {
+    "video": "20261101_111059",
+    "second": 44
+   },
+   "note": "10 рядов кладки по задней стене"
+  },
+  "plinth": {
+   "visible_brick_height_mm": {
+    "value": 343,
+    "status": "estimated",
+    "tolerance_mm": 60,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    }
+   }
+  }
+ },
+ "wall_thickness": {
+  "exterior_mm": {
+   "value": 330,
+   "status": "assumed",
+   "tolerance_mm": 40,
+   "source": {
+    "video": "20261101_111233",
+    "second": 0
+   },
+   "note": "блок 300 + штукатурка; вход показывает блок в один ряд"
+  },
+  "interior_mm": {
+   "value": 300,
+   "status": "estimated",
+   "tolerance_mm": 50,
+   "source": {
+    "video": "20261101_111740",
+    "second": 62
+   },
+   "note": "откосы проёмов 0.30-0.35 м в моделях 1, 3, 9"
+  }
+ },
+ "rooms": [
+  {
+   "id": "entry",
+   "name_ru": "Входная зона (выступ)",
+   "floor_polygon_mm": {
+    "value": [
+     [
+      5002,
+      330
+     ],
+     [
+      7395,
+      330
+     ],
+     [
+      7395,
+      2000
+     ],
+     [
+      5002,
+      2000
+     ]
+    ],
+    "status": "estimated",
+    "tolerance_mm": 200,
+    "source": {
+     "video": "20261101_111233",
+     "second": 2
+    }
+   },
+   "bbox_size_mm": {
+    "x": {
+     "value": 2393,
+     "status": "estimated",
+     "tolerance_mm": 200,
+     "source": {
+      "video": "20261101_111233",
+      "second": 2
+     }
+    },
+    "y": {
+     "value": 1670,
+     "status": "estimated",
+     "tolerance_mm": 200,
+     "source": {
+      "video": "20261101_111233",
+      "second": 2
+     }
+    }
+   },
+   "floor_area_m2": 4.0,
+   "wall_top_height_mm": {
+    "value": 2980,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки над уровнем блоков; потолка пока нет"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "small_front",
+   "name_ru": "Малая комната у улицы (мешки)",
+   "floor_polygon_mm": {
+    "value": [
+     [
+      7695,
+      330
+     ],
+     [
+      8849,
+      330
+     ],
+     [
+      8849,
+      2000
+     ],
+     [
+      7695,
+      2000
+     ]
+    ],
+    "status": "estimated",
+    "tolerance_mm": 250,
+    "source": {
+     "video": "20261101_111233",
+     "second": 6
+    },
+    "note": "Ширина самая неуверенная: дальняя стена видна мало."
+   },
+   "bbox_size_mm": {
+    "x": {
+     "value": 1154,
+     "status": "estimated",
+     "tolerance_mm": 250,
+     "source": {
+      "video": "20261101_111233",
+      "second": 6
+     }
+    },
+    "y": {
+     "value": 1670,
+     "status": "estimated",
+     "tolerance_mm": 250,
+     "source": {
+      "video": "20261101_111233",
+      "second": 6
+     }
+    }
+   },
+   "floor_area_m2": 1.9,
+   "wall_top_height_mm": {
+    "value": 2980,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки над уровнем блоков; потолка пока нет"
+   },
+   "confidence": "low"
+  },
+  {
+   "id": "hall",
+   "name_ru": "Холл и ответвление к санузлу",
+   "floor_polygon_mm": {
+    "value": [
+     [
+      5360,
+      2540
+     ],
+     [
+      7395,
+      2540
+     ],
+     [
+      7395,
+      7816
+     ],
+     [
+      2480,
+      7816
+     ],
+     [
+      2480,
+      5716
+     ],
+     [
+      5360,
+      5716
+     ]
+    ],
+    "status": "estimated",
+    "tolerance_mm": 200,
+    "source": {
+     "video": "20261101_111233",
+     "second": 60
+    }
+   },
+   "bbox_size_mm": {
+    "x": {
+     "value": 4915,
+     "status": "estimated",
+     "tolerance_mm": 200,
+     "source": {
+      "video": "20261101_111233",
+      "second": 60
+     }
+    },
+    "y": {
+     "value": 5276,
+     "status": "estimated",
+     "tolerance_mm": 200,
+     "source": {
+      "video": "20261101_111233",
+      "second": 60
+     }
+    }
+   },
+   "floor_area_m2": 16.8,
+   "wall_top_height_mm": {
+    "value": 2980,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки над уровнем блоков; потолка пока нет"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "front_room",
+   "name_ru": "Комната у фасада (окно с лестницей снаружи)",
+   "floor_polygon_mm": {
+    "value": [
+     [
+      330,
+      2566
+     ],
+     [
+      5030,
+      2566
+     ],
+     [
+      5030,
+      5416
+     ],
+     [
+      330,
+      5416
+     ]
+    ],
+    "status": "estimated",
+    "tolerance_mm": 250,
+    "source": {
+     "video": "20261101_111233",
+     "second": 90
+    }
+   },
+   "bbox_size_mm": {
+    "x": {
+     "value": 4700,
+     "status": "estimated",
+     "tolerance_mm": 250,
+     "source": {
+      "video": "20261101_111233",
+      "second": 90
+     }
+    },
+    "y": {
+     "value": 2850,
+     "status": "estimated",
+     "tolerance_mm": 250,
+     "source": {
+      "video": "20261101_111233",
+      "second": 90
+     }
+    }
+   },
+   "floor_area_m2": 13.4,
+   "wall_top_height_mm": {
+    "value": 2980,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки над уровнем блоков; потолка пока нет"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "bathroom",
+   "name_ru": "Санузел",
+   "floor_polygon_mm": {
+    "value": [
+     [
+      330,
+      5716
+     ],
+     [
+      2180,
+      5716
+     ],
+     [
+      2180,
+      7816
+     ],
+     [
+      330,
+      7816
+     ]
+    ],
+    "status": "estimated",
+    "tolerance_mm": 300,
+    "source": {
+     "video": "20261101_111233",
+     "second": 264
+    },
+    "note": "Модель санузла без масштаба. Ширина по Y взята равной ответвлению холла, это предположение."
+   },
+   "bbox_size_mm": {
+    "x": {
+     "value": 1850,
+     "status": "estimated",
+     "tolerance_mm": 300,
+     "source": {
+      "video": "20261101_111233",
+      "second": 264
+     }
+    },
+    "y": {
+     "value": 2100,
+     "status": "estimated",
+     "tolerance_mm": 300,
+     "source": {
+      "video": "20261101_111233",
+      "second": 264
+     }
+    }
+   },
+   "floor_area_m2": 3.9,
+   "wall_top_height_mm": {
+    "value": 2980,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки над уровнем блоков; потолка пока нет"
+   },
+   "confidence": "low"
+  },
+  {
+   "id": "rear_left",
+   "name_ru": "Задняя комната со стороны входа",
+   "floor_polygon_mm": {
+    "value": [
+     [
+      330,
+      8116
+     ],
+     [
+      4500,
+      8116
+     ],
+     [
+      4500,
+      13256
+     ],
+     [
+      330,
+      13256
+     ]
+    ],
+    "status": "estimated",
+    "tolerance_mm": 300,
+    "source": {
+     "video": "20261101_111233",
+     "second": 245
+    }
+   },
+   "bbox_size_mm": {
+    "x": {
+     "value": 4170,
+     "status": "estimated",
+     "tolerance_mm": 300,
+     "source": {
+      "video": "20261101_111233",
+      "second": 245
+     }
+    },
+    "y": {
+     "value": 5140,
+     "status": "estimated",
+     "tolerance_mm": 300,
+     "source": {
+      "video": "20261101_111233",
+      "second": 245
+     }
+    }
+   },
+   "floor_area_m2": 21.4,
+   "wall_top_height_mm": {
+    "value": 2980,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки над уровнем блоков; потолка пока нет"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "front_far",
+   "name_ru": "Дальняя передняя комната (поддон)",
+   "floor_polygon_mm": {
+    "value": [
+     [
+      7695,
+      2566
+     ],
+     [
+      12042,
+      2566
+     ],
+     [
+      12042,
+      7816
+     ],
+     [
+      7695,
+      7816
+     ]
+    ],
+    "status": "estimated",
+    "tolerance_mm": 250,
+    "source": {
+     "video": "20261101_111233",
+     "second": 120
+    }
+   },
+   "bbox_size_mm": {
+    "x": {
+     "value": 4347,
+     "status": "estimated",
+     "tolerance_mm": 250,
+     "source": {
+      "video": "20261101_111233",
+      "second": 120
+     }
+    },
+    "y": {
+     "value": 5250,
+     "status": "estimated",
+     "tolerance_mm": 250,
+     "source": {
+      "video": "20261101_111233",
+      "second": 120
+     }
+    }
+   },
+   "floor_area_m2": 22.8,
+   "wall_top_height_mm": {
+    "value": 2980,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки над уровнем блоков; потолка пока нет"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "rear_big",
+   "name_ru": "Большая задняя комната",
+   "floor_polygon_mm": {
+    "value": [
+     [
+      4800,
+      8116
+     ],
+     [
+      12042,
+      8116
+     ],
+     [
+      12042,
+      13256
+     ],
+     [
+      4800,
+      13256
+     ]
+    ],
+    "status": "estimated",
+    "tolerance_mm": 300,
+    "source": {
+     "video": "20261101_111233",
+     "second": 164
+    }
+   },
+   "bbox_size_mm": {
+    "x": {
+     "value": 7242,
+     "status": "estimated",
+     "tolerance_mm": 300,
+     "source": {
+      "video": "20261101_111233",
+      "second": 164
+     }
+    },
+    "y": {
+     "value": 5140,
+     "status": "estimated",
+     "tolerance_mm": 300,
+     "source": {
+      "video": "20261101_111233",
+      "second": 164
+     }
+    }
+   },
+   "floor_area_m2": 37.2,
+   "wall_top_height_mm": {
+    "value": 2980,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки над уровнем блоков; потолка пока нет"
+   },
+   "confidence": "medium"
+  }
+ ],
+ "windows": [
+  {
+   "id": "W1",
+   "level": "ground",
+   "wall": "street_porch",
+   "along": "x",
+   "from_mm": {
+    "value": 5413,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "to_mm": {
+    "value": 6730,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "width_mm": {
+    "value": 1317,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "height_mm": {
+    "value": 1427,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 940,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "room": "entry"
+  },
+  {
+   "id": "W2",
+   "level": "ground",
+   "wall": "street_porch",
+   "along": "x",
+   "from_mm": {
+    "value": 7676,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "to_mm": {
+    "value": 8465,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "width_mm": {
+    "value": 789,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "height_mm": {
+    "value": 1427,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 940,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 1
+    }
+   },
+   "room": "small_front"
+  },
+  {
+   "id": "W3",
+   "level": "ground",
+   "wall": "street_main_entry_side",
+   "along": "x",
+   "from_mm": {
+    "value": 1941,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 81
+    }
+   },
+   "to_mm": {
+    "value": 3636,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 81
+    }
+   },
+   "width_mm": {
+    "value": 1694,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 81
+    }
+   },
+   "height_mm": {
+    "value": 1430,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 81
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 940,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 81
+    }
+   },
+   "room": "front_room"
+  },
+  {
+   "id": "W4",
+   "level": "ground",
+   "wall": "back",
+   "along": "x",
+   "from_mm": {
+    "value": 5330,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    }
+   },
+   "to_mm": {
+    "value": 7059,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    }
+   },
+   "width_mm": {
+    "value": 1729,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    }
+   },
+   "height_mm": {
+    "value": 1423,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 960,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    }
+   },
+   "room": "rear_big"
+  },
+  {
+   "id": "W5",
+   "level": "ground",
+   "wall": "entry_side_wall",
+   "along": "y",
+   "from_mm": {
+    "value": 9981,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 58
+    }
+   },
+   "to_mm": {
+    "value": 11710,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 58
+    }
+   },
+   "width_mm": {
+    "value": 1729,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 58
+    }
+   },
+   "height_mm": {
+    "value": 1441,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 58
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 960,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 58
+    }
+   },
+   "room": "rear_left"
+  },
+  {
+   "id": "W6_small",
+   "level": "ground",
+   "wall": "entry_side_wall",
+   "along": "y",
+   "from_mm": {
+    "value": 6791,
+    "status": "estimated",
+    "tolerance_mm": 100,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "to_mm": {
+    "value": 7224,
+    "status": "estimated",
+    "tolerance_mm": 100,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "width_mm": {
+    "value": 432,
+    "status": "estimated",
+    "tolerance_mm": 100,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    },
+    "note": "Маленькое окно, снято под острым углом."
+   },
+   "height_mm": {
+    "value": 563,
+    "status": "estimated",
+    "tolerance_mm": 100,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 1850,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "room": "bathroom"
+  },
+  {
+   "id": "W7",
+   "level": "ground",
+   "wall": "far_wall",
+   "along": "y",
+   "from_mm": {
+    "value": 9432,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "to_mm": {
+    "value": 11761,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "width_mm": {
+    "value": 2329,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "height_mm": {
+    "value": 1355,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 1000,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "room": "rear_big"
+  },
+  {
+   "id": "W8",
+   "level": "ground",
+   "wall": "far_wall",
+   "along": "y",
+   "from_mm": {
+    "value": 4150,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "to_mm": {
+    "value": 6459,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "width_mm": {
+    "value": 2312,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "height_mm": {
+    "value": 1406,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 1000,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "room": "front_far"
+  },
+  {
+   "id": "WA1",
+   "level": "attic",
+   "wall": "gable_far",
+   "along": "y",
+   "from_mm": {
+    "value": 6723,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "to_mm": {
+    "value": 9604,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "width_mm": {
+    "value": 2881,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    },
+    "note": "Под окном панель до кладки, остаток незавершён; возможно место под дверь балкона, это только наблюдение."
+   },
+   "height_mm": {
+    "value": 1303,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 1060,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "room": "attic"
+  },
+  {
+   "id": "WA2",
+   "level": "attic",
+   "wall": "gable_entry_side",
+   "along": "y",
+   "from_mm": {
+    "value": 8232,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "to_mm": {
+    "value": 9309,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "width_mm": {
+    "value": 1077,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "height_mm": {
+    "value": 1269,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 1030,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "room": "attic"
+  },
+  {
+   "id": "WA3",
+   "level": "attic",
+   "wall": "gable_entry_side",
+   "along": "y",
+   "from_mm": {
+    "value": 6277,
+    "status": "estimated",
+    "tolerance_mm": 250,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "to_mm": {
+    "value": 7374,
+    "status": "estimated",
+    "tolerance_mm": 250,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "width_mm": {
+    "value": 1098,
+    "status": "estimated",
+    "tolerance_mm": 250,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    },
+    "note": "Второе окно щипца видно не целиком, ширина принята как у WA2."
+   },
+   "height_mm": {
+    "value": 1269,
+    "status": "estimated",
+    "tolerance_mm": 250,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "sill_above_floor_mm": {
+    "value": 1030,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 60
+    }
+   },
+   "room": "attic"
+  }
+ ],
+ "doors": [
+  {
+   "id": "D1_entrance",
+   "between": [
+    "outside",
+    "entry"
+   ],
+   "wall": "x=4672",
+   "along": "y",
+   "from_mm": {
+    "value": 741,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 70
+    }
+   },
+   "to_mm": {
+    "value": 1633,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 70
+    }
+   },
+   "width_mm": {
+    "value": 892,
+    "status": "estimated",
+    "tolerance_mm": 70,
+    "source": {
+     "video": "20261101_111059",
+     "second": 70
+    },
+    "note": "Вход в боковой стене выступа. Проверка масштаба."
+   },
+   "height_mm": {
+    "value": 2160,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111059",
+     "second": 70
+    }
+   }
+  },
+  {
+   "id": "D2",
+   "between": [
+    "entry",
+    "small_front"
+   ],
+   "wall": "x=7395",
+   "along": "y",
+   "from_mm": {
+    "value": 716,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 4
+    }
+   },
+   "to_mm": {
+    "value": 1631,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 4
+    }
+   },
+   "width_mm": {
+    "value": 915,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 4
+    }
+   },
+   "height_mm": {
+    "value": 2100,
+    "status": "assumed",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 4
+    },
+    "note": "гипотеза: 7 рядов блока 300 мм, стандарт"
+   }
+  },
+  {
+   "id": "D3",
+   "between": [
+    "entry",
+    "hall"
+   ],
+   "wall": "y=2000",
+   "along": "x",
+   "from_mm": {
+    "value": 5550,
+    "status": "estimated",
+    "tolerance_mm": 400,
+    "source": {
+     "video": "20261101_111233",
+     "second": 58
+    }
+   },
+   "to_mm": {
+    "value": 7250,
+    "status": "estimated",
+    "tolerance_mm": 400,
+    "source": {
+     "video": "20261101_111233",
+     "second": 58
+    }
+   },
+   "width_mm": {
+    "value": 1700,
+    "status": "estimated",
+    "tolerance_mm": 400,
+    "source": {
+     "video": "20261101_111233",
+     "second": 58
+    },
+    "note": "Широкий проём, по кадрам; ширина и положение приблизительны."
+   },
+   "height_mm": {
+    "value": 2100,
+    "status": "assumed",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 58
+    },
+    "note": "гипотеза: 7 рядов блока 300 мм, стандарт"
+   }
+  },
+  {
+   "id": "D4",
+   "between": [
+    "hall",
+    "front_room"
+   ],
+   "wall": "x=5030",
+   "along": "y",
+   "from_mm": {
+    "value": 3620,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 78
+    }
+   },
+   "to_mm": {
+    "value": 4570,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 78
+    }
+   },
+   "width_mm": {
+    "value": 950,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 78
+    }
+   },
+   "height_mm": {
+    "value": 2100,
+    "status": "assumed",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 78
+    },
+    "note": "гипотеза: 7 рядов блока 300 мм, стандарт"
+   }
+  },
+  {
+   "id": "D5",
+   "between": [
+    "hall",
+    "front_far"
+   ],
+   "wall": "x=7395",
+   "along": "y",
+   "from_mm": {
+    "value": 4406,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 149
+    }
+   },
+   "to_mm": {
+    "value": 5456,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 149
+    }
+   },
+   "width_mm": {
+    "value": 1050,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 149
+    }
+   },
+   "height_mm": {
+    "value": 2100,
+    "status": "assumed",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 149
+    },
+    "note": "гипотеза: 7 рядов блока 300 мм, стандарт"
+   }
+  },
+  {
+   "id": "D6",
+   "between": [
+    "hall",
+    "rear_big"
+   ],
+   "wall": "y=7816",
+   "along": "x",
+   "from_mm": {
+    "value": 5775,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 152
+    }
+   },
+   "to_mm": {
+    "value": 6995,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 152
+    }
+   },
+   "width_mm": {
+    "value": 1220,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 152
+    },
+    "note": "Кирпичный откос с одной стороны."
+   },
+   "height_mm": {
+    "value": 2100,
+    "status": "assumed",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 152
+    },
+    "note": "гипотеза: 7 рядов блока 300 мм, стандарт"
+   }
+  },
+  {
+   "id": "D7",
+   "between": [
+    "hall",
+    "bathroom"
+   ],
+   "wall": "x=2180",
+   "along": "y",
+   "from_mm": {
+    "value": 6336,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 216
+    }
+   },
+   "to_mm": {
+    "value": 7196,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 216
+    }
+   },
+   "width_mm": {
+    "value": 860,
+    "status": "estimated",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 216
+    }
+   },
+   "height_mm": {
+    "value": 2100,
+    "status": "assumed",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 216
+    },
+    "note": "гипотеза: 7 рядов блока 300 мм, стандарт"
+   }
+  },
+  {
+   "id": "D8",
+   "between": [
+    "hall",
+    "rear_left"
+   ],
+   "wall": "y=7816",
+   "along": "x",
+   "from_mm": {
+    "value": 2930,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 228
+    }
+   },
+   "to_mm": {
+    "value": 3730,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 228
+    }
+   },
+   "width_mm": {
+    "value": 800,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111233",
+     "second": 228
+    }
+   },
+   "height_mm": {
+    "value": 2100,
+    "status": "assumed",
+    "tolerance_mm": 120,
+    "source": {
+     "video": "20261101_111233",
+     "second": 228
+    },
+    "note": "гипотеза: 7 рядов блока 300 мм, стандарт"
+   }
+  }
+ ],
+ "electrical": [
+  {
+   "kind": "socket_double",
+   "room": "small_front",
+   "count": 1,
+   "wall": "street",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 8
+   },
+   "note": "под окном W2"
+  },
+  {
+   "kind": "switch",
+   "room": "small_front",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 10
+   },
+   "note": null
+  },
+  {
+   "kind": "light_cable",
+   "room": "small_front",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 12
+   },
+   "note": "кабель в углу от верха стены"
+  },
+  {
+   "kind": "electrical_panel",
+   "room": "entry",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 34
+   },
+   "note": "щиток с дверцей, снизу штроба"
+  },
+  {
+   "kind": "switch",
+   "room": "entry",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 42
+   },
+   "note": "рядом с входной дверью"
+  },
+  {
+   "kind": "junction_box",
+   "room": "entry",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 44
+   },
+   "note": "над входной дверью, справа"
+  },
+  {
+   "kind": "socket_double",
+   "room": "entry",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 48
+   },
+   "note": null
+  },
+  {
+   "kind": "switch_block_2",
+   "room": "hall",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 64
+   },
+   "note": "блок из двух выключателей у проёма D6"
+  },
+  {
+   "kind": "floor_outlet_or_hole",
+   "room": "hall",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 64
+   },
+   "note": "заделанное отверстие низко под блоком выключателей"
+  },
+  {
+   "kind": "light_pendant",
+   "room": "hall",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 60
+   },
+   "note": "временная лампа"
+  },
+  {
+   "kind": "junction_box",
+   "room": "hall",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 72
+   },
+   "note": null
+  },
+  {
+   "kind": "switch",
+   "room": "hall",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 216
+   },
+   "note": "рядом с проёмом санузла D7"
+  },
+  {
+   "kind": "socket",
+   "room": "front_room",
+   "count": 1,
+   "wall": "street",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 80
+   },
+   "note": "под окном W3"
+  },
+  {
+   "kind": "junction_box",
+   "room": "front_room",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 84
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "front_room",
+   "count": 1,
+   "wall": "street",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 84
+   },
+   "note": null
+  },
+  {
+   "kind": "light_pendant",
+   "room": "front_room",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 86
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "front_room",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 94
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "front_room",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 96
+   },
+   "note": null
+  },
+  {
+   "kind": "cable_outlet_low",
+   "room": "front_room",
+   "count": 2,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 98
+   },
+   "note": "два вывода у пола"
+  },
+  {
+   "kind": "socket",
+   "room": "front_room",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 100
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "front_room",
+   "count": 1,
+   "wall": "street",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 104
+   },
+   "note": null
+  },
+  {
+   "kind": "light_pendant",
+   "room": "front_far",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 112
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "front_far",
+   "count": 1,
+   "wall": "far",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 112
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "front_far",
+   "count": 1,
+   "wall": "far",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 120
+   },
+   "note": "справа от окна W8"
+  },
+  {
+   "kind": "switch",
+   "room": "front_far",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 128
+   },
+   "note": "у проёма D5, над ним штроба с кабелем"
+  },
+  {
+   "kind": "socket_double",
+   "room": "front_far",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 136
+   },
+   "note": null
+  },
+  {
+   "kind": "socket_double",
+   "room": "front_far",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 138
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "front_far",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 142
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "front_far",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 144
+   },
+   "note": null
+  },
+  {
+   "kind": "light_pendant",
+   "room": "rear_big",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 154
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 164
+   },
+   "note": "рядом с углом"
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": "back",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 164
+   },
+   "note": "у окна W4"
+  },
+  {
+   "kind": "switch_block_2",
+   "room": "rear_big",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 172
+   },
+   "note": "у стены с проёмом, над ним штроба"
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 178
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": "far",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 180
+   },
+   "note": "у окна W7"
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": "far",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 186
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 188
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 190
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": "back",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 194
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": "back",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 196
+   },
+   "note": "у окна W4"
+  },
+  {
+   "kind": "socket",
+   "room": "rear_big",
+   "count": 1,
+   "wall": "back",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 200
+   },
+   "note": null
+  },
+  {
+   "kind": "light_pendant",
+   "room": "rear_left",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 240
+   },
+   "note": null
+  },
+  {
+   "kind": "switch_block_2",
+   "room": "rear_left",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 244
+   },
+   "note": "у проёма, над ним штроба"
+  },
+  {
+   "kind": "socket",
+   "room": "rear_left",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 246
+   },
+   "note": null
+  },
+  {
+   "kind": "socket",
+   "room": "rear_left",
+   "count": 1,
+   "wall": "entry_side",
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 252
+   },
+   "note": "у окна W5"
+  },
+  {
+   "kind": "switch",
+   "room": "rear_left",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 260
+   },
+   "note": "у проёма D8, снаружи или внутри уточнить"
+  },
+  {
+   "kind": "socket",
+   "room": "bathroom",
+   "count": 2,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 266
+   },
+   "note": "один выше, другой ниже"
+  },
+  {
+   "kind": "socket",
+   "room": "bathroom",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 270
+   },
+   "note": null
+  },
+  {
+   "kind": "junction_box_rough",
+   "room": "bathroom",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 272
+   },
+   "note": "коробка в отверстии, рядом кабель"
+  },
+  {
+   "kind": "light_pendant",
+   "room": "bathroom",
+   "count": 1,
+   "wall": null,
+   "position_along_wall_mm": null,
+   "status": "observed_position_not_measured",
+   "source": {
+    "video": "20261101_111233",
+    "second": 264
+   },
+   "note": null
+  }
+ ],
+ "plumbing": [
+  {
+   "kind": "red_pipe_loop",
+   "room": "entry",
+   "source": {
+    "video": "20261101_111233",
+    "second": 2
+   },
+   "note": "красная труба у стены под окном, возможно уже перенесена"
+  },
+  {
+   "kind": "red_blue_pipes_on_floor",
+   "room": "front_room",
+   "source": {
+    "video": "20261101_111233",
+    "second": 80
+   },
+   "note": "у окна W3"
+  },
+  {
+   "kind": "red_pipe_on_floor",
+   "room": "rear_big",
+   "source": {
+    "video": "20261101_111233",
+    "second": 156
+   },
+   "note": "вдоль пола"
+  },
+  {
+   "kind": "red_pipe_riser",
+   "room": "rear_left",
+   "source": {
+    "video": "20261101_111233",
+    "second": 240
+   },
+   "note": "под окном W5"
+  },
+  {
+   "kind": "stack_pipe_vertical",
+   "room": "bathroom",
+   "source": {
+    "video": "20261101_111233",
+    "second": 264
+   },
+   "note": "белая вертикальная труба в углу"
+  },
+  {
+   "kind": "water_outlets_sewer",
+   "room": "bathroom",
+   "source": {
+    "video": "20261101_111233",
+    "second": 282
+   },
+   "note": "выводы воды и горизонтальная труба у пола"
+  }
+ ],
+ "stair_to_attic": {
+  "status": "assumed",
+  "basis": "Разговор в видео 111740 на казахском, разобраны обрывки: «плашат» (вероятно площадка), «бұлай бұрылып, бұлай шық керек» (примерно: повернуть так, подняться так), возможно «над дверью». Плюс жесты: 26-38 с показ вдоль левой стены ответвления холла, 46-52 с над проёмом санузла, 56-68 с над проёмом задней комнаты.",
+  "source": {
+   "video": "20261101_111740",
+   "seconds": [
+    8,
+    68
+   ]
+  },
+  "hypothesis_route": [
+   "Старт в холле у стены комнаты front_room, подъём к стене санузла вдоль y=5716",
+   "Площадка в углу у стены санузла, примерно над проёмом D7",
+   "Поворот на 90 градусов в сторону задних комнат, подъём вдоль стены санузла, выход на мансарду"
+  ],
+  "space_available_mm": {
+   "branch_length_x": {
+    "value": 2880,
+    "status": "estimated",
+    "tolerance_mm": 300,
+    "source": {
+     "video": "20261101_111740",
+     "second": 20
+    }
+   },
+   "branch_width_y": {
+    "value": 2100,
+    "status": "estimated",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111740",
+     "second": 20
+    }
+   }
+  },
+  "design_check_not_a_design": {
+   "assumed_floor_to_attic_mm": {
+    "value": 3200,
+    "status": "assumed",
+    "tolerance_mm": 150,
+    "source": {
+     "video": "20261101_111059",
+     "second": 44
+    },
+    "note": "верх кладки плюс перекрытие, перекрытие не измерено"
+   },
+   "assumed_risers": 18,
+   "assumed_rise_mm": 178,
+   "assumed_tread_mm": 260,
+   "assumed_width_mm": 900,
+   "treads_in_first_run": 11,
+   "landing_height_mm": 1958,
+   "conflict_door_D7": "Площадка выходит на высоте около 1958 мм, проём D7 высотой около 2100 мм находится частично под площадкой. Над дверью зазора не хватает, если лестница именно такая."
+  },
+  "roof_headroom": {
+   "ridge_above_wall_top_mm": {
+    "value": 4219,
+    "status": "estimated",
+    "tolerance_mm": 300,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    }
+   },
+   "ridge_y_mm": {
+    "value": 7820,
+    "status": "estimated",
+    "tolerance_mm": 500,
+    "source": {
+     "video": "20261101_111059",
+     "second": 29
+    },
+    "note": "конёк идёт вдоль X, примерно над стеной холл/задние комнаты"
+   },
+   "note": "Самое высокое место мансарды рядом с предполагаемым выходом. Фермы и стойки стропил не измерены, они могут мешать проёму."
+  }
+ },
+ "closure_checks": {
+  "x": {
+   "sum_mm": 12490,
+   "exterior_mm": 12372,
+   "chain": "стена + комната 4700 (модель 16) + стена + холл 2100 (модель 1) + стена + комната 4400 (модель 3) + стена",
+   "difference_mm": 118,
+   "difference_pct": 1.0
+  },
+  "y": {
+   "sum_mm": 13746,
+   "exterior_mm": 13586,
+   "chain": "выступ + стена + 2850 (модель 16) + стена + 2100 (модель 1) + стена + 5300 (модель 3) + стена",
+   "difference_mm": 160,
+   "difference_pct": 1.2
+  }
+ },
+ "not_available": [
+  "Абсолютный масштаб: рулетки в кадре нет",
+  "Точные положения розеток и выключателей вдоль стен и их высоты",
+  "Сечения стропил и шаг ферм",
+  "Толщина и высота будущего перекрытия",
+  "Размеры старого проекта с сайта: сайт закрыт защитой хостинга и сравнение не сделано"
+ ]
+}

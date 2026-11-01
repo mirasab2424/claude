@@ -44,6 +44,12 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 по снимку вопросов в попытке. Примеры тестов — `app/content/samples.json` (загружаются в пустую базу).
 База `app/storage/tests.sqlite` живёт на сервере. Деплой `.github/workflows/deploy-kostobe.yml`.
 
+## Четвёртый проект: «Наш дом» (`sites/miras/`)
+Статический сайт → miras.page.gd (корень `/htdocs/` того же FTP). Все числа — только в `public/data/measurements.json`
+(по видео, масштаб-гипотеза, статуса measured нет); план, таблицы и 3D строятся из него в браузере.
+Округление: дом 0,5 м, комнаты 0,1 м, с «≈». assumed отличается от estimated, электрику — только списком по комнатам,
+лестница — «предварительно». Без адреса и координат. Видео и evidence/ в git не класть. Деплой вручную: `deploy-miras.yml`.
+
 ## Команды
 - `php artisan migrate:fresh --seed`: база с демо-данными, админ `admin@example.com` / `password`.
 - `php artisan test`: тесты в `tests/Feature`.

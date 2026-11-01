@@ -15,6 +15,7 @@ on:
       - '.github/workflows/deploy-kostobe.yml'
       - '.github/workflows/backup.yml'
       - '.github/backup/**'
+      - '.github/workflows/deploy-miras.yml'
   workflow_dispatch:
     inputs:
       with_vendor:

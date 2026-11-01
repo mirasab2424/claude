@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D — Наш дом</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/icon.svg">
+<link rel="stylesheet" href="assets/style.css">
+<script type="importmap">{"imports": {"three": "./vendor/three/three.module.min.js"}}</script>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html"><img src="assets/icon.svg" alt="" width="24" height="24"> Наш дом</a>
+  <nav class="nav"><a href="index.html">Главная</a><a href="plan.html">План и размеры</a><a href="3d.html" aria-current="page">3D</a></nav>
+</div></header>
+<main class="wrap">
+  <h1>3D-модель</h1>
+  <p class="notice"><b>Модель примерная.</b> Её строят те же числа, что и план: стены, окна и проёмы по видео, масштаб — предположение. Высота межкомнатных проёмов — тоже предположение. Мансарда изнутри и крыша над выступом не сняты.</p>
+  <div class="toggles">
+    <label><input type="checkbox" id="t-labels" checked> Подписи</label>
+    <label><input type="checkbox" id="t-roof"> Крыша (оценка)</label>
+    <label><input type="checkbox" id="t-stair"> Вариант лестницы (предварительно)</label>
+    <button class="btn" type="button" id="b-persp">Сбоку</button>
+    <button class="btn" type="button" id="b-top">Сверху</button>
+  </div>
+  <div id="view3d"></div>
+  <p class="note small">Вращать — левой кнопкой или пальцем, масштаб — колесом или двумя пальцами.</p>
+</main>
+<script type="module">
+import { loadHouse } from './assets/house.js';
+import { build3D } from './assets/view3d.js';
+const h = await loadHouse();
+build3D(document.getElementById('view3d'), h, {
+  roof: document.getElementById('t-roof'), stair: document.getElementById('t-stair'), labels: document.getElementById('t-labels'),
+  top: document.getElementById('b-top'), persp: document.getElementById('b-persp'),
+});
+</script>
+</body>
+</html>

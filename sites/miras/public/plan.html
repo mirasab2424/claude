@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>План и размеры — Наш дом</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/icon.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html"><img src="assets/icon.svg" alt="" width="24" height="24"> Наш дом</a>
+  <nav class="nav"><a href="index.html">Главная</a><a href="plan.html" aria-current="page">План и размеры</a><a href="3d.html">3D</a></nav>
+</div></header>
+<main class="wrap">
+  <h1>План и размеры</h1>
+  <p class="notice"><b>Размеры примерные.</b> Рулетки на видео не было, и ни одно число не измерено. Масштаб посчитан из предположения, что блок кладки — 600 × 300 мм. Если блок другой, все длины изменятся в одно и то же число раз, а пропорции останутся. Числа не для строительства.</p>
+  <nav class="toc"><a href="#plan">План</a><a href="#house">Дом</a><a href="#rooms">Помещения</a><a href="#windows">Окна</a><a href="#doors">Двери и проёмы</a><a href="#electric">Электрика</a><a href="#plumbing">Трубы</a><a href="#stair">Лестница</a><a href="#unknown">Неизвестно</a></nav>
+
+  <section class="card" id="plan">
+    <div class="toggles">
+      <label><input type="checkbox" data-opt="windows" checked> Окна</label>
+      <label><input type="checkbox" data-opt="doors" checked> Двери и проёмы</label>
+      <label><input type="checkbox" data-opt="electric"> Электрика (условно, по комнатам)</label>
+      <label><input type="checkbox" data-opt="stair"> Вариант лестницы (предварительно)</label>
+    </div>
+    <div id="plan-box" class="plan-wrap"></div>
+    <ul class="legend">
+      <li><i class="lg-room"></i>помещение: оценка по видео</li>
+      <li><i class="lg-low"></i>помещение: низкая уверенность</li>
+      <li><i class="lg-win"></i>окно</li>
+      <li><i class="lg-door"></i>дверь или проём</li>
+      <li><i class="lg-rough"></i>проём: положение очень приблизительно</li>
+      <li><i class="lg-el"></i>электрика: сколько точек в комнате, места не измерены</li>
+      <li><i class="lg-stair"></i>лестница: вариант, предварительно</li>
+    </ul>
+    <p class="note small">Названия помещений описательные: по видео назначение подтверждено только у санузла. Площадь по помещениям: <span id="area-total"></span>.</p>
+  </section>
+
+  <section class="card" id="house" style="margin-top:16px">
+    <h2>Дом снаружи</h2>
+    <div class="tbl"><table><thead><tr><th>Что</th><th>Значение</th><th>Статус</th><th>Комментарий</th></tr></thead><tbody id="t-house"></tbody></table></div>
+    <h3>Проверка: сумма помещений и стен против наружного размера</h3>
+    <p class="note" id="closure"></p>
+  </section>
+
+  <section class="card" id="rooms" style="margin-top:16px">
+    <h2>Помещения</h2>
+    <div class="tbl"><table><thead><tr><th>Помещение</th><th>Размер</th><th>Площадь</th><th>Высота</th><th>Уверенность</th><th>Комментарий</th></tr></thead><tbody id="t-rooms"></tbody></table></div>
+  </section>
+
+  <section class="card" id="windows" style="margin-top:16px">
+    <h2>Окна</h2>
+    <div class="tbl"><table><thead><tr><th></th><th>Где</th><th>Ширина</th><th>Высота</th><th>Низ окна от пола</th><th>Комментарий</th></tr></thead><tbody id="t-windows"></tbody></table></div>
+  </section>
+
+  <section class="card" id="doors" style="margin-top:16px">
+    <h2>Двери и проёмы</h2>
+    <div class="tbl"><table><thead><tr><th></th><th>Между</th><th>Ширина</th><th>Высота</th><th>Комментарий</th></tr></thead><tbody id="t-doors"></tbody></table></div>
+    <p class="note small">Высота межкомнатных проёмов не измерена: <span class="badge st-assumed">предположение</span> — стандарт, 7 рядов блока.</p>
+  </section>
+
+  <section class="card" id="electric" style="margin-top:16px">
+    <h2>Электрика по комнатам</h2>
+    <p class="note">Список того, что видно на видео. Точные места розеток и выключателей и их высоты не измерены, поэтому на плане они показаны только числом на комнату.</p>
+    <div class="rooms-el" id="el-rooms"></div>
+  </section>
+
+  <section class="card" id="plumbing" style="margin-top:16px">
+    <h2>Трубы по комнатам</h2>
+    <p class="note">Только видимые участки; трассы под полом и в стенах неизвестны.</p>
+    <div class="rooms-el" id="pl-rooms"></div>
+  </section>
+
+  <section class="card stair-box" id="stair" style="margin-top:16px">
+    <h2>Лестница на мансарду — вариант, предварительно</h2>
+    <p><b>Маршрут не подтверждён.</b> Вариант собран по жестам и обрывкам разговора на видео, это не проект.</p>
+    <ol id="stair-route"></ol>
+    <h3>Проверочный расчёт на предполагаемых числах</h3>
+    <div class="tbl"><table><tbody id="t-stair"></tbody></table></div>
+    <p class="warn" id="stair-conflict"></p>
+    <p class="note" id="stair-roof"></p>
+  </section>
+
+  <section class="card" id="unknown" style="margin-top:16px">
+    <h2>Что неизвестно</h2>
+    <ul class="unknown" id="t-unknown"></ul>
+  </section>
+  <p class="note small" style="margin-top:20px">Все числа берутся из одного файла <code>data/measurements.json</code>. После замеров рулеткой достаточно заменить его.</p>
+</main>
+<script type="module">
+import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS } from './assets/house.js';
+import { planSVG } from './assets/plan.js';
+const h = await loadHouse();
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const $ = (id) => document.getElementById(id);
+
+// План с переключателями
+const opts = { windows: true, doors: true, electric: false, stair: false };
+const draw = () => { $('plan-box').innerHTML = planSVG(h, opts); };
+document.querySelectorAll('[data-opt]').forEach((cb) => cb.addEventListener('change', () => { opts[cb.dataset.opt] = cb.checked; draw(); }));
+if (location.hash === '#stair-plan') { opts.stair = true; document.querySelector('[data-opt=stair]').checked = true; }
+draw();
+$('area-total').textContent = area(h.rooms.reduce((a, r) => a + r.floor_area_m2, 0)) + ' (выведена из примерных размеров)';
+
+// Дом
+const e = h.exterior, wt = h.wall_thickness;
+const row = (name, v, fmt, note = '') => `<tr><td>${name}</td><td class="num">${val(v, fmt)}</td><td>${statusBadge(v.status)}</td><td class="note">${esc(note || v.note || '')}</td></tr>`;
+$('t-house').innerHTML = [
+  row('Ширина вдоль улицы', e.total_width_x, m05),
+  row('Глубина вместе с выступом', e.total_depth_y, m05),
+  row('Глубина основного корпуса', e.main_body_depth_y, m05),
+  row('Выступ со входом: ширина', e.porch_width_x, m05),
+  row('Выступ со входом: вынос', e.porch_projection_y, m05),
+  row('Высота кладки', e.wall_height_blocks, m1, (e.wall_height_blocks.note || '') + '; потолка пока нет'),
+  row('Видимый цоколь (кирпич)', e.plinth.visible_brick_height_mm, m1),
+  row('Толщина наружных стен', wt.exterior_mm, m1),
+  row('Толщина перегородок', wt.interior_mm, m1),
+  row('Конёк над верхом кладки', h.stair_to_attic.roof_headroom.ridge_above_wall_top_mm, m1, 'конёк идёт вдоль улицы, примерно над стеной между холлом и задними комнатами'),
+].join('');
+const cc = h.closure_checks;
+$('closure').textContent = `Вдоль улицы сумма больше наружного размера на ${cc.x.difference_pct.toLocaleString('ru-RU')}%, вглубь — на ${cc.y.difference_pct.toLocaleString('ru-RU')}%. Сходится в пределах погрешности, но это проверка согласованности, а не замер.`;
+
+// Помещения
+$('t-rooms').innerHTML = h.rooms.map((r) => {
+  const n = roomName(r), b = r.bbox_size_mm;
+  const notes = [n.hint ? 'пометка: ' + n.hint : '', (r.floor_polygon_mm.note || '').replace(/\.$/, ''), r.id === 'bathroom' ? 'назначение подтверждено по трубам' : ''].filter(Boolean).join('. ');
+  const shape = r.floor_polygon_mm.value.length > 4 ? ' (Г-образное, размер по габариту)' : '';
+  return `<tr><td><b>${esc(n.name)}</b>${shape}</td>
+    <td class="num">≈ ${m1n(b.x.value)} × ${m1n(b.y.value)} м <small class="tol">${tol(Math.max(b.x.tolerance_mm, b.y.tolerance_mm))}</small></td>
+    <td class="num">${area(r.floor_area_m2)}</td>
+    <td class="num">${val(r.wall_top_height_mm)}</td>
+    <td>${CONFIDENCE[r.confidence] || r.confidence}</td>
+    <td class="note">${esc(notes)}</td></tr>`;
+}).join('');
+
+// Окна
+$('t-windows').innerHTML = h.windows.map((w) => `<tr><td><b>${esc(w.id.replace('_small', ''))}</b></td>
+  <td>${w.level === 'attic' ? 'мансарда, ' : ''}${esc(wallName(w.wall))}; ${esc(roomLabel(h, w.room))}</td>
+  <td class="num">${val(w.width_mm)}</td><td class="num">${val(w.height_mm)}</td><td class="num">${val(w.sill_above_floor_mm)}</td>
+  <td class="note">${esc(w.width_mm.note || '')}</td></tr>`).join('');
+
+// Двери
+$('t-doors').innerHTML = h.doors.map((d) => `<tr><td><b>${esc(d.id.replace('_entrance', ''))}</b></td>
+  <td>${d.between.map((x) => esc(roomLabel(h, x))).join(' ↔ ')}</td>
+  <td class="num">${val(d.width_mm)}${(d.width_mm.tolerance_mm || 0) >= 300 ? ' <span class="badge st-assumed">очень приблизительно</span>' : ''}</td>
+  <td class="num">${val(d.height_mm)} ${d.height_mm.status === 'assumed' ? statusBadge('assumed') : ''}</td>
+  <td class="note">${esc(d.width_mm.note || '')}</td></tr>`).join('');
+
+// Электрика и трубы по комнатам
+const byRoom = (list, fmt) => h.rooms.map((r) => {
+  const items = list.filter((x) => x.room === r.id);
+  if (!items.length) return '';
+  return `<section><h3>${esc(roomName(r).name)}</h3><ul>${items.map(fmt).join('')}</ul></section>`;
+}).join('');
+$('el-rooms').innerHTML = byRoom(h.electrical, (x) => `<li>${esc(ELECTRIC[x.kind] || x.kind)}${x.count > 1 ? ' × ' + x.count : ''}${x.wall ? ', ' + esc(wallName(x.wall)) : ''}${x.note ? ' — ' + esc(x.note) : ''}</li>`)
+  + `<section><h3>Сводка</h3><ul>${Object.entries(h.electrical.reduce((a, x) => (a[x.kind] = (a[x.kind] || 0) + (x.count || 1), a), {})).map(([k, n]) => `<li>${esc(ELECTRIC[k] || k)}: ${n}</li>`).join('')}</ul><p class="note small">${statusBadge('observed_position_not_measured')}</p></section>`;
+$('pl-rooms').innerHTML = byRoom(h.plumbing, (x) => `<li>${esc(x.note || PLUMBING[x.kind] || x.kind)}</li>`);
+
+// Лестница
+const s = h.stair_to_attic, c = s.design_check_not_a_design;
+$('stair-route').innerHTML = s.hypothesis_route.map((t) => `<li>${esc(t.replace(/комнаты front_room|front_room/g, 'комнаты у фасада').replace(/ вдоль [xy]=\d+/g, ''))}</li>`).join('');
+$('t-stair').innerHTML = [
+  ['Ответвление холла: длина', val(s.space_available_mm.branch_length_x)],
+  ['Ответвление холла: ширина', val(s.space_available_mm.branch_width_y)],
+  ['Высота от пола до мансарды', val(c.assumed_floor_to_attic_mm) + ' ' + statusBadge('assumed')],
+  ['Подъёмов', `<span class="st-assumed">${c.assumed_risers} по ${c.assumed_rise_mm} мм</span> ${statusBadge('assumed')}`],
+  ['Проступь', `<span class="st-assumed">${c.assumed_tread_mm} мм</span> ${statusBadge('assumed')}`],
+  ['Ширина марша', `<span class="st-assumed">${m1(c.assumed_width_mm)}</span> ${statusBadge('assumed')}`],
+  ['Ступеней в первом марше', `<span class="st-assumed">${c.treads_in_first_run}</span>, площадка на высоте <span class="st-assumed">${m1(c.landing_height_mm)}</span>`],
+].map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('');
+$('stair-conflict').textContent = 'Возможен конфликт с дверью санузла (D7): ' + c.conflict_door_D7.replace(/^Площадка выходит на высоте около \d+ мм, /, '');
+$('stair-roof').textContent = s.roof_headroom.note;
+
+// Неизвестно
+$('t-unknown').innerHTML = [
+  ...h.not_available.filter((x) => !/старого проекта/.test(x)),
+  'Назначение комнат: на видео подтверждён только санузел',
+  'Мансарда изнутри: нет ни в одном видео',
+  'Крыша над выступом со входом: нет данных',
+  'Панель под окном мансарды WA1: дверь на балкон или обшивка — не ясно',
+].map((t) => `<li>${esc(t)}</li>`).join('');
+</script>
+</body>
+</html>
