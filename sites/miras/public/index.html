@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=3">
+<link rel="stylesheet" href="assets/style.css?v=4">
 </head>
 <body>
 <header class="top">
@@ -24,8 +24,8 @@
 
 <main class="wrap">
   <h1>Наш дом</h1>
-  <p class="lead">Дом после перестройки: 3D-модель, план с размерами, окна, двери и электрика по комнатам.</p>
-  <p class="approx">Размеры примерные — сняты по видео, без рулетки. Уточнятся после замеров.</p>
+  <p class="lead">Дом после перестройки на нашем участке: 3D-модель с мебелью из дизайн-проекта, план с размерами, окна, двери и электрика по комнатам.</p>
+  <p class="approx">Размеры дома примерные — сняты по видео, без рулетки. Мебель и двор — из прошлого дизайн-проекта.</p>
 
   <div class="grid2">
     <section class="card" aria-labelledby="h-3d">
@@ -33,6 +33,7 @@
       <a class="preview" href="3d.html"><img src="assets/preview-roof.webp" alt="Дом в 3D с крышей" loading="lazy"></a>
       <div class="btns">
         <a class="btn primary" href="3d.html">Открыть 3D</a>
+        <a class="btn" href="3d.html?view=site">Участок</a>
         <a class="btn" href="3d.html?view=front">Спереди</a>
         <a class="btn" href="3d.html?view=top">Сверху</a>
         <a class="btn" href="3d.html?show=dims">С размерами</a>
@@ -60,8 +61,8 @@
   <section class="card" style="margin-top:16px" aria-labelledby="h-gal">
     <h2 id="h-gal">Схемы</h2>
     <div class="tiles">
-      <a class="tile" href="3d.html"><div class="cover" style="background-image:url(assets/preview.webp)"></div><div class="cap"><b>Дом · 3D без крыши</b><span>по видео</span></div></a>
-      <a class="tile" href="3d.html?show=roof"><div class="cover" style="background-image:url(assets/preview-roof.webp)"></div><div class="cap"><b>Дом · общий вид</b><span>крыша — оценка</span></div></a>
+      <a class="tile" href="3d.html"><div class="cover" style="background-image:url(assets/preview.webp)"></div><div class="cap"><b>Дом · 3D с мебелью</b><span>дизайн — вариант</span></div></a>
+      <a class="tile" href="3d.html?show=roof"><div class="cover" style="background-image:url(assets/preview-roof.webp)"></div><div class="cap"><b>Дом и участок</b><span>крыша — оценка</span></div></a>
       <a class="tile" href="plan.html"><div class="cover cover--plan" id="plan-tile"></div><div class="cap"><b>План этажа</b><span>с размерами</span></div></a>
       <a class="tile" href="garage/view-garage.webp" target="_blank"><div class="cover" style="background-image:url(garage/view-garage.webp)"></div><div class="cap"><b>Гараж и мастерская</b><span>старая схема</span></div></a>
       <a class="tile" href="garage/plan-garage.svg" target="_blank"><div class="cover" style="background-image:url(garage/plan-garage.svg);background-size:contain;background-color:#fff"></div><div class="cap"><b>План гаража</b><span>старая схема</span></div></a>
@@ -70,8 +71,8 @@
 </main>
 
 <script type="module">
-import { loadHouse, m05, m1, area } from './assets/house.js?v=3';
-import { planSVG } from './assets/plan.js?v=3';
+import { loadHouse, m05, m1, area } from './assets/house.js?v=4';
+import { planSVG } from './assets/plan.js?v=4';
 const h = await loadHouse();
 const e = h.exterior;
 const svg = planSVG(h, { compact: true });
