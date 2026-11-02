@@ -1,6 +1,6 @@
 // План этажа в SVG из measurements.json. Улица снизу, сторона входа слева — как видно, если стоять на улице лицом к дому.
 // Геометрия рисуется в координатах данных (y — от улицы вглубь) и переворачивается целиком; подписи ставятся уже в экранных координатах.
-import { m05, m1n, tol, roomName, windowWall, doorWall, stairVariant, ELECTRIC } from './house.js';
+import { m05, m1n, tol, roomName, windowWall, doorWall, stairVariant, ELECTRIC } from './house.js?v=5';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -40,7 +40,7 @@ export function planSVG(h, opts = {}) {
       const a = d.from_mm.value, b = d.to_mm.value;
       const rect = g.axis === 'y' ? [a, g.at, b - a, g.t] : [g.at, a, g.t, b - a];
       const rough = (d.width_mm.tolerance_mm || 0) >= 300;
-      const conflict = o.stair && d.id === 'D7';
+      const sv = o.stair && stairVariant(h), conflict = !!(sv?.overDoor && sv.overDoor.door.id === d.id && sv.overDoor.minTop - sv.overDoor.doorTop < 300);
       geo += `<rect x="${rect[0]}" y="${rect[1]}" width="${rect[2]}" height="${rect[3]}" class="door${rough ? ' door--rough' : ''}${conflict ? ' door--conflict' : ''}"><title>${esc(d.id)}: ширина ≈ ${m1n(d.width_mm.value)} м ${tol(d.width_mm.tolerance_mm)}</title></rect>`;
       if (!o.compact) {
         const cx = g.axis === 'y' ? (a + b) / 2 : g.at + g.t / 2;
@@ -52,13 +52,8 @@ export function planSVG(h, opts = {}) {
   if (o.stair) {
     const st = stairVariant(h);
     if (st) {
-      for (const part of [st.run1, st.landing, st.run2]) geo += `<polygon points="${pts(part)}" class="stair"/>`;
-      const c = h.stair_to_attic.design_check_not_a_design;
-      for (let i = 1; i < c.treads_in_first_run; i++) {
-        const x = st.x2 - i * c.assumed_tread_mm;
-        if (x > st.x1 + st.w) geo += `<line x1="${x}" y1="${st.y1}" x2="${x}" y2="${st.y1 + st.w}" class="stair-step"/>`;
-      }
-      geo += `<path d="M ${st.x2 - 200} ${st.y1 + st.w / 2} H ${st.x1 + st.w / 2} V ${st.y2 - 250}" class="stair-arrow"/>`;
+      for (const step of st.steps) geo += `<polygon points="${pts(step.pts)}" class="stair"/>`;
+      geo += `<path d="M ${st.x2 - st.w / 2} ${st.y1 + st.w - 120} V ${st.y1 + st.w / 2} H ${st.x1 + st.w / 2} V ${st.y2 - 250}" class="stair-arrow"/>`;
       const lx = (st.x1 + st.w + st.x2) / 2;
       text(lx, Y(st.y1 + st.w) + fs * 1.4, 't-stair halo', fs * 0.85, 'лестница:');
       text(lx, Y(st.y1 + st.w) + fs * 2.4, 't-stair halo', fs * 0.85, 'предварительно');

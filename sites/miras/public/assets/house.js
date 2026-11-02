@@ -101,22 +101,84 @@ export function doorWall(h, d) {
   return { axis, at, dir: 1, t: next ? next - at : h.wall_thickness.interior_mm.value };
 }
 
-/** Геометрия варианта лестницы — только из данных: ответвление холла и принятая ширина марша. */
+/**
+ * Геометрия варианта лестницы по эскизу владельца — только из данных: ответвление холла, принятая ширина марша,
+ * число подъёмов и забежных ступеней. Ступени: { pts: [[x,y],…], top: высота верха, kind }.
+ */
 export function stairVariant(h) {
   const s = h.stair_to_attic;
   const hall = h.rooms.find((r) => r.id === 'hall');
-  const bath = h.rooms.find((r) => r.id === 'bathroom');
   if (!s || !hall) return null;
   const pts = hall.floor_polygon_mm.value;
   const x1 = Math.min(...pts.map((p) => p[0]));                    // упор в стену санузла
   const branchY = pts.filter((p) => p[0] === x1).map((p) => p[1]);
-  const y1 = Math.min(...branchY), y2 = Math.max(...branchY);
+  const y1 = Math.min(...branchY), y2 = Math.max(...branchY);       // стена комнаты у фасада … конец ответвления
   const x2 = x1 + s.space_available_mm.branch_length_x.value;       // длина ответвления
-  const w = s.design_check_not_a_design.assumed_width_mm;
+  const c = s.design_check_not_a_design;
+  const w = c.assumed_width_mm;
+  const nW = s.owner_sketch?.winders_per_turn ?? 0;
+  const risers = c.assumed_risers, rise = c.assumed_floor_to_attic_mm.value / risers;
+  const treads = risers - 1;                                        // верхняя «ступень» — пол мансарды
+  const L1 = (x2 - w) - (x1 + w), L2 = y2 - (y1 + w);               // прямые участки
+  const straight = treads - 2 * nW;
+  const n1 = Math.max(1, Math.round(straight * L1 / (L1 + L2))), n2 = straight - n1;
+  const steps = [];
+  const add = (p, kind) => steps.push({ pts: p, kind, top: (steps.length + 1) * rise });
+  // веер забежных ступеней вокруг внутреннего угла (cx, cy) в квадрате w×w: лучи от a0 до a1
+  const fan = (cx, cy, a0, a1, box) => {
+    const hit = (a) => {
+      const dx = Math.cos(a), dy = Math.sin(a);
+      let t = Infinity;
+      for (const [bx, by] of [[box[0], null], [box[1], null], [null, box[2]], [null, box[3]]]) {
+        const k = bx != null ? (dx ? (bx - cx) / dx : Infinity) : (dy ? (by - cy) / dy : Infinity);
+        if (k > 1e-6 && k < t) t = k;
+      }
+      return [cx + dx * t, cy + dy * t];
+    };
+    const corners = [[box[0], box[2]], [box[1], box[2]], [box[1], box[3]], [box[0], box[3]]];
+    for (let i = 0; i < nW; i++) {
+      const aa = a0 + (a1 - a0) * i / nW, ab = a0 + (a1 - a0) * (i + 1) / nW;
+      const p = [[cx, cy], hit(aa)];
+      for (const q of corners) {                                    // наружный угол, если он между лучами
+        const a = Math.atan2(q[1] - cy, q[0] - cx);
+        const norm = (v) => ((v - Math.min(aa, ab)) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+        if (Math.hypot(q[0] - cx, q[1] - cy) > 1 && norm(a) > 1e-6 && norm(a) < Math.abs(ab - aa) - 1e-6) p.push(q);
+      }
+      p.push(hit(ab));
+      add(p, 'winder');
+    }
+  };
+  // 1) старт: входим со стороны задних комнат (−y), поворот к санузлу (−x)
+  fan(x2 - w, y1 + w, 0, -Math.PI / 2, [x2 - w, x2, y1, y1 + w]);
+  // 2) прямой марш вдоль стены комнаты у фасада
+  for (let i = 0; i < n1; i++) {
+    const a = (x2 - w) - L1 * i / n1, b = (x2 - w) - L1 * (i + 1) / n1;
+    add([[a, y1], [b, y1], [b, y1 + w], [a, y1 + w]], 'tread');
+  }
+  // 3) угол у санузла: поворот к задним комнатам (+y)
+  fan(x1 + w, y1 + w, -Math.PI / 2, -Math.PI, [x1, x1 + w, y1, y1 + w]);
+  // 4) второй марш вдоль стены санузла
+  for (let i = 0; i < n2; i++) {
+    const a = (y1 + w) + L2 * i / n2, b = (y1 + w) + L2 * (i + 1) / n2;
+    add([[x1, a], [x1 + w, a], [x1 + w, b], [x1, b]], 'tread');
+  }
+  // проём в перекрытии: над ступенями, где до верха кладки меньше 2 м (2 м — принятый минимум над ступенью)
+  const ceil = h.exterior.wall_height_blocks.value;
+  const xe = Math.max(x1 + w, ...steps.filter((st) => ceil - st.top < 2000).flatMap((st) => st.pts.map((p) => p[0])));
+  // дверь санузла: какие ступени над ней (по стене санузла x = x1)
+  const d7 = h.doors.find((d) => d.id === 'D7');
+  let overDoor = null;
+  if (d7) {
+    const a = d7.from_mm.value, b = d7.to_mm.value;
+    const over = steps.filter((st) => {                              // участок ступени, лежащий на стене санузла
+      const ys = st.pts.filter((p) => Math.abs(p[0] - x1) < 1).map((p) => p[1]);
+      return ys.length > 1 && Math.min(...ys) < b && Math.max(...ys) > a;
+    });
+    overDoor = { door: d7, minTop: Math.min(...over.map((st) => st.top)), doorTop: d7.height_mm.value };
+  }
   return {
-    run1: [[x2, y1], [x1 + w, y1], [x1 + w, y1 + w], [x2, y1 + w]],
-    landing: [[x1, y1], [x1 + w, y1], [x1 + w, y1 + w], [x1, y1 + w]],
-    run2: [[x1, y1 + w], [x1 + w, y1 + w], [x1 + w, y2], [x1, y2]],
-    x1, x2, y1, y2, w, bathroom: bath,
+    steps, x1, x2, y1, y2, w, rise, headroomMin: 2000, n1, n2, nW, going1: L1 / n1, going2: L2 / n2,
+    opening: [[x1, y1], [xe, y1], [xe, y1 + w], [x1 + w, y1 + w], [x1 + w, y2], [x1, y2]],
+    overDoor,
   };
 }

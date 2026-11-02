@@ -51,6 +51,8 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 лестница — «предварительно». Без адреса и координат. Видео и evidence/ в git не класть. Деплой вручную: `deploy-miras.yml`.
 Участок и мебель будущего дизайна — `public/assets/site.glb` (из старой модели) + `public/data/design.json` (привязка и комнаты).
 Ориентация: x вправо, если смотреть с улицы; в 3D y плана = −z, на 2D-плане улица снизу.
+Лестница — по эскизу владельца (`stair_to_attic.owner_sketch`, геометрия в `stairVariant()`); мансарда — вариант по прошлому плану
+(`design.json → attic`); электрика в 3D — значки на стенах в условных местах (`placeElectric()` в `view3d.js`).
 
 ## Команды
 - `php artisan migrate:fresh --seed`: база с демо-данными, админ `admin@example.com` / `password`.

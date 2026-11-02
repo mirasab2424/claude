@@ -36,19 +36,25 @@
   .card .muted { color: var(--muted); }
   .card h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 12px 0 4px; }
   .card ul { margin: 0; padding-left: 18px; }
+  .legend { position: fixed; right: 24px; top: calc(110px + env(safe-area-inset-top, 0px)); max-width: 330px; background: var(--panel); backdrop-filter: blur(10px); border-radius: 12px; box-shadow: 0 4px 14px rgba(34,48,58,.12); padding: 9px 12px; font-size: 12.5px; line-height: 1.45; }
+  .legend[hidden], body.notext .txt { display: none; }
+  .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; border: 2.5px solid; margin: 0 4px -1px 0; }
+  .legend .muted { color: var(--muted); }
   .hint { position: fixed; left: 24px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); font-size: 12px; color: var(--muted); max-width: 260px; }
   @media (max-width: 900px) { .hint { display: none; } }
   @media (max-width: 520px) {
     .controls button { padding: 8px 9px; font-size: 13px; }
     .card { top: auto; bottom: 150px; max-height: 40vh; }
-    .links { right: 12px; } .title { left: 12px; }
+    .links { right: 12px; } .title { left: 12px; } .title small { display: none; }
+    .legend { right: 12px; left: 12px; top: calc(64px + env(safe-area-inset-top, 0px)); max-width: none; }
   }
 </style>
 <script type="importmap">{"imports": {"three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/"}}</script>
 </head>
 <body>
   <canvas id="scene"></canvas>
-  <h1 class="title">Наш дом<small>Вращайте мышью, колесо — масштаб. Нажмите на комнату — покажу её размеры, окна, двери и розетки. Дом — по видео, размеры примерные; мебель и участок — из прошлого дизайн-проекта.</small></h1>
+  <h1 class="title">Наш дом<small class="txt">Нажмите на комнату — покажу размеры. Размеры по видео, примерные; мебель — вариант дизайна.</small></h1>
+  <div class="legend txt" id="legend" hidden></div>
   <nav class="links">
     <a href="index.html">← На главную</a>
     <a href="plan.html">План и размеры</a>
@@ -68,14 +74,15 @@
     <button data-layer="site" aria-pressed="true" title="Участок из прошлой модели">Двор</button>
     <button data-layer="roof" aria-pressed="false">Крыша</button>
     <button data-layer="stair" aria-pressed="false">Лестница</button>
+    <button data-layer="attic" aria-pressed="false" title="Мансарда — вариант по прошлому плану">Мансарда</button>
     <span class="sep"></span>
-    <button data-layer="labels" aria-pressed="true">Подписи</button>
+    <button data-layer="labels" aria-pressed="true" title="Показать или скрыть все надписи">Текст</button>
     <button id="btnRotate" aria-pressed="false">Поворот</button>
     <button id="btnWire" aria-pressed="false">Каркас</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=4';
-import { createViewer } from './assets/view3d.js?v=4';
+import { loadHouse } from './assets/house.js?v=5';
+import { createViewer } from './assets/view3d.js?v=5';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const list = (title, items, empty) => `<h3>${title}</h3>` + (items.length ? `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : `<p class="muted">${empty}</p>`);
@@ -96,10 +103,24 @@ const v = createViewer(document.getElementById('scene'), h, (r) => {
   card.querySelector('.close').onclick = () => v.select(null);
 }, design);
 document.querySelectorAll('[data-view]').forEach((b) => b.onclick = () => v.view(b.dataset.view));
+const legend = document.getElementById('legend');
+const LEGEND = {
+  electric: `<b>Электрика</b> · <i style="border-color:#2f6fd0"></i>розетки <i style="border-color:#2f9e44"></i>выключатели <i style="border-color:#6b7480"></i>коробки и выводы <i style="border-color:#e8590c"></i>щиток <i style="border-color:#f0b400"></i>свет<br><span class="muted">Что есть в комнате — видно на видео. Место на стене условное, не измерено.</span>`,
+  attic: `<b>Мансарда — вариант</b><br><span class="muted">По прошлому плану мансарды, переложен на новый дом. Пол и скаты — оценка, не замер.</span>`,
+  stair: `<b>Лестница — предварительно</b><br><span class="muted">По эскизу владельца: забежные ступени на старте и в углу у санузла. Число ступеней — проверочный расчёт.</span>`,
+};
+const showLegend = () => {
+  const on = ['electric', 'attic', 'stair'].filter((k) => v.isOn(k));
+  legend.hidden = !on.length;
+  legend.innerHTML = on.map((k) => LEGEND[k]).join('<hr style="border:0;border-top:1px solid rgba(34,48,58,.12);margin:6px 0">');
+};
 document.querySelectorAll('[data-layer]').forEach((b) => b.onclick = () => {
   const on = b.getAttribute('aria-pressed') !== 'true';
   b.setAttribute('aria-pressed', on);
   v.layer(b.dataset.layer, on);
+  if (b.dataset.layer === 'labels') document.body.classList.toggle('notext', !on);
+  if (b.dataset.layer === 'attic' && on) v.view('attic');
+  showLegend();
 });
 const toggle = (id, fn) => { const b = document.getElementById(id); b.onclick = () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); fn(on); }; };
 toggle('btnRotate', v.autoRotate);

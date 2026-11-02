@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=4">
+<link rel="stylesheet" href="assets/style.css?v=5">
 </head>
 <body>
 <header class="top"><div class="top-in">
@@ -77,7 +77,8 @@
 
   <section class="card stair-box" id="stair" style="margin-top:16px">
     <h2>Лестница на мансарду — вариант, предварительно</h2>
-    <p><b>Это вариант, а не проект.</b> Он собран по жестам и обрывкам разговора на видео. <span id="stair-owner"></span></p>
+    <p><b>Это вариант, а не проект.</b> Он собран по видео и эскизу владельца. <span id="stair-owner"></span></p>
+    <p><a href="3d.html?show=stair">Посмотреть лестницу в 3D</a></p>
     <ol id="stair-route"></ol>
     <h3>Проверочный расчёт на предполагаемых числах</h3>
     <div class="tbl"><table><tbody id="t-stair"></tbody></table></div>
@@ -92,8 +93,8 @@
   <p class="note small" style="margin-top:20px">Все числа берутся из одного файла <code>data/measurements.json</code>. После замеров рулеткой достаточно заменить его.</p>
 </main>
 <script type="module">
-import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS } from './assets/house.js?v=4';
-import { planSVG } from './assets/plan.js?v=4';
+import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant } from './assets/house.js?v=5';
+import { planSVG } from './assets/plan.js?v=5';
 const h = await loadHouse();
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const $ = (id) => document.getElementById(id);
@@ -162,19 +163,23 @@ $('pl-rooms').innerHTML = byRoom(h.plumbing, (x) => `<li>${esc(x.note && /тру
 
 // Лестница
 const s = h.stair_to_attic, c = s.design_check_not_a_design;
-$('stair-route').innerHTML = s.hypothesis_route.map((t) => `<li>${esc(t.replace(/комнаты front_room|front_room/g, 'комнаты у фасада').replace(/ вдоль [xy]=\d+/g, ''))}</li>`).join('');
+const sv = stairVariant(h);
+$('stair-route').innerHTML = (s.owner_sketch?.route || s.hypothesis_route).map((t) => `<li>${esc(t)}</li>`).join('');
 $('t-stair').innerHTML = [
   ['Ответвление холла: длина', val(s.space_available_mm.branch_length_x)],
   ['Ответвление холла: ширина', val(s.space_available_mm.branch_width_y)],
   ['Высота от пола до мансарды', val(c.assumed_floor_to_attic_mm) + ' ' + statusBadge('assumed')],
-  ['Подъёмов', `<span class="st-assumed">${c.assumed_risers} по ${c.assumed_rise_mm} мм</span> ${statusBadge('assumed')}`],
-  ['Проступь', `<span class="st-assumed">${c.assumed_tread_mm} мм</span> ${statusBadge('assumed')}`],
+  ['Подъёмов', `<span class="st-assumed">${c.assumed_risers} по ≈ ${Math.round(sv.rise)} мм</span> ${statusBadge('assumed')}`],
   ['Ширина марша', `<span class="st-assumed">${m1(c.assumed_width_mm)}</span> ${statusBadge('assumed')}`],
-  ['Ступеней в первом марше', `<span class="st-assumed">${c.treads_in_first_run}</span>, площадка на высоте <span class="st-assumed">${m1(c.landing_height_mm)}</span>`],
+  ['Забежных ступеней в повороте', `<span class="st-assumed">${sv.nW}</span> ${statusBadge('assumed')} <small class="tol">${esc(s.owner_sketch?.winders_note || '')}</small>`],
+  ['Прямых ступеней', `<span class="st-assumed">${sv.n1}</span> вдоль комнаты у фасада (проступь ≈ ${Math.round(sv.going1)} мм) и <span class="st-assumed">${sv.n2}</span> вдоль санузла (≈ ${Math.round(sv.going2)} мм)`],
 ].map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('');
-$('stair-conflict').textContent = 'Возможен конфликт с дверью санузла (D7): ' + c.conflict_door_D7.replace(/^Площадка выходит на высоте около \d+ мм, /, '');
+const od = sv.overDoor;
+$('stair-conflict').textContent = od ? (od.minTop - od.doorTop < 300
+  ? `Дверь санузла (D7): над ней проходят ступени, нижняя — на высоте ≈ ${m1n(od.minTop)} м при двери ≈ ${m1n(od.doorTop)} м. С учётом толщины ступеней проход впритык — решить при проектировании (сдвинуть поворот, поднять или сузить дверь).`
+  : `Дверь санузла (D7): ступени над ней не ниже ≈ ${m1n(od.minTop)} м.`) : '';
 $('stair-roof').textContent = s.roof_headroom.note;
-if (s.owner_feedback) $('stair-owner').textContent = [s.owner_feedback.route, s.owner_feedback.door_D7].join(' ');
+$('stair-owner').textContent = s.owner_sketch ? 'Владелец прислал эскиз от руки: Г-образная лестница с забежными ступенями.' : (s.owner_feedback ? [s.owner_feedback.route, s.owner_feedback.door_D7].join(' ') : '');
 
 // Неизвестно
 $('t-unknown').innerHTML = [
