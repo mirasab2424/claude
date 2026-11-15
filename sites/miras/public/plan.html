@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=8">
+<link rel="stylesheet" href="assets/style.css?v=9">
 </head>
 <body>
 <header class="top"><div class="top-in">
@@ -19,7 +19,7 @@
   <h1>План и размеры</h1>
   <p class="notice"><b>Размеры примерные.</b> Рулетки на видео не было, и ни одно число не измерено. Масштаб посчитан из предположения, что блок кладки — 600 × 300 мм. Если блок другой, все длины изменятся в одно и то же число раз, а пропорции останутся. Числа не для строительства.</p>
   <p class="no-print" style="margin:-8px 0 14px"><button type="button" class="btn-print" onclick="print()" style="font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:7px 12px;cursor:pointer;color:var(--ink)">🖨 Распечатать план для мастера (A4 / PDF)</button></p>
-  <nav class="toc"><a href="#plan">План</a><a href="#house">Дом</a><a href="#rooms">Помещения</a><a href="#windows">Окна</a><a href="#doors">Двери и проёмы</a><a href="#electric">Электрика</a><a href="#plumbing">Трубы</a><a href="#stair">Лестница</a><a href="#unknown">Неизвестно</a></nav>
+  <nav class="toc"><a href="#plan">План</a><a href="#attic">Мансарда</a><a href="#house">Дом</a><a href="#rooms">Помещения</a><a href="#windows">Окна</a><a href="#doors">Двери и проёмы</a><a href="#electric">Электрика</a><a href="#plumbing">Трубы</a><a href="#stair">Лестница</a><a href="#unknown">Неизвестно</a></nav>
 
   <section class="card" id="plan">
     <div class="toggles">
@@ -39,6 +39,13 @@
       <li><i class="lg-stair"></i>лестница: вариант, предварительно</li>
     </ul>
     <p class="note small">Названия помещений описательные: по видео назначение подтверждено только у санузла. Площадь по помещениям: <span id="area-total"></span>.</p>
+  </section>
+
+  <section class="card" id="attic" style="margin-top:16px">
+    <h2>План мансарды — вариант</h2>
+    <p class="note">Перегородки и комнаты — вариант по прошлому плану мансарды, разложенный на новый дом. Пол мансарды и скаты — оценка, лестница — по эскизу. Штриховка — место под скатом ниже подкосной стенки.</p>
+    <div id="attic-box" class="plan-wrap"></div>
+    <p class="note small"><a href="3d.html?show=attic">Посмотреть мансарду в 3D</a></p>
   </section>
 
   <section class="card" id="house" style="margin-top:16px">
@@ -94,9 +101,11 @@
   <p class="note small" style="margin-top:20px">Все числа берутся из одного файла <code>data/measurements.json</code>. После замеров рулеткой достаточно заменить его — удобнее всего через <a href="zamery.html">лист замеров</a>.</p>
 </main>
 <script type="module">
-import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant } from './assets/house.js?v=8';
-import { planSVG } from './assets/plan.js?v=8';
+import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant } from './assets/house.js?v=9';
+import { planSVG, atticSVG } from './assets/plan.js?v=9';
 const h = await loadHouse();
+const design = await fetch('data/design.json', { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).catch(() => null);
+document.getElementById('attic-box').innerHTML = atticSVG(h, design);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const $ = (id) => document.getElementById(id);
 
