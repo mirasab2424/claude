@@ -15,6 +15,23 @@ class ListGoals extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('importCsv')
+                ->label('Загрузить CSV')
+                ->icon(Heroicon::OutlinedArrowUpTray)
+                ->color('gray')
+                ->modalHeading('Загрузить цели из CSV')
+                ->modalDescription('Формат как у «Скачать CSV»: первая строка — заголовки, обязательна колонка «Цель». Можно скачать, дописать цели в Excel и загрузить обратно — повторы (то же название и срок) пропускаются.')
+                ->modalSubmitActionLabel('Загрузить')
+                ->schema([
+                    \Filament\Forms\Components\FileUpload::make('file')->label('Файл CSV')->storeFiles(false)->maxSize(5 * 1024)
+                        ->acceptedFileTypes(['text/csv', 'text/plain', 'application/csv', 'application/vnd.ms-excel'])->required(),
+                ])
+                ->action(function (array $data) {
+                    $file = $data['file'];
+                    $r = (new \App\Services\GoalsCsvImport)->import(auth()->user(), $file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile ? $file->get() : '');
+                    $n = \Filament\Notifications\Notification::make()->title("Добавлено целей: {$r['created']}".($r['skipped'] ? ", пропущено повторов: {$r['skipped']}" : ''));
+                    ($r['errors'] ? $n->warning()->body(implode(' ', array_slice($r['errors'], 0, 3))) : $n->success())->send();
+                }),
             Action::make('exportCsv')
                 ->label('Скачать CSV')
                 ->icon(Heroicon::OutlinedArrowDownTray)
