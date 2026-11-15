@@ -168,3 +168,7 @@ td.num { white-space: nowrap; }
 .ri-close { position: absolute; right: 10px; top: 6px; border: 0; background: none; font-size: 22px; cursor: pointer; color: var(--muted); }
 @media print { .room-info { display: none; } }
 .plan text { pointer-events: none; }
+
+.news-list { margin: 6px 0 0; padding-left: 0; list-style: none; display: grid; gap: 6px; }
+.news-list li { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.news-list li:last-child { border-bottom: 0; }
