@@ -52,6 +52,7 @@ class Coach
             $this->heart(),
             $this->personalBest(),
             $this->goalStreak(),
+            $this->habits(),
             $this->inProgress(),
             $this->staleMetric(),
         ]));
@@ -181,6 +182,24 @@ class Coach
         return $streak >= 2
             ? $this->tip(self::GOOD, '⚡', "Серия {$streak} дн.", 'Каждый день что-то выполнено. Не прерывайте: одна маленькая задача сегодня — и серия растёт.')
             : null;
+    }
+
+    private function habits(): ?array
+    {
+        $habits = $this->user->habits()->active()->with('checks')->get();
+        if ($habits->isEmpty()) {
+            return null;
+        }
+        $best = $habits->sortByDesc(fn ($h) => $h->streak($this->today))->first();
+        if ($best->streak($this->today) >= 7) {
+            return $this->tip(self::GOOD, '🔁', 'Привычка держится', "«{$best->name}» — уже {$best->streak($this->today)} дней подряд. Отлично!");
+        }
+        $left = $habits->reject(fn ($h) => $h->isDoneOn($this->today));
+        if ($left->isNotEmpty()) {
+            return $this->tip(self::INFO, '☑️', 'Привычки на сегодня', 'Ещё не отмечено: '.$left->pluck('name')->take(3)->implode(', ').'. Отметьте на инфопанели.');
+        }
+
+        return $this->tip(self::GOOD, '✅', 'Все привычки выполнены', 'Сегодня всё отмечено — так держать.');
     }
 
     private function inProgress(): ?array

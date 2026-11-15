@@ -79,6 +79,26 @@
     </div>
 </section>
 
+@if ($habits->isNotEmpty())
+<section class="container section" id="habits">
+    <h2 class="section__title">Привычки <span class="muted">последние 30 дней</span></h2>
+    <div class="habits">
+        @foreach ($habits as $h)
+            <div class="card habit">
+                <div class="habit__head">
+                    <b>{{ $h['name'] }}</b>
+                    @if ($isOwner && ! $h['public'])<span class="muted">· видите только вы</span>@endif
+                </div>
+                <div class="habit__days" role="img" aria-label="Отметки за 30 дней">
+                    @foreach ($h['days'] as $d)<i class="{{ $d['done'] ? 'on' : '' }}" title="{{ $d['label'] }}"></i>@endforeach
+                </div>
+                <div class="habit__meta muted">серия <b>{{ $h['streak'] }}</b> дн. · рекорд {{ $h['best'] }} · неделя {{ $h['week'] }}/{{ $h['plan'] }}</div>
+            </div>
+        @endforeach
+    </div>
+</section>
+@endif
+
 @if ($reviews)
 <section class="container section" id="review">
     <div class="section__head">

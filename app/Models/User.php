@@ -82,6 +82,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return $this->hasMany(Goal::class);
     }
 
+    public function habits(): HasMany
+    {
+        return $this->hasMany(Habit::class)->orderBy('sort_order')->orderBy('id');
+    }
+
     public function metrics(): HasMany
     {
         return $this->hasMany(Metric::class);

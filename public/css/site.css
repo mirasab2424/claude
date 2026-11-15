@@ -240,3 +240,11 @@ img { max-width: 100%; }
 .wrapped__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
 .wrapped__list { margin: 0; padding-left: 18px; }
 @media (max-width: 800px) { .wrapped__grid { grid-template-columns: 1fr 1fr; } .wrapped__big { grid-column: 1 / -1; } .wrapped__row { grid-template-columns: 1fr; } }
+
+/* Привычки */
+.habits { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+.habit__head { display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; margin-bottom: 10px; }
+.habit__days { display: grid; grid-template-columns: repeat(30, 1fr); gap: 3px; }
+.habit__days i { aspect-ratio: 1; border-radius: 3px; background: var(--border); }
+.habit__days i.on { background: var(--accent); }
+.habit__meta { margin-top: 8px; font-size: 14px; }
