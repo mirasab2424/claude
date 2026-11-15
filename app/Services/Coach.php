@@ -51,6 +51,7 @@ class Coach
             $this->overdue(),
             $this->heart(),
             $this->personalBest(),
+            $this->target(),
             $this->goalStreak(),
             $this->habits(),
             $this->moodTip(),
@@ -163,6 +164,34 @@ class Coach
         }
 
         return null;
+    }
+
+    /** Метрика с заданной целью, до которой ближе всего (по лучшему результату). */
+    private function target(): ?array
+    {
+        $best = null;
+        foreach ($this->metrics as $m) {
+            if ($m->target === null || $m->entries->isEmpty() || ! $m->target) {
+                continue;
+            }
+            $down = $m->direction === MetricDirection::Down;
+            $value = $down ? $m->entries->min('value') : $m->entries->max('value');
+            $left = $down ? $value - $m->target : $m->target - $value;
+            $rel = $left / abs($m->target);
+            if (! $best || $rel < $best[2]) {
+                $best = [$m, $left, $rel, $value];
+            }
+        }
+        if (! $best) {
+            return null;
+        }
+        [$m, $left, , $value] = $best;
+        $unit = $m->unit && ! $m->is_duration ? ' '.$m->unit : '';
+        if ($left <= 0) {
+            return $this->tip(self::GOOD, '🎯', 'Цель по метрике взята', "{$m->name}: {$m->format($value)}{$unit} при цели {$m->format($m->target)}{$unit}. Поставьте новую планку!");
+        }
+
+        return $this->tip(self::INFO, '🎯', 'До цели по метрике', "{$m->name}: лучший результат {$m->format($value)}{$unit}, цель {$m->format($m->target)}{$unit} — осталось {$m->format($left)}{$unit}.");
     }
 
     private function overdue(): ?array

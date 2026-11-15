@@ -71,4 +71,16 @@ class CoachTest extends TestCase
 
         $this->actingAs($user)->get('/cabinet')->assertOk()->assertSee('Тренер')->assertSee('Нет активной цели');
     }
+
+    public function test_metric_target_tip(): void
+    {
+        $user = User::factory()->create();
+        $run = $user->metrics()->create(['name' => 'Бег 3 км', 'is_duration' => true, 'direction' => 'down', 'target' => 780]);
+        $run->entries()->create(['date' => '2026-10-01', 'value' => 832]);
+        $run->entries()->create(['date' => '2026-11-01', 'value' => 821]);
+
+        $tips = collect(Coach::for($user, CarbonImmutable::parse('2026-11-06'))->tips(10))->keyBy('title');
+
+        $this->assertSame('Бег 3 км: лучший результат 13:41, цель 13:00 — осталось 0:41.', $tips['До цели по метрике']['text']);
+    }
 }
