@@ -48,4 +48,15 @@ class MetricQuickEntryTest extends TestCase
 
         Livewire::test(ListMetrics::class)->callAction('exportCsv')->assertFileDownloaded('metrics-'.now()->format('Y-m-d').'.csv');
     }
+
+    public function test_goals_export_downloads(): void
+    {
+        $this->seed(\Database\Seeders\DatabaseSeeder::class);
+        $user = User::factory()->create();
+        $user->goals()->create(['title' => 'Пробежать 5 км']);
+        $this->actingAs($user);
+        Filament::setCurrentPanel('cabinet');
+
+        Livewire::test(\App\Filament\Cabinet\Resources\Goals\Pages\ListGoals::class)->callAction('exportCsv')->assertFileDownloaded('goals-'.now()->format('Y-m-d').'.csv');
+    }
 }
