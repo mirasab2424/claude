@@ -100,11 +100,13 @@
     <button data-view="side">Сбоку</button>
     <button data-view="back">Сзади</button>
     <button data-view="top">Сверху</button>
+    <button data-view="yard" title="Гараж, барбекю, кухня, асхана, баня вдоль правого забора">Пристройка</button>
     <button id="btnWalk" aria-pressed="false" title="Пройтись по дому от первого лица">🚶 Прогулка</button>
     <span class="sep"></span>
     <button data-layer="dims" aria-pressed="false">Размеры</button>
     <button data-layer="electric" aria-pressed="false">Электрика</button>
     <button data-layer="design" aria-pressed="true" title="Мебель и назначение комнат из прошлого дизайн-проекта">Мебель</button>
+    <button data-layer="outbuilding" aria-pressed="true" title="Пристройка вдоль правого забора — по вашей схеме">Постройки</button>
     <button data-layer="site" aria-pressed="true" title="Участок из прошлой модели">Двор</button>
     <button data-layer="roof" aria-pressed="false">Крыша</button>
     <button data-layer="stair" aria-pressed="false">Лестница</button>
@@ -118,8 +120,8 @@
     <button id="btnShare" title="Скопировать ссылку на этот ракурс со слоями">🔗 Ссылка на вид</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=15';
-import { createViewer } from './assets/view3d.js?v=15';
+import { loadHouse } from './assets/house.js?v=16';
+import { createViewer } from './assets/view3d.js?v=16';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const FLOORS = [['', 'Без отделки'], ['#d9b98c', 'Ламинат: светлый дуб'], ['#a0704a', 'Ламинат: орех'], ['#a8a49c', 'Ламинат: серый'], ['#ece9e3', 'Плитка: светлая'], ['#5e5a55', 'Плитка: тёмная'], ['#c9a27a', 'Паркет']];

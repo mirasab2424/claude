@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=15">
+<link rel="stylesheet" href="assets/style.css?v=16">
 </head>
 <body>
 <header class="top">
@@ -66,6 +66,7 @@
   <section class="card news" style="margin-top:16px" aria-labelledby="h-news">
     <h2 id="h-news">Новое</h2>
     <ul class="news-list">
+      <li><a href="plan.html#plot">🏗 Пристройка по вашей схеме</a> — гараж, барбекю, кухня, асхана, столярка, баня; <a href="3d.html?view=yard">в 3D</a></li>
       <li><a href="smeta.html">🧮 Смета ремонта</a> — площади, материалы и работа по вашим ценам, этапы ремонта</li>
       <li><a href="zamery.html">📏 Лист замеров</a> — что измерить рулеткой; после замеров сайт станет точным</li>
       <li><a href="3d.html?view=walk">🚶 Прогулка по дому</a> · <a href="3d.html">🌙 вечер, 📏 линейка, примерка пола</a> — кнопки в 3D</li>
@@ -91,8 +92,8 @@
 </main>
 
 <script type="module">
-import { loadHouse, m05, m1, area } from './assets/house.js?v=15';
-import { planSVG, atticSVG } from './assets/plan.js?v=15';
+import { loadHouse, m05, m1, area } from './assets/house.js?v=16';
+import { planSVG, atticSVG } from './assets/plan.js?v=16';
 const h = await loadHouse();
 const e = h.exterior;
 const svg = planSVG(h, { compact: true });

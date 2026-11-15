@@ -205,3 +205,22 @@ export function roomFinish(h, r, k = 1) {
     plinth: Math.max(0, perim - doorWidth) * k, windows: wins.length, doors: doors.length,
   };
 }
+
+/**
+ * Пристройка вдоль правого забора по схеме владельца (design.json → outbuilding) в координатах участка, м:
+ * x — вдоль улицы, d — от забора на улице вглубь. Комнаты идут подряд от улицы; проход — остаток до заднего забора.
+ */
+export function outbuildingLayout(design) {
+  const ob = design?.outbuilding, plot = design?.plot;
+  if (!ob || !plot) return null;
+  const x2 = plot.width_m, x1 = x2 - ob.width_m;
+  let d = 0;
+  const rooms = ob.rooms.map((r) => {
+    const w = r.width_m ?? ob.width_m;
+    const room = { ...r, x1: x2 - w, x2, d1: d, d2: d + r.length_m, area: w * r.length_m };
+    d += r.length_m;
+    return room;
+  });
+  const passage = { x1, x2, d1: d, d2: plot.depth_m, side: { x1, x2: x2 - (rooms.at(-1).width_m ?? ob.width_m), d1: rooms.at(-1).d1, d2: plot.depth_m }, gate: ob.passage?.gate_m ?? 0.8 };
+  return { x1, x2, rooms, passage, plot, ob, total: d };
+}

@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=15">
+<link rel="stylesheet" href="assets/style.css?v=16">
 </head>
 <body>
 <header class="top"><div class="top-in">
@@ -19,7 +19,7 @@
   <h1>План и размеры</h1>
   <p class="notice"><b>Размеры примерные.</b> Рулетки на видео не было, и ни одно число не измерено. Масштаб посчитан из предположения, что блок кладки — 600 × 300 мм. Если блок другой, все длины изменятся в одно и то же число раз, а пропорции останутся. Числа не для строительства.</p>
   <p class="no-print" style="margin:-8px 0 14px"><button type="button" class="btn-print" onclick="print()" style="font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:7px 12px;cursor:pointer;color:var(--ink)">🖨 Распечатать план для мастера (A4 / PDF)</button></p>
-  <nav class="toc"><a href="#plan">План</a><a href="#attic">Мансарда</a><a href="#house">Дом</a><a href="#rooms">Помещения</a><a href="#windows">Окна</a><a href="#doors">Двери и проёмы</a><a href="#electric">Электрика</a><a href="#plumbing">Трубы</a><a href="#stair">Лестница</a><a href="#unknown">Неизвестно</a></nav>
+  <nav class="toc"><a href="#plan">План</a><a href="#plot">Участок</a><a href="#attic">Мансарда</a><a href="#house">Дом</a><a href="#rooms">Помещения</a><a href="#windows">Окна</a><a href="#doors">Двери и проёмы</a><a href="#electric">Электрика</a><a href="#plumbing">Трубы</a><a href="#stair">Лестница</a><a href="#unknown">Неизвестно</a></nav>
 
   <section class="card" id="plan">
     <div class="toggles">
@@ -40,6 +40,14 @@
       <li><i class="lg-stair"></i>лестница: вариант, предварительно</li>
     </ul>
     <p class="note small"><b>Нажмите на комнату</b> — под планом появится её карточка. Названия помещений описательные: по видео назначение подтверждено только у санузла. Площадь по помещениям: <span id="area-total"></span>.</p>
+  </section>
+
+  <section class="card" id="plot" style="margin-top:16px">
+    <h2>Участок: дом и пристройка</h2>
+    <p class="note">Пристройка вдоль правого забора — по вашей схеме: ширина 5 м, высота 3 м, крыша односкатная к забору. Барбекю-зона открыта во двор, с навесом. Проход к калитке у туалета придуман для варианта. Размеры участка — по прошлой 3D-модели, не замер.</p>
+    <div id="plot-box" class="plan-wrap"></div>
+    <div class="tbl"><table><thead><tr><th>Помещение</th><th>Размер</th><th>Площадь</th></tr></thead><tbody id="t-ob"></tbody></table></div>
+    <p class="note small"><a href="3d.html?view=yard">Посмотреть пристройку в 3D</a></p>
   </section>
 
   <section class="card" id="attic" style="margin-top:16px">
@@ -102,13 +110,18 @@
   <p class="note small" style="margin-top:20px">Все числа берутся из одного файла <code>data/measurements.json</code>. После замеров рулеткой достаточно заменить его — удобнее всего через <a href="zamery.html">лист замеров</a>.</p>
 </main>
 <script type="module">
-import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant, roomFinish } from './assets/house.js?v=15';
-import { planSVG, atticSVG } from './assets/plan.js?v=15';
+import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant, roomFinish, outbuildingLayout } from './assets/house.js?v=16';
+import { planSVG, atticSVG, plotSVG } from './assets/plan.js?v=16';
 const h = await loadHouse();
 const design = await fetch('data/design.json', { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).catch(() => null);
 document.getElementById('attic-box').innerHTML = atticSVG(h, design);
+
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const $ = (id) => document.getElementById(id);
+document.getElementById('plot-box').innerHTML = plotSVG(h, design, outbuildingLayout);
+{ const L = outbuildingLayout(design); if (L) { const f = (n) => n.toLocaleString('ru-RU', { maximumFractionDigits: 1 });
+  document.getElementById('t-ob').innerHTML = L.rooms.map((r) => `<tr><td>${esc(r.name)}${r.open_to_yard ? ' <small class="note">открыта во двор, навес</small>' : ''}</td><td class="num">${f(r.x2 - r.x1)} × ${f(r.length_m)} м</td><td class="num">${f(r.area)} м²</td></tr>`).join('')
+    + `<tr class="total"><td>Итого под крышей</td><td></td><td class="num">${f(L.rooms.reduce((s, r) => s + r.area, 0))} м²</td></tr>`; } }
 
 // План с переключателями
 const opts = { windows: true, doors: true, electric: false, stair: false };

@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=15';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=16';
 
 const CELL = 50; // мм
 
@@ -56,7 +56,7 @@ export function createViewer(canvas, h, onPick, design = null) {
   scene.add(layers.site); // участок — в координатах старой модели
   layers.roof.visible = layers.dims.visible = layers.electric.visible = layers.stair.visible = false;
   layers.attic.visible = false;
-  const state = { attic: false, roof: false, dims: false, electric: false, stair: false, labels: true, site: true, design: true };
+  const state = { outbuilding: true, attic: false, roof: false, dims: false, electric: false, stair: false, labels: true, site: true, design: true };
 
   // --- сетка стен ---
   const nx = Math.ceil(W / CELL), ny = Math.ceil(D / CELL);
@@ -450,6 +450,14 @@ export function createViewer(canvas, h, onPick, design = null) {
   }
 
   // --- участок и мебель из старой модели ---
+  // --- пристройка вдоль правого забора по схеме владельца (координаты участка, как у site.glb) ---
+  const obLayout = outbuildingLayout(design);
+  layers.outbuilding = new THREE.Group();
+  layers.obRoof = new THREE.Group();
+  layers.obLabels = new THREE.Group();
+  scene.add(layers.outbuilding, layers.obRoof, layers.obLabels);
+  if (obLayout) buildOutbuilding(obLayout, groundY, layers.outbuilding, layers.obRoof, layers.obLabels);
+
   const designLabels = new THREE.Group();
   root.add(designLabels);
   let siteLoaded = false;
@@ -486,6 +494,11 @@ export function createViewer(canvas, h, onPick, design = null) {
           o.position.x -= anchor.x; o.position.z -= anchor.z; o.position.y -= floorY; // в координаты дома
           layers.design.add(o);
         } else {
+          // старые гараж, хозблок и ели вдоль правого забора стоят там, где теперь пристройка по схеме
+          if (obLayout && /^Site_(ob|Roof_|tree\d)/.test(o.name)) {
+            box.setFromObject(o);
+            if (box.max.x > obLayout.x1 - 0.3 || /^Site_(ob|Roof_)/.test(o.name)) continue;
+          }
           layers.site.add(o);
         }
       }
@@ -566,11 +579,17 @@ export function createViewer(canvas, h, onPick, design = null) {
     top: [0, dist * 1.45, 0.001],
     site: [-dist * 1.3, dist * 1.6, dist * 2.0],
     attic: [-dist * 0.35, dist * 1.0, dist * 0.55],
+    yard: [dist * 1.3, dist * 0.9, dist * 0.6],
   };
   let anim = null;
   const view = (name) => {
-    const to = new THREE.Vector3(...views[name]).add(target);
-    anim = { from: camera.position.clone(), to, fromT: controls.target.clone(), toT: target.clone(), start: performance.now() };
+    let tgt = target, off = new THREE.Vector3(...views[name]);
+    if (name === 'yard' && obLayout) { // пристройка: смотрим со двора чуть сверху на середину полосы
+      tgt = new THREE.Vector3((obLayout.x1 + obLayout.x2) / 2, groundY + 1.5, -obLayout.total / 2);
+      off = new THREE.Vector3(-16, 15, 8);
+    }
+    const to = off.add(tgt);
+    anim = { from: camera.position.clone(), to, fromT: controls.target.clone(), toT: tgt.clone(), start: performance.now() };
   };
   camera.position.copy(new THREE.Vector3(...views.reset).add(target));
   controls.target.copy(target);
@@ -674,6 +693,9 @@ export function createViewer(canvas, h, onPick, design = null) {
     layers.attic.traverse((o) => { if (o.isSprite) o.visible = state.labels; });
     layers.stair.traverse((o) => { if (o.isSprite) o.visible = state.labels; });
     layers.site.visible = state.site;
+    layers.outbuilding.visible = state.outbuilding;
+    layers.obRoof.visible = state.outbuilding && state.roof;
+    layers.obLabels.visible = state.outbuilding && state.labels && !state.roof;
     ground.visible = !state.site || !siteLoaded;
   }
   apply();
@@ -902,4 +924,110 @@ function electricIcon(kind) {
   tex.colorSpace = THREE.SRGBColorSpace;
   const k = 0.22 / 128 * (big ? 1.5 : 1);
   return (iconCache[kind] = { tex, w: c.width * k, h: c.height * k });
+}
+
+
+/**
+ * Пристройка по схеме владельца: гараж, барбекю-зона под навесом, кладовая, кухня, асхана, столярка,
+ * предбанник, баня, туалет и проход к калитке. Размеры — из design.json, высоты — 3 м у двора и меньше у забора.
+ */
+function buildOutbuilding(L, groundY, group, roofGroup, labels) {
+  const ob = L.ob, T = ob.wall_m, hY = ob.wall_height_m, hF = ob.roof.fence_side_height_m;
+  const y0 = groundY + 0.12;
+  const Z = (d) => -d;
+  const H = (x) => hY + (hF - hY) * (x - L.x1) / (L.x2 - L.x1); // высота стены у точки x (скат к забору)
+  const wallMat = new THREE.MeshStandardMaterial({ color: 0xece6da, roughness: 0.9, side: THREE.DoubleSide });
+  const mat = (c, r = 0.8) => new THREE.MeshStandardMaterial({ color: c, roughness: r });
+  const box = (w, h, d, m, x, y, z) => { const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); o.position.set(x, y, z); o.castShadow = o.receiveShadow = true; group.add(o); return o; };
+  const last = L.rooms.at(-1);
+  // плита пола
+  box(L.x2 - L.x1, 0.12, last.d1, mat(0xcfc8bb), (L.x1 + L.x2) / 2, groundY + 0.06, Z(last.d1 / 2));
+  box(last.x2 - last.x1, 0.12, last.d2 - last.d1, mat(0xcfc8bb), (last.x1 + last.x2) / 2, groundY + 0.06, Z((last.d1 + last.d2) / 2));
+  // стена в плоскости «вдоль участка» (x = const): профиль по d, с проёмами
+  const longWall = (x, d1, d2, h, holes = []) => {
+    const sh = new THREE.Shape([[d1, 0], [d2, 0], [d2, h], [d1, h]].map(([a, b]) => new THREE.Vector2(a, b)));
+    for (const [a, b, lo, hi] of holes) sh.holes.push(new THREE.Path([[a, lo], [b, lo], [b, hi], [a, hi]].map(([u, v]) => new THREE.Vector2(u, v))));
+    const g = new THREE.ExtrudeGeometry(sh, { depth: T, bevelEnabled: false });
+    const m = new THREE.Mesh(g, wallMat);
+    m.rotation.y = Math.PI / 2; // локальный x → −z (d), выдавливание → +x
+    m.position.set(x - T / 2, y0, 0);
+    m.castShadow = m.receiveShadow = true;
+    group.add(m);
+  };
+  // стена поперёк (d = const): профиль по x со скатом, с проёмами
+  const crossWall = (d, xa, xb, holes = [], t = 0.12) => {
+    const sh = new THREE.Shape([[xa, 0], [xb, 0], [xb, H(xb)], [xa, H(xa)]].map(([a, b]) => new THREE.Vector2(a, b)));
+    for (const [a, b, lo, hi] of holes) sh.holes.push(new THREE.Path([[a, lo], [b, lo], [b, hi], [a, hi]].map(([u, v]) => new THREE.Vector2(u, v))));
+    const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: t, bevelEnabled: false }), wallMat);
+    m.position.set(0, y0, Z(d) - t / 2);
+    m.castShadow = m.receiveShadow = true;
+    group.add(m);
+  };
+  // стена у забора — по всей длине построек
+  longWall(L.x2 - T / 2, 0, last.d2, hF);
+  // стена со стороны двора: проёмы дверей и окон; у барбекю стены нет (открыто во двор)
+  const holes = [];
+  const at = (r, where, w) => where === 'front' ? r.d1 + 0.4 : where === 'back' ? r.d2 - 0.4 - w : (r.d1 + r.d2 - w) / 2;
+  for (const r of L.rooms) {
+    for (const dr of r.doors || []) if (dr.at !== 'yard_side') { const a = at(r, dr.at, dr.w); holes.push([a, a + dr.w, 0, 2.05]); }
+    for (const wn of r.windows || []) { const a = at(r, wn.at, wn.w); holes.push([a, a + wn.w, 0.9, 2.1]); }
+  }
+  const bbq = L.rooms.find((r) => r.open_to_yard);
+  const sauna = L.rooms.find((r) => r.id === 'sauna');
+  const yardEnd = sauna ? sauna.d2 : last.d1;
+  const segs = bbq ? [[0, bbq.d1], [bbq.d2, yardEnd]] : [[0, yardEnd]];
+  for (const [a, b] of segs) longWall(L.x1 + T / 2, a, b, hY, holes.filter(([u, v]) => u >= a && v <= b));
+  // туалет уже: его стена со стороны прохода и задняя стена
+  if (last.x1 > L.x1) {
+    longWall(last.x1 + T / 2, last.d1, last.d2, H(last.x1), [[last.d1 + 0.8, last.d1 + 1.6, 0, 2.0]]);
+    crossWall(last.d2, last.x1, L.x2, [], T);
+  }
+  // торец на улицу с воротами гаража и перегородки между помещениями
+  const garage = L.rooms[0];
+  crossWall(0.1, L.x1, L.x2, [[L.x1 + garage.gate_margin_m, L.x2 - garage.gate_margin_m, 0, 2.5]], T);
+  for (const r of L.rooms.slice(1)) crossWall(r.d1, r.x1 < L.x1 + 0.01 ? L.x1 : L.x1, L.x2, r.id === 'sauna' ? [[L.x2 - 1.3, L.x2 - 0.5, 0, 1.9]] : []);
+  // ворота гаража (секционные) и калитка в заднем заборе
+  const gate = box(L.x2 - L.x1 - 2 * garage.gate_margin_m, 2.5, 0.05, mat(0x8e959b, 0.5), (L.x1 + L.x2) / 2, y0 + 1.25, Z(0.12));
+  for (let i = 1; i < 6; i++) box(L.x2 - L.x1 - 2 * garage.gate_margin_m, 0.02, 0.06, mat(0x6b7278), gate.position.x, y0 + i * 0.42, Z(0.11));
+  const pass = L.passage;
+  box(pass.gate, 1.8, 0.05, mat(0x7a4e2a, 0.6), (L.x1 + last.x1) / 2, groundY + 0.9, Z(L.plot.depth_m - 0.08));
+  // дорожка вдоль туалета к калитке
+  box(last.x1 - L.x1 - 0.2, 0.04, L.plot.depth_m - yardEnd, mat(0xb9b1a3), (L.x1 + last.x1) / 2, groundY + 0.02, Z((yardEnd + L.plot.depth_m) / 2));
+  // барбекю: мангал и две печи под казаны у забора, стол со стороны двора
+  if (bbq) {
+    const brick = mat(0xb5563f), metal = mat(0x2b2f33, 0.4), wood = mat(0xb98552, 0.7), kazan = mat(0x1f2326, 0.3);
+    const xIn = L.x2 - T;
+    box(0.5, 0.9, 1.2, metal, xIn - 0.3, y0 + 0.45, Z(bbq.d1 + 0.8));
+    box(0.8, 0.8, 0.8, brick, xIn - 0.45, y0 + 0.4, Z(bbq.d1 + 2.0));
+    box(1.0, 0.85, 1.0, brick, xIn - 0.55, y0 + 0.43, Z(bbq.d1 + 3.25));
+    for (const [r, x, d, y] of [[0.25, xIn - 0.45, bbq.d1 + 2.0, 0.8], [0.35, xIn - 0.55, bbq.d1 + 3.25, 0.85]]) {
+      const k = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), kazan);
+      k.position.set(x, y0 + y + 0.02, Z(d));
+      group.add(k);
+    }
+    box(0.7, 0.9, 1.6, wood, L.x1 + 0.6, y0 + 0.45, Z((bbq.d1 + bbq.d2) / 2));
+  }
+  // немного обстановки, чтобы было понятно назначение
+  const wood = mat(0xc9a27a, 0.7);
+  const room = (id) => L.rooms.find((r) => r.id === id);
+  if (room('garage')) box(0.5, 2.0, room('garage').length_m - 1.2, mat(0x9aa0a6), L.x2 - T - 0.25, y0 + 1.0, Z(room('garage').length_m / 2 + 0.3));
+  if (room('kitchen')) box(0.6, 0.9, 2.4, mat(0xe9e4da), L.x2 - T - 0.3, y0 + 0.45, Z((room('kitchen').d1 + room('kitchen').d2) / 2));
+  if (room('dining')) { const r = room('dining'); box(1.0, 0.75, 3.2, wood, (L.x1 + L.x2) / 2, y0 + 0.375, Z((r.d1 + r.d2) / 2)); }
+  if (room('workshop')) { const r = room('workshop'); box(0.8, 0.9, 2.2, mat(0x8a6a48), L.x2 - T - 0.4, y0 + 0.45, Z((r.d1 + r.d2) / 2)); }
+  if (room('sauna')) { const r = room('sauna'); box(1.6, 0.5, 0.6, wood, L.x2 - 1.0, y0 + 0.9, Z(r.d2 - 0.4)); }
+  if (room('pantry')) { const r = room('pantry'); box(0.4, 2.0, 1.6, mat(0xb0a28a), L.x2 - T - 0.2, y0 + 1.0, Z((r.d1 + r.d2) / 2)); }
+  // односкатная крыша к забору (слой «Крыша»): над всеми помещениями, над барбекю — навес
+  const roofMat = new THREE.MeshStandardMaterial({ color: 0x5b6168, roughness: 0.6, side: THREE.DoubleSide });
+  const slab = (xa, xb, da, db) => {
+    const g = new THREE.BufferGeometry();
+    const P = (x, d) => [x, y0 + H(x) + 0.12, Z(d)];
+    g.setAttribute('position', new THREE.Float32BufferAttribute([...P(xa, da), ...P(xb, da), ...P(xb, db), ...P(xa, da), ...P(xb, db), ...P(xa, db)], 3));
+    g.computeVertexNormals();
+    const m = new THREE.Mesh(g, roofMat); m.castShadow = true; roofGroup.add(m);
+  };
+  slab(L.x1 - 0.4, L.x2 + 0.05, -0.3, yardEnd + 0.1);
+  if (last.x1 > L.x1) slab(last.x1 - 0.3, L.x2 + 0.05, last.d1, last.d2 + 0.3);
+  // подписи
+  for (const r of L.rooms) labels.add(sprite([r.name], (r.x1 + r.x2) / 2, y0 + 3.6, Z((r.d1 + r.d2) / 2), { small: true, color: '#7a4e2a' }));
+  labels.add(sprite(['Калитка'], (L.x1 + last.x1) / 2, groundY + 2.4, Z(L.plot.depth_m - 0.3), { small: true, color: '#7a4e2a' }));
 }
