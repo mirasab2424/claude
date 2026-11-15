@@ -148,6 +148,14 @@ function render() {
     ['primer', 'Грунтовка (стены и потолок)', primerL, `≈ ${nf(primerL)} л`, 'л', `${nf(walls + floor)} м² × ${o('primerRate')} л`],
     ['paint', 'Краска (стены и потолок)', paintL, `≈ ${nf(paintL)} л`, 'л', `${nf(walls + floor)} м² × ${o('coats')} сл. × ${o('paintRate')} л`],
   ];
+  // электрика: что видно на видео в выбранных комнатах (места не измерены, количество — по видео)
+  const el = (re) => h.electrical.filter((x) => picked.has(x.room) && re.test(x.kind)).reduce((n, x) => n + (x.count || 1), 0);
+  const sockets = el(/^socket/), switches = el(/^switch/), lights = el(/^light/);
+  mats.push(
+    ['sockets', 'Розетки (механизм + рамка)', sockets, `${sockets} шт.`, 'шт.', 'по видео в выбранных комнатах; двойная розетка — 1 шт.'],
+    ['switches', 'Выключатели', switches, `${switches} шт.`, 'шт.', 'блок из двух — 1 шт. (двухклавишный)'],
+    ['lights', 'Светильники', lights, `${lights} шт.`, 'шт.', 'точки света на видео'],
+  );
   const prices = store.get('prices', {});
   if (!$('t-mat').children.length) {
     $('t-mat').innerHTML = mats.map(([id, name, , , unit]) => `<tr data-id="${id}"><td>${name}</td><td class="num"><b class="qty"></b></td>
