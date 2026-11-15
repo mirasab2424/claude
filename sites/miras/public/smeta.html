@@ -87,7 +87,7 @@
   <p class="note small" style="margin-top:20px">Размеры берутся из <code>data/measurements.json</code>, расчёт — в браузере. Площадь пола — по контуру помещения, стены — периметр × высота минус окна и двери.</p>
 </main>
 <script type="module">
-import { loadHouse, roomName, roomFinish, m1n } from './assets/house.js?v=8';
+import { loadHouse, roomName, roomFinish, m1n, m1, m05 } from './assets/house.js?v=8';
 const h = await loadHouse();
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -107,7 +107,7 @@ let scale = store.get('scale', null);
 const k = () => (scale && scale.real > 0 ? scale.real / refs.find((r) => r[0] === scale.ref)[2] : 1);
 const syncScale = () => {
   const ref = refs.find((r) => r[0] === $('sc-what').value);
-  $('sc-now').value = '≈ ' + nf(ref[2]) + ' мм (оценка)';
+  $('sc-now').value = (/^(house|depth)$/.test(ref[0]) ? m05(ref[2]) : m1(ref[2])) + ' (оценка)';
   $('sc-k').value = scale ? '× ' + nf(k(), 3) : 'нет — размеры по видео';
   $('scale').classList.toggle('scale-on', !!scale);
 };
