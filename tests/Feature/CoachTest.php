@@ -69,7 +69,7 @@ class CoachTest extends TestCase
         $this->seed(\Database\Seeders\DatabaseSeeder::class);
         $user = User::factory()->create();
 
-        $this->actingAs($user)->get('/cabinet')->assertOk()->assertSee('Тренер')->assertSee('Нет активной цели')->assertSee('/cabinet/goals', false);
+        $this->actingAs($user)->get('/cabinet')->assertOk()->assertSee('Тренер')->assertSee('Нет активной цели')->assertSee('/cabinet/goals', false)->assertSee('Новое в кабинете');
     }
 
     public function test_metric_target_tip(): void
