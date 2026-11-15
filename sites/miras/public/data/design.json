@@ -336,13 +336,7 @@
     "length_m": 7,
     "gate_m": 4,
     "gate_margin_m": 0.5,
-    "shelf_m": 0.5,
-    "doors": [
-     {
-      "at": "back",
-      "w": 0.9
-     }
-    ]
+    "shelf_m": 0.5
    },
    {
     "id": "bbq",
@@ -360,104 +354,174 @@
    {
     "id": "pantry",
     "name": "Кладовая",
-    "length_m": 2,
-    "doors": [
-     {
-      "at": "mid",
-      "w": 0.8
-     }
-    ]
+    "length_m": 2
    },
    {
     "id": "kitchen",
     "name": "Кухня",
-    "length_m": 3,
-    "doors": [
-     {
-      "at": "front",
-      "w": 0.9
-     }
-    ],
-    "windows": [
-     {
-      "at": "back",
-      "w": 1.0
-     }
-    ]
+    "length_m": 3
    },
    {
     "id": "dining",
     "name": "Асхана",
-    "length_m": 7,
-    "doors": [
-     {
-      "at": "front",
-      "w": 0.9
-     }
-    ],
-    "windows": [
-     {
-      "at": "mid",
-      "w": 1.4
-     },
-     {
-      "at": "back",
-      "w": 1.4
-     }
-    ]
+    "length_m": 7
    },
    {
     "id": "workshop",
     "name": "Столярка",
-    "length_m": 4,
-    "doors": [
-     {
-      "at": "front",
-      "w": 0.9
-     }
-    ],
-    "windows": [
-     {
-      "at": "back",
-      "w": 1.2
-     }
-    ]
+    "length_m": 4
    },
    {
     "id": "anteroom",
     "name": "Предбанник",
-    "length_m": 3,
-    "doors": [
-     {
-      "at": "front",
-      "w": 0.8
-     }
-    ]
+    "length_m": 3
    },
    {
     "id": "sauna",
     "name": "Баня",
-    "length_m": 2,
-    "inner_door": "из предбанника"
+    "length_m": 2
    },
    {
     "id": "wc",
     "name": "Туалет",
     "length_m": 2.5,
-    "width_m": 2.5,
-    "doors": [
-     {
-      "at": "yard_side",
-      "w": 0.8
-     }
-    ]
+    "width_m": 2.5
    }
   ],
   "passage": {
    "length_m": 1.5,
    "gate_m": 0.8,
-   "note": "проход придуман: туалет у забора шириной 2,5 м, рядом со стороны двора — дорожка 2,5 м к калитке 0,8 м в заднем заборе; за туалетом — 1,5 м до забора"
-  }
+   "gate": {
+    "wall": "right_fence",
+    "d": [
+     34.9,
+     35.7
+    ],
+    "swing": "out"
+   },
+   "path_m": 1.0,
+   "note": "Калитка — в правом заборе за туалетом, как на схеме. Тропинка (придумана): вдоль пристройки со стороны двора от гаража до туалета, дальше — за туалетом к калитке."
+  },
+  "openings_note": "Двери и окна — по схеме: d — метры от забора на улице; для поперечных стен x — метры от стены со стороны двора. hinge — где петли, swing — куда открывается створка.",
+  "windows": [
+   {
+    "room": "kitchen",
+    "d": [
+     13.2,
+     14.0
+    ]
+   },
+   {
+    "room": "dining",
+    "d": [
+     17.8,
+     19.2
+    ]
+   },
+   {
+    "room": "dining",
+    "d": [
+     20.8,
+     22.2
+    ]
+   },
+   {
+    "room": "workshop",
+    "d": [
+     24.6,
+     25.8
+    ]
+   }
+  ],
+  "doors": [
+   {
+    "name": "Гараж → двор",
+    "wall": "yard",
+    "d": [
+     5.9,
+     6.8
+    ],
+    "hinge": "back",
+    "swing": "in"
+   },
+   {
+    "name": "Кухня → двор",
+    "wall": "yard",
+    "d": [
+     14.1,
+     15.0
+    ],
+    "hinge": "back",
+    "swing": "in"
+   },
+   {
+    "name": "Кухня → кладовая",
+    "wall": "cross",
+    "at": 13,
+    "x": [
+     0.15,
+     0.95
+    ],
+    "hinge": "yard",
+    "swing": "street"
+   },
+   {
+    "name": "Кухня → асхана",
+    "wall": "cross",
+    "at": 16,
+    "x": [
+     0.15,
+     1.05
+    ],
+    "hinge": "yard",
+    "swing": "back"
+   },
+   {
+    "name": "Столярка → двор",
+    "wall": "yard",
+    "d": [
+     23.15,
+     24.05
+    ],
+    "hinge": "front",
+    "swing": "in"
+   },
+   {
+    "name": "Предбанник → двор",
+    "wall": "yard",
+    "d": [
+     27.15,
+     28.05
+    ],
+    "hinge": "front",
+    "swing": "in"
+   },
+   {
+    "name": "Баня → предбанник",
+    "wall": "cross",
+    "at": 30,
+    "x": [
+     2.0,
+     2.75
+    ],
+    "hinge": "fence",
+    "swing": "street"
+   },
+   {
+    "name": "Туалет → проход",
+    "wall": "wc_yard",
+    "d": [
+     32.7,
+     33.5
+    ],
+    "hinge": "front",
+    "swing": "out"
+   }
+  ],
+  "bbq_table_d": [
+   7.2,
+   8.9
+  ]
  },
  "plot": {
   "width_m": 27.9,

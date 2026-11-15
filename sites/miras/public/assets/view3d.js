@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=16';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=17';
 
 const CELL = 50; // мм
 
@@ -965,34 +965,87 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels) {
   };
   // стена у забора — по всей длине построек
   longWall(L.x2 - T / 2, 0, last.d2, hF);
-  // стена со стороны двора: проёмы дверей и окон; у барбекю стены нет (открыто во двор)
-  const holes = [];
-  const at = (r, where, w) => where === 'front' ? r.d1 + 0.4 : where === 'back' ? r.d2 - 0.4 - w : (r.d1 + r.d2 - w) / 2;
-  for (const r of L.rooms) {
-    for (const dr of r.doors || []) if (dr.at !== 'yard_side') { const a = at(r, dr.at, dr.w); holes.push([a, a + dr.w, 0, 2.05]); }
-    for (const wn of r.windows || []) { const a = at(r, wn.at, wn.w); holes.push([a, a + wn.w, 0.9, 2.1]); }
-  }
+  // стена со стороны двора: двери и окна по схеме; у барбекю стены нет (открыто во двор)
+  const DH = 2.05;
+  const yardHoles = [...(ob.doors || []).filter((o) => o.wall === 'yard').map((o) => [o.d[0], o.d[1], 0, DH]),
+    ...(ob.windows || []).map((o) => [o.d[0], o.d[1], 0.9, 2.1])];
   const bbq = L.rooms.find((r) => r.open_to_yard);
   const sauna = L.rooms.find((r) => r.id === 'sauna');
   const yardEnd = sauna ? sauna.d2 : last.d1;
   const segs = bbq ? [[0, bbq.d1], [bbq.d2, yardEnd]] : [[0, yardEnd]];
-  for (const [a, b] of segs) longWall(L.x1 + T / 2, a, b, hY, holes.filter(([u, v]) => u >= a && v <= b));
-  // туалет уже: его стена со стороны прохода и задняя стена
+  for (const [a, b] of segs) longWall(L.x1 + T / 2, a, b, hY, yardHoles.filter(([u, v]) => u >= a && v <= b));
+  // туалет уже: его стена со стороны прохода (с дверью) и задняя стена
   if (last.x1 > L.x1) {
-    longWall(last.x1 + T / 2, last.d1, last.d2, H(last.x1), [[last.d1 + 0.8, last.d1 + 1.6, 0, 2.0]]);
+    longWall(last.x1 + T / 2, last.d1, last.d2, H(last.x1), (ob.doors || []).filter((o) => o.wall === 'wc_yard').map((o) => [o.d[0], o.d[1], 0, 2.0]));
     crossWall(last.d2, last.x1, L.x2, [], T);
   }
-  // торец на улицу с воротами гаража и перегородки между помещениями
+  // торец на улицу с воротами гаража и перегородки между помещениями (двери в перегородках — по схеме)
   const garage = L.rooms[0];
   crossWall(0.1, L.x1, L.x2, [[L.x1 + garage.gate_margin_m, L.x2 - garage.gate_margin_m, 0, 2.5]], T);
-  for (const r of L.rooms.slice(1)) crossWall(r.d1, r.x1 < L.x1 + 0.01 ? L.x1 : L.x1, L.x2, r.id === 'sauna' ? [[L.x2 - 1.3, L.x2 - 0.5, 0, 1.9]] : []);
-  // ворота гаража (секционные) и калитка в заднем заборе
+  for (const r of L.rooms.slice(1)) {
+    const holes = (ob.doors || []).filter((o) => o.wall === 'cross' && Math.abs(o.at - r.d1) < 0.01).map((o) => [L.x1 + o.x[0], L.x1 + o.x[1], 0, DH]);
+    crossWall(r.d1, L.x1, L.x2, holes);
+  }
+  // двери: полотно приоткрыто на 70° в ту сторону, куда открывается, и дуга открывания на полу
+  const leafMat = mat(0x8a5a33, 0.6), arcMat = new THREE.LineBasicMaterial({ color: 0x8a5a33 });
+  const door = (hx, hd, closed, swing, w, h = 2.0) => {
+    // closed / swing — единичные векторы в плоскости (x, z): вдоль закрытого полотна и в сторону открывания
+    const a = 70 * Math.PI / 180;
+    const open = [closed[0] * Math.cos(a) + swing[0] * Math.sin(a), closed[1] * Math.cos(a) + swing[1] * Math.sin(a)];
+    const pivot = new THREE.Group();
+    pivot.position.set(hx, y0, Z(hd));
+    pivot.rotation.y = Math.atan2(open[0], open[1]);
+    const leaf = new THREE.Mesh(new THREE.BoxGeometry(0.04, h, w - 0.04), leafMat);
+    leaf.position.set(0, h / 2, (w - 0.04) / 2);
+    leaf.castShadow = true;
+    const knob = new THREE.Mesh(new THREE.SphereGeometry(0.03), mat(0xc9a227, 0.3));
+    knob.position.set(0.04, 1.0, w - 0.12);
+    pivot.add(leaf); leaf.add(knob);
+    group.add(pivot);
+    const pts = [];
+    for (let i = 0; i <= 20; i++) {
+      const t = (i / 20) * a, v = [closed[0] * Math.cos(t) + swing[0] * Math.sin(t), closed[1] * Math.cos(t) + swing[1] * Math.sin(t)];
+      pts.push(new THREE.Vector3(hx + v[0] * w, y0 + 0.02, Z(hd) + v[1] * w));
+    }
+    group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), arcMat));
+  };
+  for (const o of ob.doors || []) {
+    const w = o.wall === 'cross' ? o.x[1] - o.x[0] : o.d[1] - o.d[0];
+    if (o.wall === 'yard' || o.wall === 'wc_yard') {
+      const xw = o.wall === 'yard' ? L.x1 + T : last.x1 + T;
+      const xo = o.wall === 'yard' ? L.x1 : last.x1;
+      const hd = o.hinge === 'back' ? o.d[1] : o.d[0];
+      const closed = [0, o.hinge === 'back' ? 1 : -1]; // вдоль стены к другому косяку (z = −d)
+      door(o.swing === 'in' ? xw : xo, hd, closed, [o.swing === 'in' ? 1 : -1, 0], w);
+    } else {
+      const hx = o.hinge === 'yard' ? L.x1 + o.x[0] : L.x1 + o.x[1];
+      const closed = [o.hinge === 'yard' ? 1 : -1, 0];
+      const swing = [0, o.swing === 'street' ? 1 : -1]; // к улице — это +z
+      door(hx, o.at + (o.swing === 'street' ? -0.07 : 0.07), closed, swing, w);
+    }
+  }
+  // ворота гаража (секционные)
   const gate = box(L.x2 - L.x1 - 2 * garage.gate_margin_m, 2.5, 0.05, mat(0x8e959b, 0.5), (L.x1 + L.x2) / 2, y0 + 1.25, Z(0.12));
   for (let i = 1; i < 6; i++) box(L.x2 - L.x1 - 2 * garage.gate_margin_m, 0.02, 0.06, mat(0x6b7278), gate.position.x, y0 + i * 0.42, Z(0.11));
-  const pass = L.passage;
-  box(pass.gate, 1.8, 0.05, mat(0x7a4e2a, 0.6), (L.x1 + last.x1) / 2, groundY + 0.9, Z(L.plot.depth_m - 0.08));
-  // дорожка вдоль туалета к калитке
-  box(last.x1 - L.x1 - 0.2, 0.04, L.plot.depth_m - yardEnd, mat(0xb9b1a3), (L.x1 + last.x1) / 2, groundY + 0.02, Z((yardEnd + L.plot.depth_m) / 2));
+  // тропинка: вдоль пристройки со стороны двора — к гаражу, барбекю, кухне, столярке, бане и туалету; за туалетом — к калитке
+  const pass = L.passage, pathW = ob.passage?.path_m ?? 1.0, stone = mat(0xc4b8a3, 0.95);
+  box(pathW, 0.05, yardEnd - 5.5, stone, L.x1 - pathW / 2 - 0.05, groundY + 0.025, Z((5.5 + yardEnd) / 2));
+  box(last.x1 - L.x1, 0.05, L.plot.depth_m - yardEnd, stone, (L.x1 + last.x1) / 2, groundY + 0.025, Z((yardEnd + L.plot.depth_m) / 2));
+  box(L.x2 - last.x1, 0.05, L.plot.depth_m - last.d2, stone, (last.x1 + L.x2) / 2, groundY + 0.025, Z((last.d2 + L.plot.depth_m) / 2));
+  // калитка в правом заборе за туалетом: столбы и приоткрытое наружу полотно
+  const cg = ob.passage?.gate;
+  if (cg) {
+    const post = mat(0x5a3a1e, 0.6);
+    for (const dd of cg.d) box(0.1, 1.9, 0.1, post, L.x2, groundY + 0.95, Z(dd));
+    const gw = cg.d[1] - cg.d[0];
+    const gp = new THREE.Group();
+    gp.position.set(L.x2, groundY + 0.05, Z(cg.d[0]));
+    gp.rotation.y = Math.atan2(Math.sin(1.1), -Math.cos(1.1)); // открыта наружу на ~63°
+    const gl = new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.7, gw - 0.05), mat(0x7a4e2a, 0.6));
+    gl.position.set(0, 0.85, (gw - 0.05) / 2);
+    gp.add(gl);
+    group.add(gp);
+  }
   // барбекю: мангал и две печи под казаны у забора, стол со стороны двора
   if (bbq) {
     const brick = mat(0xb5563f), metal = mat(0x2b2f33, 0.4), wood = mat(0xb98552, 0.7), kazan = mat(0x1f2326, 0.3);
@@ -1005,7 +1058,8 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels) {
       k.position.set(x, y0 + y + 0.02, Z(d));
       group.add(k);
     }
-    box(0.7, 0.9, 1.6, wood, L.x1 + 0.6, y0 + 0.45, Z((bbq.d1 + bbq.d2) / 2));
+    const td = ob.bbq_table_d || [bbq.d1 + 1.2, bbq.d1 + 2.8];
+    box(0.7, 0.9, td[1] - td[0], wood, L.x1 + 0.45, y0 + 0.45, Z((td[0] + td[1]) / 2));
   }
   // немного обстановки, чтобы было понятно назначение
   const wood = mat(0xc9a27a, 0.7);
@@ -1029,5 +1083,5 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels) {
   if (last.x1 > L.x1) slab(last.x1 - 0.3, L.x2 + 0.05, last.d1, last.d2 + 0.3);
   // подписи
   for (const r of L.rooms) labels.add(sprite([r.name], (r.x1 + r.x2) / 2, y0 + 3.6, Z((r.d1 + r.d2) / 2), { small: true, color: '#7a4e2a' }));
-  labels.add(sprite(['Калитка'], (L.x1 + last.x1) / 2, groundY + 2.4, Z(L.plot.depth_m - 0.3), { small: true, color: '#7a4e2a' }));
+  if (ob.passage?.gate) labels.add(sprite(['Калитка'], L.x2 - 0.3, groundY + 2.6, Z((ob.passage.gate.d[0] + ob.passage.gate.d[1]) / 2), { small: true, color: '#7a4e2a' }));
 }
