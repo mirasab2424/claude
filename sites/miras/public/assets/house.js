@@ -92,8 +92,13 @@ export function doorWall(h, d) {
   const [axis, n] = d.wall.split('=');
   const at = +n;
   let next = null;
-  for (const r of h.rooms) {
-    for (const p of r.floor_polygon_mm.value) {
+  const along = axis === 'x' ? 1 : 0, a = d.from_mm.value, b = d.to_mm.value;
+  // толщина — до ближайшей комнаты, которую соединяет дверь и чья стена напротив проёма
+  for (const r of h.rooms.filter((x) => !d.between || d.between.includes(x.id))) {
+    const poly = r.floor_polygon_mm.value;
+    const span = poly.map((p) => p[along]);
+    if (Math.max(...span) < a || Math.min(...span) > b) continue;
+    for (const p of poly) {
       const c = axis === 'x' ? p[0] : p[1];
       if (c > at + 1 && c - at < 700 && (next === null || c < next)) next = c;
     }
