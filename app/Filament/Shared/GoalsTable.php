@@ -72,6 +72,24 @@ class GoalsTable
                     ->color('success')
                     ->visible(fn (Goal $record) => ! $record->status->isClosed())
                     ->action(fn (Goal $record) => $record->update(['status' => GoalStatus::Done])),
+                Action::make('repeat')
+                    ->label('Повторить')
+                    ->tooltip('Создать такую же цель на следующий период')
+                    ->iconButton()
+                    ->icon(Heroicon::OutlinedArrowPath)
+                    ->color('gray')
+                    ->requiresConfirmation()
+                    ->modalHeading('Повторить цель?')
+                    ->modalDescription(fn (Goal $record) => 'Будет создана новая цель «'.$record->title.'» со сроком '.self::nextDue($record)->translatedFormat('j F Y').'. Заметки и выводы не копируются.')
+                    ->action(function (Goal $record) {
+                        $copy = $record->replicate(['status', 'progress', 'completed_at', 'notes', 'retrospective', 'photo', 'link']);
+                        $copy->status = GoalStatus::Planned;
+                        $copy->progress = 0;
+                        $copy->start_date = ($record->due_date ?? now())->copy()->addDay();
+                        $copy->due_date = self::nextDue($record);
+                        $copy->save();
+                        \Filament\Notifications\Notification::make()->success()->title('Цель повторена: срок '.$copy->due_date->translatedFormat('j F'))->send();
+                    }),
                 EditAction::make()->iconButton(),
             ])
             ->toolbarActions([
@@ -79,5 +97,18 @@ class GoalsTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    /** Срок следующего периода: от прежнего срока (или от сегодня) на день, неделю, месяц или год. */
+    public static function nextDue(Goal $goal): \Carbon\CarbonInterface
+    {
+        $base = ($goal->due_date && $goal->due_date->gte(now()->startOfDay())) ? $goal->due_date->copy() : now()->startOfDay();
+
+        return match ($goal->horizon?->value) {
+            'day' => $base->addDay(),
+            'week' => $base->addWeek(),
+            'month' => $base->addMonthNoOverflow(),
+            default => $base->addYear(),
+        };
     }
 }
