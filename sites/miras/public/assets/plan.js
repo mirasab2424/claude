@@ -1,6 +1,6 @@
 // План этажа в SVG из measurements.json. Улица снизу, сторона входа слева — как видно, если стоять на улице лицом к дому.
 // Геометрия рисуется в координатах данных (y — от улицы вглубь) и переворачивается целиком; подписи ставятся уже в экранных координатах.
-import { m05, m1n, tol, roomName, windowWall, doorWall, stairVariant, ELECTRIC } from './house.js?v=17';
+import { m05, m1n, tol, roomName, windowWall, doorWall, stairVariant, ELECTRIC } from './house.js?v=18';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -233,7 +233,8 @@ export function plotSVG(h, design, outbuildingLayout) {
   const last = L.rooms.at(-1), ob = L.ob;
   // тропинка: вдоль пристройки со стороны двора, у туалета и за ним — к калитке
   const yardEnd = L.rooms.find((r) => r.id === 'sauna')?.d2 ?? last.d1, pw = ob.passage?.path_m ?? 1;
-  g += `<rect x="${L.x1 - pw}" y="${Y(yardEnd)}" width="${pw}" height="${yardEnd - 5.5}" class="ob-path"/>`;
+  g += `<rect x="${L.x1 - pw}" y="${Y(yardEnd + 0.5)}" width="${pw}" height="${yardEnd - 0.4}" class="ob-path"/>`;
+  g += `<rect x="${plot.main_gate_x_m[1] - 0.6}" y="${Y(1.6)}" width="${L.x1 - plot.main_gate_x_m[1] + 0.6}" height="${pw * 0.8}" class="ob-path"/>`;
   g += `<rect x="${L.x1}" y="0" width="${last.x1 - L.x1}" height="${D - yardEnd}" class="ob-path"/>`;
   g += `<rect x="${last.x1}" y="0" width="${L.x2 - last.x1}" height="${D - last.d2}" class="ob-path"/>`;
   text((L.x1 + last.x1) / 2, Y((yardEnd + D) / 2), 't-ob-size', 0.5, 'проход');
@@ -275,6 +276,6 @@ export function plotSVG(h, design, outbuildingLayout) {
   text((Math.max(...hx) + L.x1) / 2, Y(ad + 9), 't-dim', 0.6, `двор ≈ ${f(gapHouse)} м`);
   text(W / 2, D + 3.2, 't-street', 0.75, 'улица ▼');
   return `<svg class="plan plot-plan" viewBox="${-pad} ${-pad} ${W + pad * 2} ${D + pad * 2 + 1.2}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="План участка: дом и пристройка">
-    <style>.plot{fill:#eef4e8;stroke:#7a6a55;stroke-width:.12;stroke-dasharray:.5 .3} .house{fill:#f6f2ea;stroke:#2f3439;stroke-width:.25} .ob-room{fill:#f3ead9;stroke:#5b6168;stroke-width:.12} .ob-open{fill:#fde3c8;stroke-dasharray:.4 .25} .ob-path{fill:#e2ddd2} .gate{stroke:#22a845;stroke-width:.35} .door-gap{fill:#fff} .door-arc{fill:rgba(138,90,51,.12);stroke:#8a5a33;stroke-width:.06} .win-ob{fill:#7cc4e8} .t-house{font-weight:600} .t-ob{font-weight:600;fill:#3c2f22} .t-ob-size{fill:#7a6a55} .t-gate{fill:#178a36} .t-dim{fill:#5d6d78} .t-street{fill:#5d6d78;letter-spacing:.1em}</style>
+    <style>.plot{fill:#eef4e8;stroke:#7a6a55;stroke-width:.12;stroke-dasharray:.5 .3} .house{fill:#f6f2ea;stroke:#2f3439;stroke-width:.25} .ob-room{fill:#f3ead9;stroke:#5b6168;stroke-width:.12} .ob-open{fill:#fde3c8;stroke-dasharray:.4 .25} .ob-path{fill:#d6cdbd;stroke:#8f8573;stroke-width:.05;stroke-dasharray:.25 .2} .gate{stroke:#22a845;stroke-width:.35} .door-gap{fill:#fff} .door-arc{fill:rgba(138,90,51,.12);stroke:#8a5a33;stroke-width:.06} .win-ob{fill:#7cc4e8} .t-house{font-weight:600} .t-ob{font-weight:600;fill:#3c2f22} .t-ob-size{fill:#7a6a55} .t-gate{fill:#178a36} .t-dim{fill:#5d6d78} .t-street{fill:#5d6d78;letter-spacing:.1em}</style>
     ${g}${t}</svg>`;
 }

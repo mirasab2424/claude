@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=17';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=18';
 
 const CELL = 50; // мм
 
@@ -15,6 +15,7 @@ export function createViewer(canvas, h, onPick, design = null) {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.localClippingEnabled = true; // чтобы срезать забор там, где стоит пристройка
 
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -498,6 +499,14 @@ export function createViewer(canvas, h, onPick, design = null) {
           if (obLayout && /^Site_(ob|Roof_|tree\d)/.test(o.name)) {
             box.setFromObject(o);
             if (box.max.x > obLayout.x1 - 0.3 || /^Site_(ob|Roof_)/.test(o.name)) continue;
+          }
+          // забор вдоль пристройки не нужен: её стена у забора и ворота гаража — сами граница участка
+          if (obLayout && /^Site_fence_(front|right)_/.test(o.name)) {
+            const last = obLayout.rooms.at(-1);
+            const plane = /front/.test(o.name)
+              ? new THREE.Plane(new THREE.Vector3(-1, 0, 0), obLayout.x1 - 0.05) // оставить x < начала пристройки
+              : new THREE.Plane(new THREE.Vector3(0, 0, -1), -last.d2); // оставить только за туалетом
+            o.traverse((m) => { if (m.isMesh) { m.material = m.material.clone(); m.material.clippingPlanes = [plane]; } });
           }
           layers.site.add(o);
         }
@@ -1027,11 +1036,15 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels) {
   // ворота гаража (секционные)
   const gate = box(L.x2 - L.x1 - 2 * garage.gate_margin_m, 2.5, 0.05, mat(0x8e959b, 0.5), (L.x1 + L.x2) / 2, y0 + 1.25, Z(0.12));
   for (let i = 1; i < 6; i++) box(L.x2 - L.x1 - 2 * garage.gate_margin_m, 0.02, 0.06, mat(0x6b7278), gate.position.x, y0 + i * 0.42, Z(0.11));
-  // тропинка: вдоль пристройки со стороны двора — к гаражу, барбекю, кухне, столярке, бане и туалету; за туалетом — к калитке
-  const pass = L.passage, pathW = ob.passage?.path_m ?? 1.0, stone = mat(0xc4b8a3, 0.95);
-  box(pathW, 0.05, yardEnd - 5.5, stone, L.x1 - pathW / 2 - 0.05, groundY + 0.025, Z((5.5 + yardEnd) / 2));
-  box(last.x1 - L.x1, 0.05, L.plot.depth_m - yardEnd, stone, (L.x1 + last.x1) / 2, groundY + 0.025, Z((yardEnd + L.plot.depth_m) / 2));
-  box(L.x2 - last.x1, 0.05, L.plot.depth_m - last.d2, stone, (last.x1 + L.x2) / 2, groundY + 0.025, Z((last.d2 + L.plot.depth_m) / 2));
+  // тропинка из плит: от ворот во двор вдоль пристройки к дверям, мимо туалета и за ним — к калитке
+  const tileMat = mat(0x8f8573, 0.95), tile = (x, d, w = 0.6, l = 0.6) => box(w, 0.06, l, tileMat, x, groundY + 0.05, Z(d));
+  const px = L.x1 - 0.55, cgd = ob.passage?.gate ? (ob.passage.gate.d[0] + ob.passage.gate.d[1]) / 2 : L.plot.depth_m - 0.7;
+  const mainGate = L.plot.main_gate_x_m;
+  for (let x = mainGate[1] - 0.3; x < px; x += 0.75) tile(x, 1.2);                 // от ворот во двор к пристройке
+  for (let d = 1.2; d <= yardEnd + 0.4; d += 0.75) tile(px, d);                       // вдоль пристройки
+  for (let x = px + 0.75; x <= last.x1 - 0.4; x += 0.75) tile(x, yardEnd + 0.75);     // к туалету
+  for (let d = yardEnd + 1.5; d <= cgd; d += 0.75) tile(last.x1 - 0.5, d);            // мимо двери туалета
+  for (let x = last.x1 - 0.5; x <= L.x2 - 0.3; x += 0.75) tile(x, cgd);               // за туалетом к калитке
   // калитка в правом заборе за туалетом: столбы и приоткрытое наружу полотно
   const cg = ob.passage?.gate;
   if (cg) {
