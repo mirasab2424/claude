@@ -48,6 +48,16 @@
   .walk-hint { position: fixed; left: 50%; transform: translateX(-50%); top: calc(16px + env(safe-area-inset-top, 0px)); background: rgba(21,26,30,.82); color: #fff; padding: 8px 14px; border-radius: 12px; font-size: 13px; text-align: center; }
   .walk-hint[hidden] { display: none; }
   body.walking .title, body.walking .links, body.walking .legend, body.walking .card { display: none; }
+  .loading { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--panel); backdrop-filter: blur(10px); border-radius: 14px; box-shadow: 0 6px 24px rgba(34,48,58,.15); padding: 14px 18px; font-size: 14px; color: var(--muted); text-align: center; min-width: 240px; transition: opacity .4s; }
+  .loading.done { opacity: 0; pointer-events: none; }
+  .loading .bar { height: 6px; border-radius: 3px; background: rgba(34,48,58,.1); overflow: hidden; margin-bottom: 8px; }
+  .loading .bar i { display: block; height: 100%; width: 8%; background: var(--accent); transition: width .2s; }
+  @media (max-width: 700px) {
+    .controls { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; left: 8px; right: 8px; transform: none; width: auto; max-width: none; scrollbar-width: none; }
+    .controls::-webkit-scrollbar { display: none; }
+    .controls .sep { flex: none; }
+    .pad { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); right: 12px; }
+  }
   .hint { position: fixed; left: 24px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); font-size: 12px; color: var(--muted); max-width: 260px; }
   @media (max-width: 900px) { .hint { display: none; } }
   @media (max-width: 520px) {
@@ -69,6 +79,7 @@
     <a href="smeta.html">Смета ремонта</a>
   </nav>
   <aside class="card" id="card" hidden aria-live="polite"></aside>
+  <div class="loading" id="loading" role="status"><div class="bar"><i id="loadBar"></i></div><span id="loadText">Загружаю участок и мебель…</span></div>
   <div class="walk-hint" id="walkHint" hidden>Прогулка: <b>W A S D</b> или стрелки — идти, мышью или пальцем — осмотреться. Начинаем у входной двери.</div>
   <div class="pad" id="pad" hidden aria-label="Управление прогулкой">
     <button class="up" data-f="1" aria-label="Вперёд">▲</button>
@@ -141,6 +152,13 @@ document.querySelectorAll('[data-layer]').forEach((b) => b.onclick = () => {
 });
 const toggle = (id, fn) => { const b = document.getElementById(id); b.onclick = () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); fn(on); }; };
 toggle('btnRotate', v.autoRotate);
+const loading = document.getElementById('loading');
+v.onProgress((p) => {
+  if (p === -1) { document.getElementById('loadText').textContent = 'Участок не загрузился — дом показан без него.'; setTimeout(() => loading.classList.add('done'), 3000); return; }
+  if (p != null) { document.getElementById('loadBar').style.width = Math.max(8, Math.round(p * 100)) + '%'; document.getElementById('loadText').textContent = 'Загружаю участок и мебель… ' + Math.round(p * 100) + ' %'; }
+});
+v.onLoad(() => loading.classList.add('done'));
+if (!design?.site_model) loading.classList.add('done');
 const walkBtn = document.getElementById('btnWalk'), pad = document.getElementById('pad'), walkHint = document.getElementById('walkHint');
 const setWalkUi = (on) => {
   walkBtn.setAttribute('aria-pressed', on);

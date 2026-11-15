@@ -71,11 +71,19 @@
   <section class="card" style="margin-top:16px">
     <h2>Материалы</h2>
     <div class="tbl"><table>
-      <thead><tr><th>Материал</th><th>Сколько</th><th>Как посчитано</th></tr></thead>
+      <thead><tr><th>Материал</th><th>Сколько</th><th>Цена за ед., ₸</th><th>Сумма</th><th>Как посчитано</th></tr></thead>
       <tbody id="t-mat"></tbody>
     </table></div>
+    <p class="note small">Цены вводите свои (из магазина или от мастера) — они сохраняются в этом браузере. Сумма — только материалы, без работы и доставки.</p>
     <p class="no-print" style="margin:12px 0 0"><button class="btn" type="button" onclick="print()">Распечатать или сохранить в PDF</button></p>
   </section>
+  <section class="card" id="stages" style="margin-top:16px">
+    <h2>Этапы ремонта <small class="note" id="st-progress"></small></h2>
+    <p class="note">Типовой порядок работ — шаблон, не план прораба. Отмечайте сделанное и пишите заметки: всё хранится в этом браузере.</p>
+    <div class="bar-wrap" style="height:8px;border-radius:4px;background:var(--accent-soft);overflow:hidden;margin:6px 0 12px"><i id="st-bar" style="display:block;height:100%;width:0;background:var(--accent);transition:width .3s"></i></div>
+    <ol id="st-list" style="margin:0;padding-left:0;list-style:none;display:grid;gap:6px"></ol>
+  </section>
+
   <p class="note small" style="margin-top:20px">Размеры берутся из <code>data/measurements.json</code>, расчёт — в браузере. Площадь пола — по контуру помещения, стены — периметр × высота минус окна и двери.</p>
 </main>
 <script type="module">
@@ -134,16 +142,71 @@ function render() {
   const paintL = (walls + floor) * o('coats') * o('paintRate');
   const primerL = (walls + floor) * o('primerRate');
   const mats = [
-    ['Напольное покрытие (ламинат, плитка, линолеум)', `≈ ${nf(floor * res)} м²`, `пол ${nf(floor)} м² + запас ${o('reserve')} %`],
-    ['Плинтус', `≈ ${nf(plinth * res)} м · ${Math.ceil(plinth * res / 2.5)} шт. по 2,5 м`, `периметр без дверных проёмов + запас`],
-    ['Гипсовая штукатурка стен', `≈ ${nf(plasterKg)} кг · ${Math.ceil(plasterKg / 30)} меш. по 30 кг`, `стены ${nf(walls)} м² × ${o('plasterRate')} кг × ${o('plasterMm')} мм`],
-    ['Грунтовка (стены и потолок)', `≈ ${nf(primerL)} л`, `${nf(walls + floor)} м² × ${o('primerRate')} л`],
-    ['Краска (стены и потолок)', `≈ ${nf(paintL)} л`, `${nf(walls + floor)} м² × ${o('coats')} сл. × ${o('paintRate')} л`],
+    ['floor', 'Напольное покрытие (ламинат, плитка, линолеум)', floor * res, `≈ ${nf(floor * res)} м²`, 'м²', `пол ${nf(floor)} м² + запас ${o('reserve')} %`],
+    ['plinth', 'Плинтус', Math.ceil(plinth * res / 2.5), `≈ ${nf(plinth * res)} м · ${Math.ceil(plinth * res / 2.5)} шт. по 2,5 м`, 'шт.', 'периметр без дверных проёмов + запас'],
+    ['plaster', 'Гипсовая штукатурка стен', Math.ceil(plasterKg / 30), `≈ ${nf(plasterKg)} кг · ${Math.ceil(plasterKg / 30)} меш. по 30 кг`, 'мешок', `стены ${nf(walls)} м² × ${o('plasterRate')} кг × ${o('plasterMm')} мм`],
+    ['primer', 'Грунтовка (стены и потолок)', primerL, `≈ ${nf(primerL)} л`, 'л', `${nf(walls + floor)} м² × ${o('primerRate')} л`],
+    ['paint', 'Краска (стены и потолок)', paintL, `≈ ${nf(paintL)} л`, 'л', `${nf(walls + floor)} м² × ${o('coats')} сл. × ${o('paintRate')} л`],
   ];
-  $('t-mat').innerHTML = mats.map(([a, b, c]) => `<tr><td>${a}</td><td class="num"><b>${b}</b></td><td class="note">${c}</td></tr>`).join('');
+  const prices = store.get('prices', {});
+  if (!$('t-mat').children.length) {
+    $('t-mat').innerHTML = mats.map(([id, name, , , unit]) => `<tr data-id="${id}"><td>${name}</td><td class="num"><b class="qty"></b></td>
+      <td><input class="price" data-id="${id}" type="number" min="0" step="1" placeholder="за ${unit}" value="${prices[id] ?? ''}" style="width:110px;font:inherit;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)"></td>
+      <td class="num cost">—</td><td class="note how"></td></tr>`).join('') + '<tr class="total"><td>Итого материалы</td><td></td><td></td><td class="num" id="cost-total">—</td><td></td></tr>';
+    $('t-mat').addEventListener('input', (e) => { if (e.target.classList.contains('price')) { const pr = store.get('prices', {}); pr[e.target.dataset.id] = e.target.value === '' ? null : +e.target.value; store.set('prices', pr); render(); } });
+  }
+  let total = 0, any = false;
+  for (const [id, , qty, text, , how] of mats) {
+    const tr = $('t-mat').querySelector(`tr[data-id="${id}"]`);
+    tr.querySelector('.qty').textContent = text;
+    tr.querySelector('.how').textContent = how;
+    const price = prices[id];
+    const cost = price > 0 ? qty * price : null;
+    tr.querySelector('.cost').textContent = cost == null ? '—' : '≈ ' + nf(cost) + ' ₸';
+    if (cost != null) { total += cost; any = true; }
+  }
+  $('cost-total').textContent = any ? '≈ ' + nf(total) + ' ₸' : 'введите цены';
 }
 syncScale();
 render();
+// --- этапы ремонта (шаблон, отметки локально) ---
+const STAGES = [
+  ['measure', 'Замеры рулеткой', 'Один точный замер уточнит все размеры сайта — введите его в «Поправке» выше.'],
+  ['roof', 'Крыша и перекрытие мансарды', 'Перекрытие нужно до лестницы и до потолков первого этажа.'],
+  ['stair', 'Лестница на мансарду', 'Вариант по эскизу; проверить проход над дверью санузла.'],
+  ['windows', 'Окна и входная дверь', 'До штукатурки — откосы делаются после установки.'],
+  ['electric', 'Электрика: разводка, щиток, коробки', 'Розетки и выключатели — по списку по комнатам на странице плана.'],
+  ['plumbing', 'Сантехника и отопление: трубы, стояк, котёл', 'На видео трубы видны в санузле и ещё в четырёх помещениях — список на странице плана.'],
+  ['screed', 'Стяжка пола', 'После труб в полу. Сохнет несколько недель.'],
+  ['plaster', 'Штукатурка стен', 'Объём — в таблице «Материалы».'],
+  ['ceiling', 'Потолки', ''],
+  ['putty', 'Шпаклёвка и шлифовка', ''],
+  ['tile', 'Плитка в санузле', ''],
+  ['paint', 'Грунтовка и покраска', ''],
+  ['floor', 'Напольное покрытие и плинтус', ''],
+  ['doors', 'Межкомнатные двери', ''],
+  ['furniture', 'Кухня и мебель', 'Варианты расстановки — в 3D, кнопка «Мебель».'],
+];
+const stState = store.get('stages', {});
+const drawStages = () => {
+  const done = STAGES.filter(([id]) => stState[id]?.done).length;
+  $('st-progress').textContent = `— сделано ${done} из ${STAGES.length}`;
+  $('st-bar').style.width = Math.round(done / STAGES.length * 100) + '%';
+};
+$('st-list').innerHTML = STAGES.map(([id, name, hint], i) => `<li style="border:1px solid var(--line);border-radius:10px;padding:8px 12px">
+  <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" data-st="${id}" ${stState[id]?.done ? 'checked' : ''} style="margin-top:4px">
+  <span><b>${i + 1}. ${esc(name)}</b>${hint ? `<br><span class="note small">${esc(hint)}</span>` : ''}</span></label>
+  <input data-note="${id}" placeholder="заметка: кто делает, цена, срок…" value="${esc(stState[id]?.note || '')}" style="margin:6px 0 0 26px;width:calc(100% - 26px);font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)">
+</li>`).join('');
+$('st-list').addEventListener('input', (e) => {
+  const id = e.target.dataset.st || e.target.dataset.note;
+  if (!id) return;
+  stState[id] ??= {};
+  if (e.target.dataset.st) stState[id].done = e.target.checked; else stState[id].note = e.target.value;
+  store.set('stages', stState); drawStages();
+});
+drawStages();
+
 </script>
 </body>
 </html>

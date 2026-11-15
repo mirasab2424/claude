@@ -436,7 +436,7 @@ export function createViewer(canvas, h, onPick, design = null) {
   const designLabels = new THREE.Group();
   root.add(designLabels);
   let siteLoaded = false;
-  let onLoad = null;
+  let onLoad = null, onProgress = null;
   if (design?.site_model) {
     const oldToNew = (design.rooms || []).map((d) => {
       const r = h.rooms.find((x) => x.id === d.room);
@@ -493,7 +493,7 @@ export function createViewer(canvas, h, onPick, design = null) {
       siteLoaded = true;
       apply();
       onLoad?.();
-    });
+    }, (e) => onProgress?.(e.total ? e.loaded / e.total : null), () => onProgress?.(-1));
   }
 
   // --- выбор комнаты кликом ---
@@ -651,6 +651,7 @@ export function createViewer(canvas, h, onPick, design = null) {
     layer: (name, on) => { state[name] = on; apply(); },
     isOn: (name) => state[name],
     onLoad: (fn) => { onLoad = fn; },
+    onProgress: (fn) => { onProgress = fn; },
     autoRotate: (on) => { controls.autoRotate = on; },
     wireframe: (on) => { wallMat.wireframe = on; },
     select,
