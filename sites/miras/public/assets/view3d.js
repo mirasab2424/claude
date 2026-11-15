@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=13';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=14';
 
 const CELL = 50; // мм
 
@@ -513,9 +513,32 @@ export function createViewer(canvas, h, onPick, design = null) {
     ptr.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ptr, camera);
     const hit = ray.intersectObjects([walls, ...floors], false)[0];
+    if (ruler.on) { if (hit) rulerPoint(hit.point); return; }
     if (hit && hit.object === walls) { select(null); return; }
     select(hit && hit.object !== walls ? hit.object.userData.room : null);
   });
+  // --- линейка: две точки на полу или стенах, расстояние по оценочным размерам ---
+  const ruler = { on: false, pts: [], group: new THREE.Group(), onChange: null };
+  scene.add(ruler.group);
+  const rulerMat = new THREE.MeshBasicMaterial({ color: 0xe8590c, depthTest: false });
+  const rulerClear = () => { ruler.pts = []; ruler.group.clear(); ruler.onChange?.(null); };
+  function rulerPoint(p) {
+    if (ruler.pts.length === 2) rulerClear();
+    ruler.pts.push(p.clone());
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 8), rulerMat);
+    dot.position.copy(p); dot.renderOrder = 20;
+    ruler.group.add(dot);
+    if (ruler.pts.length === 2) {
+      const [a, b] = ruler.pts;
+      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), new THREE.LineBasicMaterial({ color: 0xe8590c, depthTest: false }));
+      line.renderOrder = 20;
+      const d = a.distanceTo(b), horiz = Math.hypot(a.x - b.x, a.z - b.z);
+      const label = sprite([`≈ ${m1n(d * 1000)} м`], (a.x + b.x) / 2, Math.max(a.y, b.y) + 0.35, (a.z + b.z) / 2, { color: '#e8590c', small: true });
+      ruler.group.add(line, label);
+      ruler.onChange?.({ d, horiz, dy: Math.abs(a.y - b.y) });
+    } else ruler.onChange?.({ first: true });
+  }
+
   const select = (room) => {
     for (const f of floors) f.material = floorMat(f.userData.room, room && f.userData.room === room);
     picked = room;
@@ -656,6 +679,7 @@ export function createViewer(canvas, h, onPick, design = null) {
     getCamera: () => [...camera.position.toArray(), ...controls.target.toArray()].map((v) => Math.round(v * 100) / 100),
     setCamera: (a) => { if (a?.length === 6 && a.every(Number.isFinite)) { setWalk(false); anim = null; camera.position.set(a[0], a[1], a[2]); controls.target.set(a[3], a[4], a[5]); } },
     walk: setWalk,
+    ruler: (on, onChange) => { ruler.on = on; ruler.onChange = onChange || ruler.onChange; if (!on) rulerClear(); },
     // навести камеру на комнату и выбрать её (для ссылки ?room=)
     focusRoom: (id) => {
       const r = h.rooms.find((x) => x.id === id);
