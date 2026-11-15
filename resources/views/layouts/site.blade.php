@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Success') — трекер целей и прогресса</title>
     <meta name="description" content="@yield('description', 'Цели, задачи, метрики и карта мест — аналитика прогресса (или регресса) в одном месте.')">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="success">
+    <meta property="og:title" content="@yield('title', 'Success') — трекер целей и прогресса">
+    <meta property="og:description" content="@yield('description', 'Цели, задачи, метрики и карта мест — аналитика прогресса (или регресса) в одном месте.')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="@yield('og_image', asset('img/og.png'))">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png">
     @include('partials.pwa')
     <link rel="stylesheet" href="{{ asset('vendor/fonts/fonts.css') }}">

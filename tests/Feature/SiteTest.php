@@ -89,7 +89,7 @@ class SiteTest extends TestCase
 
     public function test_site_is_installable_as_app(): void
     {
-        $this->get('/')->assertOk()->assertSee('manifest.webmanifest', false)->assertSee('serviceWorker', false);
+        $this->get('/')->assertOk()->assertSee('og:image', false)->assertSee('img/og.png', false)->assertSee('manifest.webmanifest', false)->assertSee('serviceWorker', false);
         $manifest = json_decode(file_get_contents(public_path('manifest.webmanifest')), true);
         $this->assertSame('/cabinet', $manifest['start_url']);
         foreach ($manifest['icons'] as $icon) {
