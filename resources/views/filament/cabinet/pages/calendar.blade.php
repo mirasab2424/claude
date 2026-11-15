@@ -1,4 +1,5 @@
 <x-filament-panels::page>
+    <style>@media (max-width: 640px) { .cal-steps { display: none; } }</style>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap">
         <x-filament::button color="gray" size="sm" icon="heroicon-o-chevron-left" wire:click="shift(-1)" aria-label="Предыдущий месяц" />
         <h2 style="font-size:1.25rem; font-weight:700; margin:0 6px; text-transform:capitalize; min-width:170px; text-align:center">{{ $title }}</h2>
@@ -17,7 +18,7 @@
             <div style="min-height:104px; border-radius:10px; padding:6px; border:1px solid {{ $day['today'] ? '#22a845' : 'rgba(128,128,128,.2)' }}; opacity:{{ $day['in'] ? 1 : .45 }}; background:{{ $day['today'] ? 'rgba(34,168,69,.07)' : 'transparent' }}; overflow:hidden">
                 <div style="display:flex; justify-content:space-between; font-size:.8rem">
                     <b>{{ $day['date']->day }}</b>
-                    @if ($day['steps'])<span style="opacity:.6" title="Шаги">👣 {{ $day['steps'] >= 1000 ? round($day['steps'] / 1000, 1).'k' : $day['steps'] }}</span>@endif
+                    @if ($day['steps'])<span class="cal-steps" style="opacity:.6" title="Шаги">👣 {{ $day['steps'] >= 1000 ? round($day['steps'] / 1000, 1).'k' : $day['steps'] }}</span>@endif
                 </div>
                 @if ($habitsTotal && ! $day['date']->isFuture())
                     <div style="display:flex; gap:2px; margin:4px 0" title="Привычки: {{ $day['habits'] }} из {{ $habitsTotal }}">
