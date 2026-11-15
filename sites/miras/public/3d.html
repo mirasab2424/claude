@@ -58,6 +58,7 @@
   <nav class="links">
     <a href="index.html">← На главную</a>
     <a href="plan.html">План и размеры</a>
+    <a href="smeta.html">Смета ремонта</a>
   </nav>
   <aside class="card" id="card" hidden aria-live="polite"></aside>
   <div class="controls" role="toolbar" aria-label="Управление видом">
@@ -81,8 +82,8 @@
     <button id="btnWire" aria-pressed="false">Каркас</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=5';
-import { createViewer } from './assets/view3d.js?v=5';
+import { loadHouse } from './assets/house.js?v=6';
+import { createViewer } from './assets/view3d.js?v=6';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const list = (title, items, empty) => `<h3>${title}</h3>` + (items.length ? `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : `<p class="muted">${empty}</p>`);

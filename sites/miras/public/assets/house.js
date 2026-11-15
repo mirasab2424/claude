@@ -182,3 +182,26 @@ export function stairVariant(h) {
     overDoor,
   };
 }
+
+/** Площадь многоугольника, мм² → м². */
+export const polyArea = (p) => Math.abs(p.reduce((s, [x, y], i) => { const [x2, y2] = p[(i + 1) % p.length]; return s + x * y2 - x2 * y; }, 0)) / 2 / 1e6;
+export const polyPerimeter = (p) => p.reduce((s, [x, y], i) => { const [x2, y2] = p[(i + 1) % p.length]; return s + Math.hypot(x2 - x, y2 - y); }, 0) / 1000;
+
+/**
+ * Отделка помещения из данных: пол, периметр, стены за вычетом окон и дверей, плинтус (периметр минус двери).
+ * Всё в метрах; k — поправка масштаба после замера (длины ×k, площади ×k²).
+ */
+export function roomFinish(h, r, k = 1) {
+  const p = r.floor_polygon_mm.value;
+  const height = r.wall_top_height_mm.value / 1000;
+  const wins = h.windows.filter((w) => w.room === r.id);
+  const doors = h.doors.filter((d) => d.between.includes(r.id));
+  const openings = wins.reduce((s, w) => s + w.width_mm.value * w.height_mm.value, 0) / 1e6 + doors.reduce((s, d) => s + d.width_mm.value * d.height_mm.value, 0) / 1e6;
+  const doorWidth = doors.reduce((s, d) => s + d.width_mm.value, 0) / 1000;
+  const floor = polyArea(p), perim = polyPerimeter(p);
+  return {
+    floor: floor * k * k, perimeter: perim * k, height: height * k,
+    walls: Math.max(0, perim * height - openings) * k * k, openings: openings * k * k,
+    plinth: Math.max(0, perim - doorWidth) * k, windows: wins.length, doors: doors.length,
+  };
+}

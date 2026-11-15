@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Смета ремонта — Наш дом</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=6">
+<style>
+  .calc { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px 16px; }
+  .calc label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+  .calc input, .calc select { font: inherit; padding: 7px 9px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); }
+  .rooms-pick { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 6px 0 0; }
+  .rooms-pick label { font-size: 14px; display: inline-flex; gap: 6px; align-items: center; }
+  .total td { font-weight: 600; border-top: 2px solid var(--line); }
+  .big-num { font-size: 26px; font-weight: 600; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 8px; }
+  .kpis div { background: var(--accent-soft); border-radius: 12px; padding: 10px 12px; }
+  .kpis small { display: block; color: var(--muted); font-size: 13px; }
+  .scale-on { border-left: 4px solid var(--accent); }
+  .btn { font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 7px 12px; cursor: pointer; color: var(--ink); }
+  @media print { .top, .toc, .no-print { display: none !important; } .card { box-shadow: none; break-inside: avoid; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html">Наш дом</a>
+  <nav class="nav"><a href="index.html">Главная</a><a href="3d.html">3D-модель</a><a href="plan.html">План и размеры</a><a href="smeta.html" aria-current="page">Смета</a></nav>
+</div></header>
+<main class="wrap">
+  <h1>Смета ремонта</h1>
+  <p class="notice"><b>Это прикидка, а не смета для закупки.</b> Площади посчитаны по размерам из видео (масштаб — предположение, ±3 %), высота стен — до верха кладки, потолка ещё нет. Расход материалов — типовой, сверяйте с упаковкой. После замера рулеткой введите его ниже — всё пересчитается.</p>
+
+  <section class="card no-print" id="scale">
+    <h2>Поправка по замеру рулеткой</h2>
+    <p class="note">Выберите, что измерили, и введите настоящий размер. Все длины умножатся на одно число, площади — на его квадрат. Сохраняется только в этом браузере, сам сайт не меняется.</p>
+    <div class="calc">
+      <label>Что измерили <select id="sc-what"></select></label>
+      <label>Сейчас на сайте <input id="sc-now" readonly></label>
+      <label>Ваш замер, мм <input id="sc-real" type="number" min="100" step="1" placeholder="например 900"></label>
+      <label>Поправка <input id="sc-k" readonly></label>
+    </div>
+    <p style="margin:10px 0 0"><button class="btn" id="sc-reset" type="button">Сбросить поправку</button></p>
+  </section>
+
+  <section class="card" style="margin-top:16px">
+    <h2>Что считаем</h2>
+    <div class="rooms-pick" id="pick"></div>
+    <div class="calc" style="margin-top:14px">
+      <label>Запас на пол и плинтус, % <input data-opt="reserve" type="number" min="0" max="30" value="10"></label>
+      <label>Штукатурка стен, слой, мм <input data-opt="plasterMm" type="number" min="0" max="50" value="10"></label>
+      <label>Расход гипсовой штукатурки, кг/м² на 1 см <input data-opt="plasterRate" type="number" min="1" step="0.1" value="8.5"></label>
+      <label>Краска, слоёв <input data-opt="coats" type="number" min="1" max="4" value="2"></label>
+      <label>Расход краски, л/м² на слой <input data-opt="paintRate" type="number" min="0.05" step="0.01" value="0.12"></label>
+      <label>Грунтовка, л/м² <input data-opt="primerRate" type="number" min="0.05" step="0.01" value="0.15"></label>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section class="card" style="margin-top:16px">
+    <h2>По помещениям</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Помещение</th><th>Пол / потолок</th><th>Стены без проёмов</th><th>Окна и двери</th><th>Плинтус</th></tr></thead>
+      <tbody id="t-rooms"></tbody>
+    </table></div>
+  </section>
+
+  <section class="card" style="margin-top:16px">
+    <h2>Материалы</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Материал</th><th>Сколько</th><th>Как посчитано</th></tr></thead>
+      <tbody id="t-mat"></tbody>
+    </table></div>
+    <p class="no-print" style="margin:12px 0 0"><button class="btn" type="button" onclick="print()">Распечатать или сохранить в PDF</button></p>
+  </section>
+  <p class="note small" style="margin-top:20px">Размеры берутся из <code>data/measurements.json</code>, расчёт — в браузере. Площадь пола — по контуру помещения, стены — периметр × высота минус окна и двери.</p>
+</main>
+<script type="module">
+import { loadHouse, roomName, roomFinish, m1n } from './assets/house.js?v=6';
+const h = await loadHouse();
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const nf = (v, d = 0) => v.toLocaleString('ru-RU', { minimumFractionDigits: d, maximumFractionDigits: d });
+const store = { get(k, d) { try { return JSON.parse(localStorage.getItem('smeta.' + k)) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem('smeta.' + k, JSON.stringify(v)); } catch {} } };
+
+// --- поправка масштаба ---
+const refs = [
+  ['door', 'Ширина входной двери (проём)', h.doors.find((d) => d.between.includes('outside')).width_mm.value],
+  ['house', 'Ширина дома по фасаду', h.exterior.total_width_x.value],
+  ['depth', 'Глубина дома', h.exterior.total_depth_y.value],
+  ...h.rooms.map((r) => [r.id + ':x', roomName(r).name + ' — ширина', r.bbox_size_mm.x.value]),
+  ...h.rooms.map((r) => [r.id + ':y', roomName(r).name + ' — длина', r.bbox_size_mm.y.value]),
+];
+$('sc-what').innerHTML = refs.map(([id, name]) => `<option value="${id}">${esc(name)}</option>`).join('');
+let scale = store.get('scale', null);
+const k = () => (scale && scale.real > 0 ? scale.real / refs.find((r) => r[0] === scale.ref)[2] : 1);
+const syncScale = () => {
+  const ref = refs.find((r) => r[0] === $('sc-what').value);
+  $('sc-now').value = '≈ ' + nf(ref[2]) + ' мм (оценка)';
+  $('sc-k').value = scale ? '× ' + nf(k(), 3) : 'нет — размеры по видео';
+  $('scale').classList.toggle('scale-on', !!scale);
+};
+if (scale) { $('sc-what').value = scale.ref; $('sc-real').value = scale.real; }
+$('sc-what').onchange = () => { if (scale) { scale.ref = $('sc-what').value; store.set('scale', scale); } syncScale(); render(); };
+$('sc-real').oninput = () => {
+  const real = +$('sc-real').value;
+  scale = real >= 100 ? { ref: $('sc-what').value, real } : null;
+  store.set('scale', scale); syncScale(); render();
+};
+$('sc-reset').onclick = () => { scale = null; $('sc-real').value = ''; store.set('scale', null); syncScale(); render(); };
+
+// --- выбор комнат и параметры ---
+const picked = new Set(store.get('rooms', h.rooms.map((r) => r.id)));
+$('pick').innerHTML = h.rooms.map((r) => `<label><input type="checkbox" value="${r.id}" ${picked.has(r.id) ? 'checked' : ''}> ${esc(roomName(r).name)}</label>`).join('');
+$('pick').onchange = (e) => { e.target.checked ? picked.add(e.target.value) : picked.delete(e.target.value); store.set('rooms', [...picked]); render(); };
+const opt = store.get('opt', {});
+document.querySelectorAll('[data-opt]').forEach((i) => { if (opt[i.dataset.opt] != null) i.value = opt[i.dataset.opt]; i.oninput = () => { opt[i.dataset.opt] = +i.value; store.set('opt', opt); render(); }; });
+const o = (name) => +document.querySelector(`[data-opt="${name}"]`).value;
+
+function render() {
+  const kk = k();
+  const rows = h.rooms.filter((r) => picked.has(r.id)).map((r) => ({ r, f: roomFinish(h, r, kk) }));
+  const sum = (key) => rows.reduce((s, x) => s + x.f[key], 0);
+  const floor = sum('floor'), walls = sum('walls'), plinth = sum('plinth'), openings = sum('openings');
+  $('t-rooms').innerHTML = rows.map(({ r, f }) => `<tr><td>${esc(roomName(r).name)}</td><td class="num">≈ ${nf(f.floor)} м²</td><td class="num">≈ ${nf(f.walls)} м²</td><td class="num">${f.windows} окн. · ${f.doors} дв. · ≈ ${nf(f.openings, 1)} м²</td><td class="num">≈ ${m1n(f.plinth * 1000)} м</td></tr>`).join('')
+    + `<tr class="total"><td>Итого</td><td class="num">≈ ${nf(floor)} м²</td><td class="num">≈ ${nf(walls)} м²</td><td class="num">≈ ${nf(openings, 1)} м²</td><td class="num">≈ ${nf(plinth)} м</td></tr>`;
+  $('kpis').innerHTML = [['Пол', floor, 'м²'], ['Стены', walls, 'м²'], ['Потолок', floor, 'м²'], ['Плинтус', plinth, 'м']]
+    .map(([n, v, u]) => `<div><small>${n}</small><span class="big-num">≈ ${nf(v)}</span> ${u}</div>`).join('');
+  const res = 1 + o('reserve') / 100;
+  const plasterKg = walls * o('plasterRate') * o('plasterMm') / 10;
+  const paintL = (walls + floor) * o('coats') * o('paintRate');
+  const primerL = (walls + floor) * o('primerRate');
+  const mats = [
+    ['Напольное покрытие (ламинат, плитка, линолеум)', `≈ ${nf(floor * res)} м²`, `пол ${nf(floor)} м² + запас ${o('reserve')} %`],
+    ['Плинтус', `≈ ${nf(plinth * res)} м · ${Math.ceil(plinth * res / 2.5)} шт. по 2,5 м`, `периметр без дверных проёмов + запас`],
+    ['Гипсовая штукатурка стен', `≈ ${nf(plasterKg)} кг · ${Math.ceil(plasterKg / 30)} меш. по 30 кг`, `стены ${nf(walls)} м² × ${o('plasterRate')} кг × ${o('plasterMm')} мм`],
+    ['Грунтовка (стены и потолок)', `≈ ${nf(primerL)} л`, `${nf(walls + floor)} м² × ${o('primerRate')} л`],
+    ['Краска (стены и потолок)', `≈ ${nf(paintL)} л`, `${nf(walls + floor)} м² × ${o('coats')} сл. × ${o('paintRate')} л`],
+  ];
+  $('t-mat').innerHTML = mats.map(([a, b, c]) => `<tr><td>${a}</td><td class="num"><b>${b}</b></td><td class="note">${c}</td></tr>`).join('');
+}
+syncScale();
+render();
+</script>
+</body>
+</html>
