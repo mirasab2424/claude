@@ -69,6 +69,10 @@
       <a class="tile" href="3d.html"><div class="cover" style="background-image:url(assets/preview.webp)"></div><div class="cap"><b>Дом · 3D с мебелью</b><span>дизайн — вариант</span></div></a>
       <a class="tile" href="3d.html?show=roof"><div class="cover" style="background-image:url(assets/preview-roof.webp)"></div><div class="cap"><b>Дом и участок</b><span>крыша — оценка</span></div></a>
       <a class="tile" href="plan.html"><div class="cover cover--plan" id="plan-tile"></div><div class="cap"><b>План этажа</b><span>с размерами</span></div></a>
+      <a class="tile" href="plan.html#attic"><div class="cover cover--plan" id="attic-tile"></div><div class="cap"><b>План мансарды</b><span>вариант</span></div></a>
+      <a class="tile" href="3d.html?view=walk"><div class="cover cover--icon">🚶</div><div class="cap"><b>Прогулка по дому</b><span>от первого лица</span></div></a>
+      <a class="tile" href="smeta.html"><div class="cover cover--icon">🧮</div><div class="cap"><b>Смета ремонта</b><span>площади, материалы, этапы</span></div></a>
+      <a class="tile" href="zamery.html"><div class="cover cover--icon">📏</div><div class="cap"><b>Лист замеров</b><span>что измерить рулеткой</span></div></a>
       <a class="tile" href="garage/view-garage.webp" target="_blank"><div class="cover" style="background-image:url(garage/view-garage.webp)"></div><div class="cap"><b>Гараж и мастерская</b><span>старая схема</span></div></a>
       <a class="tile" href="garage/plan-garage.svg" target="_blank"><div class="cover" style="background-image:url(garage/plan-garage.svg);background-size:contain;background-color:#fff"></div><div class="cap"><b>План гаража</b><span>старая схема</span></div></a>
     </div>
@@ -77,12 +81,13 @@
 
 <script type="module">
 import { loadHouse, m05, m1, area } from './assets/house.js?v=10';
-import { planSVG } from './assets/plan.js?v=10';
+import { planSVG, atticSVG } from './assets/plan.js?v=10';
 const h = await loadHouse();
 const e = h.exterior;
 const svg = planSVG(h, { compact: true });
 document.getElementById('plan-mini').innerHTML = svg;
 document.getElementById('plan-tile').innerHTML = svg;
+fetch('data/design.json').then((r) => r.ok ? r.json() : null).then((d) => { document.getElementById('attic-tile').innerHTML = atticSVG(h, d); }).catch(() => {});
 const total = h.rooms.reduce((a, r) => a + r.floor_area_m2, 0);
 document.getElementById('facts').innerHTML = [
   ['Дом снаружи', `${m05(e.total_width_x.value)} × ${m05(e.total_depth_y.value).replace('≈ ', '')}`],
