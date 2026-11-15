@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=18';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=19';
 
 const CELL = 50; // мм
 
@@ -187,7 +187,7 @@ export function createViewer(canvas, h, onPick, design = null) {
     const inner = entrance.at + entrance.t / 2; // внутренняя грань стены
     if (entrance.axis === 'x') {
       leaf.position.set(mm(inner), 0.01, zz(entrance.a) - 0.02);
-      leaf.rotation.y = -1.2;
+      leaf.rotation.y = -1.65; // распахнута внутрь почти на 95°, чтобы снаружи было видно, что открыто
     }
     leaf.castShadow = true;
     root.add(leaf);
@@ -457,7 +457,8 @@ export function createViewer(canvas, h, onPick, design = null) {
   layers.obRoof = new THREE.Group();
   layers.obLabels = new THREE.Group();
   scene.add(layers.outbuilding, layers.obRoof, layers.obLabels);
-  if (obLayout) buildOutbuilding(obLayout, groundY, layers.outbuilding, layers.obRoof, layers.obLabels);
+  const obBlockers = [];
+  if (obLayout) buildOutbuilding(obLayout, groundY, layers.outbuilding, layers.obRoof, layers.obLabels, obBlockers);
 
   const designLabels = new THREE.Group();
   root.add(designLabels);
@@ -626,11 +627,14 @@ export function createViewer(canvas, h, onPick, design = null) {
   });
 
   // --- прогулка от первого лица: стены из той же сетки, проходы — проёмы дверей от пола ---
-  const EYE = 1600, R = 220, SPEED = 1500; // мм, мм/с
+  const EYE = 1600, R = 200, SPEED = 2200, RUN = 2.5; // мм, мм/с; Shift — бег
   const walk = { on: false, x: 0, y: 0, yaw: 0, pitch: 0, keys: new Set(), joy: { f: 0, t: 0 }, last: 0, saved: null };
   const solid = (x, y) => {
     const c = wall[Math.floor(y / CELL)]?.[Math.floor(x / CELL)];
-    return !!c && !c.some(([lo, hi]) => lo <= 10 && hi >= 1800);
+    if (c && !c.some(([lo, hi]) => lo <= 10 && hi >= 1800)) return true;
+    // стены пристройки (координаты участка, м): проходим только через двери
+    const sx = anchor.x + x / 1000, sd = -anchor.z + y / 1000;
+    return obBlockers.some((b) => sx > b.x1 && sx < b.x2 && sd > b.d1 && sd < b.d2);
   };
   const free = (x, y) => ![[R, 0], [-R, 0], [0, R], [0, -R], [R * .7, R * .7], [-R * .7, R * .7], [R * .7, -R * .7], [-R * .7, -R * .7]].some(([dx, dy]) => solid(x + dx, y + dy));
   const placeCam = () => {
@@ -645,7 +649,7 @@ export function createViewer(canvas, h, onPick, design = null) {
     const f = (k.has('KeyW') || k.has('ArrowUp') ? 1 : 0) - (k.has('KeyS') || k.has('ArrowDown') ? 1 : 0) + walk.joy.f;
     const side = (k.has('KeyD') ? 1 : 0) - (k.has('KeyA') ? 1 : 0);
     walk.yaw += ((k.has('ArrowRight') ? 1 : 0) - (k.has('ArrowLeft') ? 1 : 0) + walk.joy.t) * 1.8 * dt;
-    const step = SPEED * dt;
+    const step = SPEED * dt * (k.has('ShiftLeft') || k.has('ShiftRight') || walk.run ? RUN : 1);
     const mx = (Math.sin(walk.yaw) * f + Math.cos(walk.yaw) * side) * step, my = (Math.cos(walk.yaw) * f - Math.sin(walk.yaw) * side) * step;
     if (free(walk.x + mx, walk.y)) walk.x += mx; // скольжение вдоль стены
     if (free(walk.x, walk.y + my)) walk.y += my;
@@ -660,8 +664,9 @@ export function createViewer(canvas, h, onPick, design = null) {
     walk.pitch = Math.max(-0.8, Math.min(0.8, walk.pitch - (ev.clientY - look[1]) * 0.004));
     look = [ev.clientX, ev.clientY];
   });
-  addEventListener('keydown', (ev) => { if (walk.on && /^(Key[WASD]|Arrow)/.test(ev.code)) { walk.keys.add(ev.code); ev.preventDefault(); } });
+  addEventListener('keydown', (ev) => { if (walk.on && /^(Key[WASD]|Arrow|Shift)/.test(ev.code)) { walk.keys.add(ev.code); ev.preventDefault(); } });
   addEventListener('keyup', (ev) => walk.keys.delete(ev.code));
+  addEventListener('blur', () => walk.keys.clear());
   const setWalk = (on) => {
     if (on === walk.on) return;
     walk.on = on;
@@ -669,7 +674,7 @@ export function createViewer(canvas, h, onPick, design = null) {
       walk.saved = { pos: camera.position.clone(), target: controls.target.clone() };
       // старт снаружи у входной двери, лицом к ней
       const d = openings.find((o) => o.kind === 'door' && o.d.between.includes('outside'));
-      if (d && d.axis === 'x') { walk.x = d.at - 2600; walk.y = (d.a + d.b) / 2; walk.yaw = Math.PI / 2; }
+      if (d && d.axis === 'x') { walk.x = d.at - 1700; walk.y = (d.a + d.b) / 2; walk.yaw = Math.PI / 2; }
       else { walk.x = W / 2; walk.y = -1200; walk.yaw = 0; }
       walk.pitch = -0.05;
       walk.last = performance.now();
@@ -689,6 +694,7 @@ export function createViewer(canvas, h, onPick, design = null) {
       Object.assign(layers.roof, { visible: false }); layers.attic.visible = false; layers.dims.visible = false; layers.labels.visible = false; designLabels.visible = false;
       layers.stair.visible = state.stair; layers.electric.visible = state.electric; layers.design.visible = state.design; layers.site.visible = state.site;
       layers.stair.traverse((o) => { if (o.isSprite) o.visible = false; });
+      layers.obLabels.visible = false; layers.obRoof.visible = false; layers.outbuilding.visible = state.outbuilding;
       return;
     }
     layers.attic.visible = a;
@@ -740,6 +746,7 @@ export function createViewer(canvas, h, onPick, design = null) {
       select(r);
     },
     walkMove: (f, t) => { walk.joy = { f, t }; },
+    walkRun: (on) => { walk.run = on; },
     get walking() { return walk.on; },
     layer: (name, on) => { state[name] = on; apply(); },
     isOn: (name) => state[name],
@@ -940,7 +947,7 @@ function electricIcon(kind) {
  * Пристройка по схеме владельца: гараж, барбекю-зона под навесом, кладовая, кухня, асхана, столярка,
  * предбанник, баня, туалет и проход к калитке. Размеры — из design.json, высоты — 3 м у двора и меньше у забора.
  */
-function buildOutbuilding(L, groundY, group, roofGroup, labels) {
+function buildOutbuilding(L, groundY, group, roofGroup, labels, blockers = []) {
   const ob = L.ob, T = ob.wall_m, hY = ob.wall_height_m, hF = ob.roof.fence_side_height_m;
   const y0 = groundY + 0.12;
   const Z = (d) => -d;
@@ -953,7 +960,14 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels) {
   box(L.x2 - L.x1, 0.12, last.d1, mat(0xcfc8bb), (L.x1 + L.x2) / 2, groundY + 0.06, Z(last.d1 / 2));
   box(last.x2 - last.x1, 0.12, last.d2 - last.d1, mat(0xcfc8bb), (last.x1 + last.x2) / 2, groundY + 0.06, Z((last.d1 + last.d2) / 2));
   // стена в плоскости «вдоль участка» (x = const): профиль по d, с проёмами
+  // для прогулки: следы стен без дверных проёмов (окна — стена)
+  const block = (xa, xb, da, db, gaps) => {
+    let a = da;
+    for (const [u, v] of gaps.slice().sort((p, q) => p[0] - q[0])) { if (u > a) blockers.push(xa === null ? null : { x1: xa, x2: xb, d1: a, d2: u }); a = Math.max(a, v); }
+    if (db > a) blockers.push({ x1: xa, x2: xb, d1: a, d2: db });
+  };
   const longWall = (x, d1, d2, h, holes = []) => {
+    block(x - T / 2, x + T / 2, d1, d2, holes.filter((o) => o[2] <= 0.05).map((o) => [o[0], o[1]]));
     const sh = new THREE.Shape([[d1, 0], [d2, 0], [d2, h], [d1, h]].map(([a, b]) => new THREE.Vector2(a, b)));
     for (const [a, b, lo, hi] of holes) sh.holes.push(new THREE.Path([[a, lo], [b, lo], [b, hi], [a, hi]].map(([u, v]) => new THREE.Vector2(u, v))));
     const g = new THREE.ExtrudeGeometry(sh, { depth: T, bevelEnabled: false });
@@ -965,6 +979,11 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels) {
   };
   // стена поперёк (d = const): профиль по x со скатом, с проёмами
   const crossWall = (d, xa, xb, holes = [], t = 0.12) => {
+    { // по x: тот же подход, проёмы дверей — проход
+      let a = xa;
+      for (const [u, v] of holes.filter((o) => o[2] <= 0.05).map((o) => [o[0], o[1]]).sort((p, q) => p[0] - q[0])) { if (u > a) blockers.push({ x1: a, x2: u, d1: d - t / 2, d2: d + t / 2 }); a = Math.max(a, v); }
+      if (xb > a) blockers.push({ x1: a, x2: xb, d1: d - t / 2, d2: d + t / 2 });
+    }
     const sh = new THREE.Shape([[xa, 0], [xb, 0], [xb, H(xb)], [xa, H(xa)]].map(([a, b]) => new THREE.Vector2(a, b)));
     for (const [a, b, lo, hi] of holes) sh.holes.push(new THREE.Path([[a, lo], [b, lo], [b, hi], [a, hi]].map(([u, v]) => new THREE.Vector2(u, v))));
     const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: t, bevelEnabled: false }), wallMat);
@@ -1035,6 +1054,7 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels) {
   }
   // ворота гаража (секционные)
   const gate = box(L.x2 - L.x1 - 2 * garage.gate_margin_m, 2.5, 0.05, mat(0x8e959b, 0.5), (L.x1 + L.x2) / 2, y0 + 1.25, Z(0.12));
+  blockers.push({ x1: L.x1, x2: L.x2, d1: 0, d2: 0.25 }); // ворота гаража закрыты
   for (let i = 1; i < 6; i++) box(L.x2 - L.x1 - 2 * garage.gate_margin_m, 0.02, 0.06, mat(0x6b7278), gate.position.x, y0 + i * 0.42, Z(0.11));
   // тропинка из плит: от ворот во двор вдоль пристройки к дверям, мимо туалета и за ним — к калитке
   const tileMat = mat(0x8f8573, 0.95), tile = (x, d, w = 0.6, l = 0.6) => box(w, 0.06, l, tileMat, x, groundY + 0.05, Z(d));

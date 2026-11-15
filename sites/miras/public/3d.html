@@ -49,6 +49,7 @@
   .pad[hidden] { display: none; }
   .pad button { font-size: 22px; border: 0; border-radius: 14px; background: var(--panel); box-shadow: 0 4px 14px rgba(34,48,58,.15); touch-action: none; user-select: none; -webkit-user-select: none; }
   .pad button:active { background: var(--accent); color: #fff; }
+  .pad .run { grid-column: 3; grid-row: 1; font-size: 18px; } .pad .run[aria-pressed="true"] { background: var(--accent); color: #fff; }
   .pad .up { grid-column: 2; } .pad .left { grid-column: 1; grid-row: 2; } .pad .down { grid-column: 2; grid-row: 2; } .pad .right { grid-column: 3; grid-row: 2; }
   .walk-hint { position: fixed; left: 50%; transform: translateX(-50%); top: calc(16px + env(safe-area-inset-top, 0px)); background: rgba(21,26,30,.82); color: #fff; padding: 8px 14px; border-radius: 12px; font-size: 13px; text-align: center; }
   .walk-hint[hidden] { display: none; }
@@ -86,12 +87,13 @@
   <aside class="card" id="card" hidden aria-live="polite"></aside>
   <div class="loading" id="loading" role="status"><div class="bar"><i id="loadBar"></i></div><span id="loadText">Загружаю участок и мебель…</span></div>
   <div class="walk-hint" id="rulerHint" hidden></div>
-  <div class="walk-hint" id="walkHint" hidden>Прогулка: <b>W A S D</b> или стрелки — идти, мышью или пальцем — осмотреться. Начинаем у входной двери.</div>
+  <div class="walk-hint" id="walkHint" hidden>Прогулка: <b>W A S D</b> или стрелки — идти, <b>Shift</b> — быстрее, мышью или пальцем — осмотреться. Начинаем у входной двери — заходите!</div>
   <div class="pad" id="pad" hidden aria-label="Управление прогулкой">
     <button class="up" data-f="1" aria-label="Вперёд">▲</button>
     <button class="left" data-t="-1" aria-label="Повернуть влево">◀</button>
     <button class="down" data-f="-1" aria-label="Назад">▼</button>
     <button class="right" data-t="1" aria-label="Повернуть вправо">▶</button>
+    <button class="run" id="btnRun" aria-pressed="false" aria-label="Бегом">⇧</button>
   </div>
   <div class="controls" role="toolbar" aria-label="Управление видом">
     <button data-view="reset">Дом</button>
@@ -120,8 +122,8 @@
     <button id="btnShare" title="Скопировать ссылку на этот ракурс со слоями">🔗 Ссылка на вид</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=18';
-import { createViewer } from './assets/view3d.js?v=18';
+import { loadHouse } from './assets/house.js?v=19';
+import { createViewer } from './assets/view3d.js?v=19';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const FLOORS = [['', 'Без отделки'], ['#d9b98c', 'Ламинат: светлый дуб'], ['#a0704a', 'Ламинат: орех'], ['#a8a49c', 'Ламинат: серый'], ['#ece9e3', 'Плитка: светлая'], ['#5e5a55', 'Плитка: тёмная'], ['#c9a27a', 'Паркет']];
@@ -189,7 +191,8 @@ const setWalkUi = (on) => {
 walkBtn.onclick = () => { const on = !v.walking; v.walk(on); setWalkUi(on); };
 document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => setWalkUi(false)));
 let joy = { f: 0, t: 0 };
-pad.querySelectorAll('button').forEach((b) => {
+document.getElementById('btnRun').addEventListener('click', (e) => { const b = e.currentTarget, on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); v.walkRun(on); });
+pad.querySelectorAll('button:not(#btnRun)').forEach((b) => {
   const on = (ev) => { ev.preventDefault(); joy = { f: +(b.dataset.f || 0), t: +(b.dataset.t || 0) }; v.walkMove(joy.f, joy.t); };
   const off = () => { joy = { f: 0, t: 0 }; v.walkMove(0, 0); };
   b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointerleave', off); b.addEventListener('pointercancel', off);
