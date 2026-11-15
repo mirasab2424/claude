@@ -20,9 +20,9 @@
                 </div>
             </div>
             <div style="flex:1 1 260px">
-                <div style="font-size:.8rem; opacity:.6; margin-bottom:4px">Одна строка о дне</div>
+                <div style="font-size:.8rem; opacity:.6; margin-bottom:4px">Одна строка о дне — вопрос дня: {{ $prompt }}</div>
                 <form wire:submit="saveNote" style="display:flex; gap:6px; flex-wrap:wrap">
-                    <input wire:model="note" maxlength="500" placeholder="что было главным сегодня?" style="flex:1 1 180px; min-width:0; font:inherit; padding:8px 10px; border-radius:10px; border:1px solid rgba(128,128,128,.3); background:transparent; color:inherit">
+                    <input wire:model="note" maxlength="500" placeholder="{{ $prompt }}" style="flex:1 1 180px; min-width:0; font:inherit; padding:8px 10px; border-radius:10px; border:1px solid rgba(128,128,128,.3); background:transparent; color:inherit">
                     <x-filament::button type="submit" size="sm">{{ $saved ? 'Сохранено ✓' : 'Сохранить' }}</x-filament::button>
                 </form>
             </div>

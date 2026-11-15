@@ -59,7 +59,14 @@ class DayLogWidget extends Widget
         $week = auth()->user()->dayLogs()->where('date', '>=', CarbonImmutable::today()->subDays(6)->toDateString())->get()
             ->keyBy(fn ($l) => $l->date->toDateString());
 
+        $prompts = [
+            'что было главным сегодня?', 'что сегодня получилось лучше всего?', 'за что можно себя похвалить?',
+            'что мешало сегодня?', 'что нового узнал?', 'кому сегодня помог?', 'что сделаю завтра первым делом?',
+            'что сегодня дало энергию?', 'какой маленький шаг к цели сделал?', 'что хочу запомнить из этого дня?',
+        ];
+
         return [
+            'prompt' => $prompts[CarbonImmutable::today()->dayOfYear % count($prompts)],
             'log' => $this->log(),
             'week' => collect(range(6, 0))->map(fn ($i) => CarbonImmutable::today()->subDays($i))
                 ->map(fn ($d) => ['day' => $d->translatedFormat('D'), 'mood' => $week[$d->toDateString()]->mood ?? null]),
