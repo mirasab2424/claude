@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel } from './house.js?v=7';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=8';
 
 const CELL = 50; // мм
 
@@ -667,6 +667,7 @@ function roomInfo(h, r) {
     size: `≈ ${m1n(b.x.value)} × ${m1n(b.y.value)} м`, tol: tol(Math.max(b.x.tolerance_mm, b.y.tolerance_mm)),
     area: area(r.floor_area_m2), height: '≈ ' + m1n(r.wall_top_height_mm.value) + ' м',
     confidence: CONFIDENCE[r.confidence] || r.confidence,
+    finish: (() => { const f = roomFinish(h, r); return `стены без проёмов ≈ ${Math.round(f.walls)} м² · плинтус ≈ ${m1n(f.plinth * 1000)} м`; })(),
     note: r.floor_polygon_mm.note || null,
     windows: h.windows.filter((w) => w.room === r.id).map((w) => `${w.id.replace('_small', '')}: ≈ ${m1n(w.width_mm.value)} × ${m1n(w.height_mm.value)} м, низ ≈ ${m1n(w.sill_above_floor_mm.value)} м`),
     doors: h.doors.filter((d) => d.between.includes(r.id)).map((d) => `${d.id.replace('_entrance', '')} → ${roomLabel(h, d.between.find((x) => x !== r.id))}: ширина ≈ ${m1n(d.width_mm.value)} м${d.height_mm.status === 'assumed' ? ', высота — предположение' : ''}`),

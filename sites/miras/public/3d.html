@@ -109,8 +109,8 @@
     <button id="btnWire" aria-pressed="false">Каркас</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=7';
-import { createViewer } from './assets/view3d.js?v=7';
+import { loadHouse } from './assets/house.js?v=8';
+import { createViewer } from './assets/view3d.js?v=8';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const list = (title, items, empty) => `<h3>${title}</h3>` + (items.length ? `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : `<p class="muted">${empty}</p>`);
@@ -122,6 +122,7 @@ const v = createViewer(document.getElementById('scene'), h, (r) => {
     <h2>${esc(r.name)}</h2>${r.hint ? `<div class="muted">пометка: ${esc(r.hint)}</div>` : ''}
     <div class="big">${esc(r.size)} <small class="muted">${esc(r.tol)}</small></div>
     <div class="muted">площадь ${esc(r.area)} · высота стен ${esc(r.height)} · уверенность: ${esc(r.confidence)}</div>
+    <div class="muted">для ремонта: ${esc(r.finish)} · <a href="smeta.html">смета</a></div>
     ${r.note ? `<p class="muted">${esc(r.note)}</p>` : ''}
     ${list('Окна', r.windows, 'нет')}
     ${list('Двери и проёмы', r.doors, 'нет')}

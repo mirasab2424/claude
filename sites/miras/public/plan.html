@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=7">
+<link rel="stylesheet" href="assets/style.css?v=8">
 </head>
 <body>
 <header class="top"><div class="top-in">
@@ -18,6 +18,7 @@
 <main class="wrap">
   <h1>План и размеры</h1>
   <p class="notice"><b>Размеры примерные.</b> Рулетки на видео не было, и ни одно число не измерено. Масштаб посчитан из предположения, что блок кладки — 600 × 300 мм. Если блок другой, все длины изменятся в одно и то же число раз, а пропорции останутся. Числа не для строительства.</p>
+  <p class="no-print" style="margin:-8px 0 14px"><button type="button" class="btn-print" onclick="print()" style="font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:7px 12px;cursor:pointer;color:var(--ink)">🖨 Распечатать план для мастера (A4 / PDF)</button></p>
   <nav class="toc"><a href="#plan">План</a><a href="#house">Дом</a><a href="#rooms">Помещения</a><a href="#windows">Окна</a><a href="#doors">Двери и проёмы</a><a href="#electric">Электрика</a><a href="#plumbing">Трубы</a><a href="#stair">Лестница</a><a href="#unknown">Неизвестно</a></nav>
 
   <section class="card" id="plan">
@@ -93,8 +94,8 @@
   <p class="note small" style="margin-top:20px">Все числа берутся из одного файла <code>data/measurements.json</code>. После замеров рулеткой достаточно заменить его.</p>
 </main>
 <script type="module">
-import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant } from './assets/house.js?v=7';
-import { planSVG } from './assets/plan.js?v=7';
+import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant } from './assets/house.js?v=8';
+import { planSVG } from './assets/plan.js?v=8';
 const h = await loadHouse();
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const $ = (id) => document.getElementById(id);
