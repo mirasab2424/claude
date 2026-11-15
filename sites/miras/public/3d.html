@@ -12,6 +12,8 @@
   :root { --sky-top: #cfd8dc; --sky-bottom: #eef1f2; --ink: #22303a; --muted: #5d6d78; --panel: rgba(255,255,255,.86); --accent: #2f6f8f; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; overflow: hidden; }
+  body.evening { --sky-top: #0e1726; --sky-bottom: #283548; }
+  body.evening .title { color: #e8eef3; } body.evening .title small { color: #a9b6c1; }
   body { font-family: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: linear-gradient(var(--sky-top), var(--sky-bottom)); }
   #scene { position: fixed; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
   #scene:active { cursor: grabbing; }
@@ -111,12 +113,13 @@
     <button data-layer="labels" aria-pressed="true" title="Показать или скрыть все надписи">Текст</button>
     <button id="btnRotate" aria-pressed="false">Поворот</button>
     <button id="btnWire" aria-pressed="false">Каркас</button>
+    <button id="btnEvening" aria-pressed="false" title="Вечер: свет в комнатах там, где на видео видны лампы">🌙 Вечер</button>
     <button id="btnRuler" aria-pressed="false" title="Нажмите на две точки — покажу расстояние">📏 Линейка</button>
     <button id="btnShare" title="Скопировать ссылку на этот ракурс со слоями">🔗 Ссылка на вид</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=14';
-import { createViewer } from './assets/view3d.js?v=14';
+import { loadHouse } from './assets/house.js?v=15';
+import { createViewer } from './assets/view3d.js?v=15';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const FLOORS = [['', 'Без отделки'], ['#d9b98c', 'Ламинат: светлый дуб'], ['#a0704a', 'Ламинат: орех'], ['#a8a49c', 'Ламинат: серый'], ['#ece9e3', 'Плитка: светлая'], ['#5e5a55', 'Плитка: тёмная'], ['#c9a27a', 'Паркет']];
@@ -190,6 +193,7 @@ pad.querySelectorAll('button').forEach((b) => {
   b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointerleave', off); b.addEventListener('pointercancel', off);
 });
 toggle('btnWire', v.wireframe);
+toggle('btnEvening', (on) => { v.evening(on); document.body.classList.toggle('evening', on); });
 // линейка: две точки → расстояние (размеры дома — оценка по видео)
 const rulerBtn = document.getElementById('btnRuler'), rulerHint = document.getElementById('rulerHint');
 const nfr = (v) => v.toLocaleString('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 });

@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=14';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=15';
 
 const CELL = 50; // мм
 
@@ -39,7 +39,10 @@ export function createViewer(canvas, h, onPick, design = null) {
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
   Object.assign(sun.shadow.camera, { left: -radius * 1.6, right: radius * 1.6, top: radius * 1.6, bottom: -radius * 1.6, near: 0.5, far: radius * 8 });
-  scene.add(sun, new THREE.HemisphereLight(0xdfe8ee, 0x8a8170, 0.6));
+  const hemi = new THREE.HemisphereLight(0xdfe8ee, 0x8a8170, 0.6);
+  scene.add(sun, hemi);
+  const evening = new THREE.Group(); // лампы для режима «Вечер»
+  evening.visible = false;
   const ground = new THREE.Mesh(new THREE.CircleGeometry(radius * 1.4, 64), new THREE.ShadowMaterial({ opacity: 0.18 }));
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
@@ -115,6 +118,7 @@ export function createViewer(canvas, h, onPick, design = null) {
   });
   walls.castShadow = walls.receiveShadow = true;
   root.add(walls);
+  root.add(evening);
   // цоколь
   const plinthH = h.exterior.plinth?.visible_brick_height_mm?.value || 0;
   const plinth = new THREE.Mesh(new THREE.ExtrudeGeometry(new THREE.Shape(fp.map(([x, y]) => new THREE.Vector2(mm(x), mm(y)))), { depth: mm(plinthH), bevelEnabled: false }),
@@ -261,6 +265,12 @@ export function createViewer(canvas, h, onPick, design = null) {
       const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 12), new THREE.MeshStandardMaterial({ color: 0xfff3b0, emissive: 0xffd34d, emissiveIntensity: 1.2 }));
       bulb.position.set(mm(it.x), mm(H) - 0.55, zz(it.y));
       layers.electric.add(cord, bulb);
+      // вечером — тёплый свет из этой точки (место подвеса условное)
+      const lamp = new THREE.PointLight(0xffc773, 2.2, 7, 1.6);
+      lamp.position.set(mm(it.x), mm(H) - 0.6, zz(it.y));
+      const glow = new THREE.Mesh(new THREE.SphereGeometry(0.09, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffe2a0 }));
+      glow.position.copy(lamp.position);
+      evening.add(lamp, glow);
       continue;
     }
     const m = new THREE.Mesh(new THREE.PlaneGeometry(ic.w, ic.h), new THREE.MeshBasicMaterial({ map: ic.tex, transparent: true }));
@@ -679,6 +689,14 @@ export function createViewer(canvas, h, onPick, design = null) {
     getCamera: () => [...camera.position.toArray(), ...controls.target.toArray()].map((v) => Math.round(v * 100) / 100),
     setCamera: (a) => { if (a?.length === 6 && a.every(Number.isFinite)) { setWalk(false); anim = null; camera.position.set(a[0], a[1], a[2]); controls.target.set(a[3], a[4], a[5]); } },
     walk: setWalk,
+    evening: (on) => {
+      evening.visible = on;
+      scene.userData.env ??= scene.environment;
+      scene.environment = on ? null : scene.userData.env; // отражения «студии» делают вечер слишком светлым
+      sun.intensity = on ? 0.12 : 2.2;
+      hemi.intensity = on ? 0.12 : 0.6;
+      renderer.toneMappingExposure = on ? 1.25 : 1;
+    },
     ruler: (on, onChange) => { ruler.on = on; ruler.onChange = onChange || ruler.onChange; if (!on) rulerClear(); },
     // навести камеру на комнату и выбрать её (для ссылки ?room=)
     focusRoom: (id) => {
