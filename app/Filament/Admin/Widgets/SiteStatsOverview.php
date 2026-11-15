@@ -3,7 +3,10 @@
 namespace App\Filament\Admin\Widgets;
 
 use App\Enums\GoalStatus;
+use App\Models\DayLog;
 use App\Models\Goal;
+use App\Models\Habit;
+use App\Models\HabitCheck;
 use App\Models\MetricEntry;
 use App\Models\Place;
 use App\Models\User;
@@ -22,6 +25,8 @@ class SiteStatsOverview extends StatsOverviewWidget
                 ->description(Goal::where('status', GoalStatus::Done)->count().' выполнено'),
             Stat::make('Замеров метрик', MetricEntry::count()),
             Stat::make('Мест на карте', Place::count()),
+            Stat::make('Привычек', Habit::count())->description(HabitCheck::where('date', '>=', now()->subDays(7)->toDateString())->count().' отметок за неделю'),
+            Stat::make('Записей «как прошёл день»', DayLog::count())->description('содержимое видно только автору'),
         ];
     }
 }
