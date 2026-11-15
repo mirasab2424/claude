@@ -11,7 +11,16 @@
             </div>
         </x-filament::section>
     @else
-        <p style="opacity:.6; margin:0">По данным Samsung Health, последняя запись — {{ $last->translatedFormat('j F Y') }}. Чтобы обновить, загрузите свежую выгрузку на странице «Метрики».</p>
+        @php($age = (int) $last->diffInDays(now()->startOfDay()))
+        @if ($age > 7)
+            <div style="border-left:4px solid #d97706; background:rgba(217,119,6,.08); border-radius:10px; padding:10px 14px">
+                <b>Данные устарели на {{ $age }} дн.</b> Последняя запись — {{ $last->translatedFormat('j F Y') }}.
+                В Samsung Health: Настройки → Скачать личные данные, затем «Метрики» → «Импорт Samsung Health».
+                <x-filament::link href="{{ \App\Filament\Cabinet\Resources\Metrics\MetricResource::getUrl() }}">Перейти к импорту</x-filament::link>
+            </div>
+        @else
+            <p style="opacity:.6; margin:0">По данным Samsung Health, последняя запись — {{ $last->translatedFormat('j F Y') }}.</p>
+        @endif
         @if ($insights)
             <x-filament::section heading="Что видно в ваших данных" icon="heroicon-o-light-bulb">
                 <ul style="margin:0; padding-left:1.2rem; display:grid; gap:6px; list-style:disc">

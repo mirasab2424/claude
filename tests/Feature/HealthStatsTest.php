@@ -46,6 +46,6 @@ class HealthStatsTest extends TestCase
         $this->actingAs($user)->get('/cabinet/health')->assertOk()->assertSee('Пока нет данных о здоровье');
 
         $this->seedDays($user, 28);
-        $this->actingAs($user)->get('/cabinet/health')->assertOk()->assertSee('По неделям')->assertSee('Шаги по дням');
+        $this->actingAs($user)->get('/cabinet/health')->assertOk()->assertSee('По неделям')->assertSee('Шаги по дням')->assertSee('Данные устарели');
     }
 }
