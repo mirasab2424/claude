@@ -32,6 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(fn () => view('filament.brand', ['title' => 'success · админка']))
             ->brandLogoHeight('2.25rem')
             ->favicon(asset('img/favicon.png'))
+            ->renderHook(\Filament\View\PanelsRenderHook::HEAD_END, fn () => view('partials.pwa'))
             ->colors([
                 'primary' => Color::Green,
                 'gray' => Color::Zinc,

@@ -6,6 +6,7 @@
     <title>@yield('title', 'Success') — трекер целей и прогресса</title>
     <meta name="description" content="@yield('description', 'Цели, задачи, метрики и карта мест — аналитика прогресса (или регресса) в одном месте.')">
     <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png">
+    @include('partials.pwa')
     <link rel="stylesheet" href="{{ asset('vendor/fonts/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/site.css') }}?v={{ filemtime(public_path('css/site.css')) }}">
     <script type="importmap">

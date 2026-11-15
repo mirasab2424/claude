@@ -86,4 +86,15 @@ class SiteTest extends TestCase
         $goal->update(['status' => GoalStatus::InProgress]);
         $this->assertNull($goal->completed_at);
     }
+
+    public function test_site_is_installable_as_app(): void
+    {
+        $this->get('/')->assertOk()->assertSee('manifest.webmanifest', false)->assertSee('serviceWorker', false);
+        $manifest = json_decode(file_get_contents(public_path('manifest.webmanifest')), true);
+        $this->assertSame('/cabinet', $manifest['start_url']);
+        foreach ($manifest['icons'] as $icon) {
+            $this->assertFileExists(public_path(ltrim($icon['src'], '/')));
+        }
+        $this->get('/cabinet/login')->assertOk()->assertSee('manifest.webmanifest', false);
+    }
 }
