@@ -14,7 +14,7 @@
         <p style="opacity:.6; margin:0">По данным Samsung Health, последняя запись — {{ $last->translatedFormat('j F Y') }}. Чтобы обновить, загрузите свежую выгрузку на странице «Метрики».</p>
         @if ($insights)
             <x-filament::section heading="Что видно в ваших данных" icon="heroicon-o-light-bulb">
-                <ul style="margin:0; padding-left:1.2rem; display:grid; gap:6px">
+                <ul style="margin:0; padding-left:1.2rem; display:grid; gap:6px; list-style:disc">
                     @foreach ($insights as $line)
                         <li>{{ $line }}</li>
                     @endforeach
