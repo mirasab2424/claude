@@ -44,6 +44,7 @@ class CabinetPanelProvider extends PanelProvider
             ->darkMode(true)
             ->discoverResources(in: app_path('Filament/Cabinet/Resources'), for: 'App\Filament\Cabinet\Resources')
             ->discoverWidgets(in: app_path('Filament/Cabinet/Widgets'), for: 'App\Filament\Cabinet\Widgets')
+            ->discoverPages(in: app_path('Filament/Cabinet/Pages'), for: 'App\Filament\Cabinet\Pages')
             ->pages([Dashboard::class])
             ->userMenuItems([
                 Action::make('public')

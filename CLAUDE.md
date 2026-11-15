@@ -26,6 +26,8 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 - Импорт Samsung Health: кнопка на странице метрик кабинета → `App\Services\SamsungHealthImport` (CSV или zip выгрузки;
   шаги, сон, пульс, тренировки, бег, вес). Метрики создаются приватными, ручные записи не перезаписываются.
   Медицинские данные в репозиторий не кладём — он публичный, загружает сам пользователь.
+- Кабинет: робот-тренер на инфопанели (`App\Services\Coach`, только правила по данным) и страница «Здоровье»
+  (`App\Filament\Cabinet\Pages\Health`, `App\Services\HealthStats`: графики, недели, связи).
 - Метрики с `is_duration` хранят секунды, показываются как м:сс (`Metric::format`, `Metric::parseDuration`).
 - Хостинг — InfinityFree (to-do-miras.page.gd), без SSH. Деплой автоматический: пуш → `.github/workflows/deploy.yml`
   → FTP (секреты `FTP_*` в GitHub). Миграции применяет первый запрос (`App\Support\PostDeploy`, метка `deploy-version`).
