@@ -36,6 +36,9 @@
   .card .muted { color: var(--muted); }
   .card h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 12px 0 4px; }
   .card ul { margin: 0; padding-left: 18px; }
+  .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+  .swatches button { width: 30px; height: 30px; border-radius: 8px; border: 2px solid rgba(34,48,58,.15); cursor: pointer; }
+  .swatches button[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px #fff inset; }
   .legend { position: fixed; right: 24px; top: calc(110px + env(safe-area-inset-top, 0px)); max-width: 330px; background: var(--panel); backdrop-filter: blur(10px); border-radius: 12px; box-shadow: 0 4px 14px rgba(34,48,58,.12); padding: 9px 12px; font-size: 12.5px; line-height: 1.45; }
   .legend[hidden], body.notext .txt { display: none; }
   .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; border: 2.5px solid; margin: 0 4px -1px 0; }
@@ -109,10 +112,11 @@
     <button id="btnWire" aria-pressed="false">Каркас</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=9';
-import { createViewer } from './assets/view3d.js?v=9';
+import { loadHouse } from './assets/house.js?v=10';
+import { createViewer } from './assets/view3d.js?v=10';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
+const FLOORS = [['', 'Без отделки'], ['#d9b98c', 'Ламинат: светлый дуб'], ['#a0704a', 'Ламинат: орех'], ['#a8a49c', 'Ламинат: серый'], ['#ece9e3', 'Плитка: светлая'], ['#5e5a55', 'Плитка: тёмная'], ['#c9a27a', 'Паркет']];
 const list = (title, items, empty) => `<h3>${title}</h3>` + (items.length ? `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : `<p class="muted">${empty}</p>`);
 const h = await loadHouse();
 const design = await fetch('data/design.json', { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).catch(() => null);
@@ -123,6 +127,8 @@ const v = createViewer(document.getElementById('scene'), h, (r) => {
     <div class="big">${esc(r.size)} <small class="muted">${esc(r.tol)}</small></div>
     <div class="muted">площадь ${esc(r.area)} · высота стен ${esc(r.height)} · уверенность: ${esc(r.confidence)}</div>
     <div class="muted">для ремонта: ${esc(r.finish)} · <a href="smeta.html">смета</a></div>
+    <h3>Пол — примерить</h3>
+    <div class="swatches">${FLOORS.map(([c, n]) => `<button type="button" data-floor="${c}" title="${n}" aria-label="${n}" aria-pressed="${(v.floorFinish(r.id) || "") === c}" style="background:${c || 'repeating-linear-gradient(45deg,#f6f2ea 0 6px,#e4ded3 6px 12px)'}"></button>`).join('')}</div>
     ${r.note ? `<p class="muted">${esc(r.note)}</p>` : ''}
     ${list('Окна', r.windows, 'нет')}
     ${list('Двери и проёмы', r.doors, 'нет')}
@@ -130,6 +136,10 @@ const v = createViewer(document.getElementById('scene'), h, (r) => {
     ${r.plumbing.length ? list('Трубы', r.plumbing, '') : ''}`;
   card.hidden = false;
   card.querySelector('.close').onclick = () => v.select(null);
+  card.querySelectorAll('[data-floor]').forEach((b) => b.onclick = () => {
+    v.setFloor(r.id, b.dataset.floor);
+    card.querySelectorAll('[data-floor]').forEach((x) => x.setAttribute('aria-pressed', x === b));
+  });
 }, design);
 document.querySelectorAll('[data-view]').forEach((b) => b.onclick = () => v.view(b.dataset.view));
 const legend = document.getElementById('legend');

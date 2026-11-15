@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=9';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=10';
 
 const CELL = 50; // мм
 
@@ -129,7 +129,14 @@ export function createViewer(canvas, h, onPick, design = null) {
 
   // --- полы помещений (по ним кликают) ---
   const floors = [];
-  const floorMat = (r, hl) => new THREE.MeshStandardMaterial({ color: hl ? 0xbfe0ef : r.confidence === 'low' ? 0xf3e1a8 : 0xf6f2ea, roughness: 0.95, side: THREE.DoubleSide });
+  // отделка пола — выбор посетителя, хранится только в его браузере
+  let finishes = {};
+  try { finishes = JSON.parse(localStorage.getItem('floor-finish')) || {}; } catch {}
+  const floorMat = (r, hl) => {
+    const c = new THREE.Color(finishes[r.id] || (r.confidence === 'low' ? '#f3e1a8' : '#f6f2ea'));
+    if (hl) c.lerp(new THREE.Color('#7cc4e8'), 0.45);
+    return new THREE.MeshStandardMaterial({ color: c, roughness: finishes[r.id] ? 0.6 : 0.95, side: THREE.DoubleSide });
+  };
   for (const r of h.rooms) {
     const shape = new THREE.Shape(r.floor_polygon_mm.value.map(([x, y]) => new THREE.Vector2(mm(x), mm(y))));
     const g = new THREE.ShapeGeometry(shape);
@@ -656,6 +663,12 @@ export function createViewer(canvas, h, onPick, design = null) {
     wireframe: (on) => { wallMat.wireframe = on; },
     select,
     get picked() { return picked; },
+    floorFinish: (id) => finishes[id] || null,
+    setFloor: (id, color) => {
+      if (color) finishes[id] = color; else delete finishes[id];
+      try { localStorage.setItem('floor-finish', JSON.stringify(finishes)); } catch {}
+      for (const f of floors) f.material = floorMat(f.userData.room, picked && f.userData.room === picked);
+    },
   };
 }
 
@@ -663,7 +676,7 @@ export function createViewer(canvas, h, onPick, design = null) {
 function roomInfo(h, r) {
   const n = roomName(r), b = r.bbox_size_mm;
   return {
-    name: n.name, hint: n.hint,
+    id: r.id, name: n.name, hint: n.hint,
     size: `≈ ${m1n(b.x.value)} × ${m1n(b.y.value)} м`, tol: tol(Math.max(b.x.tolerance_mm, b.y.tolerance_mm)),
     area: area(r.floor_area_m2), height: '≈ ' + m1n(r.wall_top_height_mm.value) + ' м',
     confidence: CONFIDENCE[r.confidence] || r.confidence,

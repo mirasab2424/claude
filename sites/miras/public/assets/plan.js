@@ -1,6 +1,6 @@
 // План этажа в SVG из measurements.json. Улица снизу, сторона входа слева — как видно, если стоять на улице лицом к дому.
 // Геометрия рисуется в координатах данных (y — от улицы вглубь) и переворачивается целиком; подписи ставятся уже в экранных координатах.
-import { m05, m1n, tol, roomName, windowWall, doorWall, stairVariant, ELECTRIC } from './house.js?v=9';
+import { m05, m1n, tol, roomName, windowWall, doorWall, stairVariant, ELECTRIC } from './house.js?v=10';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
