@@ -8,7 +8,7 @@ use Filament\Widgets\Widget;
 /** Робот-тренер на главной кабинета: советы по целям, метрикам и Samsung Health. */
 class CoachWidget extends Widget
 {
-    protected static ?int $sort = -1;
+    protected static ?int $sort = -2;
 
     protected static bool $isLazy = false;
 

@@ -23,12 +23,16 @@ class HealthStats
     /** @var array<string, array<string, float>> имя метрики → дата → значение */
     private array $data = [];
 
+    /** @var array<string, int> дата → настроение 1–5 из «Как прошёл день» */
+    private array $moods = [];
+
     public function __construct(User $user)
     {
         $metrics = $user->metrics()->whereIn('name', [self::STEPS, self::SLEEP, self::HEART, self::EXERCISE])->with('entries')->get();
         foreach ($metrics as $m) {
             $this->data[$m->name] = $m->entries->mapWithKeys(fn ($e) => [$e->date->toDateString() => (float) $e->value])->sortKeys()->all();
         }
+        $this->moods = $user->dayLogs()->whereNotNull('mood')->get()->mapWithKeys(fn ($l) => [$l->date->toDateString() => $l->mood])->all();
     }
 
     public static function for(User $user): self
@@ -148,6 +152,24 @@ class HealthStats
         if (count($after) >= 5 && count($noEx) >= 5) {
             $diff = (array_sum($after) / count($after) - array_sum($noEx) / count($noEx)) / 60;
             $out[] = 'В ночь после тренировки от 20 минут вы спите в среднем на '.$fmt(abs($diff)).' мин '.($diff >= 0 ? 'дольше' : 'меньше').' ('.count($after).' ночей).';
+        }
+
+        // Настроение (дневник дня) после хорошего и короткого сна.
+        $moods = $this->moods;
+        $mGood = $mBad = [];
+        foreach ($moods as $d => $mood) {
+            if (isset($sleep[$d])) {
+                if ($sleep[$d] >= 7 * 3600) {
+                    $mGood[] = $mood;
+                } else {
+                    $mBad[] = $mood;
+                }
+            }
+        }
+        if (count($mGood) >= 3 && count($mBad) >= 3) {
+            $a = array_sum($mGood) / count($mGood);
+            $b = array_sum($mBad) / count($mBad);
+            $out[] = 'Настроение после сна от 7 часов — в среднем '.number_format($a, 1, ',', '').' из 5, после короткого — '.number_format($b, 1, ',', '').' ('.(count($mGood) + count($mBad)).' дней в дневнике).';
         }
 
         // Самый активный день недели.

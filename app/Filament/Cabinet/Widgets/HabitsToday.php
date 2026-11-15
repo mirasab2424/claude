@@ -8,7 +8,7 @@ use Filament\Widgets\Widget;
 /** Привычки на сегодня: отметить одним нажатием, видна неделя и серия. */
 class HabitsToday extends Widget
 {
-    protected static ?int $sort = 0;
+    protected static ?int $sort = -1;
 
     protected static bool $isLazy = false;
 

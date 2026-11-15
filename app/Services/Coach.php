@@ -53,6 +53,7 @@ class Coach
             $this->personalBest(),
             $this->goalStreak(),
             $this->habits(),
+            $this->moodTip(),
             $this->inProgress(),
             $this->staleMetric(),
         ]));
@@ -200,6 +201,24 @@ class Coach
         }
 
         return $this->tip(self::GOOD, '✅', 'Все привычки выполнены', 'Сегодня всё отмечено — так держать.');
+    }
+
+    /** Если три последние записи дневника — плохое настроение, мягко предложить отдых. */
+    private function moodTip(): ?array
+    {
+        $last = $this->user->dayLogs()->whereNotNull('mood')->where('date', '>=', $this->today->subDays(6)->toDateString())->reorder('date', 'desc')->take(3)->get();
+        if ($last->count() < 3) {
+            return null;
+        }
+        $avg = $last->avg('mood');
+        if ($avg <= 2.3) {
+            return $this->tip(self::WARN, '🫶', 'Тяжёлые дни', 'Последние дни настроение на нуле. Это нормально — сделайте сегодня что-то маленькое и приятное: прогулка, звонок другу, ранний сон.');
+        }
+        if ($avg >= 4.3) {
+            return $this->tip(self::GOOD, '😄', 'Хорошая полоса', 'Последние дни отличное настроение — самое время для сложной задачи из списка.');
+        }
+
+        return null;
     }
 
     private function inProgress(): ?array
