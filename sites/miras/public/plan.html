@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=12">
+<link rel="stylesheet" href="assets/style.css?v=13">
 </head>
 <body>
 <header class="top"><div class="top-in">
@@ -102,8 +102,8 @@
   <p class="note small" style="margin-top:20px">Все числа берутся из одного файла <code>data/measurements.json</code>. После замеров рулеткой достаточно заменить его — удобнее всего через <a href="zamery.html">лист замеров</a>.</p>
 </main>
 <script type="module">
-import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant, roomFinish } from './assets/house.js?v=12';
-import { planSVG, atticSVG } from './assets/plan.js?v=12';
+import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant, roomFinish } from './assets/house.js?v=13';
+import { planSVG, atticSVG } from './assets/plan.js?v=13';
 const h = await loadHouse();
 const design = await fetch('data/design.json', { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).catch(() => null);
 document.getElementById('attic-box').innerHTML = atticSVG(h, design);
@@ -134,7 +134,7 @@ const showRoom = (id) => {
       <div><b>Окна</b><br>${wins.length ? wins.map(esc).join('<br>') : 'нет'}</div>
       <div><b>Двери и проёмы</b><br>${doors.map(esc).join('<br>') || 'нет'}</div>
       <div><b>Электрика</b> <small class="note">места не измерены</small><br>${el.map(esc).join('<br>') || 'на видео не видно'}</div>
-      <div><b>Для ремонта</b><br>стены без проёмов ≈ ${Math.round(f.walls)} м²<br>плинтус ≈ ${m1n(f.plinth * 1000)} м<br><a href="smeta.html">смета →</a></div>
+      <div><b>Для ремонта</b><br>стены без проёмов ≈ ${Math.round(f.walls)} м²<br>плинтус ≈ ${m1n(f.plinth * 1000)} м<br><a href="smeta.html">смета →</a><br><a href="3d.html?room=${encodeURIComponent(id)}">открыть в 3D →</a></div>
     </div>`;
   $('room-info').hidden = false;
   $('room-info').querySelector('.ri-close').onclick = () => { selected = null; $('room-info').hidden = true; draw(); };

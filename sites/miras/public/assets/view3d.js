@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=12';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=13';
 
 const CELL = 50; // мм
 
@@ -656,6 +656,16 @@ export function createViewer(canvas, h, onPick, design = null) {
     getCamera: () => [...camera.position.toArray(), ...controls.target.toArray()].map((v) => Math.round(v * 100) / 100),
     setCamera: (a) => { if (a?.length === 6 && a.every(Number.isFinite)) { setWalk(false); anim = null; camera.position.set(a[0], a[1], a[2]); controls.target.set(a[3], a[4], a[5]); } },
     walk: setWalk,
+    // навести камеру на комнату и выбрать её (для ссылки ?room=)
+    focusRoom: (id) => {
+      const r = h.rooms.find((x) => x.id === id);
+      if (!r) return;
+      const p = r.floor_polygon_mm.value, xs = p.map((q) => q[0]), ys = p.map((q) => q[1]);
+      const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+      const span = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys));
+      cam(cx - span * 0.35, cy - span * 0.9, span * 1.3 + 3000, cx, cy, 0);
+      select(r);
+    },
     walkMove: (f, t) => { walk.joy = { f, t }; },
     get walking() { return walk.on; },
     layer: (name, on) => { state[name] = on; apply(); },
