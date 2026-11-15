@@ -74,7 +74,13 @@
       <thead><tr><th>Материал</th><th>Сколько</th><th>Цена за ед., ₸</th><th>Сумма</th><th>Как посчитано</th></tr></thead>
       <tbody id="t-mat"></tbody>
     </table></div>
-    <p class="note small">Цены вводите свои (из магазина или от мастера) — они сохраняются в этом браузере. Сумма — только материалы, без работы и доставки.</p>
+    <p class="note small">Цены вводите свои (из магазина или от мастера) — они сохраняются в этом браузере. Сумма — только материалы, без доставки.</p>
+    <h3 style="margin-top:18px">Работа мастеров</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Работа</th><th>Объём</th><th>Цена за ед., ₸</th><th>Сумма</th></tr></thead>
+      <tbody id="t-work"></tbody>
+    </table></div>
+    <div class="kpis" id="grand"></div>
     <p class="no-print" style="margin:12px 0 0"><button class="btn" type="button" onclick="print()">Распечатать или сохранить в PDF</button></p>
   </section>
   <section class="card" id="stages" style="margin-top:16px">
@@ -174,6 +180,31 @@ function render() {
     if (cost != null) { total += cost; any = true; }
   }
   $('cost-total').textContent = any ? '≈ ' + nf(total) + ' ₸' : 'введите цены';
+  // работа: объём из тех же площадей, цены — свои
+  const works = [
+    ['w_plaster', 'Штукатурка стен', walls, 'м²'],
+    ['w_paint', 'Шпаклёвка и покраска стен и потолка', walls + floor, 'м²'],
+    ['w_screed', 'Стяжка пола', floor, 'м²'],
+    ['w_floor', 'Укладка напольного покрытия', floor, 'м²'],
+    ['w_plinth', 'Монтаж плинтуса', plinth, 'м'],
+    ['w_electric', 'Электрика: установка розеток и выключателей', sockets + switches, 'шт.'],
+  ];
+  if (!$('t-work').children.length) {
+    $('t-work').innerHTML = works.map(([id, name, , unit]) => `<tr data-id="${id}"><td>${name}</td><td class="num qty"></td>
+      <td><input class="price" data-id="${id}" type="number" min="0" step="1" aria-label="Цена работы: ${name}, за ${unit}" placeholder="за ${unit}" value="${prices[id] ?? ''}" style="width:110px;font:inherit;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)"></td>
+      <td class="num cost">—</td></tr>`).join('') + '<tr class="total"><td>Итого работа</td><td></td><td></td><td class="num" id="work-total">—</td></tr>';
+    $('t-work').addEventListener('input', (e) => { if (e.target.classList.contains('price')) { const pr = store.get('prices', {}); pr[e.target.dataset.id] = e.target.value === '' ? null : +e.target.value; store.set('prices', pr); render(); } });
+  }
+  let work = 0, anyWork = false;
+  for (const [id, , qty, unit] of works) {
+    const tr = $('t-work').querySelector(`tr[data-id="${id}"]`);
+    tr.querySelector('.qty').textContent = `≈ ${nf(qty)} ${unit}`;
+    const price = prices[id], cost = price > 0 ? qty * price : null;
+    tr.querySelector('.cost').textContent = cost == null ? '—' : '≈ ' + nf(cost) + ' ₸';
+    if (cost != null) { work += cost; anyWork = true; }
+  }
+  $('work-total').textContent = anyWork ? '≈ ' + nf(work) + ' ₸' : 'введите цены';
+  $('grand').innerHTML = (any || anyWork) ? `<div><small>Материалы</small><span class="big-num">${any ? nf(total) : '—'}</span> ₸</div><div><small>Работа</small><span class="big-num">${anyWork ? nf(work) : '—'}</span> ₸</div><div style="background:var(--accent);color:#fff"><small style="color:#fff">Всего</small><span class="big-num">≈ ${nf(total + work)}</span> ₸</div>` : '';
 }
 syncScale();
 render();
