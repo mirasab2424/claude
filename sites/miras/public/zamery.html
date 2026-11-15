@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лист замеров — Наш дом</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=8">
+<style>
+  .z input { width: 110px; font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+  .z td.ratio { white-space: nowrap; }
+  .z .ok { color: var(--accent); } .z .far { color: var(--assumed); font-weight: 600; }
+  .z h3 { margin: 18px 0 6px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  .btn { font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 7px 12px; cursor: pointer; color: var(--ink); text-decoration: none; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .summary { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin-top: 10px; }
+  .summary div { background: var(--accent-soft); border-radius: 12px; padding: 10px 12px; }
+  .summary b { display: block; font-size: 22px; }
+  @media print { .z input { border: 0; border-bottom: 1px solid #999; border-radius: 0; width: 90px; } .z td.ratio, .z th.ratio { display: none; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html">Наш дом</a>
+  <nav class="nav"><a href="index.html">Главная</a><a href="3d.html">3D-модель</a><a href="plan.html">План и размеры</a><a href="smeta.html">Смета</a><a href="zamery.html" aria-current="page">Замеры</a></nav>
+</div></header>
+<main class="wrap">
+  <h1>Лист замеров</h1>
+  <p class="notice"><b>Что мерить рулеткой.</b> Все размеры на сайте — оценка по видео. Впишите сюда настоящие числа в миллиметрах: можно распечатать лист и заполнить ручкой, а можно прямо на телефоне — сохраняется в этом браузере. Потом нажмите «Скачать файл замеров» и пришлите его — я обновлю сайт.</p>
+  <section class="card no-print">
+    <h2>Как мерить</h2>
+    <ul class="note">
+      <li><b>Комнаты</b> — от стены до стены по полу, на уровне ~1 м, без плинтусов. Ширина — вдоль улицы, длина — вглубь дома.</li>
+      <li><b>Окна и двери</b> — размер проёма в стене (не рамы), высота — от пола; «низ окна» — от пола до подоконника.</li>
+      <li><b>Высота</b> — от пола до верха кладки в нескольких местах.</li>
+      <li>Достаточно начать с 3–5 главных размеров: ширина дома, одна комната, входная дверь.</li>
+    </ul>
+    <div class="actions">
+      <button class="btn" type="button" onclick="print()">🖨 Распечатать пустой лист</button>
+      <button class="btn primary" type="button" id="dl">⬇ Скачать файл замеров</button>
+      <button class="btn" type="button" id="clear">Очистить</button>
+    </div>
+    <div class="summary" id="summary"></div>
+  </section>
+  <section class="card z" style="margin-top:16px">
+    <div id="tables"></div>
+  </section>
+</main>
+<script type="module">
+import { loadHouse, roomName, m05, m1 } from './assets/house.js?v=8';
+const h = await loadHouse();
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const nf = (v) => Math.round(v).toLocaleString('ru-RU');
+const KEY = 'zamery.v1';
+let vals = {};
+try { vals = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(vals)); } catch {} };
+
+// Что мерить: группа, ключ (путь в measurements.json), название, оценка
+const e = h.exterior;
+const groups = [
+  ['Дом снаружи', [
+    ['exterior.total_width_x', 'Ширина дома по фасаду (вдоль улицы)', e.total_width_x.value],
+    ['exterior.total_depth_y', 'Глубина дома с выступом входа', e.total_depth_y.value],
+    ['exterior.porch_width_x', 'Ширина выступа входа', e.porch_width_x.value],
+    ['exterior.porch_projection_y', 'Насколько выступ выходит вперёд', e.porch_projection_y.value],
+    ['exterior.wall_height_blocks', 'Высота кладки (от пола до верха блоков)', e.wall_height_blocks.value],
+    ['wall_thickness.exterior_mm', 'Толщина наружной стены (в проёме)', h.wall_thickness.exterior_mm.value],
+    ['wall_thickness.interior_mm', 'Толщина перегородки (в проёме)', h.wall_thickness.interior_mm.value],
+  ]],
+  ['Комнаты', h.rooms.flatMap((r) => [
+    [`rooms.${r.id}.x`, `${roomName(r).name} — ширина`, r.bbox_size_mm.x.value],
+    [`rooms.${r.id}.y`, `${roomName(r).name} — длина`, r.bbox_size_mm.y.value],
+  ])],
+  ['Окна', h.windows.flatMap((w) => {
+    const where = w.level === 'attic' ? 'мансарда' : roomName(h.rooms.find((r) => r.id === w.room) || { name_ru: w.room }).name;
+    const id = w.id.replace('_small', '');
+    return [
+      [`windows.${w.id}.width`, `${id} (${where}) — ширина`, w.width_mm.value],
+      [`windows.${w.id}.height`, `${id} — высота`, w.height_mm.value],
+      [`windows.${w.id}.sill`, `${id} — низ окна от пола`, w.sill_above_floor_mm?.value],
+    ];
+  })],
+  ['Двери и проёмы', h.doors.flatMap((d) => {
+    const id = d.id.replace('_entrance', '');
+    const names = d.between.map((x) => x === 'outside' ? 'улица' : roomName(h.rooms.find((r) => r.id === x)).name).join(' ↔ ');
+    return [
+      [`doors.${d.id}.width`, `${id} (${names}) — ширина`, d.width_mm.value],
+      [`doors.${d.id}.height`, `${id} — высота`, d.height_mm.value],
+    ];
+  })],
+];
+const all = groups.flatMap(([, rows]) => rows);
+
+$('tables').innerHTML = groups.map(([title, rows]) => `<h3>${title}</h3><div class="tbl"><table>
+  <thead><tr><th>Что</th><th>Сейчас на сайте</th><th>Ваш замер, мм</th><th class="ratio">Разница</th></tr></thead>
+  <tbody>${rows.map(([key, name, est]) => `<tr><td>${esc(name)}</td><td class="num">${est ? (/^exterior\.(total|porch)/.test(key) ? m05(est) : m1(est)) : '—'}</td>
+    <td><input type="number" min="0" step="1" inputmode="numeric" data-key="${key}" value="${vals[key] ?? ''}"></td><td class="ratio" data-ratio="${key}"></td></tr>`).join('')}</tbody></table></div>`).join('');
+
+function update() {
+  const ratios = [];
+  for (const [key, , est] of all) {
+    const cell = document.querySelector(`[data-ratio="${key}"]`);
+    const v = +vals[key];
+    if (!v || !est) { cell.textContent = ''; continue; }
+    const r = v / est;
+    ratios.push(r);
+    const pct = Math.round((r - 1) * 100);
+    cell.innerHTML = `<span class="${Math.abs(pct) <= 5 ? 'ok' : 'far'}">${pct > 0 ? '+' : ''}${pct} %</span>`;
+  }
+  const n = ratios.length;
+  const avg = n ? ratios.reduce((a, b) => a + b, 0) / n : 0;
+  const spread = n > 1 ? Math.sqrt(ratios.reduce((s, r) => s + (r - avg) ** 2, 0) / n) * 100 : 0;
+  $('summary').innerHTML = `<div><span class="note">Заполнено</span><b>${n} из ${all.length}</b></div>`
+    + (n ? `<div><span class="note">Масштаб сайта по вашим замерам</span><b>× ${avg.toFixed(3).replace('.', ',')}</b></div>
+       <div><span class="note">${n > 1 ? 'Разброс' : 'Нужно ещё'}</span><b>${n > 1 ? '± ' + spread.toFixed(1).replace('.', ',') + ' %' : '1–2 замера'}</b></div>` : '')
+    + (n > 1 ? `<div><span class="note">Вывод</span><b style="font-size:15px">${spread < 3 ? 'Ошибка общая — поправим масштаб одним числом' : 'Ошибки разные — уточним размеры по отдельности'}</b></div>` : '');
+}
+$('tables').addEventListener('input', (ev) => {
+  const k = ev.target.dataset.key; if (!k) return;
+  if (ev.target.value === '') delete vals[k]; else vals[k] = +ev.target.value;
+  save(); update();
+});
+$('clear').onclick = () => { if (confirm('Стереть все введённые замеры в этом браузере?')) { vals = {}; save(); document.querySelectorAll('[data-key]').forEach((i) => { i.value = ''; }); update(); } };
+$('dl').onclick = () => {
+  const rows = all.filter(([k]) => vals[k]).map(([key, name, est]) => ({ key, name, estimate_mm: est ?? null, measured_mm: vals[key] }));
+  const blob = new Blob([JSON.stringify({ kind: 'nash-dom-zamery', date: new Date().toISOString().slice(0, 10), items: rows }, null, 1)], { type: 'application/json' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `zamery-${new Date().toISOString().slice(0, 10)}.json` });
+  a.click(); URL.revokeObjectURL(a.href);
+};
+update();
+</script>
+</body>
+</html>
