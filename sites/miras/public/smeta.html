@@ -159,7 +159,7 @@ function render() {
   const prices = store.get('prices', {});
   if (!$('t-mat').children.length) {
     $('t-mat').innerHTML = mats.map(([id, name, , , unit]) => `<tr data-id="${id}"><td>${name}</td><td class="num"><b class="qty"></b></td>
-      <td><input class="price" data-id="${id}" type="number" min="0" step="1" placeholder="за ${unit}" value="${prices[id] ?? ''}" style="width:110px;font:inherit;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)"></td>
+      <td><input class="price" data-id="${id}" type="number" min="0" step="1" aria-label="Цена: ${name}, за ${unit}" placeholder="за ${unit}" value="${prices[id] ?? ''}" style="width:110px;font:inherit;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)"></td>
       <td class="num cost">—</td><td class="note how"></td></tr>`).join('') + '<tr class="total"><td>Итого материалы</td><td></td><td></td><td class="num" id="cost-total">—</td><td></td></tr>';
     $('t-mat').addEventListener('input', (e) => { if (e.target.classList.contains('price')) { const pr = store.get('prices', {}); pr[e.target.dataset.id] = e.target.value === '' ? null : +e.target.value; store.set('prices', pr); render(); } });
   }
@@ -204,7 +204,7 @@ const drawStages = () => {
 $('st-list').innerHTML = STAGES.map(([id, name, hint], i) => `<li style="border:1px solid var(--line);border-radius:10px;padding:8px 12px">
   <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" data-st="${id}" ${stState[id]?.done ? 'checked' : ''} style="margin-top:4px">
   <span><b>${i + 1}. ${esc(name)}</b>${hint ? `<br><span class="note small">${esc(hint)}</span>` : ''}</span></label>
-  <input data-note="${id}" placeholder="заметка: кто делает, цена, срок…" value="${esc(stState[id]?.note || '')}" style="margin:6px 0 0 26px;width:calc(100% - 26px);font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)">
+  <input data-note="${id}" aria-label="Заметка: ${esc(name)}" placeholder="заметка: кто делает, цена, срок…" value="${esc(stState[id]?.note || '')}" style="margin:6px 0 0 26px;width:calc(100% - 26px);font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)">
 </li>`).join('');
 $('st-list').addEventListener('input', (e) => {
   const id = e.target.dataset.st || e.target.dataset.note;

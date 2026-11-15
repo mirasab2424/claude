@@ -100,7 +100,7 @@ const all = groups.flatMap(([, rows]) => rows);
 $('tables').innerHTML = groups.map(([title, rows]) => `<h3>${title}</h3><div class="tbl"><table>
   <thead><tr><th>Что</th><th>Сейчас на сайте</th><th>Ваш замер, мм</th><th class="ratio">Разница</th></tr></thead>
   <tbody>${rows.map(([key, name, est]) => `<tr><td>${esc(name)}</td><td class="num">${est ? (/^exterior\.(total|porch)/.test(key) ? m05(est) : m1(est)) : '—'}</td>
-    <td><input type="number" min="0" step="1" inputmode="numeric" data-key="${key}" value="${vals[key] ?? ''}"></td><td class="ratio" data-ratio="${key}"></td></tr>`).join('')}</tbody></table></div>`).join('');
+    <td><input type="number" min="0" step="1" inputmode="numeric" data-key="${key}" aria-label="${esc(name)}, мм" value="${vals[key] ?? ''}"></td><td class="ratio" data-ratio="${key}"></td></tr>`).join('')}</tbody></table></div>`).join('');
 
 function update() {
   const ratios = [];
