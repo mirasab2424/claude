@@ -20,6 +20,9 @@
                         <div style="border-left:3px solid {{ $tone[$tip['tone']][0] }}; background:{{ $tone[$tip['tone']][1] }}; border-radius:10px; padding:10px 12px">
                             <div style="font-weight:600">{{ $tip['icon'] }} {{ $tip['title'] }}</div>
                             <div style="font-size:.9rem; opacity:.85; margin-top:2px">{{ $tip['text'] }}</div>
+                            @isset($tip['link'])
+                                <a href="{{ $tip['link'][1] }}" style="display:inline-block; margin-top:6px; font-size:.85rem; font-weight:600; color:{{ $tone[$tip['tone']][0] }}">{{ $tip['link'][0] }} →</a>
+                            @endisset
                         </div>
                     @empty
                         <div style="opacity:.7">Пока мало данных. Добавьте цель или метрику — и я начну подсказывать.</div>
