@@ -56,6 +56,25 @@ class ListMetrics extends ListRecords
                     Notification::make()->success()->title('Импорт готов')
                         ->body(collect($result)->map(fn ($n, $name) => "$name: $n дн.")->join(', '))->send();
                 }),
+            Action::make('exportCsv')
+                ->label('Скачать CSV')
+                ->icon(Heroicon::OutlinedArrowDownTray)
+                ->color('gray')
+                ->action(function () {
+                    $metrics = auth()->user()->metrics()->with('entries')->orderBy('name')->get();
+
+                    return response()->streamDownload(function () use ($metrics) {
+                        $out = fopen('php://output', 'w');
+                        fwrite($out, "\xEF\xBB\xBF"); // BOM — чтобы Excel открыл кириллицу
+                        fputcsv($out, ['Метрика', 'Единица', 'Дата', 'Значение', 'Как на сайте', 'Заметка'], ';', escape: '');
+                        foreach ($metrics as $m) {
+                            foreach ($m->entries as $e) {
+                                fputcsv($out, [$m->name, $m->unit, $e->date->toDateString(), str_replace('.', ',', (string) $e->value), $m->format($e->value), $e->note], ';', escape: '');
+                            }
+                        }
+                        fclose($out);
+                    }, 'metrics-'.now()->format('Y-m-d').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+                }),
             CreateAction::make(),
         ];
     }
