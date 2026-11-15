@@ -18,6 +18,18 @@ use Illuminate\Database\Eloquent\Builder;
 
 class GoalForm
 {
+    /** Шаблоны частых целей: подпись, название, горизонт, тип. */
+    public const TEMPLATES = [
+        'run' => ['🏃 Пробежка', 'Пробежать 5 км', 'day', 'Спорт'],
+        'workout' => ['💪 Тренировка', 'Тренировка: подтягивания, отжимания, пресс', 'day', 'Спорт'],
+        'book' => ['📚 Прочитать книгу', 'Прочитать книгу «…»', 'month', 'Знание'],
+        'course' => ['🎓 Пройти курс', 'Пройти курс «…»', 'month', 'Навык'],
+        'habit_week' => ['🍬 Неделя без сладкого', 'Неделя без сладкого', 'week', 'Здоровье'],
+        'sleep_week' => ['🌙 Неделя режима сна', 'Неделю ложиться до 23:00', 'week', 'Здоровье'],
+        'save' => ['💰 Отложить деньги', 'Отложить … ₸ за месяц', 'month', 'Финансы'],
+        'trip' => ['✈️ Поездка', 'Съездить в …', 'year', 'Путешествия'],
+    ];
+
     public static function configure(Schema $schema, bool $admin = false): Schema
     {
         return $schema
@@ -27,6 +39,23 @@ class GoalForm
                     ->columnSpan(2)
                     ->columns(2)
                     ->schema([
+                        Select::make('template')
+                            ->label('Быстрый старт: шаблон')
+                            ->helperText('Заполнит название, тип и горизонт — дальше поправьте под себя')
+                            ->options(collect(self::TEMPLATES)->mapWithKeys(fn ($t, $k) => [$k => $t[0]]))
+                            ->dehydrated(false)
+                            ->live()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                if (! $state || ! isset(self::TEMPLATES[$state])) {
+                                    return;
+                                }
+                                [, $title, $horizon, $category] = self::TEMPLATES[$state];
+                                $set('title', $title);
+                                $set('horizon', $horizon);
+                                $set('category_id', \App\Models\Category::where('name', $category)->value('id'));
+                            })
+                            ->visibleOn('create')
+                            ->columnSpanFull(),
                         TextInput::make('title')
                             ->label('Задача')
                             ->required()

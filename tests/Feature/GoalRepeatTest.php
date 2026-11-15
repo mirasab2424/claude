@@ -34,4 +34,23 @@ class GoalRepeatTest extends TestCase
         $this->assertNull($copy->retrospective);
         $this->assertSame(0, (int) $copy->progress);
     }
+
+    public function test_template_fills_goal_form(): void
+    {
+        $this->seed(\Database\Seeders\DatabaseSeeder::class);
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        Filament::setCurrentPanel('cabinet');
+
+        Livewire::test(\App\Filament\Cabinet\Resources\Goals\Pages\CreateGoal::class)
+            ->fillForm(['template' => 'book'])
+            ->assertSchemaStateSet(['title' => 'Прочитать книгу «…»', 'horizon' => \App\Enums\Horizon::Month])
+            ->fillForm(['title' => 'Прочитать «Атомные привычки»'])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $goal = $user->goals()->first();
+        $this->assertSame('Прочитать «Атомные привычки»', $goal->title);
+        $this->assertSame('Знание', $goal->category->name);
+    }
 }
