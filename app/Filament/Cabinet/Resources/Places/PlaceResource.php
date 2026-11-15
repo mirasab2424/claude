@@ -21,6 +21,8 @@ class PlaceResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMapPin;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Записи';
+
     protected static ?string $modelLabel = 'место';
 
     protected static ?string $pluralModelLabel = 'Карта мест';

@@ -12,6 +12,8 @@ class WeekReviewPage extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Обзор';
+
     protected static ?string $title = 'Итоги недели';
 
     protected static ?string $slug = 'week';

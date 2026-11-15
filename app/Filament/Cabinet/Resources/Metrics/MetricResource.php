@@ -22,6 +22,8 @@ class MetricResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Записи';
+
     protected static ?string $modelLabel = 'метрику';
 
     protected static ?string $pluralModelLabel = 'Метрики';

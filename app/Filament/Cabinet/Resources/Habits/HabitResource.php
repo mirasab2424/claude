@@ -6,6 +6,7 @@ use App\Filament\Cabinet\Resources\Habits\Pages\ManageHabits;
 use App\Models\Habit;
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
@@ -25,6 +26,8 @@ class HabitResource extends Resource
     protected static ?string $model = Habit::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCheckCircle;
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Записи';
 
     protected static ?string $modelLabel = 'привычку';
 
@@ -79,8 +82,7 @@ class HabitResource extends Resource
                     ->color('gray')
                     ->tooltip('Забыли отметить вчера — отметьте сейчас')
                     ->action(fn (Habit $record) => $record->toggle(now()->toImmutable()->subDay())),
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([EditAction::make(), DeleteAction::make()]),
             ]);
     }
 

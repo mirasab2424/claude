@@ -14,6 +14,8 @@ class Calendar extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Обзор';
+
     protected static ?string $title = 'Календарь';
 
     protected static ?int $navigationSort = 1;

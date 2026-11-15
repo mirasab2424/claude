@@ -15,6 +15,8 @@ class Health extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHeart;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Обзор';
+
     protected static ?string $title = 'Здоровье';
 
     protected static ?int $navigationSort = 3;

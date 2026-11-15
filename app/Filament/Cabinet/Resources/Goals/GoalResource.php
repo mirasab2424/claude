@@ -21,6 +21,8 @@ class GoalResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFlag;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Записи';
+
     protected static ?string $modelLabel = 'цель';
 
     protected static ?string $pluralModelLabel = 'Цели и задачи';

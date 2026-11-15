@@ -58,6 +58,7 @@ class CabinetPanelProvider extends PanelProvider
                     ->icon(Heroicon::OutlinedWrenchScrewdriver)
                     ->visible(fn () => auth()->user()?->is_admin),
             ])
+            ->navigationGroups(['Записи', 'Обзор'])
             ->navigationItems([
                 NavigationItem::make('Моя страница')
                     ->url(fn () => route('profile.show', auth()->user()), shouldOpenInNewTab: true)
