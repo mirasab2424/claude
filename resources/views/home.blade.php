@@ -62,6 +62,26 @@
     </div>
 </section>
 
+<section class="container section" id="features">
+    <h2 class="section__title">Что умеет кабинет</h2>
+    <div class="features">
+        <article class="feature feature--coach">
+            <div class="feature__robot" aria-hidden="true">@include('filament.cabinet.coach-robot', ['mood' => 'happy'])</div>
+            <div>
+                <h3>Робот-тренер</h3>
+                <p>Смотрит на ваши цели, привычки, сон и шаги и каждый день даёт короткие советы: где просели, что получается, какой шаг сделать сегодня. Без ИИ — только по вашим записям.</p>
+            </div>
+        </article>
+        <article class="feature"><span class="feature__icon">✅</span><h3>Привычки</h3><p>Отметка одним нажатием, серии дней подряд, план «сколько раз в неделю» и сетка за месяц.</p></article>
+        <article class="feature"><span class="feature__icon">❤️</span><h3>Здоровье</h3><p>Загрузите выгрузку Samsung Health — появятся графики шагов, сна и пульса и связи между ними.</p></article>
+        <article class="feature"><span class="feature__icon">🙂</span><h3>Как прошёл день</h3><p>Настроение, энергия и одна строка о дне. Видно, как сон влияет на самочувствие.</p></article>
+        <article class="feature"><span class="feature__icon">📅</span><h3>Календарь</h3><p>Сроки целей, выполненное, привычки и шаги — на одном экране месяца.</p></article>
+        <article class="feature"><span class="feature__icon">🏆</span><h3>Итоги года</h3><p>Лучший месяц, главное направление, самая длинная серия и что стало лучше — для каждого года.</p></article>
+        <article class="feature"><span class="feature__icon">📱</span><h3>Как приложение</h3><p>Добавьте сайт на главный экран телефона — откроется кабинет, как обычное приложение.</p></article>
+    </div>
+    <p class="muted" style="margin-top:12px">Здоровье, настроение и заметки видите только вы. На публичной странице — только то, что вы сами отметили публичным.</p>
+</section>
+
 <section class="container section" id="members">
     <h2 class="section__title">Участники</h2>
     @if ($members->isEmpty())

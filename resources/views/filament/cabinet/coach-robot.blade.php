@@ -10,7 +10,7 @@
         <rect x="34" y="96" width="20" height="40" rx="8" fill="#5b6168"/><rect x="166" y="96" width="20" height="40" rx="8" fill="#5b6168"/>
         <circle cx="110" cy="104" r="30" fill="#151a1e"/>
         @if ($mood === 'happy')
-            <path d="M92 108 q18 -22 36 0" stroke="#5fd47d" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M92 96 q18 24 36 0" stroke="#5fd47d" stroke-width="7" fill="none" stroke-linecap="round"/>
         @elseif ($mood === 'worried')
             <circle cx="110" cy="104" r="18" fill="#3d1f0f" stroke="#e8590c" stroke-width="4"/>
             <circle cx="110" cy="104" r="7" fill="#ff9a5c"/>

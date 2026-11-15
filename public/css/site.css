@@ -248,3 +248,14 @@ img { max-width: 100%; }
 .habit__days i { aspect-ratio: 1; border-radius: 3px; background: var(--border); }
 .habit__days i.on { background: var(--accent); }
 .habit__meta { margin-top: 8px; font-size: 14px; }
+
+/* Что умеет кабинет */
+.features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.feature { background: var(--surface, rgba(255,255,255,.03)); border: 1px solid var(--border); border-radius: 16px; padding: 18px; }
+.feature h3 { margin: 6px 0 6px; }
+.feature p { margin: 0; color: var(--text-secondary); }
+.feature__icon { font-size: 26px; }
+.feature--coach { grid-column: 1 / -1; display: flex; gap: 20px; align-items: center; background: linear-gradient(120deg, rgba(34,168,69,.16), rgba(34,168,69,.02) 70%); }
+.feature__robot svg { width: 96px; height: auto; }
+@media (max-width: 860px) { .features { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .features { grid-template-columns: 1fr; } .feature--coach { flex-direction: column; text-align: center; } }
