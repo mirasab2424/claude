@@ -19,6 +19,7 @@
                 ведёт дневник с {{ ($since ?? $user->created_at)->translatedFormat('F Y') }}
                 @if ($user->telegram) · <a href="{{ $user->telegram }}" target="_blank" rel="noopener">канал в Telegram ↗</a>@endif
                 @if ($isOwner) · <a href="/cabinet">редактировать в кабинете</a>@endif
+                · <button type="button" class="link-btn" id="share-profile" data-title="{{ $user->name }} — success" data-url="{{ url()->current() }}">поделиться ↗</button>
             </p>
         </div>
         <div class="level" aria-label="Уровень {{ $summary['level'] }}">
@@ -312,4 +313,16 @@
     <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
     <script>window.__PROFILE__ = @json($chartData);</script>
     <script src="{{ asset('js/profile.js') }}?v={{ filemtime(public_path('js/profile.js')) }}"></script>
+@endpush
+@push('scripts')
+<script>
+    document.getElementById('share-profile')?.addEventListener('click', async (e) => {
+        const b = e.currentTarget, data = { title: b.dataset.title, url: b.dataset.url };
+        try {
+            if (navigator.share) { await navigator.share(data); return; }
+            await navigator.clipboard.writeText(data.url);
+            b.textContent = 'ссылка скопирована ✓';
+        } catch { /* пользователь закрыл окно «поделиться» */ }
+    });
+</script>
 @endpush

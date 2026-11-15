@@ -73,6 +73,12 @@ class HabitResource extends Resource
                     ->icon(fn (Habit $record) => $record->isDoneOn(now()->toImmutable()) ? 'heroicon-o-x-mark' : 'heroicon-o-check')
                     ->color(fn (Habit $record) => $record->isDoneOn(now()->toImmutable()) ? 'gray' : 'success')
                     ->action(fn (Habit $record) => $record->toggle()),
+                Action::make('toggleYesterday')
+                    ->label(fn (Habit $record) => $record->isDoneOn(now()->toImmutable()->subDay()) ? 'Снять вчера' : 'Вчера')
+                    ->icon('heroicon-o-arrow-uturn-left')
+                    ->color('gray')
+                    ->tooltip('Забыли отметить вчера — отметьте сейчас')
+                    ->action(fn (Habit $record) => $record->toggle(now()->toImmutable()->subDay())),
                 EditAction::make(),
                 DeleteAction::make(),
             ]);

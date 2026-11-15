@@ -269,3 +269,4 @@ img { max-width: 100%; }
 .badge small { font-size: 12px; line-height: 1.3; }
 .badge__bar { display: block; width: 80%; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; margin-top: 4px; }
 .badge__bar i { display: block; height: 100%; background: var(--accent); }
+.link-btn { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; } .link-btn:hover { text-decoration: underline; }
