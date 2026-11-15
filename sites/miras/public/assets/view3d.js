@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=10';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish } from './house.js?v=11';
 
 const CELL = 50; // мм
 
@@ -652,6 +652,9 @@ export function createViewer(canvas, h, onPick, design = null) {
   };
   return {
     view: (name) => { setWalk(false); view(name); }, cam,
+    // ракурс для ссылки: позиция камеры и точка взгляда в координатах сцены
+    getCamera: () => [...camera.position.toArray(), ...controls.target.toArray()].map((v) => Math.round(v * 100) / 100),
+    setCamera: (a) => { if (a?.length === 6 && a.every(Number.isFinite)) { setWalk(false); anim = null; camera.position.set(a[0], a[1], a[2]); controls.target.set(a[3], a[4], a[5]); } },
     walk: setWalk,
     walkMove: (f, t) => { walk.joy = { f, t }; },
     get walking() { return walk.on; },

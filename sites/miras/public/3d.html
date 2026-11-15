@@ -110,10 +110,11 @@
     <button data-layer="labels" aria-pressed="true" title="Показать или скрыть все надписи">Текст</button>
     <button id="btnRotate" aria-pressed="false">Поворот</button>
     <button id="btnWire" aria-pressed="false">Каркас</button>
+    <button id="btnShare" title="Скопировать ссылку на этот ракурс со слоями">🔗 Ссылка на вид</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=10';
-import { createViewer } from './assets/view3d.js?v=10';
+import { loadHouse } from './assets/house.js?v=11';
+import { createViewer } from './assets/view3d.js?v=11';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const FLOORS = [['', 'Без отделки'], ['#d9b98c', 'Ламинат: светлый дуб'], ['#a0704a', 'Ламинат: орех'], ['#a8a49c', 'Ламинат: серый'], ['#ece9e3', 'Плитка: светлая'], ['#5e5a55', 'Плитка: тёмная'], ['#c9a27a', 'Паркет']];
@@ -187,10 +188,27 @@ pad.querySelectorAll('button').forEach((b) => {
   b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointerleave', off); b.addEventListener('pointercancel', off);
 });
 toggle('btnWire', v.wireframe);
+// «Ссылка на вид»: ракурс камеры и включённые слои в адресе
+document.getElementById('btnShare').onclick = async (ev) => {
+  const layers = [...document.querySelectorAll('[data-layer]')].filter((b) => b.getAttribute('aria-pressed') === 'true').map((b) => b.dataset.layer);
+  const url = new URL(location.href.split('?')[0]);
+  url.searchParams.set('cam', v.getCamera().join(','));
+  url.searchParams.set('layers', layers.join(','));
+  const b = ev.currentTarget;
+  try {
+    if (navigator.share && matchMedia('(pointer: coarse)').matches) await navigator.share({ title: 'Наш дом — 3D', url: url.href });
+    else { await navigator.clipboard.writeText(url.href); b.textContent = '✓ Скопировано'; setTimeout(() => { b.textContent = '🔗 Ссылка на вид'; }, 2500); }
+  } catch { prompt('Скопируйте ссылку:', url.href); }
+};
 // ?view=front&show=dims,electric — для ссылок с главной
 const q = new URLSearchParams(location.search);
 if (q.get('view') === 'walk') { v.walk(true); setWalkUi(true); } else if (q.get('view')) v.view(q.get('view'));
 for (const l of (q.get('show') || '').split(',').filter(Boolean)) document.querySelector(`[data-layer="${l}"]`)?.click();
+if (q.has('layers')) {
+  const want = new Set(q.get('layers').split(',').filter(Boolean));
+  document.querySelectorAll('[data-layer]').forEach((b) => { if ((b.getAttribute('aria-pressed') === 'true') !== want.has(b.dataset.layer)) b.click(); });
+}
+if (q.get('cam')) setTimeout(() => v.setCamera(q.get('cam').split(',').map(Number)), q.has('layers') && q.get('layers').includes('attic') ? 800 : 0);
 </script>
 </body>
 </html>
