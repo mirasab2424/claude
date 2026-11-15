@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel } from './house.js?v=6';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel } from './house.js?v=7';
 
 const CELL = 50; // мм
 
@@ -553,12 +553,76 @@ export function createViewer(canvas, h, onPick, design = null) {
       controls.target.lerpVectors(anim.fromT, anim.toT, k);
       if (t >= 1) anim = null;
     }
-    controls.update();
+    if (walk.on) stepWalk(); else controls.update();
     renderer.render(scene, camera);
   });
 
+  // --- прогулка от первого лица: стены из той же сетки, проходы — проёмы дверей от пола ---
+  const EYE = 1600, R = 220, SPEED = 1500; // мм, мм/с
+  const walk = { on: false, x: 0, y: 0, yaw: 0, pitch: 0, keys: new Set(), joy: { f: 0, t: 0 }, last: 0, saved: null };
+  const solid = (x, y) => {
+    const c = wall[Math.floor(y / CELL)]?.[Math.floor(x / CELL)];
+    return !!c && !c.some(([lo, hi]) => lo <= 10 && hi >= 1800);
+  };
+  const free = (x, y) => ![[R, 0], [-R, 0], [0, R], [0, -R], [R * .7, R * .7], [-R * .7, R * .7], [R * .7, -R * .7], [-R * .7, -R * .7]].some(([dx, dy]) => solid(x + dx, y + dy));
+  const placeCam = () => {
+    camera.position.set(anchor.x + mm(walk.x), floorY + mm(EYE), anchor.z + zz(walk.y));
+    const dx = Math.sin(walk.yaw) * Math.cos(walk.pitch), dy = Math.cos(walk.yaw) * Math.cos(walk.pitch);
+    camera.lookAt(camera.position.x + dx, camera.position.y + Math.sin(walk.pitch), camera.position.z - dy);
+  };
+  function stepWalk() {
+    const now = performance.now(), dt = Math.min(0.05, (now - walk.last) / 1000);
+    walk.last = now;
+    const k = walk.keys;
+    const f = (k.has('KeyW') || k.has('ArrowUp') ? 1 : 0) - (k.has('KeyS') || k.has('ArrowDown') ? 1 : 0) + walk.joy.f;
+    const side = (k.has('KeyD') ? 1 : 0) - (k.has('KeyA') ? 1 : 0);
+    walk.yaw += ((k.has('ArrowRight') ? 1 : 0) - (k.has('ArrowLeft') ? 1 : 0) + walk.joy.t) * 1.8 * dt;
+    const step = SPEED * dt;
+    const mx = (Math.sin(walk.yaw) * f + Math.cos(walk.yaw) * side) * step, my = (Math.cos(walk.yaw) * f - Math.sin(walk.yaw) * side) * step;
+    if (free(walk.x + mx, walk.y)) walk.x += mx; // скольжение вдоль стены
+    if (free(walk.x, walk.y + my)) walk.y += my;
+    placeCam();
+  }
+  let look = null;
+  canvas.addEventListener('pointerdown', (ev) => { if (walk.on) look = [ev.clientX, ev.clientY]; });
+  addEventListener('pointerup', () => { look = null; });
+  canvas.addEventListener('pointermove', (ev) => {
+    if (!walk.on || !look) return;
+    walk.yaw += (ev.clientX - look[0]) * 0.005;
+    walk.pitch = Math.max(-0.8, Math.min(0.8, walk.pitch - (ev.clientY - look[1]) * 0.004));
+    look = [ev.clientX, ev.clientY];
+  });
+  addEventListener('keydown', (ev) => { if (walk.on && /^(Key[WASD]|Arrow)/.test(ev.code)) { walk.keys.add(ev.code); ev.preventDefault(); } });
+  addEventListener('keyup', (ev) => walk.keys.delete(ev.code));
+  const setWalk = (on) => {
+    if (on === walk.on) return;
+    walk.on = on;
+    if (on) {
+      walk.saved = { pos: camera.position.clone(), target: controls.target.clone() };
+      // старт снаружи у входной двери, лицом к ней
+      const d = openings.find((o) => o.kind === 'door' && o.d.between.includes('outside'));
+      if (d && d.axis === 'x') { walk.x = d.at - 2600; walk.y = (d.a + d.b) / 2; walk.yaw = Math.PI / 2; }
+      else { walk.x = W / 2; walk.y = -1200; walk.yaw = 0; }
+      walk.pitch = -0.05;
+      walk.last = performance.now();
+      controls.enabled = false;
+      camera.near = 0.05; camera.fov = 70; camera.updateProjectionMatrix();
+    } else {
+      controls.enabled = true;
+      camera.fov = 45; camera.updateProjectionMatrix();
+      camera.position.copy(walk.saved.pos); controls.target.copy(walk.saved.target);
+    }
+    apply();
+  };
+
   function apply() {
     const a = state.attic;
+    if (walk?.on) {
+      Object.assign(layers.roof, { visible: false }); layers.attic.visible = false; layers.dims.visible = false; layers.labels.visible = false; designLabels.visible = false;
+      layers.stair.visible = state.stair; layers.electric.visible = state.electric; layers.design.visible = state.design; layers.site.visible = state.site;
+      layers.stair.traverse((o) => { if (o.isSprite) o.visible = false; });
+      return;
+    }
     layers.attic.visible = a;
     layers.roof.visible = state.roof && !a;
     layers.stair.visible = state.stair || a;
@@ -580,7 +644,10 @@ export function createViewer(canvas, h, onPick, design = null) {
     anim = { from: camera.position.clone(), to: P(x, y, z), fromT: controls.target.clone(), toT: P(tx, ty, tz), start: performance.now() };
   };
   return {
-    view, cam,
+    view: (name) => { setWalk(false); view(name); }, cam,
+    walk: setWalk,
+    walkMove: (f, t) => { walk.joy = { f, t }; },
+    get walking() { return walk.on; },
     layer: (name, on) => { state[name] = on; apply(); },
     isOn: (name) => state[name],
     onLoad: (fn) => { onLoad = fn; },

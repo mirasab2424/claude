@@ -40,6 +40,14 @@
   .legend[hidden], body.notext .txt { display: none; }
   .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; border: 2.5px solid; margin: 0 4px -1px 0; }
   .legend .muted { color: var(--muted); }
+  .pad { position: fixed; right: 20px; bottom: calc(110px + env(safe-area-inset-bottom, 0px)); display: grid; grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 56px); gap: 6px; }
+  .pad[hidden] { display: none; }
+  .pad button { font-size: 22px; border: 0; border-radius: 14px; background: var(--panel); box-shadow: 0 4px 14px rgba(34,48,58,.15); touch-action: none; user-select: none; -webkit-user-select: none; }
+  .pad button:active { background: var(--accent); color: #fff; }
+  .pad .up { grid-column: 2; } .pad .left { grid-column: 1; grid-row: 2; } .pad .down { grid-column: 2; grid-row: 2; } .pad .right { grid-column: 3; grid-row: 2; }
+  .walk-hint { position: fixed; left: 50%; transform: translateX(-50%); top: calc(16px + env(safe-area-inset-top, 0px)); background: rgba(21,26,30,.82); color: #fff; padding: 8px 14px; border-radius: 12px; font-size: 13px; text-align: center; }
+  .walk-hint[hidden] { display: none; }
+  body.walking .title, body.walking .links, body.walking .legend, body.walking .card { display: none; }
   .hint { position: fixed; left: 24px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); font-size: 12px; color: var(--muted); max-width: 260px; }
   @media (max-width: 900px) { .hint { display: none; } }
   @media (max-width: 520px) {
@@ -61,6 +69,13 @@
     <a href="smeta.html">Смета ремонта</a>
   </nav>
   <aside class="card" id="card" hidden aria-live="polite"></aside>
+  <div class="walk-hint" id="walkHint" hidden>Прогулка: <b>W A S D</b> или стрелки — идти, мышью или пальцем — осмотреться. Начинаем у входной двери.</div>
+  <div class="pad" id="pad" hidden aria-label="Управление прогулкой">
+    <button class="up" data-f="1" aria-label="Вперёд">▲</button>
+    <button class="left" data-t="-1" aria-label="Повернуть влево">◀</button>
+    <button class="down" data-f="-1" aria-label="Назад">▼</button>
+    <button class="right" data-t="1" aria-label="Повернуть вправо">▶</button>
+  </div>
   <div class="controls" role="toolbar" aria-label="Управление видом">
     <button data-view="reset">Дом</button>
     <button data-view="site">Участок</button>
@@ -68,6 +83,7 @@
     <button data-view="side">Сбоку</button>
     <button data-view="back">Сзади</button>
     <button data-view="top">Сверху</button>
+    <button id="btnWalk" aria-pressed="false" title="Пройтись по дому от первого лица">🚶 Прогулка</button>
     <span class="sep"></span>
     <button data-layer="dims" aria-pressed="false">Размеры</button>
     <button data-layer="electric" aria-pressed="false">Электрика</button>
@@ -82,8 +98,8 @@
     <button id="btnWire" aria-pressed="false">Каркас</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=6';
-import { createViewer } from './assets/view3d.js?v=6';
+import { loadHouse } from './assets/house.js?v=7';
+import { createViewer } from './assets/view3d.js?v=7';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const list = (title, items, empty) => `<h3>${title}</h3>` + (items.length ? `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : `<p class="muted">${empty}</p>`);
@@ -125,10 +141,26 @@ document.querySelectorAll('[data-layer]').forEach((b) => b.onclick = () => {
 });
 const toggle = (id, fn) => { const b = document.getElementById(id); b.onclick = () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); fn(on); }; };
 toggle('btnRotate', v.autoRotate);
+const walkBtn = document.getElementById('btnWalk'), pad = document.getElementById('pad'), walkHint = document.getElementById('walkHint');
+const setWalkUi = (on) => {
+  walkBtn.setAttribute('aria-pressed', on);
+  walkBtn.textContent = on ? '✕ Выйти из прогулки' : '🚶 Прогулка';
+  pad.hidden = !on; walkHint.hidden = !on;
+  document.body.classList.toggle('walking', on);
+  if (on) { card.hidden = true; setTimeout(() => { walkHint.hidden = true; }, 6000); }
+};
+walkBtn.onclick = () => { const on = !v.walking; v.walk(on); setWalkUi(on); };
+document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => setWalkUi(false)));
+let joy = { f: 0, t: 0 };
+pad.querySelectorAll('button').forEach((b) => {
+  const on = (ev) => { ev.preventDefault(); joy = { f: +(b.dataset.f || 0), t: +(b.dataset.t || 0) }; v.walkMove(joy.f, joy.t); };
+  const off = () => { joy = { f: 0, t: 0 }; v.walkMove(0, 0); };
+  b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointerleave', off); b.addEventListener('pointercancel', off);
+});
 toggle('btnWire', v.wireframe);
 // ?view=front&show=dims,electric — для ссылок с главной
 const q = new URLSearchParams(location.search);
-if (q.get('view')) v.view(q.get('view'));
+if (q.get('view') === 'walk') { v.walk(true); setWalkUi(true); } else if (q.get('view')) v.view(q.get('view'));
 for (const l of (q.get('show') || '').split(',').filter(Boolean)) document.querySelector(`[data-layer="${l}"]`)?.click();
 </script>
 </body>

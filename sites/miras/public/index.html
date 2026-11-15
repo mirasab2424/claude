@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=6">
+<link rel="stylesheet" href="assets/style.css?v=7">
 </head>
 <body>
 <header class="top">
@@ -40,6 +40,9 @@
         <a class="btn" href="3d.html?show=dims">С размерами</a>
         <a class="btn" href="3d.html?show=electric">Электрика</a>
         <a class="btn" href="3d.html?show=roof">С крышей</a>
+        <a class="btn" href="3d.html?view=walk">🚶 Прогулка</a>
+        <a class="btn" href="3d.html?show=attic">Мансарда</a>
+        <a class="btn" href="smeta.html">Смета ремонта</a>
       </div>
     </section>
 
@@ -72,8 +75,8 @@
 </main>
 
 <script type="module">
-import { loadHouse, m05, m1, area } from './assets/house.js?v=6';
-import { planSVG } from './assets/plan.js?v=6';
+import { loadHouse, m05, m1, area } from './assets/house.js?v=7';
+import { planSVG } from './assets/plan.js?v=7';
 const h = await loadHouse();
 const e = h.exterior;
 const svg = planSVG(h, { compact: true });
