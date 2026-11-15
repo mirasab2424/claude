@@ -156,3 +156,15 @@ td.num { white-space: nowrap; }
 
 .tile .cover--icon { display: grid; place-items: center; font-size: 64px; background: linear-gradient(135deg, var(--accent-soft), var(--surface)); }
 .tile .cover--plan svg { background: #fff; }
+
+/* План: выбор комнаты */
+.plan .room { cursor: pointer; transition: fill .15s; }
+.plan .room:hover { fill: var(--accent-soft); }
+.plan .room--sel { fill: #cfe6f3 !important; }
+.room-info { position: relative; margin-top: 12px; border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; background: var(--surface); }
+.room-info h3 { margin: 0 24px 2px 0; }
+.room-info .big { margin: 0 0 10px; font-size: 18px; font-weight: 600; }
+.ri-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px 16px; font-size: 14px; }
+.ri-close { position: absolute; right: 10px; top: 6px; border: 0; background: none; font-size: 22px; cursor: pointer; color: var(--muted); }
+@media print { .room-info { display: none; } }
+.plan text { pointer-events: none; }

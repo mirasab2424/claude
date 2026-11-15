@@ -113,8 +113,8 @@
     <button id="btnShare" title="Скопировать ссылку на этот ракурс со слоями">🔗 Ссылка на вид</button>
   </div>
 <script type="module">
-import { loadHouse } from './assets/house.js?v=11';
-import { createViewer } from './assets/view3d.js?v=11';
+import { loadHouse } from './assets/house.js?v=12';
+import { createViewer } from './assets/view3d.js?v=12';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const card = document.getElementById('card');
 const FLOORS = [['', 'Без отделки'], ['#d9b98c', 'Ламинат: светлый дуб'], ['#a0704a', 'Ламинат: орех'], ['#a8a49c', 'Ламинат: серый'], ['#ece9e3', 'Плитка: светлая'], ['#5e5a55', 'Плитка: тёмная'], ['#c9a27a', 'Паркет']];

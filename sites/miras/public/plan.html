@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=11">
+<link rel="stylesheet" href="assets/style.css?v=12">
 </head>
 <body>
 <header class="top"><div class="top-in">
@@ -29,6 +29,7 @@
       <label><input type="checkbox" data-opt="stair"> Вариант лестницы (предварительно)</label>
     </div>
     <div id="plan-box" class="plan-wrap"></div>
+    <div id="room-info" class="room-info" hidden aria-live="polite"></div>
     <ul class="legend">
       <li><i class="lg-room"></i>помещение: оценка по видео</li>
       <li><i class="lg-low"></i>помещение: низкая уверенность</li>
@@ -38,7 +39,7 @@
       <li><i class="lg-el"></i>электрика: сколько точек в комнате, места не измерены</li>
       <li><i class="lg-stair"></i>лестница: вариант, предварительно</li>
     </ul>
-    <p class="note small">Названия помещений описательные: по видео назначение подтверждено только у санузла. Площадь по помещениям: <span id="area-total"></span>.</p>
+    <p class="note small"><b>Нажмите на комнату</b> — под планом появится её карточка. Названия помещений описательные: по видео назначение подтверждено только у санузла. Площадь по помещениям: <span id="area-total"></span>.</p>
   </section>
 
   <section class="card" id="attic" style="margin-top:16px">
@@ -101,8 +102,8 @@
   <p class="note small" style="margin-top:20px">Все числа берутся из одного файла <code>data/measurements.json</code>. После замеров рулеткой достаточно заменить его — удобнее всего через <a href="zamery.html">лист замеров</a>.</p>
 </main>
 <script type="module">
-import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant } from './assets/house.js?v=11';
-import { planSVG, atticSVG } from './assets/plan.js?v=11';
+import { loadHouse, m05, m1, m1n, tol, area, val, statusBadge, CONFIDENCE, roomName, roomLabel, wallName, ELECTRIC, PLUMBING, STATUS, stairVariant, roomFinish } from './assets/house.js?v=12';
+import { planSVG, atticSVG } from './assets/plan.js?v=12';
 const h = await loadHouse();
 const design = await fetch('data/design.json', { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).catch(() => null);
 document.getElementById('attic-box').innerHTML = atticSVG(h, design);
@@ -111,7 +112,34 @@ const $ = (id) => document.getElementById(id);
 
 // План с переключателями
 const opts = { windows: true, doors: true, electric: false, stair: false };
-const draw = () => { $('plan-box').innerHTML = planSVG(h, opts); };
+let selected = null;
+const draw = () => {
+  $('plan-box').innerHTML = planSVG(h, opts);
+  if (selected) $('plan-box').querySelector(`[data-room="${selected}"]`)?.classList.add('room--sel');
+};
+// клик по комнате на плане — карточка с данными
+const showRoom = (id) => {
+  selected = id;
+  draw();
+  const r = h.rooms.find((x) => x.id === id);
+  if (!r) { $('room-info').hidden = true; return; }
+  const b = r.bbox_size_mm, f = roomFinish(h, r);
+  const wins = h.windows.filter((w) => w.room === id).map((w) => `${w.id.replace('_small', '')} ≈ ${m1n(w.width_mm.value)} × ${m1n(w.height_mm.value)} м`);
+  const doors = h.doors.filter((d) => d.between.includes(id)).map((d) => `${d.id.replace('_entrance', '')} → ${roomLabel(h, d.between.find((x) => x !== id))}`);
+  const el = Object.entries(h.electrical.filter((x) => x.room === id).reduce((a, x) => (a[ELECTRIC[x.kind] || x.kind] = (a[ELECTRIC[x.kind] || x.kind] || 0) + (x.count || 1), a), {})).map(([k, n]) => `${k}: ${n}`);
+  $('room-info').innerHTML = `<button type="button" class="ri-close" aria-label="Закрыть">×</button>
+    <h3>${esc(roomName(r).name)}</h3>
+    <p class="big">≈ ${m1n(b.x.value)} × ${m1n(b.y.value)} м <small class="tol">${tol(Math.max(b.x.tolerance_mm, b.y.tolerance_mm))}</small> · ${area(r.floor_area_m2)}</p>
+    <div class="ri-grid">
+      <div><b>Окна</b><br>${wins.length ? wins.map(esc).join('<br>') : 'нет'}</div>
+      <div><b>Двери и проёмы</b><br>${doors.map(esc).join('<br>') || 'нет'}</div>
+      <div><b>Электрика</b> <small class="note">места не измерены</small><br>${el.map(esc).join('<br>') || 'на видео не видно'}</div>
+      <div><b>Для ремонта</b><br>стены без проёмов ≈ ${Math.round(f.walls)} м²<br>плинтус ≈ ${m1n(f.plinth * 1000)} м<br><a href="smeta.html">смета →</a></div>
+    </div>`;
+  $('room-info').hidden = false;
+  $('room-info').querySelector('.ri-close').onclick = () => { selected = null; $('room-info').hidden = true; draw(); };
+};
+$('plan-box').addEventListener('click', (e) => { const id = e.target.closest('[data-room]')?.dataset.room; if (id) showRoom(id); });
 document.querySelectorAll('[data-opt]').forEach((cb) => cb.addEventListener('change', () => { opts[cb.dataset.opt] = cb.checked; draw(); }));
 if (location.hash === '#stair-plan') { opts.stair = true; document.querySelector('[data-opt=stair]').checked = true; }
 draw();
