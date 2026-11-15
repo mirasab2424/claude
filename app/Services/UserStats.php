@@ -220,4 +220,60 @@ class UserStats
             ->orderByDesc('visited_at')
             ->get();
     }
+
+    /**
+     * Итоги по годам (как «year in review»): выполнено, лучший месяц, главное направление,
+     * самая длинная серия, метрики, которые улучшились за год. Только годы с выполненными целями.
+     */
+    public function yearReviews(): array
+    {
+        $done = $this->goals->where('status', GoalStatus::Done)->filter(fn (Goal $g) => $g->completed_at);
+        $years = $done->map(fn (Goal $g) => $g->completed_at->year)->unique()->sortDesc()->values();
+        $metrics = $this->metrics();
+        $out = [];
+        foreach ($years as $year) {
+            $inYear = $done->filter(fn (Goal $g) => $g->completed_at->year === $year);
+            $prev = $done->filter(fn (Goal $g) => $g->completed_at->year === $year - 1)->count();
+            $byMonth = $inYear->countBy(fn (Goal $g) => $g->completed_at->month)->sortDesc();
+            $bestMonth = $byMonth->keys()->first();
+            $topCat = $inYear->groupBy(fn (Goal $g) => $g->category?->label() ?? 'Без типа')->map->count()->sortDesc();
+            $days = $inYear->map(fn (Goal $g) => $g->completed_at->toDateString())->unique()->sort()->values();
+            $best = $run = 0;
+            $prevDay = null;
+            foreach ($days as $d) {
+                $run = $prevDay && CarbonImmutable::parse($prevDay)->addDay()->toDateString() === $d ? $run + 1 : 1;
+                $best = max($best, $run);
+                $prevDay = $d;
+            }
+            $improved = [];
+            foreach ($metrics as $m) {
+                $e = $m->entries->filter(fn ($x) => $x->date->year === $year)->sortBy('date');
+                if ($e->count() < 2) {
+                    continue;
+                }
+                $first = $e->first()->value;
+                $last = $e->last()->value;
+                $better = $m->direction === \App\Enums\MetricDirection::Down ? $last < $first : $last > $first;
+                if ($better) {
+                    $improved[] = $m->name.': '.$m->format($first).' → '.$m->format($last).($m->unit && ! $m->is_duration ? ' '.$m->unit : '');
+                }
+            }
+            $out[] = [
+                'year' => $year,
+                'done' => $inYear->count(),
+                'prev' => $prev,
+                'active_days' => $days->count(),
+                'best_month' => $bestMonth ? CarbonImmutable::create($year, $bestMonth, 1)->translatedFormat('F') : null,
+                'best_month_count' => $byMonth->first(),
+                'top_category' => $topCat->keys()->first(),
+                'top_category_count' => $topCat->first(),
+                'best_streak' => $best,
+                'first' => $inYear->sortBy('completed_at')->first()?->title,
+                'last' => $inYear->sortByDesc('completed_at')->first()?->title,
+                'improved' => array_slice($improved, 0, 4),
+            ];
+        }
+
+        return $out;
+    }
 }

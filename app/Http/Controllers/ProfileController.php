@@ -85,6 +85,7 @@ class ProfileController extends Controller
             'user' => $user,
             'isOwner' => $isOwner,
             'summary' => $stats->summary(),
+            'reviews' => $stats->yearReviews(),
             'board' => $board,
             'lessons' => $lessons,
             'gallery' => $gallery,

@@ -79,6 +79,54 @@
     </div>
 </section>
 
+@if ($reviews)
+<section class="container section" id="review">
+    <div class="section__head">
+        <h2 class="section__title">Итоги года</h2>
+        <div class="year-tabs" role="tablist" aria-label="Год итогов">
+            @foreach ($reviews as $i => $r)
+                <button type="button" role="tab" aria-selected="{{ $i === 0 ? 'true' : 'false' }}" data-review="{{ $r['year'] }}">{{ $r['year'] }}</button>
+            @endforeach
+        </div>
+    </div>
+    @foreach ($reviews as $i => $r)
+        <div class="card wrapped" data-review-panel="{{ $r['year'] }}" @if ($i) hidden @endif>
+            <div class="wrapped__grid">
+                <div class="wrapped__big">
+                    <span class="wrapped__num">{{ $r['done'] }}</span>
+                    <span class="muted">целей выполнено
+                        @if ($r['prev'])
+                            · в {{ $r['year'] - 1 }} было {{ $r['prev'] }}
+                        @endif
+                    </span>
+                </div>
+                <div><span class="wrapped__label">Активных дней</span><b>{{ $r['active_days'] }}</b></div>
+                <div><span class="wrapped__label">Лучший месяц</span><b>{{ $r['best_month'] }}</b> <span class="muted">· {{ $r['best_month_count'] }}</span></div>
+                <div><span class="wrapped__label">Главное направление</span><b>{{ $r['top_category'] }}</b> <span class="muted">· {{ $r['top_category_count'] }}</span></div>
+                <div><span class="wrapped__label">Самая длинная серия</span><b>{{ $r['best_streak'] }} дн.</b></div>
+            </div>
+            <div class="wrapped__row">
+                <div><span class="wrapped__label">Первая цель года</span>{{ $r['first'] }}</div>
+                <div><span class="wrapped__label">Последняя</span>{{ $r['last'] }}</div>
+            </div>
+            @if ($r['improved'])
+                <div class="wrapped__row">
+                    <div><span class="wrapped__label">Стало лучше за год</span>
+                        <ul class="wrapped__list">@foreach ($r['improved'] as $line)<li>{{ $line }}</li>@endforeach</ul>
+                    </div>
+                </div>
+            @endif
+        </div>
+    @endforeach
+    <script>
+        document.querySelectorAll('[data-review]').forEach((b) => b.addEventListener('click', () => {
+            document.querySelectorAll('[data-review]').forEach((x) => x.setAttribute('aria-selected', x === b));
+            document.querySelectorAll('[data-review-panel]').forEach((p) => { p.hidden = p.dataset.reviewPanel !== b.dataset.review; });
+        }));
+    </script>
+</section>
+@endif
+
 <section class="container section charts">
     <div class="card card_wide">
         <h3 class="card__title">Прогресс по месяцам</h3>

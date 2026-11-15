@@ -229,3 +229,14 @@ img { max-width: 100%; }
 .gallery__item img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; background: var(--surface-2); }
 .gallery__item figcaption { padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
 .gallery__item figcaption .muted { font-size: 13px; }
+
+/* Итоги года */
+.wrapped { background: linear-gradient(135deg, rgba(34,168,69,.14), rgba(34,168,69,.02) 60%); }
+.wrapped__grid { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 16px; align-items: end; }
+.wrapped__big { display: flex; flex-direction: column; }
+.wrapped__num { font-family: Unbounded, Inter, sans-serif; font-size: 64px; font-weight: 700; line-height: 1; color: var(--accent); }
+.wrapped__label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-secondary); margin-bottom: 4px; }
+.wrapped b { font-size: 20px; }
+.wrapped__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.wrapped__list { margin: 0; padding-left: 18px; }
+@media (max-width: 800px) { .wrapped__grid { grid-template-columns: 1fr 1fr; } .wrapped__big { grid-column: 1 / -1; } .wrapped__row { grid-template-columns: 1fr; } }

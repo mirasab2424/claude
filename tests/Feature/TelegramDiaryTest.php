@@ -33,6 +33,11 @@ class TelegramDiaryTest extends TestCase
         $this->assertTrue($run->is_duration);
         $this->assertSame('13:53', $run->format($run->entries()->first()->value));
 
+        $reviews = collect(UserStats::for($user)->yearReviews())->keyBy('year');
+        $this->assertSame(22, $reviews[2025]['done']);
+        $this->assertSame('сентябрь', $reviews[2025]['best_month']);
+        $this->get('/u/miras')->assertOk()->assertSee('Итоги года');
+
         $heatmap = UserStats::for($user)->heatmap();
         $this->assertArrayHasKey('2022', $heatmap);
         $this->assertSame(1, $heatmap['2023']['2023-07-28']);
