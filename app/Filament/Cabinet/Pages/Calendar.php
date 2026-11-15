@@ -27,8 +27,15 @@ class Calendar extends Page
         $this->month = now()->format('Y-m');
     }
 
+    /** Месяц приходит из браузера (Livewire) — принимаем только вид ГГГГ-ММ. */
+    private function safeMonth(): string
+    {
+        return preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $this->month) ? $this->month : ($this->month = now()->format('Y-m'));
+    }
+
     public function shift(int $by): void
     {
+        $this->safeMonth();
         $this->month = CarbonImmutable::parse($this->month.'-01')->addMonths($by)->format('Y-m');
     }
 
@@ -40,7 +47,7 @@ class Calendar extends Page
     protected function getViewData(): array
     {
         $user = auth()->user();
-        $first = CarbonImmutable::parse($this->month.'-01');
+        $first = CarbonImmutable::parse($this->safeMonth().'-01');
         $from = $first->startOfWeek();
         $to = $first->endOfMonth()->endOfWeek();
         $goals = $user->goals()->where(fn ($q) => $q->whereBetween('completed_at', [$from, $to->endOfDay()])->orWhereBetween('due_date', [$from, $to]))->get();

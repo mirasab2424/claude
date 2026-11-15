@@ -127,6 +127,9 @@ class Coach
             return null;
         }
         $e = $m->entries->sortBy('date')->values();
+        if ($e->last()->date->lt($this->today->subDays(21))) {
+            return null; // данные слишком старые для совета
+        }
         $recent = $e->slice(-7)->avg('value');
         $before = $e->slice(-37, 30)->avg('value');
         if (! $before) {

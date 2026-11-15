@@ -27,9 +27,19 @@ class WeekReviewPage extends Page
         $this->week = CarbonImmutable::today()->startOfWeek()->toDateString();
     }
 
+    /** Неделя приходит из браузера (Livewire) — только дата ГГГГ-ММ-ДД, иначе текущая. */
+    private function safeWeek(): CarbonImmutable
+    {
+        if (! preg_match('/^\d{4}-\d{2}-\d{2}$/', $this->week) || ! checkdate((int) substr($this->week, 5, 2), (int) substr($this->week, 8, 2), (int) substr($this->week, 0, 4))) {
+            $this->week = CarbonImmutable::today()->startOfWeek()->toDateString();
+        }
+
+        return CarbonImmutable::parse($this->week);
+    }
+
     public function shift(int $by): void
     {
-        $next = CarbonImmutable::parse($this->week)->addWeeks($by);
+        $next = $this->safeWeek()->addWeeks($by);
         if ($next->lte(CarbonImmutable::today())) {
             $this->week = $next->toDateString();
         }
@@ -37,6 +47,6 @@ class WeekReviewPage extends Page
 
     protected function getViewData(): array
     {
-        return WeekReview::for(auth()->user(), CarbonImmutable::parse($this->week))->data();
+        return WeekReview::for(auth()->user(), $this->safeWeek())->data();
     }
 }

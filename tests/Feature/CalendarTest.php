@@ -27,6 +27,7 @@ class CalendarTest extends TestCase
         Livewire::test(Calendar::class)
             ->assertSee('Срок в этом месяце')->assertDontSee('Чужая цель')
             ->call('shift', 1)->assertDontSee('Срок в этом месяце')
-            ->call('today')->assertSee('Срок в этом месяце');
+            ->call('today')->assertSee('Срок в этом месяце')
+            ->set('month', 'abc')->assertOk()->assertSee('Срок в этом месяце');
     }
 }
