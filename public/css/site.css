@@ -259,3 +259,13 @@ img { max-width: 100%; }
 .feature__robot svg { width: 96px; height: auto; }
 @media (max-width: 860px) { .features { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .features { grid-template-columns: 1fr; } .feature--coach { flex-direction: column; text-align: center; } }
+
+/* Достижения */
+.badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.badge { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; padding: 14px 10px; border-radius: 14px; border: 1px solid var(--border); background: var(--surface-1); opacity: .55; }
+.badge--on { opacity: 1; border-color: var(--accent); background: linear-gradient(160deg, rgba(34,168,69,.18), var(--surface-1)); }
+.badge__icon { font-size: 30px; filter: grayscale(1); }
+.badge--on .badge__icon { filter: none; }
+.badge small { font-size: 12px; line-height: 1.3; }
+.badge__bar { display: block; width: 80%; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; margin-top: 4px; }
+.badge__bar i { display: block; height: 100%; background: var(--accent); }

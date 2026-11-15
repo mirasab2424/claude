@@ -86,6 +86,7 @@ class ProfileController extends Controller
             'isOwner' => $isOwner,
             'summary' => $stats->summary(),
             'reviews' => $stats->yearReviews(),
+            'badges' => $stats->badges(),
             'habits' => $user->habits()->active()->when(! $isOwner, fn ($q) => $q->public())->with('checks')->get()
                 ->map(fn ($h) => ['name' => trim(($h->icon ?? '').' '.$h->name), 'streak' => $h->streak(), 'best' => $h->bestStreak(), 'week' => $h->thisWeek(), 'plan' => $h->days_per_week, 'days' => $h->lastDays(30), 'public' => $h->is_public]),
             'board' => $board,

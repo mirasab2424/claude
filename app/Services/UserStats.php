@@ -276,4 +276,46 @@ class UserStats
 
         return $out;
     }
+
+    /**
+     * Достижения по реальным записям. Каждое: значок, название, условие, получено ли и прогресс к нему.
+     * На публичной странице считаются только по публичным данным.
+     */
+    public function badges(): array
+    {
+        $done = $this->goals->where('status', GoalStatus::Done)->count();
+        $days = $this->goals->where('status', GoalStatus::Done)->filter(fn (Goal $g) => $g->completed_at)
+            ->map(fn (Goal $g) => $g->completed_at->toDateString())->unique()->sort()->values();
+        $bestStreak = 0;
+        $run = 0;
+        $prev = null;
+        foreach ($days as $d) {
+            $run = $prev && CarbonImmutable::parse($prev)->addDay()->toDateString() === $d ? $run + 1 : 1;
+            $bestStreak = max($bestStreak, $run);
+            $prev = $d;
+        }
+        $years = $days->map(fn ($d) => substr($d, 0, 4))->unique()->count();
+        $metrics = $this->metrics();
+        $entries = $metrics->sum(fn ($m) => $m->entries->count());
+        $habitBest = $this->user->habits()->when($this->publicOnly, fn ($q) => $q->public())->with('checks')->get()->max(fn ($h) => $h->bestStreak()) ?? 0;
+        $places = $this->places()->count();
+        $year = $this->goals->filter(fn (Goal $g) => $g->status === GoalStatus::Done && $g->horizon->value === 'year')->count();
+
+        $b = fn ($icon, $name, $hint, $value, $need) => ['icon' => $icon, 'name' => $name, 'hint' => $hint, 'value' => min($value, $need), 'need' => $need, 'earned' => $value >= $need];
+
+        return [
+            $b('🎯', 'Первый шаг', 'выполнить первую цель', $done, 1),
+            $b('🔟', 'Десятка', '10 выполненных целей', $done, 10),
+            $b('🏅', 'Полсотни', '50 выполненных целей', $done, 50),
+            $b('💯', 'Сотня', '100 выполненных целей', $done, 100),
+            $b('⚡', 'Три дня подряд', 'серия из 3 дней с выполненными задачами', $bestStreak, 3),
+            $b('🔥', 'Неделя без пропусков', 'серия из 7 дней', $bestStreak, 7),
+            $b('🗓️', 'Большая цель', 'выполнить цель на год', $year, 1),
+            $b('📈', 'Измеряю', '50 замеров в метриках', $entries, 50),
+            $b('🔁', 'Привычка', '7 дней подряд одной привычки', $habitBest, 7),
+            $b('🧱', 'Железная привычка', '30 дней подряд', $habitBest, 30),
+            $b('📍', 'Путешественник', '5 мест на карте', $places, 5),
+            $b('🕰️', 'Три года в пути', 'выполненные цели в трёх разных годах', $years, 3),
+        ];
+    }
 }

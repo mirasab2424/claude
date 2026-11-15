@@ -79,6 +79,23 @@
     </div>
 </section>
 
+<section class="container section" id="badges">
+    <h2 class="section__title">Достижения <span class="muted">{{ collect($badges)->where('earned', true)->count() }} из {{ count($badges) }}</span></h2>
+    <div class="badges">
+        @foreach ($badges as $b)
+            <div class="badge {{ $b['earned'] ? 'badge--on' : '' }}" title="{{ $b['hint'] }}">
+                <span class="badge__icon">{{ $b['icon'] }}</span>
+                <b>{{ $b['name'] }}</b>
+                <small class="muted">{{ $b['hint'] }}</small>
+                @unless ($b['earned'])
+                    <span class="badge__bar"><i style="width: {{ round($b['value'] / $b['need'] * 100) }}%"></i></span>
+                    <small class="muted">{{ $b['value'] }} / {{ $b['need'] }}</small>
+                @endunless
+            </div>
+        @endforeach
+    </div>
+</section>
+
 @if ($habits->isNotEmpty())
 <section class="container section" id="habits">
     <h2 class="section__title">Привычки <span class="muted">последние 30 дней</span></h2>

@@ -36,7 +36,10 @@ class TelegramDiaryTest extends TestCase
         $reviews = collect(UserStats::for($user)->yearReviews())->keyBy('year');
         $this->assertSame(22, $reviews[2025]['done']);
         $this->assertSame('сентябрь', $reviews[2025]['best_month']);
-        $this->get('/u/miras')->assertOk()->assertSee('Итоги года');
+        $this->get('/u/miras')->assertOk()->assertSee('Итоги года')->assertSee('Достижения');
+        $badges = collect(UserStats::for($user)->badges())->keyBy('name');
+        $this->assertTrue($badges['Полсотни']['earned']);
+        $this->assertFalse($badges['Сотня']['earned']);
 
         $heatmap = UserStats::for($user)->heatmap();
         $this->assertArrayHasKey('2022', $heatmap);
