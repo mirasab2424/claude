@@ -227,5 +227,13 @@ export function outbuildingLayout(design) {
     return room;
   });
   const passage = { x1, x2, d1: d, d2: plot.depth_m, side: { x1, x2: x2 - (rooms.at(-1).width_m ?? ob.width_m), d1: rooms.at(-1).d1, d2: plot.depth_m }, gate: ob.passage?.gate_m ?? 0.8 };
-  return { x1, x2, rooms, passage, plot, ob, total: d };
+  // машина в гараже: носом вглубь, со стороны двора — место для водительской двери
+  const g = rooms.find((r) => r.id === 'garage'), c = g?.car;
+  const car = c ? (() => {
+    const cx2 = g.x2 - ob.wall_m - (g.shelf_m ?? 0) - c.side_gap_m, cd1 = ob.wall_m + c.rear_gap_m;
+    const r = { ...c, x1: cx2 - c.width_m, x2: cx2, d1: cd1, d2: cd1 + c.length_m };
+    r.left_m = r.x1 - (g.x1 + ob.wall_m); r.front_m = g.d2 - ob.wall_m / 2 - r.d2; // свободно у двери водителя и перед капотом
+    return r;
+  })() : null;
+  return { x1, x2, rooms, passage, plot, ob, car, total: d };
 }

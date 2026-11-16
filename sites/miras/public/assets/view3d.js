@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=20';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=21';
 
 const CELL = 50; // мм
 
@@ -1098,6 +1098,26 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels, blockers = []) {
   const wood = mat(0xc9a27a, 0.7);
   const room = (id) => L.rooms.find((r) => r.id === id);
   if (room('garage')) box(0.5, 2.0, room('garage').length_m - 1.2, mat(0x9aa0a6), L.x2 - T - 0.25, y0 + 1.0, Z(room('garage').length_m / 2 + 0.3));
+  if (L.car) {
+    // машина (примерно, по паспортным размерам): кузов, кабина со стёклами, колёса, зеркала
+    const c = L.car, cx = (c.x1 + c.x2) / 2, cd = (c.d1 + c.d2) / 2, W = c.width_m, Ln = c.length_m;
+    const paint = new THREE.MeshStandardMaterial({ color: 0xa9aeb3, roughness: 0.4, metalness: 0.15 });
+    const glass = new THREE.MeshStandardMaterial({ color: 0x55636f, roughness: 0.15, metalness: 0.1 });
+    const tyre = mat(0x1d1f21, 0.9);
+    box(W, 0.55, Ln, paint, cx, y0 + 0.2 + 0.275, Z(cd));
+    box(W - 0.06, 0.12, Ln - 0.25, paint, cx, y0 + 0.8, Z(cd));
+    // кабина: трапеция по длине (лобовое и заднее стекло наклонены)
+    const cab = new THREE.Shape([[-1.25, 0], [1.05, 0], [0.45, 0.55], [-0.85, 0.55]].map(([a, b]) => new THREE.Vector2(a, b)));
+    const cg = new THREE.ExtrudeGeometry(cab, { depth: W - 0.22, bevelEnabled: false });
+    cg.translate(0, 0, -(W - 0.22) / 2);
+    const cm = new THREE.Mesh(cg, glass); cm.rotation.y = Math.PI / 2; cm.position.set(cx, y0 + 0.86, Z(cd - 0.1)); cm.castShadow = true; group.add(cm);
+    box(W - 0.3, 0.04, 1.25, paint, cx, y0 + 1.43, Z(cd - 0.3)); // крыша
+    const wheel = new THREE.CylinderGeometry(0.31, 0.31, 0.2, 20); wheel.rotateZ(Math.PI / 2);
+    for (const sx of [-1, 1]) for (const sd of [-1.3, 1.3]) { const w = new THREE.Mesh(wheel, tyre); w.position.set(cx + sx * (W / 2 - 0.08), y0 + 0.31, Z(cd + sd)); group.add(w); }
+    for (const sx of [-1, 1]) box((c.mirrors_width_m - W) / 2, 0.1, 0.16, paint, cx + sx * (W / 2 + (c.mirrors_width_m - W) / 4), y0 + 0.98, Z(cd + 0.75));
+    for (const sx of [-1, 1]) { box(0.3, 0.1, 0.03, mat(0xfff3c4, 0.3), cx + sx * (W / 2 - 0.25), y0 + 0.62, Z(c.d2 + 0.005)); box(0.3, 0.08, 0.03, mat(0xb3261e, 0.4), cx + sx * (W / 2 - 0.25), y0 + 0.66, Z(c.d1 - 0.005)); }
+    labels.add(sprite([c.name, `≈ ${String(Ln).replace('.', ',')} × ${String(W).replace('.', ',')} м`], cx, y0 + 2.1, Z(cd), { small: true, color: '#3c4650' }));
+  }
   if (room('kitchen')) box(0.6, 0.9, 2.4, mat(0xe9e4da), L.x2 - T - 0.3, y0 + 0.45, Z((room('kitchen').d1 + room('kitchen').d2) / 2));
   if (room('dining')) { const r = room('dining'); box(1.0, 0.75, 3.2, wood, (L.x1 + L.x2) / 2, y0 + 0.375, Z((r.d1 + r.d2) / 2)); }
   if (room('workshop')) { const r = room('workshop'); box(0.8, 0.9, 2.2, mat(0x8a6a48), L.x2 - T - 0.4, y0 + 0.45, Z((r.d1 + r.d2) / 2)); }
