@@ -4,7 +4,8 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=21';
+import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=22';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=22';
 
 const CELL = 50; // мм
 
@@ -20,7 +21,9 @@ export function createViewer(canvas, h, onPick, design = null) {
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  const camera = new THREE.PerspectiveCamera(45, 1, 0.05, 400);
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.05, 900);
+  const setSkyNight = addSky(scene);
+  const night = { group: null, glow: [] }; // светящиеся детали и лампы режима «Вечер»
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
   controls.autoRotateSpeed = 1.2;
@@ -35,13 +38,20 @@ export function createViewer(canvas, h, onPick, design = null) {
   const anchor = design?.site_anchor_m || { x: -mm(W) / 2, z: mm(D) / 2 };
   const groundY = design?.ground_y_m ?? 0;
 
-  const sun = new THREE.DirectionalLight(0xffffff, 2.2);
-  sun.position.set(-radius * 0.6, radius * 1.6, radius * 0.9);
+  const SUN = 3.0, HEMI = 0.55;
+  const sun = new THREE.DirectionalLight(0xfff1dc, SUN);
+  // солнце светит на весь участок, а не только на дом
+  const plotC = design?.plot ? new THREE.Vector3(design.plot.width_m / 2, groundY, -design.plot.depth_m / 2) : new THREE.Vector3(anchor.x + mm(W) / 2, groundY, anchor.z - mm(D) / 2);
+  const ext = design?.plot ? Math.hypot(design.plot.width_m, design.plot.depth_m) * 0.62 : radius * 1.6;
+  sun.position.copy(plotC).add(new THREE.Vector3(-ext * 0.75, ext * 1.25, ext * 0.9));
+  sun.target.position.copy(plotC);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(2048, 2048);
-  Object.assign(sun.shadow.camera, { left: -radius * 1.6, right: radius * 1.6, top: radius * 1.6, bottom: -radius * 1.6, near: 0.5, far: radius * 8 });
-  const hemi = new THREE.HemisphereLight(0xdfe8ee, 0x8a8170, 0.6);
-  scene.add(sun, hemi);
+  sun.shadow.mapSize.set(4096, 4096);
+  sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.12;
+  Object.assign(sun.shadow.camera, { left: -ext, right: ext, top: ext, bottom: -ext, near: 0.5, far: ext * 5 });
+  const hemi = new THREE.HemisphereLight(0xcfe2f5, 0x8a8f70, HEMI);
+  scene.add(sun, sun.target, hemi);
+  renderer.toneMappingExposure = 0.9;
   const evening = new THREE.Group(); // лампы для режима «Вечер»
   evening.visible = false;
   const ground = new THREE.Mesh(new THREE.CircleGeometry(radius * 1.4, 64), new THREE.ShadowMaterial({ opacity: 0.18 }));
@@ -85,7 +95,7 @@ export function createViewer(canvas, h, onPick, design = null) {
     const a = w.from_mm.value, b = w.to_mm.value, t0 = g.dir > 0 ? g.at : g.at - g.t;
     const lo = w.sill_above_floor_mm.value, hi = lo + w.height_mm.value;
     if (g.axis === 'y') cut(a, t0, b, t0 + g.t, lo, hi); else cut(t0, a, t0 + g.t, b, lo, hi);
-    openings.push({ kind: 'win', w, axis: g.axis, a, b, at: t0 + g.t / 2, lo, hi, out: g.dir });
+    openings.push({ kind: 'win', w, axis: g.axis, a, b, at: t0 + g.t / 2, lo, hi, out: g.dir, t: g.t });
   }
   for (const d of h.doors) {
     const g = doorWall(h, d);
@@ -93,24 +103,33 @@ export function createViewer(canvas, h, onPick, design = null) {
     if (g.axis === 'y') cut(a, g.at, b, g.at + g.t, 0, hi); else cut(g.at, a, g.at + g.t, b, 0, hi);
     openings.push({ kind: 'door', d, axis: g.axis, a, b, at: g.at + g.t / 2, hi, t: g.t });
   }
+  // одинаковые отрезки в соседних рядах склеиваем в один блок: без стыков стены гладкие (и меньше геометрии)
   const boxes = [];
-  for (let j = 0; j < ny; j++) {
+  let open = new Map();
+  for (let j = 0; j <= ny; j++) {
+    const row = new Map();
     let i = 0;
-    while (i < nx) {
+    while (j < ny && i < nx) {
       const c = wall[j][i];
       if (!c) { i++; continue; }
       const key = JSON.stringify(c);
       let k = i + 1;
       while (k < nx && wall[j][k] && JSON.stringify(wall[j][k]) === key) k++;
-      let z = 0;
-      for (const [lo, hi] of [...c.slice().sort((p, q) => p[0] - q[0]), [H, H]]) {
-        if (lo > z) boxes.push([i * CELL, j * CELL, (k - i) * CELL, CELL, z, lo - z]);
-        z = Math.max(z, hi);
-      }
+      const id = `${i}|${k}|${key}`, prev = open.get(id);
+      row.set(id, prev ? { ...prev, n: prev.n + 1 } : { i, k, c, j, n: 1 });
+      open.delete(id);
       i = k;
     }
+    for (const { i: a, k, c, j: j0, n } of open.values()) {
+      let z = 0;
+      for (const [lo, hi] of [...c.slice().sort((p, q) => p[0] - q[0]), [H, H]]) {
+        if (lo > z) boxes.push([a * CELL, j0 * CELL, (k - a) * CELL, n * CELL, z, lo - z]);
+        z = Math.max(z, hi);
+      }
+    }
+    open = row;
   }
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0xe4ded3, roughness: 0.92 });
+  const wallMat = new THREE.MeshStandardMaterial({ color: 0xf1ece2, roughness: 0.92, shadowSide: THREE.FrontSide });
   const walls = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), wallMat, boxes.length);
   const m4 = new THREE.Matrix4();
   boxes.forEach(([x, y, w, d, z, hh], n) => {
@@ -123,7 +142,7 @@ export function createViewer(canvas, h, onPick, design = null) {
   // цоколь
   const plinthH = h.exterior.plinth?.visible_brick_height_mm?.value || 0;
   const plinth = new THREE.Mesh(new THREE.ExtrudeGeometry(new THREE.Shape(fp.map(([x, y]) => new THREE.Vector2(mm(x), mm(y)))), { depth: mm(plinthH), bevelEnabled: false }),
-    new THREE.MeshStandardMaterial({ color: 0xa65a46, roughness: 0.9 }));
+    new THREE.MeshStandardMaterial({ color: 0x55514c, roughness: 0.9 }));
   plinth.rotation.x = -Math.PI / 2; // контур ложится на пол, экструзия идёт вверх
   plinth.position.y = -mm(plinthH); // цоколь — от земли до пола
   plinth.castShadow = true;
@@ -211,7 +230,7 @@ export function createViewer(canvas, h, onPick, design = null) {
     ...V(-over, ridgeY, H + ridge), ...V(W + over, D + over, eave2), ...V(-over, D + over, eave2),
   ], 3));
   roofGeo.computeVertexNormals();
-  const roof = new THREE.Mesh(roofGeo, new THREE.MeshStandardMaterial({ color: 0x7d3b2f, roughness: 0.8, side: THREE.DoubleSide }));
+  const roof = new THREE.Mesh(roofGeo, new THREE.MeshStandardMaterial({ color: 0x3c4046, roughness: 0.55, metalness: 0.25, side: THREE.DoubleSide }));
   roof.castShadow = true;
   layers.roof.add(roof);
   const gableGeo = new THREE.BufferGeometry();
@@ -219,7 +238,7 @@ export function createViewer(canvas, h, onPick, design = null) {
     ...V(0, y0, H), ...V(0, ridgeY, H + ridge), ...V(0, D, H), ...V(W, y0, H), ...V(W, ridgeY, H + ridge), ...V(W, D, H),
   ], 3));
   gableGeo.computeVertexNormals();
-  const gable = new THREE.Mesh(gableGeo, new THREE.MeshStandardMaterial({ color: 0xd8d2c6, emissive: 0x6b675f, side: THREE.DoubleSide }));
+  const gable = new THREE.Mesh(gableGeo, new THREE.MeshStandardMaterial({ color: 0xf1ece2, roughness: 0.92, side: THREE.DoubleSide }));
   layers.roof.add(gable);
   for (const w of h.windows.filter((w) => w.level === 'attic')) {
     const x = w.wall === 'gable_far' ? W + 15 : -15;
@@ -228,7 +247,9 @@ export function createViewer(canvas, h, onPick, design = null) {
     m.position.set(mm(x), mm((lo + hi) / 2), zz((w.from_mm.value + w.to_mm.value) / 2));
     layers.roof.add(m);
   }
-  layers.roof.add(sprite(['Крыша — оценка'], mm(W / 2), mm(H + ridge) + 0.7, zz(ridgeY), { color: '#7d3b2f', small: true }));
+  night.group = evening;
+  houseFinish({ root, roof: layers.roof, fp, W, D, H, y0, ridge, ridgeY, over, plinthH, openings, entrance, night });
+  layers.roof.add(sprite(['Крыша — оценка'], mm(W / 2), mm(H + ridge) + 0.7, zz(ridgeY), { color: '#3c4046', small: true }));
 
   // --- подписи комнат (всегда) и размеры (слой) ---
   const centerOf = (r) => {
@@ -462,6 +483,8 @@ export function createViewer(canvas, h, onPick, design = null) {
 
   const designLabels = new THREE.Group();
   root.add(designLabels);
+  const yardNight = new THREE.Group();
+  const setGlow = (on) => { for (const m of night.glow) m.emissiveIntensity = on ? 2.6 : 0.25; };
   let siteLoaded = false;
   let onLoad = null, onProgress = null;
   if (design?.site_model) {
@@ -509,8 +532,16 @@ export function createViewer(canvas, h, onPick, design = null) {
               : new THREE.Plane(new THREE.Vector3(0, 0, -1), -last.d2); // оставить только за туалетом
             o.traverse((m) => { if (m.isMesh) { m.material = m.material.clone(); m.material.clippingPlanes = [plane]; } });
           }
+          styleSite(o);
           layers.site.add(o);
         }
+      }
+      if (design.plot) {
+        yardNight.visible = evening.visible;
+        layers.site.add(yardNight);
+        yardDecor({ group: layers.site, groundY, plot: design.plot, L: obLayout, night: { group: yardNight, glow: night.glow },
+          house: { x1: anchor.x, x2: anchor.x + mm(W), dFacade: -anchor.z + mm(y0), eaveY: floorY + mm(H) } });
+        setGlow(evening.visible);
       }
       // мебель мансарды: предмет (кровать из частей и т. п.) переносится целиком в свою комнату варианта
       const dy = mm(F) - (att?.old_floor_y_m ?? 0);
@@ -708,6 +739,7 @@ export function createViewer(canvas, h, onPick, design = null) {
     layers.attic.traverse((o) => { if (o.isSprite) o.visible = state.labels; });
     layers.stair.traverse((o) => { if (o.isSprite) o.visible = state.labels; });
     layers.site.visible = state.site;
+    ground.visible = !(state.site && siteLoaded); // тень-подложка нужна только без участка
     layers.outbuilding.visible = state.outbuilding;
     layers.obRoof.visible = state.outbuilding && state.roof;
     layers.obLabels.visible = state.outbuilding && state.labels && !state.roof;
@@ -730,9 +762,10 @@ export function createViewer(canvas, h, onPick, design = null) {
       evening.visible = on;
       scene.userData.env ??= scene.environment;
       scene.environment = on ? null : scene.userData.env; // отражения «студии» делают вечер слишком светлым
-      sun.intensity = on ? 0.12 : 2.2;
-      hemi.intensity = on ? 0.12 : 0.6;
-      renderer.toneMappingExposure = on ? 1.25 : 1;
+      sun.intensity = on ? 0.1 : SUN;
+      hemi.intensity = on ? 0.14 : HEMI;
+      renderer.toneMappingExposure = on ? 1.25 : 0.9;
+      setSkyNight(on); yardNight.visible = on; setGlow(on);
     },
     ruler: (on, onChange) => { ruler.on = on; ruler.onChange = onChange || ruler.onChange; if (!on) rulerClear(); },
     // навести камеру на комнату и выбрать её (для ссылки ?room=)
