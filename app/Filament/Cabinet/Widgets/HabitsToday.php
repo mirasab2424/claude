@@ -18,7 +18,7 @@ class HabitsToday extends Widget
 
     public function toggle(int $id): void
     {
-        auth()->user()->habits()->findOrFail($id)->toggle();
+        auth()->user()->habits()->active()->findOrFail($id)->toggle();
     }
 
     protected function getViewData(): array

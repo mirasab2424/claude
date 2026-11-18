@@ -23,6 +23,7 @@ class Timeline extends Page
 
     protected string $view = 'filament.cabinet.pages.timeline';
 
+    #[\Livewire\Attributes\Locked]
     public int $days = 30;
 
     public function more(): void

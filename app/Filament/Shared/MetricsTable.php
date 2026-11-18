@@ -3,6 +3,7 @@
 namespace App\Filament\Shared;
 
 use App\Models\Metric;
+use App\Services\SamsungHealthImport;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\Action;
@@ -64,11 +65,13 @@ class MetricsTable
                     ->required()
                     ->placeholder($record->is_duration ? '13:52' : '')
                     ->rule(fn () => function (string $attribute, $value, $fail) use ($record) {
-                        $ok = $record->is_duration
-                            ? preg_match('/^\d+(:\d{1,2}){0,2}([.,]\d+)?$/', trim((string) $value))
-                            : is_numeric(str_replace(',', '.', trim((string) $value)));
-                        if (! $ok) {
-                            $fail('Введите число'.($record->is_duration ? ' или время вида 13:52' : '').'.');
+                        $input = str_replace(',', '.', trim((string) $value));
+                        $valid = $record->is_duration
+                            ? preg_match('/^\d+(?::[0-5]?\d){1,2}$|^\d+(?:\.\d+)?$/D', $input)
+                            : is_numeric($input);
+                        $number = $record->is_duration ? Metric::parseDuration($input) : (float) $input;
+                        if (! $valid || ! is_finite($number) || abs($number) > 9999999999.99) {
+                            $fail('Введите допустимое число'.($record->is_duration ? ' или время вида 13:52' : '').'.');
                         }
                     }),
                 TextInput::make('note')->label('Заметка')->maxLength(255),
@@ -77,8 +80,11 @@ class MetricsTable
                 $value = $record->is_duration ? Metric::parseDuration($data['value']) : (float) str_replace(',', '.', $data['value']);
                 $date = \Carbon\CarbonImmutable::parse($data['date'])->toDateString();
                 $entry = $record->entries()->whereDate('date', $date)->first();
-                $entry ? $entry->update(['value' => $value, 'note' => $data['note'] ?: $entry->note])
-                    : $record->entries()->create(['date' => $date, 'value' => $value, 'note' => $data['note'] ?: null]);
+                $oldNote = $entry?->note === SamsungHealthImport::NOTE ? null : $entry?->note;
+                $note = $data['note'] ?: $oldNote;
+                $note = $note === SamsungHealthImport::NOTE ? $note.' (вручную)' : $note;
+                $entry ? $entry->update(['value' => $value, 'note' => $note])
+                    : $record->entries()->create(['date' => $date, 'value' => $value, 'note' => $note]);
                 Notification::make()->success()->title('Записано: '.$record->format($value).($record->unit && ! $record->is_duration ? ' '.$record->unit : ''))->send();
             });
     }

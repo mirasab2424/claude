@@ -33,8 +33,14 @@ class DayLogWidget extends Widget
 
     private function upsert(array $data): void
     {
-        $log = $this->log();
-        $log ? $log->update($data) : auth()->user()->dayLogs()->create(['date' => CarbonImmutable::today()->toDateString()] + $data);
+        $today = CarbonImmutable::today();
+        $logs = auth()->user()->dayLogs();
+        $existing = (clone $logs)->whereDate('date', $today)->first();
+        if ($existing) {
+            $existing->update($data);
+        } else {
+            $logs->updateOrCreate(['date' => $today], $data);
+        }
     }
 
     public function setMood(int $v): void
@@ -50,7 +56,8 @@ class DayLogWidget extends Widget
     public function saveNote(): void
     {
         $this->validate(['note' => 'nullable|string|max:500']);
-        $this->upsert(['note' => trim($this->note) ?: null]);
+        $note = trim($this->note);
+        $this->upsert(['note' => $note === '' ? null : $note]);
         $this->saved = true;
     }
 

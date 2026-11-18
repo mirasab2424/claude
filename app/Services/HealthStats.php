@@ -29,8 +29,10 @@ class HealthStats
     public function __construct(User $user)
     {
         $metrics = $user->metrics()->whereIn('name', [self::STEPS, self::SLEEP, self::HEART, self::EXERCISE])->with('entries')->get();
-        foreach ($metrics as $m) {
-            $this->data[$m->name] = $m->entries->mapWithKeys(fn ($e) => [$e->date->toDateString() => (float) $e->value])->sortKeys()->all();
+        foreach ($metrics->groupBy('name') as $name => $series) {
+            $this->data[$name] = $series->flatMap(fn ($metric) => $metric->entries)
+                ->sortBy(fn ($entry) => $entry->note === SamsungHealthImport::NOTE ? 0 : 1)
+                ->mapWithKeys(fn ($entry) => [$entry->date->toDateString() => (float) $entry->value])->sortKeys()->all();
         }
         $this->moods = $user->dayLogs()->whereNotNull('mood')->get()->mapWithKeys(fn ($l) => [$l->date->toDateString() => $l->mood])->all();
     }
@@ -42,7 +44,7 @@ class HealthStats
 
     public function hasData(): bool
     {
-        return ! empty($this->data[self::STEPS]) || ! empty($this->data[self::SLEEP]);
+        return (bool) array_filter($this->data);
     }
 
     public function lastDate(): ?CarbonImmutable
@@ -89,7 +91,7 @@ class HealthStats
             $sleep = $pick(self::SLEEP);
             $heart = $pick(self::HEART);
             $ex = $pick(self::EXERCISE);
-            if ($steps->isEmpty() && $sleep->isEmpty()) {
+            if ($steps->isEmpty() && $sleep->isEmpty() && $heart->isEmpty() && $ex->isEmpty()) {
                 continue;
             }
             $rows[] = [

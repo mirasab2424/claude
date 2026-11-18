@@ -41,6 +41,7 @@ class WeekReviewPage extends Page
 
     public function shift(int $by): void
     {
+        abort_unless(in_array($by, [-1, 1], true), 422);
         $next = $this->safeWeek()->addWeeks($by);
         if ($next->lte(CarbonImmutable::today())) {
             $this->week = $next->toDateString();

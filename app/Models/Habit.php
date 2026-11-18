@@ -62,7 +62,7 @@ class Habit extends Model
         if ($existing) {
             $existing->delete();
         } else {
-            $this->checks()->create(['date' => $d]);
+            $this->checks()->whereDate('date', $d)->firstOrCreate(['date' => CarbonImmutable::parse($d)]);
         }
         $this->unsetRelation('checks');
 

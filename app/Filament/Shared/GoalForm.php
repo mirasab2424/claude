@@ -79,6 +79,10 @@ class GoalForm
                             ->relationship('parent', 'title', fn (Builder $query, $record) => $query
                                 ->when(! $admin, fn ($q) => $q->where('user_id', auth()->id()))
                                 ->when($record, fn ($q) => $q->whereKeyNot($record->getKey())))
+                            ->rules(fn ($record) => $admin ? [] : [
+                                \Illuminate\Validation\Rule::exists('goals', 'id')->where('user_id', auth()->id())
+                                    ->when($record, fn ($rule) => $rule->whereNot('id', $record->getKey())),
+                            ])
                             ->searchable()
                             ->preload(),
                         ToggleButtons::make('importance')
@@ -132,7 +136,7 @@ class GoalForm
                             ->label('Фото')
                             ->image()
                             ->disk('public')
-                            ->directory('goals'),
+                            ->directory('goals')->preventFilePathTampering(),
                         TextInput::make('link')
                             ->label('Ссылка')
                             ->helperText('Например, пост в Telegram или видео')
