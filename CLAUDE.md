@@ -68,6 +68,13 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 `zamery.html` (лист замеров → JSON для обновления `measurements.json`). В 3D: прогулка, линейка, «Вечер», примерка пола,
 `?cam=…&layers=…` (ссылка на вид), `?room=id`. Ввод посетителя на сайте не меняет данные — только его браузер.
 
+## Пятый проект: «Астана: парадные сцены» (`sites/astana/`)
+Личная 3D-карта Астаны для видеопереходов: город по контурам OpenStreetMap прозрачным голубым, цветом — концертные залы
+и личные места. Домена нет: владелец смотрит её как приватный Artifact claude.ai, публикует Claude Code из `public/`.
+Статика без сборщика, Three.js 0.147 (глобальный `THREE` с CDN). Правила и устройство — `sites/astana/AGENTS.md`,
+задачи для Codex — `sites/astana/TASKS.md`. Личные места (адреса, работа, участок) — `private/` и
+`public/data/places.private.json`, оба в `.gitignore`: в публичный репозиторий не попадают. Проверка — `tools/shot.cjs`.
+
 ## Команды
 - `php artisan migrate:fresh --seed`: база с демо-данными, админ `admin@example.com` / `password`.
 - `php artisan test`: тесты в `tests/Feature`.

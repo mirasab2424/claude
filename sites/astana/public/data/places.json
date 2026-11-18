@@ -1,0 +1,10 @@
+{
+  "note": "Общие места на карте. Залы — по списку «где одеваются в классику». Контуры и положения — data/city.json → venues (из OpenStreetMap). h — высота точки подписи над землёй, м; dist и az — камера при подлёте (расстояние, м; азимут, рад).",
+  "places": [
+    {"id": "opera",   "name": "Астана Опера",           "sub": "опера, балет, симфонические концерты", "model": "opera",   "color": "#ffc94d", "colorLight": "#b98100", "h": 48, "dist": 430, "az": 0.35, "tour": true},
+    {"id": "ballet",  "name": "Астана Балет",           "sub": "театр балета на Улы Дала",             "model": "ballet",  "color": "#ff5fa2", "colorLight": "#e0357f", "h": 38, "dist": 560, "az": -0.9, "tour": true},
+    {"id": "concert", "name": "ЦКЗ «Казахстан»",        "sub": "концертный зал и филармония",          "model": "concert", "color": "#2fe0a0", "colorLight": "#0c9c6b", "h": 46, "dist": 430, "az": -1.2, "tour": true},
+    {"id": "pyramid", "name": "Дворец мира и согласия", "sub": "«Пирамида», оперный зал",              "model": "pyramid", "color": "#ff8a3d", "colorLight": "#e0611a", "h": 76, "dist": 400, "az": -0.5, "tour": true},
+    {"id": "shabyt",  "name": "Органный зал «Шабыт»",   "sub": "университет искусств",                 "model": "shabyt",  "color": "#b07bff", "colorLight": "#7c48e0", "h": 44, "dist": 400, "az": -0.7, "tour": true}
+  ]
+}

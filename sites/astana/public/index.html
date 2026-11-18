@@ -1,0 +1,97 @@
+<title>Астана: парадные сцены</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one full-screen 3D stage; title top-left, venue list bottom-left, transport bar bottom-right. Dark by default (video backdrop); body.light switches the same tokens to a daylight map. */
+:root{
+  color-scheme:dark;
+  --night:#030814; --panel:rgba(8,20,40,.72); --line:rgba(120,190,255,.22);
+  --ice:#d9ecff; --mist:#7fa6cc; --sky:#4fb4ff;
+  --glow:#071a33; --chip:rgba(3,8,20,.8); --panel-on:rgba(10,28,56,.9); --on-sky:#031022;
+    --display:"Unbounded","Inter",system-ui,sans-serif; --text:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+body.light{color-scheme:light;--night:#dfeaf6;--glow:#f6faff;--panel:rgba(255,255,255,.8);--line:rgba(30,100,180,.3);--ice:#0c2440;--mist:#48688a;--sky:#1a73d6;--panel-on:#fff;--on-sky:#fff;}
+html,body{height:100%}
+body{background:var(--night);color:var(--ice);font-family:var(--text);overflow:hidden}
+#stage{position:relative;height:100%;width:100%;margin:0 auto;overflow:hidden;background:radial-gradient(120% 90% at 50% 40%,var(--glow) 0%,var(--night) 70%)}
+body.vertical #stage{aspect-ratio:9/16;width:auto;max-width:100%;border-inline:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.lbl{position:absolute;left:0;top:0;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:0;white-space:nowrap;will-change:transform}
+.lbl b{font:600 12px/1 var(--display);letter-spacing:.02em;padding:7px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--lc);color:var(--lc);text-shadow:0 0 12px var(--lc)}
+.lbl i{width:1px;height:26px;background:linear-gradient(var(--lc),transparent)}
+body.nolabels #labels{display:none}
+
+.ui{position:absolute;z-index:2;transition:opacity .25s}
+body.clean .ui{opacity:0;pointer-events:none}
+#head{left:max(16px,env(safe-area-inset-left,0px));top:16px;max-width:min(360px,70%)}
+#head{text-shadow:0 1px 10px var(--night),0 0 3px var(--night)}
+#head h1{font:600 clamp(16px,2.2vw,22px)/1.15 var(--display);margin:0;text-wrap:balance}
+#head p{margin:6px 0 0;color:var(--mist);font-size:12px;line-height:1.4}
+#dock{left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:16px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;pointer-events:none}
+#dock>*{pointer-events:auto;min-width:0}
+#places{display:flex;flex-direction:column;gap:6px;width:min(330px,100%)}
+body.nolist #places,body.nolist #head,body.nolist .hint{display:none}
+.place{display:flex;align-items:center;gap:10px;text-align:left;font:500 13px/1.25 var(--text);color:var(--ice);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;backdrop-filter:blur(8px)}
+.place{--c:var(--cd)}
+body.light .place{--c:var(--cl,var(--cd))}
+.place em{font-style:normal}
+.place kbd{font:600 11px/1 var(--display);color:var(--c);min-width:12px}
+.place span{display:block;color:var(--mist);font-size:11px;font-weight:400}
+.place::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c)}
+.place:hover,.place.on{border-color:var(--c);background:var(--panel-on)}
+#bar{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;flex:1 1 300px;margin-left:auto}
+.btn{font:500 12px/1 var(--text);color:var(--ice);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:10px 14px;cursor:pointer;backdrop-filter:blur(8px)}
+.btn:hover{border-color:var(--sky)}
+.btn.primary{background:var(--sky);color:var(--on-sky);border-color:var(--sky);font-weight:600}
+.btn[aria-pressed="true"]{border-color:var(--sky);color:var(--sky)}
+.btn kbd,.hint kbd{font:600 10px/1 var(--text);opacity:.7;margin-left:6px;border:1px solid currentColor;border-radius:4px;padding:1px 4px}
+.hint kbd{margin:0 2px}
+.speed{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mist);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:0 14px;backdrop-filter:blur(8px)}
+.speed input{width:90px;accent-color:var(--sky)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+#load{position:absolute;inset:0;display:grid;place-items:center;font:400 13px var(--display);color:var(--mist);z-index:3;background:var(--night)}
+.hint{right:max(16px,env(safe-area-inset-right,0px));top:16px;color:var(--mist);font-size:11px;text-align:right;line-height:1.6}
+@media (max-width:720px){
+  .hint{display:none}
+  #places{flex-direction:row;overflow-x:auto;width:100%}
+  .place{flex:none}.place span{display:none}
+  #bar{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;flex-basis:100%}
+  .btn,.speed{flex:none}.btn kbd{display:none}
+}
+</style>
+
+<div id="stage">
+  <canvas id="c"></canvas>
+  <div id="labels"></div>
+  <div id="load">Строю Астану…</div>
+
+  <div class="ui" id="head">
+    <h1>Астана: парадные сцены</h1>
+    <p>Город по контурам зданий OpenStreetMap. Цветом выделены залы, куда ходят в классике, и личные места.</p>
+  </div>
+  <div class="ui hint">Мышь: вращать, колесо: масштаб, правая кнопка: двигать<br><kbd>S</kbd> скрыть текст слева · <kbd>H</kbd> скрыть всё для записи экрана</div>
+  <div class="ui" id="dock">
+  <div id="places"></div>
+  <div id="bar">
+    <label class="speed" for="speed">Пролёт <input id="speed" type="range" min="2" max="9" step="0.5" value="4.5"> <span id="speedv">4,5 с</span></label>
+    <button class="btn" id="b-list" aria-pressed="true">Список<kbd>S</kbd></button>
+    <button class="btn" id="b-theme" aria-pressed="false">Светлая<kbd>T</kbd></button>
+    <button class="btn" id="b-labels" aria-pressed="true">Подписи<kbd>L</kbd></button>
+    <button class="btn" id="b-vert" aria-pressed="false">Кадр 9:16<kbd>V</kbd></button>
+    <button class="btn" id="b-over">Весь город<kbd>0</kbd></button>
+    <button class="btn primary" id="b-tour">Тур по залам<kbd>Пробел</kbd></button>
+  </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script src="js/kit.js"></script>
+<script src="models/opera.js"></script>
+<script src="models/ballet.js"></script>
+<script src="models/concert.js"></script>
+<script src="models/pyramid.js"></script>
+<script src="models/shabyt.js"></script>
+<script src="models/landmarks.js"></script>
+<script src="js/app.js"></script>

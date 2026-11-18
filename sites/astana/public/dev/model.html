@@ -1,0 +1,39 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Модель здания</title>
+<!-- Стенд одной модели: dev/model.html?m=opera&az=0.5&pol=1.2&k=1.9&light=1
+     Ставит модель models/<m>.js в начало координат, снимает один кадр и пишет в title «OK tris=… size=…».
+     Используется tools/shot.cjs --model <m>. На сайт не публикуется. -->
+<style>html,body{margin:0;height:100%;background:#030814}canvas{display:block;width:100%;height:100%}</style>
+<canvas id="c"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="../js/kit.js"></script>
+<script>
+(async () => {
+  const q = new URLSearchParams(location.search), id = q.get('m'), light = q.get('light') === '1';
+  try {
+    const [city, places] = await Promise.all([fetch('../data/city.json').then(r => r.json()), fetch('../data/places.json').then(r => r.json())]);
+    await new Promise((ok, bad) => { const s = document.createElement('script'); s.src = '../models/' + id + '.js'; s.onload = ok; s.onerror = () => bad(new Error('нет models/' + id + '.js')); document.head.appendChild(s); });
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: true });
+    renderer.setSize(innerWidth, innerHeight, false); renderer.setClearColor(light ? 0xdfeaf6 : 0x030814);
+    const scene = new THREE.Scene();
+    scene.add(new THREE.HemisphereLight(0xcfe6ff, 0x0a1830, .9));
+    const sun = new THREE.DirectionalLight(0xffffff, .9); sun.position.set(-.5, 1, .6); scene.add(sun);
+    const ground = new THREE.Mesh(new THREE.CircleGeometry(3000, 48), new THREE.MeshBasicMaterial({ color: light ? 0xdfeaf6 : 0x040c1c }));
+    ground.rotation.x = -Math.PI / 2; ground.position.y = -.5; scene.add(ground);
+    const kit = AstanaKit.makeKit(THREE); kit.setTheme(light);
+    const p = places.places.find(p => p.id === id), d = city.venues[id];
+    const g = id === 'landmarks' ? MODELS.landmarks(THREE, Object.assign({}, kit, { lm: city.lm }))
+      : MODELS[id](THREE, AstanaKit.ctxFor(kit, d, { color: p ? parseInt(p.color.slice(1), 16) : 0x3fa8ff }));
+    scene.add(g);
+    const box = new THREE.Box3().setFromObject(g), size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+    let tris = 0, meshes = 0;
+    g.traverse(o => { if (o.isMesh) { meshes++; const ge = o.geometry, n = (ge.index ? ge.index.count : ge.attributes.position.count) / 3; tris += n * (o.isInstancedMesh ? o.count : 1); } });
+    const cam = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 1, 40000);
+    const az = +(q.get('az') || .5), pol = +(q.get('pol') || 1.15), dist = Math.max(size.x, size.y * 1.6, size.z) * +(q.get('k') || 1.9);
+    cam.position.set(ctr.x + dist * Math.sin(pol) * Math.sin(az), ctr.y + dist * Math.cos(pol), ctr.z + dist * Math.sin(pol) * Math.cos(az)); cam.lookAt(ctr);
+    renderer.render(scene, cam);
+    document.title = `OK tris=${Math.round(tris)} meshes=${meshes} size=${[size.x, size.y, size.z].map(v => v.toFixed(0)).join('x')}`;
+  } catch (e) { document.title = 'ERR ' + e.message; console.error(e); }
+})();
+</script>
