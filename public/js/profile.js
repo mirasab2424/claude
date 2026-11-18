@@ -77,7 +77,7 @@
             return (sec < 0 ? '−' : '') + (h ? `${h}:${String(mnt).padStart(2, '0')}:${r}` : `${mnt}:${r}`);
         };
         const fmtDate = (ts, withDay = true) => new Date(ts).toLocaleDateString('ru-RU',
-            withDay ? { day: 'numeric', month: 'short', year: 'numeric' } : { month: 'short', year: '2-digit' });
+            withDay ? { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' } : { month: 'short', year: '2-digit', timeZone: 'UTC' });
 
         data.metrics.forEach((m) => {
             const canvas = document.querySelector(`[data-metric="${m.id}"]`);
@@ -157,13 +157,12 @@
             caption.textContent = days
                 ? `${year}: активных дней — ${days}, выполнено задач — ${values.reduce((a, b) => a + b, 0)}`
                 : `${year}: пока без выполненных задач`;
-            yearsBox.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.year === year)));
+            yearsBox.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.year === year)));
         };
 
         years.forEach((year) => {
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.role = 'tab';
             btn.dataset.year = year;
             btn.textContent = year;
             btn.addEventListener('click', () => render(year));
@@ -185,14 +184,15 @@
             const marker = L.circleMarker([p.lat, p.lng], {
                 radius: 8, color: COLORS.surface, weight: 2, fillColor: p.color, fillOpacity: 1,
             }).addTo(map);
-            const stars = p.rating ? '★'.repeat(p.rating) + '☆'.repeat(5 - p.rating) : '';
+            const rating = Math.min(5, Math.max(0, Math.trunc(Number(p.rating) || 0)));
+            const stars = rating ? '★'.repeat(rating) + '☆'.repeat(5 - rating) : '';
             marker.bindPopup(
                 `<div class="popup">` +
                 (p.photo ? `<img src="${escapeHtml(p.photo)}" alt="">` : '') +
                 `<b>${escapeHtml(p.title)}</b>` +
                 (p.category ? `<div>${escapeHtml(p.category)}</div>` : '') +
                 (p.date ? `<div class="muted">${escapeHtml(p.date)}</div>` : '') +
-                (stars ? `<div class="stars">${stars}</div>` : '') +
+                (stars ? `<div class="stars" aria-label="Оценка ${rating} из 5">${escapeHtml(stars)}</div>` : '') +
                 (p.description ? `<p>${escapeHtml(p.description)}</p>` : '') +
                 `</div>`
             );

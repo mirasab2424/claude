@@ -1,7 +1,9 @@
 @extends('layouts.site')
 
-@section('title', $user->name)
-@section('description', $user->tagline ?: 'Цели, прогресс и статистика — '.$user->name)
+@php
+    $isExternalUrl = static fn (?string $url): bool => $url !== null && filter_var($url, FILTER_VALIDATE_URL)
+        && in_array(strtolower(parse_url($url, PHP_URL_SCHEME) ?? ''), ['http', 'https'], true);
+@endphp
 
 @push('head')
     <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}">
@@ -17,7 +19,7 @@
             <p class="muted">
                 @if ($user->city){{ $user->city }} · @endif
                 ведёт дневник с {{ ($since ?? $user->created_at)->translatedFormat('F Y') }}
-                @if ($user->telegram) · <a href="{{ $user->telegram }}" target="_blank" rel="noopener">канал в Telegram ↗</a>@endif
+                @if ($isExternalUrl($user->telegram)) · <a href="{{ $user->telegram }}" target="_blank" rel="noopener">канал в Telegram ↗</a>@endif
                 @if ($isOwner) · <a href="/cabinet">редактировать в кабинете</a>@endif
                 · <button type="button" class="link-btn" id="share-profile" data-title="{{ $user->name }} — success" data-url="{{ url()->current() }}">поделиться ↗</button>
             </p>
@@ -67,7 +69,7 @@
 <section class="container section">
     <div class="section__head">
         <h2 class="section__title">Активность</h2>
-        <div class="year-tabs" id="heatmap-years" role="tablist" aria-label="Год"></div>
+        <div class="year-tabs" id="heatmap-years" role="group" aria-label="Год"></div>
     </div>
     <div class="card">
         <p class="heatmap-caption muted" id="heatmap-caption"></p>
@@ -121,9 +123,9 @@
 <section class="container section" id="review">
     <div class="section__head">
         <h2 class="section__title">Итоги года</h2>
-        <div class="year-tabs" role="tablist" aria-label="Год итогов">
+        <div class="year-tabs" role="group" aria-label="Год итогов">
             @foreach ($reviews as $i => $r)
-                <button type="button" role="tab" aria-selected="{{ $i === 0 ? 'true' : 'false' }}" data-review="{{ $r['year'] }}">{{ $r['year'] }}</button>
+                <button type="button" aria-pressed="{{ $i === 0 ? 'true' : 'false' }}" data-review="{{ $r['year'] }}">{{ $r['year'] }}</button>
             @endforeach
         </div>
     </div>
@@ -158,25 +160,26 @@
     @endforeach
     <script>
         document.querySelectorAll('[data-review]').forEach((b) => b.addEventListener('click', () => {
-            document.querySelectorAll('[data-review]').forEach((x) => x.setAttribute('aria-selected', x === b));
+            document.querySelectorAll('[data-review]').forEach((x) => x.setAttribute('aria-pressed', x === b));
             document.querySelectorAll('[data-review-panel]').forEach((p) => { p.hidden = p.dataset.reviewPanel !== b.dataset.review; });
         }));
     </script>
 </section>
 @endif
 
-<section class="container section charts">
+<section class="container section charts" aria-labelledby="charts-title">
+    <h2 id="charts-title" class="visually-hidden">Графики задач</h2>
     <div class="card card_wide">
         <h3 class="card__title">Прогресс по месяцам</h3>
-        <div class="chart-box"><canvas id="chart-timeline"></canvas></div>
+        <div class="chart-box"><canvas id="chart-timeline" role="img" aria-label="Прогресс по месяцам"></canvas></div>
     </div>
     <div class="card">
         <h3 class="card__title">По типам задач</h3>
-        <div class="chart-box"><canvas id="chart-categories"></canvas></div>
+        <div class="chart-box"><canvas id="chart-categories" role="img" aria-label="Распределение задач по типам"></canvas></div>
     </div>
     <div class="card">
         <h3 class="card__title">По горизонту</h3>
-        <div class="chart-box"><canvas id="chart-horizons"></canvas></div>
+        <div class="chart-box"><canvas id="chart-horizons" role="img" aria-label="Задачи по горизонту"></canvas></div>
     </div>
 </section>
 
@@ -209,7 +212,7 @@
                 @if ($metric['target_text'])
                     <p class="muted">Цель: {{ $metric['target_text'] }} {{ $metric['unit'] }}</p>
                 @endif
-                <div class="chart-box chart-box_small"><canvas data-metric="{{ $metric['id'] }}"></canvas></div>
+                <div class="chart-box chart-box_small"><canvas data-metric="{{ $metric['id'] }}" role="img" aria-label="График метрики {{ $metric['name'] }}"></canvas></div>
             </div>
         @endforeach
     </div>
@@ -229,7 +232,9 @@
                             @if ($goal->category)<span class="chip" style="--chip: {{ $goal->category->color }}">{{ $goal->category->label() }}</span>@endif
                         </div>
                         <h4 class="goal__title">{{ $goal->title }}</h4>
-                        @if ($goal->parent)<p class="goal__parent muted">↳ {{ $goal->parent->title }}</p>@endif
+                        @if ($goal->parent?->user_id === $user->id && ($isOwner || $goal->parent->is_public))
+                            <p class="goal__parent muted">↳ {{ $goal->parent->title }}</p>
+                        @endif
                         <div class="bar bar_thin"><span style="width: {{ $goal->progress }}%"></span></div>
                         <p class="goal__meta muted">
                             {{ $goal->status->getLabel() }} · {{ $goal->progress }}%
@@ -273,7 +278,7 @@
                     <span>{{ $goal->title }}</span>
                     <span class="muted">
                         {{ ($goal->completed_at ?? $goal->created_at)->format('d.m.Y') }}
-                        @if ($goal->link) · <a href="{{ $goal->link }}" target="_blank" rel="noopener">пост ↗</a>@endif
+                        @if ($isExternalUrl($goal->link)) · <a href="{{ $goal->link }}" target="_blank" rel="noopener">пост ↗</a>@endif
                     </span>
                 </figcaption>
             </figure>
@@ -292,7 +297,7 @@
                 <span>{{ $goal->title }}</span>
                 <span class="muted">
                     {{ $goal->completed_at?->format('d.m.Y') }}
-                    @if ($goal->link) · <a href="{{ $goal->link }}" target="_blank" rel="noopener">пост ↗</a>@endif
+                    @if ($isExternalUrl($goal->link)) · <a href="{{ $goal->link }}" target="_blank" rel="noopener">пост ↗</a>@endif
                 </span>
             </li>
         @endforeach
@@ -303,7 +308,15 @@
 @if (count($chartData['places']))
 <section class="container section">
     <h2 class="section__title">Карта мест <span class="muted">{{ count($chartData['places']) }}</span></h2>
-    <div id="map" class="map"></div>
+    <div id="map" class="map" role="region" aria-label="Интерактивная карта посещённых мест"></div>
+    <details class="map-places">
+        <summary>Список мест</summary>
+        <ul>
+            @foreach ($chartData['places'] as $place)
+                <li>{{ $place['title'] }}@if ($place['date']) · {{ $place['date'] }}@endif</li>
+            @endforeach
+        </ul>
+    </details>
 </section>
 @endif
 @endsection
@@ -311,7 +324,7 @@
 @push('scripts')
     <script src="{{ asset('vendor/chartjs/chart.umd.min.js') }}"></script>
     <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
-    <script>window.__PROFILE__ = @json($chartData);</script>
+    <script>window.__PROFILE__ = {{ Illuminate\Support\Js::from($chartData) }};</script>
     <script src="{{ asset('js/profile.js') }}?v={{ filemtime(public_path('js/profile.js')) }}"></script>
 @endpush
 @push('scripts')

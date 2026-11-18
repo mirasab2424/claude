@@ -22,7 +22,7 @@
                 @endauth
             </div>
         </div>
-        <div class="hero__logo" data-logo3d aria-label="3D-логотип Success"></div>
+        <div class="hero__logo" data-logo3d role="img" aria-label="3D-логотип Success"></div>
     </div>
 </section>
 
@@ -111,7 +111,7 @@
         <p>Логотип собран в Blender. Вверху страницы та же модель с той же анимацией, только в реальном времени:
            её можно покрутить мышкой, а клик проигрывает сборку заново. Справа исходный ролик.</p>
     </div>
-    <video class="logo-story__video" src="{{ asset('media/logo.mp4') }}" muted loop playsinline controls preload="metadata"></video>
+    <video aria-label="Анимация сборки логотипа success" class="logo-story__video" src="{{ asset('media/logo.mp4') }}" muted loop playsinline controls preload="metadata"></video>
 </section>
 @endsection
 
