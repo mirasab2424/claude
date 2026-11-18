@@ -27,6 +27,8 @@ class Coach
 
     private CarbonImmutable $today;
 
+    private ?Collection $activeHabits = null;
+
     public function __construct(private readonly User $user, ?CarbonImmutable $today = null)
     {
         $this->today = $today ?? CarbonImmutable::today();
@@ -57,6 +59,13 @@ class Coach
             $this->moodTip(),
             $this->inProgress(),
             $this->staleMetric(),
+            ...$this->habitWarnings(),
+            ...$this->dayLogTrends(),
+            $this->missingDayLog(),
+            $this->taskLoad(),
+            $this->idleGoal(),
+            ...$this->stepTrends(),
+            $this->sleepVariability(),
         ]));
         $order = [self::WARN => 0, self::GOOD => 1, self::INFO => 2];
         usort($tips, fn ($a, $b) => $order[$a['tone']] <=> $order[$b['tone']]);
@@ -219,7 +228,7 @@ class Coach
 
     private function habits(): ?array
     {
-        $habits = $this->user->habits()->active()->with('checks')->get();
+        $habits = $this->activeHabits();
         if ($habits->isEmpty()) {
             return null;
         }
@@ -284,6 +293,149 @@ class Coach
         [$m, $date] = $stale;
 
         return $this->tip(self::INFO, '📏', 'Давно не замеряли', "{$m->name} — последний замер ".CarbonImmutable::parse($date)->translatedFormat('j F Y').'. Самое время проверить форму.');
+    }
+
+    private function habitWarnings(): array
+    {
+        $risk = $inactive = null;
+        foreach ($this->activeHabits() as $habit) {
+            $days = array_filter($habit->checkedDays(), fn ($day) => $day <= $this->today->toDateString(), ARRAY_FILTER_USE_KEY);
+            $last = array_key_last($days);
+            if (! $last || isset($days[$this->today->toDateString()])) {
+                continue;
+            }
+            $gap = (int) CarbonImmutable::parse($last)->diffInDays($this->today->startOfDay());
+            if ($gap === 1 && ($streak = $habit->streak($this->today)) >= 3 && $streak > ($risk[1] ?? 0)) {
+                $risk = [$habit->name, $streak];
+            }
+            if ($gap >= 7 && $gap > ($inactive[1] ?? 0)) {
+                $inactive = [$habit->name, $gap];
+            }
+        }
+
+        return [
+            $risk ? $this->tip(self::WARN, '🔁', 'Серия привычки под угрозой', "«{$risk[0]}»: {$risk[1]} дн. подряд. Сегодня отметки ещё нет.") : null,
+            $inactive ? $this->tip(self::INFO, '↩️', 'Привычка без отметок', "«{$inactive[0]}»: последняя отметка {$inactive[1]} дн. назад. Начните с одного выполнения.") : null,
+        ];
+    }
+
+    private function activeHabits(): Collection
+    {
+        return $this->activeHabits ??= $this->user->habits()->active()
+            ->whereDate('created_at', '<=', $this->today)->with('checks')->get();
+    }
+
+    private function dayLogTrends(): array
+    {
+        $today = $this->today->toDateString();
+        $week = $this->today->subDays(6)->toDateString();
+        $logs = $this->user->dayLogs()->whereDate('date', '>=', $this->today->subDays(13))
+            ->whereDate('date', '<=', $today)->get();
+        [$recent, $previous] = $logs->partition(fn ($log) => $log->date->toDateString() >= $week);
+        $tips = [];
+        foreach (['mood' => 'Настроение', 'energy' => 'Энергия'] as $key => $label) {
+            $a = $recent->pluck($key)->filter(fn ($value) => $value !== null);
+            $b = $previous->pluck($key)->filter(fn ($value) => $value !== null);
+            if ($a->count() < 3 || $b->count() < 3) {
+                continue;
+            }
+            $diff = $a->avg() - $b->avg();
+            if (abs($diff) >= 1) {
+                $delta = number_format(abs($diff), 1, ',', ' ');
+                $tips[] = $diff > 0
+                    ? $this->tip(self::GOOD, '☀️', $label.' выше', "За 7 дней средняя оценка выше на {$delta} из 5. Вспомните, что помогло.")
+                    : $this->tip(self::WARN, '🫶', $label.' ниже', "За 7 дней средняя оценка ниже на {$delta} из 5. Оставьте время на отдых.");
+            }
+        }
+
+        return $tips;
+    }
+
+    private function missingDayLog(): ?array
+    {
+        $last = $this->user->dayLogs()->whereDate('date', '<=', $this->today)->reorder('date', 'desc')->first();
+        $gap = $last ? (int) $last->date->diffInDays($this->today->startOfDay()) : 0;
+
+        return $gap >= 3
+            ? $this->tip(self::INFO, '📝', 'Пауза в дневнике', "Последняя запись {$gap} дн. назад. Отметьте, как прошёл день.")
+            : null;
+    }
+
+    private function taskLoad(): ?array
+    {
+        $active = $this->user->goals()->whereIn('status', [GoalStatus::Planned, GoalStatus::InProgress]);
+        $count = (clone $active)->whereDate('due_date', $this->today)->count();
+        if ($count > 7) {
+            return $this->tip(self::WARN, '📋', 'Много задач на сегодня', "На сегодня {$count} задач. Выберите 3 главные.");
+        }
+        if ($count === 0 && (clone $active)->whereNull('parent_id')->exists()) {
+            return $this->tip(self::INFO, '📌', 'Запланируйте шаг', 'На сегодня 0 задач. Выберите 1 шаг по активной цели.');
+        }
+
+        return null;
+    }
+
+    private function idleGoal(): ?array
+    {
+        $goal = $this->user->goals()->where('status', GoalStatus::InProgress)
+            ->whereDate('updated_at', '<=', $this->today->subDays(14))->orderBy('updated_at')->first();
+        if (! $goal) {
+            return null;
+        }
+        $days = (int) $goal->updated_at->copy()->startOfDay()->diffInDays($this->today->startOfDay());
+
+        return $this->tip(self::INFO, '🎯', 'Цель без движения', "«{$goal->title}» без обновлений {$days} дн. Запишите следующий шаг.");
+    }
+
+    private function stepTrends(): array
+    {
+        $steps = $this->dailyValues('Шаги', 14);
+        $week = $this->today->subDays(6)->toDateString();
+        [$recent, $previous] = $steps->partition(fn ($value, $date) => $date >= $week);
+        $tips = [];
+        if ($recent->count() >= 3 && $previous->count() >= 3 && $previous->avg() > 0) {
+            $drop = 1 - $recent->avg() / $previous->avg();
+            if ($recent->avg() <= $previous->avg() * 0.8) {
+                $percent = (int) round($drop * 100);
+                $tips[] = $this->tip(self::WARN, '🚶', 'Шагов стало меньше', "За неделю среднее число шагов снизилось на {$percent} %. Запланируйте прогулку.");
+            }
+        }
+        $run = $best = 0;
+        for ($offset = 6; $offset >= 0; $offset--) {
+            $day = $this->today->subDays($offset)->toDateString();
+            $run = $recent->get($day, 0) > 10000 ? $run + 1 : 0;
+            $best = max($best, $run);
+        }
+        if ($best >= 3) {
+            $tips[] = $this->tip(self::GOOD, '👟', 'Серия по шагам', "Больше 10 000 шагов {$best} дн. подряд. Так держать!");
+        }
+
+        return $tips;
+    }
+
+    private function sleepVariability(): ?array
+    {
+        if (! $this->metrics->get('Сон')?->is_duration) {
+            return null;
+        }
+        $sleep = $this->dailyValues('Сон', 7)->filter(fn ($value) => $value > 0);
+        $range = $sleep->max() - $sleep->min();
+        if ($sleep->count() < 3 || $range <= 5400) {
+            return null;
+        }
+
+        return $this->tip(self::INFO, '🌙', 'Неровный режим сна', 'За 7 дней разница между короткой и длинной ночью — '.$this->hm($range).'. Попробуйте ложиться в одно время.');
+    }
+
+    private function dailyValues(string $name, int $days): Collection
+    {
+        $start = $this->today->subDays($days - 1)->toDateString();
+        $today = $this->today->toDateString();
+        $entries = $this->metrics->get($name)?->entries ?? collect();
+
+        return $entries->filter(fn ($entry) => $entry->date->toDateString() >= $start && $entry->date->toDateString() <= $today)
+            ->groupBy(fn ($entry) => $entry->date->toDateString())
+            ->map(fn ($day) => $day->avg('value'));
     }
 
     /** Последние записи метрики за $days дней до самой свежей записи. */

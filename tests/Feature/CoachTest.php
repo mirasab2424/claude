@@ -83,4 +83,96 @@ class CoachTest extends TestCase
 
         $this->assertSame('Бег 3 км: лучший результат 13:41, цель 13:00 — осталось 0:41.', $tips['До цели по метрике']['text']);
     }
+
+    public function test_habit_rules_praise_a_week_warn_of_risk_and_notice_a_seven_day_gap(): void
+    {
+        $this->travelTo(CarbonImmutable::parse('2026-10-25'));
+        $user = User::factory()->create();
+        $steady = $user->habits()->create(['name' => 'Зарядка']);
+        $risk = $user->habits()->create(['name' => 'Чтение']);
+        $inactive = $user->habits()->create(['name' => 'Подтягивания']);
+        $today = CarbonImmutable::parse('2026-11-15');
+        $this->assertNotContains('Привычка без отметок', array_column(Coach::for($user, $today)->tips(30), 'title'));
+        foreach (range(9, 15) as $day) {
+            $steady->checks()->create(['date' => "2026-11-$day"]);
+        }
+        foreach (range(12, 14) as $day) {
+            $risk->checks()->create(['date' => "2026-11-$day"]);
+        }
+        $inactive->checks()->create(['date' => '2026-11-08']);
+        $tips = collect(Coach::for($user, $today)->tips(30))->keyBy('title');
+
+        $this->assertStringContainsString('7 дней', $tips['Привычка держится']['text']);
+        $this->assertSame(Coach::WARN, $tips['Серия привычки под угрозой']['tone']);
+        $this->assertStringContainsString('7 дн.', $tips['Привычка без отметок']['text']);
+    }
+
+    public function test_log_trends_require_three_ratings_in_each_week_and_gap_requires_history(): void
+    {
+        $user = User::factory()->create();
+        $today = CarbonImmutable::parse('2026-11-15');
+        $history = fn () => collect(Coach::for($user, $today)->tips(30))->keyBy('title');
+        $this->assertFalse($history()->has('Пауза в дневнике'));
+        foreach ([3, 4, 5] as $day) {
+            $user->dayLogs()->create(['date' => "2026-11-$day", 'mood' => 5, 'energy' => 2]);
+        }
+        $this->assertStringContainsString('10 дн.', $history()['Пауза в дневнике']['text']);
+        foreach ([10, 11] as $day) {
+            $user->dayLogs()->create(['date' => "2026-11-$day", 'mood' => 3, 'energy' => 4]);
+        }
+        $this->assertFalse($history()->has('Настроение ниже'));
+        $this->assertFalse($history()->has('Энергия выше'));
+        $user->dayLogs()->create(['date' => '2026-11-13', 'mood' => 3, 'energy' => 4]);
+        $tips = $history();
+        $this->assertStringContainsString('2,0 из 5', $tips['Настроение ниже']['text']);
+        $this->assertSame(Coach::GOOD, $tips['Энергия выше']['tone']);
+        $this->assertFalse($tips->has('Пауза в дневнике'));
+    }
+
+    public function test_task_load_and_idle_goal_tips_use_the_supplied_date(): void
+    {
+        $this->travelTo(CarbonImmutable::parse('2026-11-01'));
+        $today = CarbonImmutable::parse('2026-11-15');
+        $user = User::factory()->create();
+        $tips = fn ($day) => collect(Coach::for($user, $day)->tips(30))->keyBy('title');
+        $this->assertFalse($tips($today)->has('Запланируйте шаг'));
+        $user->goals()->create(['title' => 'Старая цель', 'status' => GoalStatus::InProgress]);
+        $this->assertFalse($tips($today->subDay())->has('Цель без движения'));
+        $this->assertStringContainsString('14 дн.', $tips($today)['Цель без движения']['text']);
+        $this->assertTrue($tips($today)->has('Запланируйте шаг'));
+        foreach (range(1, 7) as $i) {
+            $user->goals()->create(['title' => 'Задача '.$i, 'due_date' => $today]);
+        }
+        $this->assertFalse($tips($today)->has('Много задач на сегодня'));
+        $user->goals()->create(['title' => 'Задача 8', 'due_date' => $today]);
+        $this->assertSame(Coach::WARN, $tips($today)['Много задач на сегодня']['tone']);
+    }
+
+    public function test_steps_compare_distinct_days_and_look_for_a_consecutive_run(): void
+    {
+        $user = User::factory()->create();
+        $today = CarbonImmutable::parse('2026-11-14');
+        $metric = $user->metrics()->create(['name' => 'Шаги']);
+        foreach ([1 => 15000, 2 => 15000, 8 => 11000, 9 => 11000, 11 => 11000] as $d => $v) {
+            $metric->entries()->create(['date' => "2026-11-$d", 'value' => $v]);
+        }
+        $tips = fn () => collect(Coach::for($user, $today)->tips(30))->keyBy('title');
+        $this->assertFalse($tips()->has('Шагов стало меньше'));
+        $this->assertFalse($tips()->has('Серия по шагам'));
+        $metric->entries()->create(['date' => '2026-11-03', 'value' => 15000]);
+        $metric->entries()->create(['date' => '2026-11-10', 'value' => 11000]);
+        $this->assertStringContainsString('27 %', $tips()['Шагов стало меньше']['text']);
+        $this->assertStringContainsString('4 дн.', $tips()['Серия по шагам']['text']);
+    }
+
+    public function test_sleep_variability_requires_three_nights_and_a_range_above_ninety_minutes(): void
+    {
+        $user = User::factory()->create();
+        $today = CarbonImmutable::parse('2026-11-05');
+        $this->daily($user, 'Сон', [6 * 3600, 8 * 3600], duration: true);
+        $tips = fn () => collect(Coach::for($user->fresh(), $today)->tips(30))->keyBy('title');
+        $this->assertFalse($tips()->has('Неровный режим сна'));
+        $user->metrics()->firstOrFail()->entries()->create(['date' => '2026-11-03', 'value' => 25200]);
+        $this->assertStringContainsString('2 ч 00 мин', $tips()['Неровный режим сна']['text']);
+    }
 }
