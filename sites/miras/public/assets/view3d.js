@@ -4,8 +4,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=22';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=22';
+import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=23';
+import { addInterior } from './interior.js?v=23';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=23';
 
 const CELL = 50; // мм
 
@@ -249,6 +250,7 @@ export function createViewer(canvas, h, onPick, design = null) {
   }
   night.group = evening;
   houseFinish({ root, roof: layers.roof, fp, W, D, H, y0, ridge, ridgeY, over, plinthH, openings, entrance, night });
+  addInterior({ h, root, openings, H, night });
   layers.roof.add(sprite(['Крыша — оценка'], mm(W / 2), mm(H + ridge) + 0.7, zz(ridgeY), { color: '#3c4046', small: true }));
 
   // --- подписи комнат (всегда) и размеры (слой) ---
