@@ -23,7 +23,7 @@ class EditProfile extends BaseEditProfile
             Section::make('Публичная страница')
                 ->description('Так вас увидят другие на сайте')
                 ->schema([
-                    FileUpload::make('avatar')->label('Аватар')->image()->avatar()->disk('public')->directory('avatars'),
+                    FileUpload::make('avatar')->label('Аватар')->image()->avatar()->disk('public')->directory('avatars')->preventFilePathTampering(),
                     $this->getNameFormComponent(),
                     TextInput::make('username')
                         ->label('Адрес страницы')

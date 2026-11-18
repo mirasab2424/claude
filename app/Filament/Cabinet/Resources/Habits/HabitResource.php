@@ -49,9 +49,6 @@ class HabitResource extends Resource
             Toggle::make('is_public')->label('Показывать на публичной странице'),
             Toggle::make('archived')->label('В архиве (не показывать в списке на сегодня)')
                 ->afterStateHydrated(fn ($component, ?Habit $record) => $component->state((bool) $record?->archived_at))
-                ->dehydrated(false)
-                ->afterStateUpdated(fn ($state, ?Habit $record) => $record?->update(['archived_at' => $state ? now() : null]))
-                ->live()
                 ->visibleOn('edit'),
         ]);
     }
@@ -82,7 +79,15 @@ class HabitResource extends Resource
                     ->color('gray')
                     ->tooltip('Забыли отметить вчера — отметьте сейчас')
                     ->action(fn (Habit $record) => $record->toggle(now()->toImmutable()->subDay())),
-                ActionGroup::make([EditAction::make(), DeleteAction::make()]),
+                ActionGroup::make([
+                    EditAction::make()->mutateDataUsing(function (array $data, Habit $record): array {
+                        $data['archived_at'] = $data['archived'] ? ($record->archived_at ?? now()) : null;
+                        unset($data['archived']);
+
+                        return $data;
+                    }),
+                    DeleteAction::make(),
+                ]),
             ]);
     }
 

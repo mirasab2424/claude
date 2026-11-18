@@ -37,6 +37,7 @@ class Calendar extends Page
 
     public function shift(int $by): void
     {
+        abort_unless(in_array($by, [-1, 1], true), 422);
         $this->safeMonth();
         $this->month = CarbonImmutable::parse($this->month.'-01')->addMonths($by)->format('Y-m');
     }
@@ -53,7 +54,7 @@ class Calendar extends Page
         $from = $first->startOfWeek();
         $to = $first->endOfMonth()->endOfWeek();
         $goals = $user->goals()->where(fn ($q) => $q->whereBetween('completed_at', [$from, $to->endOfDay()])->orWhereBetween('due_date', [$from, $to]))->get();
-        $habits = $user->habits()->active()->with('checks')->get();
+        $habits = $user->habits()->active()->with(['checks' => fn ($query) => $query->whereBetween('date', [$from, $to])])->get();
         $steps = $user->metrics()->where('name', 'Шаги')->first()?->entries()->whereBetween('date', [$from, $to->endOfDay()])->get()
             ->mapWithKeys(fn ($e) => [$e->date->toDateString() => (int) $e->value]) ?? collect();
 

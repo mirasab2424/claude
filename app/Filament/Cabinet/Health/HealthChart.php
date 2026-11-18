@@ -39,7 +39,8 @@ abstract class HealthChart extends ChartWidget
 
     protected function getData(): array
     {
-        $s = HealthStats::for(auth()->user())->series($this->metric(), (int) $this->filter, $this->divider());
+        $days = in_array($this->filter, ['30', '90', '365'], true) ? (int) $this->filter : 90;
+        $s = HealthStats::for(auth()->user())->series($this->metric(), $days, $this->divider());
 
         return [
             'labels' => $s['labels'],

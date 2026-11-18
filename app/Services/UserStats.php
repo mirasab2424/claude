@@ -32,7 +32,11 @@ class UserStats
     ) {
         $this->goals = $user->goals()
             ->when($publicOnly, fn ($q) => $q->public())
-            ->with('category')
+            ->with([
+                'category',
+                'parent' => fn ($query) => $query->where('user_id', $user->id)
+                    ->when($publicOnly, fn ($query) => $query->public()),
+            ])
             ->get();
     }
 

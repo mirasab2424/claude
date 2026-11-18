@@ -40,7 +40,7 @@ class PlaceForm
                     Select::make('rating')
                         ->label('Оценка')
                         ->options([1 => '★', 2 => '★★', 3 => '★★★', 4 => '★★★★', 5 => '★★★★★']),
-                    FileUpload::make('photo')->label('Фото')->image()->disk('public')->directory('places'),
+                    FileUpload::make('photo')->label('Фото')->image()->disk('public')->directory('places')->preventFilePathTampering(),
                     Textarea::make('description')->label('Описание')->rows(4)->columnSpanFull(),
                     Toggle::make('is_public')->label('Показывать на публичной странице')->default(true),
                 ]),
