@@ -12,6 +12,8 @@ import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELEC
 
 const CELL = 50; // мм
 
+import { addYardExtras } from './yard_extra.js?v=23';
+
 export function createViewer(canvas, h, onPick, design = null) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -545,8 +547,10 @@ export function createViewer(canvas, h, onPick, design = null) {
       if (design.plot) {
         yardNight.visible = evening.visible;
         layers.site.add(yardNight);
-        yardDecor({ group: layers.site, groundY, plot: design.plot, L: obLayout, night: { group: yardNight, glow: night.glow },
-          house: { x1: anchor.x, x2: anchor.x + mm(W), dFacade: -anchor.z + mm(y0), eaveY: floorY + mm(H) } });
+        const yardOptions = { group: layers.site, groundY, plot: design.plot, L: obLayout, night: { group: yardNight, glow: night.glow },
+          house: { x1: anchor.x, x2: anchor.x + mm(W), dFacade: -anchor.z + mm(y0), eaveY: floorY + mm(H) } };
+        yardDecor(yardOptions);
+        addYardExtras(yardOptions);
         setGlow(evening.visible);
       }
       // мебель мансарды: предмет (кровать из частей и т. п.) переносится целиком в свою комнату варианта
