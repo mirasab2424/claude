@@ -3,9 +3,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { addOutbuildingFacade } from './ob_facade.js?v=23';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=23';
-import { addOutbuildingFacade } from './ob_facade.js?v=23';
 import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=23';
 
 const CELL = 50; // мм
@@ -481,10 +481,10 @@ export function createViewer(canvas, h, onPick, design = null) {
   scene.add(layers.outbuilding, layers.obRoof, layers.obLabels);
   const obBlockers = [];
   if (obLayout) buildOutbuilding(obLayout, groundY, layers.outbuilding, layers.obRoof, layers.obLabels, obBlockers);
-  if (obLayout) addOutbuildingFacade({ L: obLayout, groundY, group: layers.outbuilding, roofGroup: layers.obRoof, night });
 
   const designLabels = new THREE.Group();
   root.add(designLabels);
+  if (obLayout) addOutbuildingFacade({ L: obLayout, groundY, group: layers.outbuilding, roofGroup: layers.obRoof, night });
   const yardNight = new THREE.Group();
   const setGlow = (on) => { for (const m of night.glow) m.emissiveIntensity = on ? 2.6 : 0.25; };
   let siteLoaded = false;
