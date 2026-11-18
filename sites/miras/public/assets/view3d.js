@@ -2,10 +2,10 @@
 // Слои: крыша (оценка), размеры, электрика, вариант лестницы. Клик по комнате — карточка с данными.
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { addOutbuildingInterior } from './ob_interior.js?v=23';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=23';
-import { addOutbuildingInterior } from './ob_interior.js?v=23';
 import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=23';
 
 const CELL = 50; // мм
