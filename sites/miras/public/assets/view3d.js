@@ -4,8 +4,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=22';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=22';
+import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=23';
+import { addYardExtras } from './yard_extra.js?v=23';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=23';
 
 const CELL = 50; // мм
 
@@ -539,8 +540,10 @@ export function createViewer(canvas, h, onPick, design = null) {
       if (design.plot) {
         yardNight.visible = evening.visible;
         layers.site.add(yardNight);
-        yardDecor({ group: layers.site, groundY, plot: design.plot, L: obLayout, night: { group: yardNight, glow: night.glow },
-          house: { x1: anchor.x, x2: anchor.x + mm(W), dFacade: -anchor.z + mm(y0), eaveY: floorY + mm(H) } });
+        const yardOptions = { group: layers.site, groundY, plot: design.plot, L: obLayout, night: { group: yardNight, glow: night.glow },
+          house: { x1: anchor.x, x2: anchor.x + mm(W), dFacade: -anchor.z + mm(y0), eaveY: floorY + mm(H) } };
+        yardDecor(yardOptions);
+        addYardExtras(yardOptions);
         setGlow(evening.visible);
       }
       // мебель мансарды: предмет (кровать из частей и т. п.) переносится целиком в свою комнату варианта
