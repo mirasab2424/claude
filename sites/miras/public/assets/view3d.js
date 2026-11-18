@@ -4,8 +4,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=22';
-import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=22';
+import { addSky, styleSite, houseFinish, yardDecor } from './decor.js?v=23';
+import { addOutbuildingInterior } from './ob_interior.js?v=23';
+import { roomName, m1n, m05, tol, area, windowWall, doorWall, stairVariant, ELECTRIC, PLUMBING, CONFIDENCE, wallName, roomLabel, roomFinish, outbuildingLayout } from './house.js?v=23';
 
 const CELL = 50; // мм
 
@@ -480,6 +481,7 @@ export function createViewer(canvas, h, onPick, design = null) {
   scene.add(layers.outbuilding, layers.obRoof, layers.obLabels);
   const obBlockers = [];
   if (obLayout) buildOutbuilding(obLayout, groundY, layers.outbuilding, layers.obRoof, layers.obLabels, obBlockers);
+  if (obLayout) addOutbuildingInterior({ L: obLayout, groundY, group: layers.outbuilding, night });
 
   const designLabels = new THREE.Group();
   root.add(designLabels);
@@ -1127,8 +1129,7 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels, blockers = []) {
     const td = ob.bbq_table_d || [bbq.d1 + 1.2, bbq.d1 + 2.8];
     box(0.7, 0.9, td[1] - td[0], wood, L.x1 + 0.45, y0 + 0.45, Z((td[0] + td[1]) / 2));
   }
-  // немного обстановки, чтобы было понятно назначение
-  const wood = mat(0xc9a27a, 0.7);
+  // Стеллаж и автомобиль в гараже.
   const room = (id) => L.rooms.find((r) => r.id === id);
   if (room('garage')) box(0.5, 2.0, room('garage').length_m - 1.2, mat(0x9aa0a6), L.x2 - T - 0.25, y0 + 1.0, Z(room('garage').length_m / 2 + 0.3));
   if (L.car) {
@@ -1151,11 +1152,6 @@ function buildOutbuilding(L, groundY, group, roofGroup, labels, blockers = []) {
     for (const sx of [-1, 1]) { box(0.3, 0.1, 0.03, mat(0xfff3c4, 0.3), cx + sx * (W / 2 - 0.25), y0 + 0.62, Z(c.d2 + 0.005)); box(0.3, 0.08, 0.03, mat(0xb3261e, 0.4), cx + sx * (W / 2 - 0.25), y0 + 0.66, Z(c.d1 - 0.005)); }
     labels.add(sprite([c.name, `≈ ${String(Ln).replace('.', ',')} × ${String(W).replace('.', ',')} м`], cx, y0 + 2.1, Z(cd), { small: true, color: '#3c4650' }));
   }
-  if (room('kitchen')) box(0.6, 0.9, 2.4, mat(0xe9e4da), L.x2 - T - 0.3, y0 + 0.45, Z((room('kitchen').d1 + room('kitchen').d2) / 2));
-  if (room('dining')) { const r = room('dining'); box(1.0, 0.75, 3.2, wood, (L.x1 + L.x2) / 2, y0 + 0.375, Z((r.d1 + r.d2) / 2)); }
-  if (room('workshop')) { const r = room('workshop'); box(0.8, 0.9, 2.2, mat(0x8a6a48), L.x2 - T - 0.4, y0 + 0.45, Z((r.d1 + r.d2) / 2)); }
-  if (room('sauna')) { const r = room('sauna'); box(1.6, 0.5, 0.6, wood, L.x2 - 1.0, y0 + 0.9, Z(r.d2 - 0.4)); }
-  if (room('pantry')) { const r = room('pantry'); box(0.4, 2.0, 1.6, mat(0xb0a28a), L.x2 - T - 0.2, y0 + 1.0, Z((r.d1 + r.d2) / 2)); }
   // односкатная крыша к забору (слой «Крыша»): над всеми помещениями, над барбекю — навес
   const roofMat = new THREE.MeshStandardMaterial({ color: 0x5b6168, roughness: 0.6, side: THREE.DoubleSide });
   const slab = (xa, xb, da, db) => {
