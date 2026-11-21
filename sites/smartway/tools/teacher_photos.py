@@ -3,6 +3,8 @@
     pip install "rembg[cpu]" pillow
     python sites/smartway/tools/teacher_photos.py фото1.jpg фото2.jpg ... --out sites/smartway/public/img/teachers
 
+Без аргументов (двойной щелчок, F5 в IDLE) берёт все фото из папки src рядом со скриптом и кладёт результат в out.
+
 Имя результата = имя исходного файла (.jpg), поэтому называйте исходники как в default.json:
 isaev-nuradin.jpg, zhumabai-dilnaz.jpg и т. д. Кадр 600 × 800, голова — половина ширины,
 над головой немного места (если макушка в исходнике целая), фон по очереди бирюзовый и розовый.
@@ -60,16 +62,25 @@ def portrait(path, i, session):
 
 
 def main():
+    here = os.path.dirname(os.path.abspath(__file__))
     ap = argparse.ArgumentParser()
-    ap.add_argument('photos', nargs='+')
-    ap.add_argument('--out', required=True)
+    ap.add_argument('photos', nargs='*', help='исходные фото; по умолчанию все картинки из папки src рядом со скриптом')
+    ap.add_argument('--out', default=os.path.join(here, 'out'), help='куда сохранить; по умолчанию папка out рядом со скриптом')
     args = ap.parse_args()
+    if not args.photos:  # запуск двойным щелчком или F5 в IDLE
+        src = os.path.join(here, 'src')
+        os.makedirs(src, exist_ok=True)
+        args.photos = [os.path.join(src, f) for f in os.listdir(src) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp', '.heic'))]
+        if not args.photos:
+            print('Положите фото в папку', src, 'и запустите ещё раз.')
+            return
     os.makedirs(args.out, exist_ok=True)
     session = new_session('u2net_human_seg')
     for i, p in enumerate(sorted(args.photos)):
         name = os.path.splitext(os.path.basename(p))[0] + '.jpg'
         portrait(p, i, session).save(os.path.join(args.out, name), quality=88, optimize=True, progressive=True)
         print('готово:', name)
+    print('Результат в папке:', args.out)
 
 
 if __name__ == '__main__':
