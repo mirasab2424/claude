@@ -478,6 +478,13 @@ p { margin: 0 0 1em; }
 .diag-promo-wrap { padding-block: 0 8px; }
 .diag-promo { display: flex; align-items: center; gap: 20px; padding: 22px 26px; border-radius: var(--r); background: linear-gradient(120deg, var(--teal-deep), var(--teal)); color: #fff; text-decoration: none; box-shadow: var(--shadow); }
 .diag-promo:hover { color: #fff; transform: translateY(-2px); }
+.diag-promo + .diag-promo { margin-top: 12px; }
+.diag-promo--en { background: linear-gradient(120deg, #6a3fb4, #9b5fd6); }
+.subject-tabs { display: inline-flex; gap: 4px; padding: 4px; margin: 0 0 14px; border-radius: 999px; background: rgba(255,255,255,.18); }
+.subject-tabs a { padding: 8px 16px; border-radius: 999px; color: inherit; font-weight: 800; text-decoration: none; }
+.subject-tabs a[aria-current="page"] { background: #fff; color: var(--teal-deep); }
+.grade-pick--labels { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.grade-pick--labels .grade-pick__item b { font-size: 17px; text-align: center; }
 .diag-promo__icon { flex: none; width: 64px; height: 64px; border-radius: 18px; background: var(--sun); color: var(--teal-deep); display: grid; place-items: center; font-size: 36px; font-weight: 900; }
 .diag-promo__text { display: flex; flex-direction: column; flex: 1; }
 .diag-promo__text small { text-transform: uppercase; letter-spacing: .12em; font-weight: 800; color: var(--sun); font-size: 12px; }

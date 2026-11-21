@@ -21,7 +21,8 @@ final class Pages
     public function handle(array $parts, string $method): void
     {
         match (true) {
-            $parts === [] => $this->start($method),
+            $parts === [] => $this->start($method, 'math'),
+            $parts === ['english'] => $this->start($method, 'english'),
             count($parts) === 2 && $parts[0] === 'a' && ctype_xdigit($parts[1]) => $this->take($parts[1], $method),
             count($parts) === 2 && $parts[0] === 'r' && ctype_xdigit($parts[1]) => $this->result($parts[1]),
             default => $this->notFound(),
@@ -44,12 +45,17 @@ final class Pages
         return $out;
     }
 
-    private function start(string $method): void
+    private function start(string $method, string $subject): void
     {
         $grades = [];
         foreach ($this->store->data()['tests'] as $t) {
-            $grades[] = ['grade' => (int) $t['grade'], 'questions' => count($t['questions']), 'minutes' => $t['minutes']];
+            if (Store::subject($t) !== $subject) {
+                continue;
+            }
+            $grades[] = ['grade' => (int) $t['grade'], 'questions' => count($t['questions']), 'minutes' => $t['minutes'],
+                'label' => isset($t['label']) ? Content::localize($t['label'], $this->lang) : null];
         }
+        $base = $subject === 'english' ? 'test/english' : 'test';
         $old = ['name' => '', 'phone' => '', 'grade' => (int) ($_GET['grade'] ?? 0)];
         $errors = [];
         if ($method === 'POST') {
@@ -65,7 +71,7 @@ final class Pages
             if (strlen($digits) < 10 || strlen($digits) > 15) {
                 $errors['phone'] = true;
             }
-            if (!$this->store->test($old['grade'])) {
+            if (Store::subject($this->store->test($old['grade'])) !== $subject || !$this->store->test($old['grade'])) {
                 $errors['grade'] = true;
             }
             if (($_POST['website'] ?? '') !== '' || $this->store->recentFromIp(App::ip(), 60) >= 20) {
@@ -76,7 +82,7 @@ final class Pages
                 $this->app->redirect(App::url('test/a/' . $token, $this->lang));
             }
         }
-        echo $this->app->render('test', $this->lang, ['grades' => $grades, 'old' => $old, 'errors' => $errors], 'test');
+        echo $this->app->render('test', $this->lang, ['grades' => $grades, 'old' => $old, 'errors' => $errors, 'subject' => $subject, 'base' => $base], 'test', $this->alt($base));
     }
 
     private function questions(array $test): array
@@ -113,11 +119,15 @@ final class Pages
         }
         if ($method === 'POST') {
             $result = $this->store->grade($test, is_array($_POST['q'] ?? null) ? $_POST['q'] : []);
+            $english = Store::subject($test) === 'english';
+            $pctText = rtrim(rtrim(number_format($result['percent'], 1, ',', ''), '0'), ',');
             $leadId = $this->app->leads->add([
                 'name' => $a['name'],
                 'phone' => $a['phone'],
-                'child' => $a['grade'] . ' класс',
-                'course' => sprintf('Диагностика по математике, %d класс — %s%%', $a['grade'], rtrim(rtrim(number_format($result['percent'], 1, ',', ''), '0'), ',')),
+                'child' => $this->store->label((int) $a['grade']),
+                'course' => $english
+                    ? sprintf('Тест по английскому, %s — %s%%', $this->store->label((int) $a['grade']), $pctText)
+                    : sprintf('Диагностика по математике, %d класс — %s%%', $a['grade'], $pctText),
                 'branch' => '',
                 'lang' => $a['lang'],
                 'page' => 'test',
@@ -128,6 +138,7 @@ final class Pages
         }
         echo $this->app->render('test', $this->lang, [
             'attempt' => $a,
+            'subject' => Store::subject($test),
             'test' => Content::localize($test, $this->lang),
             'questions' => $this->questions($test),
             'started' => strtotime($a['created_at']),
@@ -161,7 +172,10 @@ final class Pages
                 'text' => Content::localize($q['text'], $this->lang), 'score' => $ans['score'], 'max' => $ans['max']];
         }
         $courses = array_column(Content::localize($this->app->content->get('courses'), $this->lang), null, 'slug');
-        $rec = array_values(array_filter([(int) $a['grade'] <= 6 ? ($courses['nis'] ?? null) : null, $courses['math'] ?? null]));
+        $english = Store::subject($test) === 'english';
+        $rec = $english
+            ? array_values(array_filter([$courses['english'] ?? null, in_array($test['cefr'] ?? '', ['B1', 'B2', 'C1'], true) ? ($courses['ielts'] ?? null) : null]))
+            : array_values(array_filter([(int) $a['grade'] <= 6 ? ($courses['nis'] ?? null) : null, $courses['math'] ?? null]));
         foreach ($rec as &$c) {
             $c['url'] = App::url($c['slug'], $this->lang);
         }
@@ -170,6 +184,7 @@ final class Pages
         $pct = rtrim(rtrim(number_format($percent, 1, ',', ''), '0'), ',');
         echo $this->app->render('test', $this->lang, [
             'attempt' => $a,
+            'subject' => Store::subject($test),
             'test' => Content::localize($test, $this->lang),
             'level' => Store::level($percent),
             'pct' => $pct,
@@ -179,7 +194,9 @@ final class Pages
             'map' => $map,
             'minutes' => max(1, (int) round((strtotime($a['finished_at']) - strtotime($a['created_at'])) / 60)),
             'courses' => $rec,
-            'wa_text' => $this->i18n->t('diag.wa_message', $a['name'], $a['grade'], $pct),
+            'wa_text' => $english
+                ? $this->i18n->t('diag_en.wa_message', $a['name'], $this->store->label((int) $a['grade'], $this->lang), $pct)
+                : $this->i18n->t('diag.wa_message', $a['name'], $a['grade'], $pct),
         ], 'test_result', $this->alt('test/r/' . $token));
     }
 }

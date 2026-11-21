@@ -48,6 +48,7 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 Правки админки, заявки и фото живут на сервере (`app/storage`, `public/uploads`) и в репозиторий не попадают.
 Диагностика по математике `/test` (5–11 кл.): тесты и ключи в `app/content/diagnostics.json`, проверка `app/lib/Diag/*`,
 результаты в `diag_attempts` (storage/leads.sqlite) + заявка; демо-прохождения помечены `demo = 1`.
+Тест по английскому `/test/english` — там же, тесты с `subject: english` (коды 104/106/108/121/131, ключи вручную).
 Деплой `.github/workflows/deploy-smartway.yml` (composer → dist → FTP). Трекерный деплой игнорирует `sites/**`.
 
 ## Третий проект: тесты Kostobe (`sites/kostobe/`)

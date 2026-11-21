@@ -32,7 +32,7 @@
   @media (max-width: 860px) { .g2 { grid-template-columns: 1fr; } }
 </style>
 <div class="d-head">
-  <h1>Диагностика по математике</h1>
+  <h1>Диагностика: математика и английский</h1>
   <span><a href="/test" target="_blank" rel="noopener">Открыть тест ↗</a></span>
 </div>
 <p class="muted">Ученики проходят тест на сайте (<code>/test</code>, <code>/kz/test</code>, <code>/en/test</code>). Каждое прохождение сразу попадает и сюда, и в «Заявки» со статусом «Новая».</p>
@@ -40,7 +40,7 @@
 <div class="d-filters">
   {% set base = f.demo ? {} : {real: 1} %}
   <a href="/admin/diag?{{ base|merge({lang: f.lang})|url_encode }}" {% if not f.grade %}aria-current="page"{% endif %}>Все классы</a>
-  {% for g in grades %}<a href="/admin/diag?{{ base|merge({grade: g, lang: f.lang})|url_encode }}" {% if f.grade == g %}aria-current="page"{% endif %}>{{ g }} кл.</a>{% endfor %}
+  {% for g in grades %}<a href="/admin/diag?{{ base|merge({grade: g, lang: f.lang})|url_encode }}" {% if f.grade == g %}aria-current="page"{% endif %}>{{ labels[g] ?? (g ~ ' кл.') }}</a>{% endfor %}
   <span class="sep"></span>
   {% for l, name in {'': 'Все языки', ru: 'RU', kz: 'KZ', en: 'EN'} %}<a href="/admin/diag?{{ base|merge({grade: f.grade, lang: l ?: null})|url_encode }}" {% if (f.lang ?? '') == l %}aria-current="page"{% endif %}>{{ name }}</a>{% endfor %}
   <span class="sep"></span>
@@ -87,7 +87,7 @@
     <thead><tr><th>Класс</th><th>Прохождений</th><th>Средний %</th><th>Уровни</th></tr></thead>
     <tbody>
     {% for g, s in stats.by_grade %}
-    <tr><td><a href="/admin/diag?{{ base|merge({grade: g})|url_encode }}">{{ g }} класс</a></td><td>{{ s.n }}</td><td class="pct">{{ s.avg|number_format(1, ',') }}%</td>
+    <tr><td><a href="/admin/diag?{{ base|merge({grade: g})|url_encode }}">{{ labels[g] ?? (g ~ ' класс') }}</a></td><td>{{ s.n }}</td><td class="pct">{{ s.avg|number_format(1, ',') }}%</td>
       <td><div class="lvl">{% for k in ['high', 'good', 'base', 'low'] %}{% if s.levels[k] ?? 0 %}<i class="c-{{ k }}" style="width: {{ s.levels[k] / s.n * 100 }}%" title="{{ s.levels[k] }}"></i>{% endif %}{% endfor %}</div></td></tr>
     {% endfor %}
     </tbody>
@@ -115,7 +115,7 @@
   <p class="muted small">Доля набранных баллов и самый частый неверный ответ — по нему видно, в чём именно ошибка.</p>
   <ol class="hard">
     {% for h in stats.hard %}
-    <li><span class="meter"><s style="width: {{ 100 - h.rate }}%"></s></span><b>{{ h.rate|round }}%</b> · <span class="tag">{{ h.grade }} кл., №{{ h.n }}</span> <span class="tag">{{ topics[h.topic] }}</span><br>
+    <li><span class="meter"><s style="width: {{ 100 - h.rate }}%"></s></span><b>{{ h.rate|round }}%</b> · <span class="tag">{{ labels[h.grade] ?? (h.grade ~ ' кл.') }}, №{{ h.n }}</span> <span class="tag">{{ topics[h.topic] }}</span><br>
       {{ h.text }}<br>
       <span class="muted small">{% if h.wrong %}Частая ошибка: «{{ h.wrong }}» ({{ h.wrong_n }} из {{ h.count }}){% endif %}{% if h.empty %} · без ответа: {{ h.empty }}{% endif %}</span></li>
     {% endfor %}
@@ -135,7 +135,7 @@
       <td>{{ r.finished_at|date('d.m H:i') }}</td>
       <td><a href="/admin/diag/{{ r.id }}">{{ r.name }}</a> {% if r.demo %}<span class="tag tag--demo">демо</span>{% endif %}</td>
       <td>{{ r.phone }}</td>
-      <td>{{ r.grade }}</td>
+      <td>{{ labels[r.grade] ?? r.grade }}</td>
       <td>{{ r.lang|upper }}</td>
       <td><span class="pct">{{ r.percent|number_format(1, ',') }}%</span> <span class="lvl" style="display:inline-flex;width:60px;vertical-align:middle"><i class="c-{{ lv }}" style="width: {{ r.percent }}%"></i></span></td>
       <td>{% if r.lead_status %}<span class="status status--{{ r.lead_status }}">{{ statuses[r.lead_status] }}</span>{% else %}—{% endif %}</td>

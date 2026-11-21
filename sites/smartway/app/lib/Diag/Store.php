@@ -50,6 +50,35 @@ final class Store
         return array_map(fn ($t) => (int) $t['grade'], $this->data()['tests']);
     }
 
+    /** Предмет теста: math (по умолчанию) или english. */
+    public static function subject(?array $test): string
+    {
+        return $test['subject'] ?? 'math';
+    }
+
+    /** Подпись теста для людей: «7 класс» у математики, «4–5 класс» / «Advanced» у английского. */
+    public function label(int $grade, string $lang = 'ru'): string
+    {
+        $t = $this->test($grade);
+        if ($t && isset($t['label'])) {
+            return (string) Content::localize($t['label'], $lang);
+        }
+
+        return $grade . ($lang === 'kz' ? ' сынып' : ($lang === 'en' ? ' grade' : ' класс'));
+    }
+
+    /** Подписи всех тестов (для админки): код → «Англ. 4–5 класс» или «7 класс». */
+    public function labels(): array
+    {
+        $out = [];
+        foreach ($this->data()['tests'] as $t) {
+            $g = (int) $t['grade'];
+            $out[$g] = self::subject($t) === 'english' ? 'Англ. ' . $this->label($g) : $g . ' класс';
+        }
+
+        return $out;
+    }
+
     public static function level(float $p): string
     {
         foreach (self::LEVELS as $min => $key) {

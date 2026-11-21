@@ -85,6 +85,16 @@
    "ru": "Тригонометрия",
    "kz": "Тригонометрия",
    "en": "Trigonometry"
+  },
+  "en_grammar": {
+   "ru": "Грамматика",
+   "kz": "Грамматика",
+   "en": "Grammar"
+  },
+  "en_vocab": {
+   "ru": "Лексика",
+   "kz": "Лексика",
+   "en": "Vocabulary"
   }
  },
  "tests": [
@@ -3351,6 +3361,7701 @@
       "30",
       "27"
      ]
+    }
+   ]
+  },
+  {
+   "grade": 104,
+   "subject": "english",
+   "label": {
+    "ru": "4–5 класс",
+    "kz": "4–5 сынып",
+    "en": "Grades 4–5"
+   },
+   "cefr": "A1",
+   "title": {
+    "ru": "Тест по английскому — 4–5 класс",
+    "kz": "Ағылшын тілінен тест — 4–5 сынып",
+    "en": "English placement test — Grades 4–5"
+   },
+   "source": {
+    "ru": "Google-форма «Вступительный тест — 4-5 класс» (ключи посчитаны вручную)"
+   },
+   "minutes": 30,
+   "questions": [
+    {
+     "id": "e104q1",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Hello. ___ your name?",
+      "kz": "Hello. ___ your name?",
+      "en": "Hello. ___ your name?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "What",
+        "kz": "What",
+        "en": "What"
+       },
+       {
+        "ru": "What are",
+        "kz": "What are",
+        "en": "What are"
+       },
+       {
+        "ru": "What's",
+        "kz": "What's",
+        "en": "What's"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q2",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Maria is German. ___ a student.",
+      "kz": "Maria is German. ___ a student.",
+      "en": "Maria is German. ___ a student."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "She's",
+        "kz": "She's",
+        "en": "She's"
+       },
+       {
+        "ru": "He's",
+        "kz": "He's",
+        "en": "He's"
+       },
+       {
+        "ru": "It's",
+        "kz": "It's",
+        "en": "It's"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q3",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "A: Where ___ from? B: He's from Turkey.",
+      "kz": "A: Where ___ from? B: He's from Turkey.",
+      "en": "A: Where ___ from? B: He's from Turkey."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "he is",
+        "kz": "he is",
+        "en": "he is"
+       },
+       {
+        "ru": "is",
+        "kz": "is",
+        "en": "is"
+       },
+       {
+        "ru": "is he",
+        "kz": "is he",
+        "en": "is he"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q4",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They ___ English, they're Scottish.",
+      "kz": "They ___ English, they're Scottish.",
+      "en": "They ___ English, they're Scottish."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "isn't",
+        "kz": "isn't",
+        "en": "isn't"
+       },
+       {
+        "ru": "aren't",
+        "kz": "aren't",
+        "en": "aren't"
+       },
+       {
+        "ru": "not are",
+        "kz": "not are",
+        "en": "not are"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q5",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "A: Are you from Paris? B: Yes, ___.",
+      "kz": "A: Are you from Paris? B: Yes, ___.",
+      "en": "A: Are you from Paris? B: Yes, ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "I am",
+        "kz": "I am",
+        "en": "I am"
+       },
+       {
+        "ru": "I'm",
+        "kz": "I'm",
+        "en": "I'm"
+       },
+       {
+        "ru": "I are",
+        "kz": "I are",
+        "en": "I are"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q6",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "She's Brazilian. ___ name's Daniela.",
+      "kz": "She's Brazilian. ___ name's Daniela.",
+      "en": "She's Brazilian. ___ name's Daniela."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "His",
+        "kz": "His",
+        "en": "His"
+       },
+       {
+        "ru": "Her",
+        "kz": "Her",
+        "en": "Her"
+       },
+       {
+        "ru": "Your",
+        "kz": "Your",
+        "en": "Your"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q7",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "We're from the USA. ___ surname is Mackay.",
+      "kz": "We're from the USA. ___ surname is Mackay.",
+      "en": "We're from the USA. ___ surname is Mackay."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "Your",
+        "kz": "Your",
+        "en": "Your"
+       },
+       {
+        "ru": "Their",
+        "kz": "Their",
+        "en": "Their"
+       },
+       {
+        "ru": "Our",
+        "kz": "Our",
+        "en": "Our"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q8",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "A: What are they? B: They're ___.",
+      "kz": "A: What are they? B: They're ___.",
+      "en": "A: What are they? B: They're ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "watches",
+        "kz": "watches",
+        "en": "watches"
+       },
+       {
+        "ru": "a watch",
+        "kz": "a watch",
+        "en": "a watch"
+       },
+       {
+        "ru": "watchs",
+        "kz": "watchs",
+        "en": "watchs"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q9",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "A: What is it? B: It's ___.",
+      "kz": "A: What is it? B: It's ___.",
+      "en": "A: What is it? B: It's ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "a umbrella",
+        "kz": "a umbrella",
+        "en": "a umbrella"
+       },
+       {
+        "ru": "an umbrella",
+        "kz": "an umbrella",
+        "en": "an umbrella"
+       },
+       {
+        "ru": "umbrella",
+        "kz": "umbrella",
+        "en": "umbrella"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q10",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "It's an ___.",
+      "kz": "It's an ___.",
+      "en": "It's an ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "animal ugly",
+        "kz": "animal ugly",
+        "en": "animal ugly"
+       },
+       {
+        "ru": "ugly animal",
+        "kz": "ugly animal",
+        "en": "ugly animal"
+       },
+       {
+        "ru": "beautiful animal",
+        "kz": "beautiful animal",
+        "en": "beautiful animal"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q11",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I have a ___.",
+      "kz": "I have a ___.",
+      "en": "I have a ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "bag very big",
+        "kz": "bag very big",
+        "en": "bag very big"
+       },
+       {
+        "ru": "very bag big",
+        "kz": "very bag big",
+        "en": "very bag big"
+       },
+       {
+        "ru": "very big bag",
+        "kz": "very big bag",
+        "en": "very big bag"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q12",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They're very ___.",
+      "kz": "They're very ___.",
+      "en": "They're very ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "difficult exercises",
+        "kz": "difficult exercises",
+        "en": "difficult exercises"
+       },
+       {
+        "ru": "exercises difficult",
+        "kz": "exercises difficult",
+        "en": "exercises difficult"
+       },
+       {
+        "ru": "difficults exercises",
+        "kz": "difficults exercises",
+        "en": "difficults exercises"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q13",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ careful! That dog's dangerous.",
+      "kz": "___ careful! That dog's dangerous.",
+      "en": "___ careful! That dog's dangerous."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "Have",
+        "kz": "Have",
+        "en": "Have"
+       },
+       {
+        "ru": "Be you",
+        "kz": "Be you",
+        "en": "Be you"
+       },
+       {
+        "ru": "Be",
+        "kz": "Be",
+        "en": "Be"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q14",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Please ___ in the library.",
+      "kz": "Please ___ in the library.",
+      "en": "Please ___ in the library."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "not eat",
+        "kz": "not eat",
+        "en": "not eat"
+       },
+       {
+        "ru": "don't eat",
+        "kz": "don't eat",
+        "en": "don't eat"
+       },
+       {
+        "ru": "no eat",
+        "kz": "no eat",
+        "en": "no eat"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q15",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I'm hungry. ___ stop at the café.",
+      "kz": "I'm hungry. ___ stop at the café.",
+      "en": "I'm hungry. ___ stop at the café."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "Let's",
+        "kz": "Let's",
+        "en": "Let's"
+       },
+       {
+        "ru": "Let",
+        "kz": "Let",
+        "en": "Let"
+       },
+       {
+        "ru": "Don't",
+        "kz": "Don't",
+        "en": "Don't"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q16",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I'm ___ Japan.",
+      "kz": "I'm ___ Japan.",
+      "en": "I'm ___ Japan."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "at",
+        "kz": "at",
+        "en": "at"
+       },
+       {
+        "ru": "from",
+        "kz": "from",
+        "en": "from"
+       },
+       {
+        "ru": "in",
+        "kz": "in",
+        "en": "in"
+       },
+       {
+        "ru": "off",
+        "kz": "off",
+        "en": "off"
+       },
+       {
+        "ru": "to",
+        "kz": "to",
+        "en": "to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q17",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Nice ___ meet you.",
+      "kz": "Nice ___ meet you.",
+      "en": "Nice ___ meet you."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 4,
+      "options": [
+       {
+        "ru": "at",
+        "kz": "at",
+        "en": "at"
+       },
+       {
+        "ru": "from",
+        "kz": "from",
+        "en": "from"
+       },
+       {
+        "ru": "in",
+        "kz": "in",
+        "en": "in"
+       },
+       {
+        "ru": "off",
+        "kz": "off",
+        "en": "off"
+       },
+       {
+        "ru": "to",
+        "kz": "to",
+        "en": "to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q18",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "What's bonjour ___ English?",
+      "kz": "What's bonjour ___ English?",
+      "en": "What's bonjour ___ English?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "at",
+        "kz": "at",
+        "en": "at"
+       },
+       {
+        "ru": "from",
+        "kz": "from",
+        "en": "from"
+       },
+       {
+        "ru": "in",
+        "kz": "in",
+        "en": "in"
+       },
+       {
+        "ru": "off",
+        "kz": "off",
+        "en": "off"
+       },
+       {
+        "ru": "to",
+        "kz": "to",
+        "en": "to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q19",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Look ___ the board.",
+      "kz": "Look ___ the board.",
+      "en": "Look ___ the board."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "at",
+        "kz": "at",
+        "en": "at"
+       },
+       {
+        "ru": "from",
+        "kz": "from",
+        "en": "from"
+       },
+       {
+        "ru": "in",
+        "kz": "in",
+        "en": "in"
+       },
+       {
+        "ru": "off",
+        "kz": "off",
+        "en": "off"
+       },
+       {
+        "ru": "to",
+        "kz": "to",
+        "en": "to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q20",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Please turn ___ your phone.",
+      "kz": "Please turn ___ your phone.",
+      "en": "Please turn ___ your phone."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 3,
+      "options": [
+       {
+        "ru": "at",
+        "kz": "at",
+        "en": "at"
+       },
+       {
+        "ru": "from",
+        "kz": "from",
+        "en": "from"
+       },
+       {
+        "ru": "in",
+        "kz": "in",
+        "en": "in"
+       },
+       {
+        "ru": "off",
+        "kz": "off",
+        "en": "off"
+       },
+       {
+        "ru": "to",
+        "kz": "to",
+        "en": "to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q21",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "___ the text.",
+      "kz": "___ the text.",
+      "en": "___ the text."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "Answer",
+        "kz": "Answer",
+        "en": "Answer"
+       },
+       {
+        "ru": "Open",
+        "kz": "Open",
+        "en": "Open"
+       },
+       {
+        "ru": "Read",
+        "kz": "Read",
+        "en": "Read"
+       },
+       {
+        "ru": "Stand",
+        "kz": "Stand",
+        "en": "Stand"
+       },
+       {
+        "ru": "Work",
+        "kz": "Work",
+        "en": "Work"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q22",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "___ in pairs.",
+      "kz": "___ in pairs.",
+      "en": "___ in pairs."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 4,
+      "options": [
+       {
+        "ru": "Answer",
+        "kz": "Answer",
+        "en": "Answer"
+       },
+       {
+        "ru": "Open",
+        "kz": "Open",
+        "en": "Open"
+       },
+       {
+        "ru": "Read",
+        "kz": "Read",
+        "en": "Read"
+       },
+       {
+        "ru": "Stand",
+        "kz": "Stand",
+        "en": "Stand"
+       },
+       {
+        "ru": "Work",
+        "kz": "Work",
+        "en": "Work"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q23",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "___ up.",
+      "kz": "___ up.",
+      "en": "___ up."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 3,
+      "options": [
+       {
+        "ru": "Answer",
+        "kz": "Answer",
+        "en": "Answer"
+       },
+       {
+        "ru": "Open",
+        "kz": "Open",
+        "en": "Open"
+       },
+       {
+        "ru": "Read",
+        "kz": "Read",
+        "en": "Read"
+       },
+       {
+        "ru": "Stand",
+        "kz": "Stand",
+        "en": "Stand"
+       },
+       {
+        "ru": "Work",
+        "kz": "Work",
+        "en": "Work"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q24",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "___ the door.",
+      "kz": "___ the door.",
+      "en": "___ the door."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "Answer",
+        "kz": "Answer",
+        "en": "Answer"
+       },
+       {
+        "ru": "Open",
+        "kz": "Open",
+        "en": "Open"
+       },
+       {
+        "ru": "Read",
+        "kz": "Read",
+        "en": "Read"
+       },
+       {
+        "ru": "Stand",
+        "kz": "Stand",
+        "en": "Stand"
+       },
+       {
+        "ru": "Work",
+        "kz": "Work",
+        "en": "Work"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q25",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "___ the questions.",
+      "kz": "___ the questions.",
+      "en": "___ the questions."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "Answer",
+        "kz": "Answer",
+        "en": "Answer"
+       },
+       {
+        "ru": "Open",
+        "kz": "Open",
+        "en": "Open"
+       },
+       {
+        "ru": "Read",
+        "kz": "Read",
+        "en": "Read"
+       },
+       {
+        "ru": "Stand",
+        "kz": "Stand",
+        "en": "Stand"
+       },
+       {
+        "ru": "Work",
+        "kz": "Work",
+        "en": "Work"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q26",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? eight / file / seven / two",
+      "kz": "Which word is different? eight / file / seven / two",
+      "en": "Which word is different? eight / file / seven / two"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "eight",
+        "kz": "eight",
+        "en": "eight"
+       },
+       {
+        "ru": "file",
+        "kz": "file",
+        "en": "file"
+       },
+       {
+        "ru": "seven",
+        "kz": "seven",
+        "en": "seven"
+       },
+       {
+        "ru": "two",
+        "kz": "two",
+        "en": "two"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q27",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? Brazil / Chinese / Hungary / Switzerland",
+      "kz": "Which word is different? Brazil / Chinese / Hungary / Switzerland",
+      "en": "Which word is different? Brazil / Chinese / Hungary / Switzerland"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "Brazil",
+        "kz": "Brazil",
+        "en": "Brazil"
+       },
+       {
+        "ru": "Chinese",
+        "kz": "Chinese",
+        "en": "Chinese"
+       },
+       {
+        "ru": "Hungary",
+        "kz": "Hungary",
+        "en": "Hungary"
+       },
+       {
+        "ru": "Switzerland",
+        "kz": "Switzerland",
+        "en": "Switzerland"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q28",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? France / Italian / Japanese / Polish",
+      "kz": "Which word is different? France / Italian / Japanese / Polish",
+      "en": "Which word is different? France / Italian / Japanese / Polish"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "France",
+        "kz": "France",
+        "en": "France"
+       },
+       {
+        "ru": "Italian",
+        "kz": "Italian",
+        "en": "Italian"
+       },
+       {
+        "ru": "Japanese",
+        "kz": "Japanese",
+        "en": "Japanese"
+       },
+       {
+        "ru": "Polish",
+        "kz": "Polish",
+        "en": "Polish"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q29",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? Africa / Asia / Europe / Ireland",
+      "kz": "Which word is different? Africa / Asia / Europe / Ireland",
+      "en": "Which word is different? Africa / Asia / Europe / Ireland"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 3,
+      "options": [
+       {
+        "ru": "Africa",
+        "kz": "Africa",
+        "en": "Africa"
+       },
+       {
+        "ru": "Asia",
+        "kz": "Asia",
+        "en": "Asia"
+       },
+       {
+        "ru": "Europe",
+        "kz": "Europe",
+        "en": "Europe"
+       },
+       {
+        "ru": "Ireland",
+        "kz": "Ireland",
+        "en": "Ireland"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q30",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? sixteen / forty / eighty / ninety",
+      "kz": "Which word is different? sixteen / forty / eighty / ninety",
+      "en": "Which word is different? sixteen / forty / eighty / ninety"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "sixteen",
+        "kz": "sixteen",
+        "en": "sixteen"
+       },
+       {
+        "ru": "forty",
+        "kz": "forty",
+        "en": "forty"
+       },
+       {
+        "ru": "eighty",
+        "kz": "eighty",
+        "en": "eighty"
+       },
+       {
+        "ru": "ninety",
+        "kz": "ninety",
+        "en": "ninety"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q31",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? Friday / Italy / Monday / Wednesday",
+      "kz": "Which word is different? Friday / Italy / Monday / Wednesday",
+      "en": "Which word is different? Friday / Italy / Monday / Wednesday"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "Friday",
+        "kz": "Friday",
+        "en": "Friday"
+       },
+       {
+        "ru": "Italy",
+        "kz": "Italy",
+        "en": "Italy"
+       },
+       {
+        "ru": "Monday",
+        "kz": "Monday",
+        "en": "Monday"
+       },
+       {
+        "ru": "Wednesday",
+        "kz": "Wednesday",
+        "en": "Wednesday"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q32",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? glasses / headphones / purse / scissors",
+      "kz": "Which word is different? glasses / headphones / purse / scissors",
+      "en": "Which word is different? glasses / headphones / purse / scissors"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "glasses",
+        "kz": "glasses",
+        "en": "glasses"
+       },
+       {
+        "ru": "headphones",
+        "kz": "headphones",
+        "en": "headphones"
+       },
+       {
+        "ru": "purse",
+        "kz": "purse",
+        "en": "purse"
+       },
+       {
+        "ru": "scissors",
+        "kz": "scissors",
+        "en": "scissors"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q33",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? door / school / window / wall",
+      "kz": "Which word is different? door / school / window / wall",
+      "en": "Which word is different? door / school / window / wall"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "door",
+        "kz": "door",
+        "en": "door"
+       },
+       {
+        "ru": "school",
+        "kz": "school",
+        "en": "school"
+       },
+       {
+        "ru": "window",
+        "kz": "window",
+        "en": "window"
+       },
+       {
+        "ru": "wall",
+        "kz": "wall",
+        "en": "wall"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q34",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? book / magazine / newspaper / wallet",
+      "kz": "Which word is different? book / magazine / newspaper / wallet",
+      "en": "Which word is different? book / magazine / newspaper / wallet"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 3,
+      "options": [
+       {
+        "ru": "book",
+        "kz": "book",
+        "en": "book"
+       },
+       {
+        "ru": "magazine",
+        "kz": "magazine",
+        "en": "magazine"
+       },
+       {
+        "ru": "newspaper",
+        "kz": "newspaper",
+        "en": "newspaper"
+       },
+       {
+        "ru": "wallet",
+        "kz": "wallet",
+        "en": "wallet"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q35",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Which word is different? angry / happy / stressed / tired",
+      "kz": "Which word is different? angry / happy / stressed / tired",
+      "en": "Which word is different? angry / happy / stressed / tired"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "angry",
+        "kz": "angry",
+        "en": "angry"
+       },
+       {
+        "ru": "happy",
+        "kz": "happy",
+        "en": "happy"
+       },
+       {
+        "ru": "stressed",
+        "kz": "stressed",
+        "en": "stressed"
+       },
+       {
+        "ru": "tired",
+        "kz": "tired",
+        "en": "tired"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q36",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Opposite of «good»",
+      "kz": "Opposite of «good»",
+      "en": "Opposite of «good»"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "bad",
+        "kz": "bad",
+        "en": "bad"
+       },
+       {
+        "ru": "happy",
+        "kz": "happy",
+        "en": "happy"
+       },
+       {
+        "ru": "big",
+        "kz": "big",
+        "en": "big"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q37",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Opposite of «expensive»",
+      "kz": "Opposite of «expensive»",
+      "en": "Opposite of «expensive»"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "cheap",
+        "kz": "cheap",
+        "en": "cheap"
+       },
+       {
+        "ru": "new",
+        "kz": "new",
+        "en": "new"
+       },
+       {
+        "ru": "heavy",
+        "kz": "heavy",
+        "en": "heavy"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q38",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Opposite of «dirty»",
+      "kz": "Opposite of «dirty»",
+      "en": "Opposite of «dirty»"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "wet",
+        "kz": "wet",
+        "en": "wet"
+       },
+       {
+        "ru": "clean",
+        "kz": "clean",
+        "en": "clean"
+       },
+       {
+        "ru": "big",
+        "kz": "big",
+        "en": "big"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q39",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Opposite of «high»",
+      "kz": "Opposite of «high»",
+      "en": "Opposite of «high»"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "tall",
+        "kz": "tall",
+        "en": "tall"
+       },
+       {
+        "ru": "narrow",
+        "kz": "narrow",
+        "en": "narrow"
+       },
+       {
+        "ru": "low",
+        "kz": "low",
+        "en": "low"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e104q40",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Opposite of «left»",
+      "kz": "Opposite of «left»",
+      "en": "Opposite of «left»"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "up",
+        "kz": "up",
+        "en": "up"
+       },
+       {
+        "ru": "down",
+        "kz": "down",
+        "en": "down"
+       },
+       {
+        "ru": "right",
+        "kz": "right",
+        "en": "right"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "grade": 106,
+   "subject": "english",
+   "label": {
+    "ru": "6–7 класс",
+    "kz": "6–7 сынып",
+    "en": "Grades 6–7"
+   },
+   "cefr": "A2",
+   "title": {
+    "ru": "Тест по английскому — 6–7 класс",
+    "kz": "Ағылшын тілінен тест — 6–7 сынып",
+    "en": "English placement test — Grades 6–7"
+   },
+   "source": {
+    "ru": "Google-форма «Вступительный тест — 6-7 класс» (ключи посчитаны вручную)"
+   },
+   "minutes": 35,
+   "questions": [
+    {
+     "id": "e106q1",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "We ___ to France last summer.",
+      "kz": "We ___ to France last summer.",
+      "en": "We ___ to France last summer."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "going",
+        "kz": "going",
+        "en": "going"
+       },
+       {
+        "ru": "go",
+        "kz": "go",
+        "en": "go"
+       },
+       {
+        "ru": "went",
+        "kz": "went",
+        "en": "went"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q2",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I always ___ toast for breakfast.",
+      "kz": "I always ___ toast for breakfast.",
+      "en": "I always ___ toast for breakfast."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "am having",
+        "kz": "am having",
+        "en": "am having"
+       },
+       {
+        "ru": "have",
+        "kz": "have",
+        "en": "have"
+       },
+       {
+        "ru": "has",
+        "kz": "has",
+        "en": "has"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q3",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ your brother play the guitar?",
+      "kz": "___ your brother play the guitar?",
+      "en": "___ your brother play the guitar?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "Does",
+        "kz": "Does",
+        "en": "Does"
+       },
+       {
+        "ru": "Has",
+        "kz": "Has",
+        "en": "Has"
+       },
+       {
+        "ru": "Is",
+        "kz": "Is",
+        "en": "Is"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q4",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "My mum doesn't like ___ to work.",
+      "kz": "My mum doesn't like ___ to work.",
+      "en": "My mum doesn't like ___ to work."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "drive",
+        "kz": "drive",
+        "en": "drive"
+       },
+       {
+        "ru": "driving",
+        "kz": "driving",
+        "en": "driving"
+       },
+       {
+        "ru": "to driving",
+        "kz": "to driving",
+        "en": "to driving"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q5",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They ___ TV at the moment.",
+      "kz": "They ___ TV at the moment.",
+      "en": "They ___ TV at the moment."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "'re watching",
+        "kz": "'re watching",
+        "en": "'re watching"
+       },
+       {
+        "ru": "watched",
+        "kz": "watched",
+        "en": "watched"
+       },
+       {
+        "ru": "watch",
+        "kz": "watch",
+        "en": "watch"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q6",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I ___ to Rome.",
+      "kz": "I ___ to Rome.",
+      "en": "I ___ to Rome."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "am never been",
+        "kz": "am never been",
+        "en": "am never been"
+       },
+       {
+        "ru": "'ve never been",
+        "kz": "'ve never been",
+        "en": "'ve never been"
+       },
+       {
+        "ru": "was never",
+        "kz": "was never",
+        "en": "was never"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q7",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "What ___ tomorrow afternoon?",
+      "kz": "What ___ tomorrow afternoon?",
+      "en": "What ___ tomorrow afternoon?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "are you going",
+        "kz": "are you going",
+        "en": "are you going"
+       },
+       {
+        "ru": "are you going to do",
+        "kz": "are you going to do",
+        "en": "are you going to do"
+       },
+       {
+        "ru": "do you do",
+        "kz": "do you do",
+        "en": "do you do"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q8",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "We ___ to Rome and then we drove to Florence.",
+      "kz": "We ___ to Rome and then we drove to Florence.",
+      "en": "We ___ to Rome and then we drove to Florence."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "flew",
+        "kz": "flew",
+        "en": "flew"
+       },
+       {
+        "ru": "flown",
+        "kz": "flown",
+        "en": "flown"
+       },
+       {
+        "ru": "flied",
+        "kz": "flied",
+        "en": "flied"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q9",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "She ___ to school today because she's ill.",
+      "kz": "She ___ to school today because she's ill.",
+      "en": "She ___ to school today because she's ill."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "doesn't go",
+        "kz": "doesn't go",
+        "en": "doesn't go"
+       },
+       {
+        "ru": "didn't go",
+        "kz": "didn't go",
+        "en": "didn't go"
+       },
+       {
+        "ru": "didn't going",
+        "kz": "didn't going",
+        "en": "didn't going"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q10",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I ___ at the moment because I'm on holiday.",
+      "kz": "I ___ at the moment because I'm on holiday.",
+      "en": "I ___ at the moment because I'm on holiday."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "'m not studying",
+        "kz": "'m not studying",
+        "en": "'m not studying"
+       },
+       {
+        "ru": "don't study",
+        "kz": "don't study",
+        "en": "don't study"
+       },
+       {
+        "ru": "not study",
+        "kz": "not study",
+        "en": "not study"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q11",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Have you ever ___ Japanese food?",
+      "kz": "Have you ever ___ Japanese food?",
+      "en": "Have you ever ___ Japanese food?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "eat",
+        "kz": "eat",
+        "en": "eat"
+       },
+       {
+        "ru": "eaten",
+        "kz": "eaten",
+        "en": "eaten"
+       },
+       {
+        "ru": "ate",
+        "kz": "ate",
+        "en": "ate"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q12",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They ___ pizza. They had pasta.",
+      "kz": "They ___ pizza. They had pasta.",
+      "en": "They ___ pizza. They had pasta."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "didn't have",
+        "kz": "didn't have",
+        "en": "didn't have"
+       },
+       {
+        "ru": "don't have",
+        "kz": "don't have",
+        "en": "don't have"
+       },
+       {
+        "ru": "didn't had",
+        "kz": "didn't had",
+        "en": "didn't had"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q13",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Who ___ your favourite actors?",
+      "kz": "Who ___ your favourite actors?",
+      "en": "Who ___ your favourite actors?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "be",
+        "kz": "be",
+        "en": "be"
+       },
+       {
+        "ru": "are",
+        "kz": "are",
+        "en": "are"
+       },
+       {
+        "ru": "is",
+        "kz": "is",
+        "en": "is"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q14",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "How often ___ to the cinema?",
+      "kz": "How often ___ to the cinema?",
+      "en": "How often ___ to the cinema?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "go you",
+        "kz": "go you",
+        "en": "go you"
+       },
+       {
+        "ru": "do you go",
+        "kz": "do you go",
+        "en": "do you go"
+       },
+       {
+        "ru": "you do go",
+        "kz": "you do go",
+        "en": "you do go"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q15",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They ___ early on Sundays.",
+      "kz": "They ___ early on Sundays.",
+      "en": "They ___ early on Sundays."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "haven't got up",
+        "kz": "haven't got up",
+        "en": "haven't got up"
+       },
+       {
+        "ru": "aren't getting up",
+        "kz": "aren't getting up",
+        "en": "aren't getting up"
+       },
+       {
+        "ru": "don't get up",
+        "kz": "don't get up",
+        "en": "don't get up"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q16",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "This is ___ interesting book. Have you read it?",
+      "kz": "This is ___ interesting book. Have you read it?",
+      "en": "This is ___ interesting book. Have you read it?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "a",
+        "kz": "a",
+        "en": "a"
+       },
+       {
+        "ru": "an",
+        "kz": "an",
+        "en": "an"
+       },
+       {
+        "ru": "the",
+        "kz": "the",
+        "en": "the"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q17",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I often go shopping ___ the weekend.",
+      "kz": "I often go shopping ___ the weekend.",
+      "en": "I often go shopping ___ the weekend."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "in",
+        "kz": "in",
+        "en": "in"
+       },
+       {
+        "ru": "for",
+        "kz": "for",
+        "en": "for"
+       },
+       {
+        "ru": "at",
+        "kz": "at",
+        "en": "at"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q18",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "The ___ children played in the garden.",
+      "kz": "The ___ children played in the garden.",
+      "en": "The ___ children played in the garden."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "happy",
+        "kz": "happy",
+        "en": "happy"
+       },
+       {
+        "ru": "happiness",
+        "kz": "happiness",
+        "en": "happiness"
+       },
+       {
+        "ru": "happily",
+        "kz": "happily",
+        "en": "happily"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q19",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "These shoes aren't ___. Look! They're too small.",
+      "kz": "These shoes aren't ___. Look! They're too small.",
+      "en": "These shoes aren't ___. Look! They're too small."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "my",
+        "kz": "my",
+        "en": "my"
+       },
+       {
+        "ru": "me",
+        "kz": "me",
+        "en": "me"
+       },
+       {
+        "ru": "mine",
+        "kz": "mine",
+        "en": "mine"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q20",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ there any biscuits?",
+      "kz": "___ there any biscuits?",
+      "en": "___ there any biscuits?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "Are",
+        "kz": "Are",
+        "en": "Are"
+       },
+       {
+        "ru": "Is",
+        "kz": "Is",
+        "en": "Is"
+       },
+       {
+        "ru": "Be",
+        "kz": "Be",
+        "en": "Be"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q21",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "She hardly ___ travels abroad.",
+      "kz": "She hardly ___ travels abroad.",
+      "en": "She hardly ___ travels abroad."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "never",
+        "kz": "never",
+        "en": "never"
+       },
+       {
+        "ru": "ever",
+        "kz": "ever",
+        "en": "ever"
+       },
+       {
+        "ru": "more",
+        "kz": "more",
+        "en": "more"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q22",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Paul left work an hour ___.",
+      "kz": "Paul left work an hour ___.",
+      "en": "Paul left work an hour ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "since",
+        "kz": "since",
+        "en": "since"
+       },
+       {
+        "ru": "past",
+        "kz": "past",
+        "en": "past"
+       },
+       {
+        "ru": "ago",
+        "kz": "ago",
+        "en": "ago"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q23",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "How ___ chocolate do you eat?",
+      "kz": "How ___ chocolate do you eat?",
+      "en": "How ___ chocolate do you eat?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "a lot",
+        "kz": "a lot",
+        "en": "a lot"
+       },
+       {
+        "ru": "much",
+        "kz": "much",
+        "en": "much"
+       },
+       {
+        "ru": "many",
+        "kz": "many",
+        "en": "many"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q24",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "This is ___ film I've ever seen.",
+      "kz": "This is ___ film I've ever seen.",
+      "en": "This is ___ film I've ever seen."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "the best",
+        "kz": "the best",
+        "en": "the best"
+       },
+       {
+        "ru": "the most best",
+        "kz": "the most best",
+        "en": "the most best"
+       },
+       {
+        "ru": "the better",
+        "kz": "the better",
+        "en": "the better"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q25",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I'm younger ___ my sister.",
+      "kz": "I'm younger ___ my sister.",
+      "en": "I'm younger ___ my sister."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "that",
+        "kz": "that",
+        "en": "that"
+       },
+       {
+        "ru": "than",
+        "kz": "than",
+        "en": "than"
+       },
+       {
+        "ru": "more",
+        "kz": "more",
+        "en": "more"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q26",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The number after ninety-nine is ___.",
+      "kz": "The number after ninety-nine is ___.",
+      "en": "The number after ninety-nine is ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "one thousand",
+        "kz": "one thousand",
+        "en": "one thousand"
+       },
+       {
+        "ru": "one million",
+        "kz": "one million",
+        "en": "one million"
+       },
+       {
+        "ru": "one hundred",
+        "kz": "one hundred",
+        "en": "one hundred"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q27",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The number after 11 is ___.",
+      "kz": "The number after 11 is ___.",
+      "en": "The number after 11 is ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "eleven",
+        "kz": "eleven",
+        "en": "eleven"
+       },
+       {
+        "ru": "twelve",
+        "kz": "twelve",
+        "en": "twelve"
+       },
+       {
+        "ru": "twenty",
+        "kz": "twenty",
+        "en": "twenty"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q28",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I can speak ___.",
+      "kz": "I can speak ___.",
+      "en": "I can speak ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "French",
+        "kz": "French",
+        "en": "French"
+       },
+       {
+        "ru": "England",
+        "kz": "England",
+        "en": "England"
+       },
+       {
+        "ru": "Germany",
+        "kz": "Germany",
+        "en": "Germany"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q29",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "He put the money in his ___.",
+      "kz": "He put the money in his ___.",
+      "en": "He put the money in his ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "credit card",
+        "kz": "credit card",
+        "en": "credit card"
+       },
+       {
+        "ru": "wallet",
+        "kz": "wallet",
+        "en": "wallet"
+       },
+       {
+        "ru": "coins",
+        "kz": "coins",
+        "en": "coins"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q30",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "'What's the time?' 'Sorry, I don't have a ___.'",
+      "kz": "'What's the time?' 'Sorry, I don't have a ___.'",
+      "en": "'What's the time?' 'Sorry, I don't have a ___.'"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "time",
+        "kz": "time",
+        "en": "time"
+       },
+       {
+        "ru": "watch",
+        "kz": "watch",
+        "en": "watch"
+       },
+       {
+        "ru": "book",
+        "kz": "book",
+        "en": "book"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q31",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I usually ___ a sandwich for lunch.",
+      "kz": "I usually ___ a sandwich for lunch.",
+      "en": "I usually ___ a sandwich for lunch."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "have",
+        "kz": "have",
+        "en": "have"
+       },
+       {
+        "ru": "drink",
+        "kz": "drink",
+        "en": "drink"
+       },
+       {
+        "ru": "cook",
+        "kz": "cook",
+        "en": "cook"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q32",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I ___ my homework after every lesson.",
+      "kz": "I ___ my homework after every lesson.",
+      "en": "I ___ my homework after every lesson."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "have",
+        "kz": "have",
+        "en": "have"
+       },
+       {
+        "ru": "make",
+        "kz": "make",
+        "en": "make"
+       },
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q33",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Do you ___ much exercise?",
+      "kz": "Do you ___ much exercise?",
+      "en": "Do you ___ much exercise?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "play",
+        "kz": "play",
+        "en": "play"
+       },
+       {
+        "ru": "make",
+        "kz": "make",
+        "en": "make"
+       },
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q34",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "My aunt is a ___. She works for a newspaper.",
+      "kz": "My aunt is a ___. She works for a newspaper.",
+      "en": "My aunt is a ___. She works for a newspaper."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "journalist",
+        "kz": "journalist",
+        "en": "journalist"
+       },
+       {
+        "ru": "nurse",
+        "kz": "nurse",
+        "en": "nurse"
+       },
+       {
+        "ru": "lawyer",
+        "kz": "lawyer",
+        "en": "lawyer"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q35",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "She answers the phone and talks to visitors. She's a ___.",
+      "kz": "She answers the phone and talks to visitors. She's a ___.",
+      "en": "She answers the phone and talks to visitors. She's a ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "builder",
+        "kz": "builder",
+        "en": "builder"
+       },
+       {
+        "ru": "musician",
+        "kz": "musician",
+        "en": "musician"
+       },
+       {
+        "ru": "receptionist",
+        "kz": "receptionist",
+        "en": "receptionist"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q36",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "My aunt's husband is my ___.",
+      "kz": "My aunt's husband is my ___.",
+      "en": "My aunt's husband is my ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "cousin",
+        "kz": "cousin",
+        "en": "cousin"
+       },
+       {
+        "ru": "nephew",
+        "kz": "nephew",
+        "en": "nephew"
+       },
+       {
+        "ru": "uncle",
+        "kz": "uncle",
+        "en": "uncle"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q37",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The opposite of empty is ___.",
+      "kz": "The opposite of empty is ___.",
+      "en": "The opposite of empty is ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "full",
+        "kz": "full",
+        "en": "full"
+       },
+       {
+        "ru": "rich",
+        "kz": "rich",
+        "en": "rich"
+       },
+       {
+        "ru": "safe",
+        "kz": "safe",
+        "en": "safe"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q38",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The opposite of cheap is ___.",
+      "kz": "The opposite of cheap is ___.",
+      "en": "The opposite of cheap is ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "dangerous",
+        "kz": "dangerous",
+        "en": "dangerous"
+       },
+       {
+        "ru": "expensive",
+        "kz": "expensive",
+        "en": "expensive"
+       },
+       {
+        "ru": "boring",
+        "kz": "boring",
+        "en": "boring"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q39",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The day after Wednesday is ___.",
+      "kz": "The day after Wednesday is ___.",
+      "en": "The day after Wednesday is ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "Tuesday",
+        "kz": "Tuesday",
+        "en": "Tuesday"
+       },
+       {
+        "ru": "Thursday",
+        "kz": "Thursday",
+        "en": "Thursday"
+       },
+       {
+        "ru": "Friday",
+        "kz": "Friday",
+        "en": "Friday"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q40",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "It's usually cold in ___.",
+      "kz": "It's usually cold in ___.",
+      "en": "It's usually cold in ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "winter",
+        "kz": "winter",
+        "en": "winter"
+       },
+       {
+        "ru": "spring",
+        "kz": "spring",
+        "en": "spring"
+       },
+       {
+        "ru": "summer",
+        "kz": "summer",
+        "en": "summer"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q41",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The month after May is ___.",
+      "kz": "The month after May is ___.",
+      "en": "The month after May is ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "July",
+        "kz": "July",
+        "en": "July"
+       },
+       {
+        "ru": "June",
+        "kz": "June",
+        "en": "June"
+       },
+       {
+        "ru": "April",
+        "kz": "April",
+        "en": "April"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q42",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "She ___ the radio and listened to the news.",
+      "kz": "She ___ the radio and listened to the news.",
+      "en": "She ___ the radio and listened to the news."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "turned off",
+        "kz": "turned off",
+        "en": "turned off"
+       },
+       {
+        "ru": "looked for",
+        "kz": "looked for",
+        "en": "looked for"
+       },
+       {
+        "ru": "turned on",
+        "kz": "turned on",
+        "en": "turned on"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q43",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "'Where's Tommy?' 'He's ___ his bike.'",
+      "kz": "'Where's Tommy?' 'He's ___ his bike.'",
+      "en": "'Where's Tommy?' 'He's ___ his bike.'"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "riding",
+        "kz": "riding",
+        "en": "riding"
+       },
+       {
+        "ru": "driving",
+        "kz": "driving",
+        "en": "driving"
+       },
+       {
+        "ru": "playing",
+        "kz": "playing",
+        "en": "playing"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q44",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Can you ___ a photo of us, please?",
+      "kz": "Can you ___ a photo of us, please?",
+      "en": "Can you ___ a photo of us, please?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       },
+       {
+        "ru": "make",
+        "kz": "make",
+        "en": "make"
+       },
+       {
+        "ru": "take",
+        "kz": "take",
+        "en": "take"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q45",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Let's ___ for a walk.",
+      "kz": "Let's ___ for a walk.",
+      "en": "Let's ___ for a walk."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "go",
+        "kz": "go",
+        "en": "go"
+       },
+       {
+        "ru": "have",
+        "kz": "have",
+        "en": "have"
+       },
+       {
+        "ru": "get",
+        "kz": "get",
+        "en": "get"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q46",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Bye. ___ a nice time.",
+      "kz": "Bye. ___ a nice time.",
+      "en": "Bye. ___ a nice time."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "Have",
+        "kz": "Have",
+        "en": "Have"
+       },
+       {
+        "ru": "Make",
+        "kz": "Make",
+        "en": "Make"
+       },
+       {
+        "ru": "Do",
+        "kz": "Do",
+        "en": "Do"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q47",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "We cook in the ___.",
+      "kz": "We cook in the ___.",
+      "en": "We cook in the ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "kitchen",
+        "kz": "kitchen",
+        "en": "kitchen"
+       },
+       {
+        "ru": "dining room",
+        "kz": "dining room",
+        "en": "dining room"
+       },
+       {
+        "ru": "garage",
+        "kz": "garage",
+        "en": "garage"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q48",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "We eat in the ___.",
+      "kz": "We eat in the ___.",
+      "en": "We eat in the ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "bathroom",
+        "kz": "bathroom",
+        "en": "bathroom"
+       },
+       {
+        "ru": "dining room",
+        "kz": "dining room",
+        "en": "dining room"
+       },
+       {
+        "ru": "garage",
+        "kz": "garage",
+        "en": "garage"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q49",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "You can buy medicine at a ___.",
+      "kz": "You can buy medicine at a ___.",
+      "en": "You can buy medicine at a ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "chemist's",
+        "kz": "chemist's",
+        "en": "chemist's"
+       },
+       {
+        "ru": "hospital",
+        "kz": "hospital",
+        "en": "hospital"
+       },
+       {
+        "ru": "post office",
+        "kz": "post office",
+        "en": "post office"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e106q50",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "'Would you like milk in your coffee?' 'No, just ___, please.'",
+      "kz": "'Would you like milk in your coffee?' 'No, just ___, please.'",
+      "en": "'Would you like milk in your coffee?' 'No, just ___, please.'"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "sweets",
+        "kz": "sweets",
+        "en": "sweets"
+       },
+       {
+        "ru": "cheese",
+        "kz": "cheese",
+        "en": "cheese"
+       },
+       {
+        "ru": "sugar",
+        "kz": "sugar",
+        "en": "sugar"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "grade": 108,
+   "subject": "english",
+   "label": {
+    "ru": "8–10 класс",
+    "kz": "8–10 сынып",
+    "en": "Grades 8–10"
+   },
+   "cefr": "B1",
+   "title": {
+    "ru": "Тест по английскому — 8–10 класс",
+    "kz": "Ағылшын тілінен тест — 8–10 сынып",
+    "en": "English placement test — Grades 8–10"
+   },
+   "source": {
+    "ru": "Google-форма «Вступительный тест — 8-9-10 класс» (ключи посчитаны вручную)"
+   },
+   "minutes": 35,
+   "questions": [
+    {
+     "id": "e108q1",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "'Have you finished that report?' 'No, not ___.'",
+      "kz": "'Have you finished that report?' 'No, not ___.'",
+      "en": "'Have you finished that report?' 'No, not ___.'"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "just",
+        "kz": "just",
+        "en": "just"
+       },
+       {
+        "ru": "already",
+        "kz": "already",
+        "en": "already"
+       },
+       {
+        "ru": "yet",
+        "kz": "yet",
+        "en": "yet"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q2",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "What ___ you do yesterday afternoon?",
+      "kz": "What ___ you do yesterday afternoon?",
+      "en": "What ___ you do yesterday afternoon?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "are",
+        "kz": "are",
+        "en": "are"
+       },
+       {
+        "ru": "did",
+        "kz": "did",
+        "en": "did"
+       },
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q3",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I ___ in the park when it started raining.",
+      "kz": "I ___ in the park when it started raining.",
+      "en": "I ___ in the park when it started raining."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "sat",
+        "kz": "sat",
+        "en": "sat"
+       },
+       {
+        "ru": "was sitting",
+        "kz": "was sitting",
+        "en": "was sitting"
+       },
+       {
+        "ru": "sit",
+        "kz": "sit",
+        "en": "sit"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q4",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ you ever been to the museum? 'No, this is the first time.'",
+      "kz": "___ you ever been to the museum? 'No, this is the first time.'",
+      "en": "___ you ever been to the museum? 'No, this is the first time.'"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "Had",
+        "kz": "Had",
+        "en": "Had"
+       },
+       {
+        "ru": "Has",
+        "kz": "Has",
+        "en": "Has"
+       },
+       {
+        "ru": "Have",
+        "kz": "Have",
+        "en": "Have"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q5",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "He couldn't remember where he ___ his car.",
+      "kz": "He couldn't remember where he ___ his car.",
+      "en": "He couldn't remember where he ___ his car."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "had parked",
+        "kz": "had parked",
+        "en": "had parked"
+       },
+       {
+        "ru": "was parking",
+        "kz": "was parking",
+        "en": "was parking"
+       },
+       {
+        "ru": "has parked",
+        "kz": "has parked",
+        "en": "has parked"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q6",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "We ___ work tomorrow.",
+      "kz": "We ___ work tomorrow.",
+      "en": "We ___ work tomorrow."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "haven't to",
+        "kz": "haven't to",
+        "en": "haven't to"
+       },
+       {
+        "ru": "don't have to",
+        "kz": "don't have to",
+        "en": "don't have to"
+       },
+       {
+        "ru": "must to",
+        "kz": "must to",
+        "en": "must to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q7",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I ___ the gym on Thursday evenings.",
+      "kz": "I ___ the gym on Thursday evenings.",
+      "en": "I ___ the gym on Thursday evenings."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "go usually to",
+        "kz": "go usually to",
+        "en": "go usually to"
+       },
+       {
+        "ru": "always go",
+        "kz": "always go",
+        "en": "always go"
+       },
+       {
+        "ru": "often go to",
+        "kz": "often go to",
+        "en": "often go to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q8",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I put ___ salt in the pasta.",
+      "kz": "I put ___ salt in the pasta.",
+      "en": "I put ___ salt in the pasta."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "a little",
+        "kz": "a little",
+        "en": "a little"
+       },
+       {
+        "ru": "too many",
+        "kz": "too many",
+        "en": "too many"
+       },
+       {
+        "ru": "a few",
+        "kz": "a few",
+        "en": "a few"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q9",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Hello! Come in. I've ___ made some coffee. Would you like some?",
+      "kz": "Hello! Come in. I've ___ made some coffee. Would you like some?",
+      "en": "Hello! Come in. I've ___ made some coffee. Would you like some?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "just",
+        "kz": "just",
+        "en": "just"
+       },
+       {
+        "ru": "already",
+        "kz": "already",
+        "en": "already"
+       },
+       {
+        "ru": "yet",
+        "kz": "yet",
+        "en": "yet"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q10",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "'I don't want to rent a horror film.' '___ do I.'",
+      "kz": "'I don't want to rent a horror film.' '___ do I.'",
+      "en": "'I don't want to rent a horror film.' '___ do I.'"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "Neither",
+        "kz": "Neither",
+        "en": "Neither"
+       },
+       {
+        "ru": "So",
+        "kz": "So",
+        "en": "So"
+       },
+       {
+        "ru": "Either",
+        "kz": "Either",
+        "en": "Either"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q11",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ in the sea makes you really strong.",
+      "kz": "___ in the sea makes you really strong.",
+      "en": "___ in the sea makes you really strong."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "Swim",
+        "kz": "Swim",
+        "en": "Swim"
+       },
+       {
+        "ru": "Swimming",
+        "kz": "Swimming",
+        "en": "Swimming"
+       },
+       {
+        "ru": "Swiming",
+        "kz": "Swiming",
+        "en": "Swiming"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q12",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "It's snowing. ___",
+      "kz": "It's snowing. ___",
+      "en": "It's snowing. ___"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "Putting your hat on",
+        "kz": "Putting your hat on",
+        "en": "Putting your hat on"
+       },
+       {
+        "ru": "Your hat put on",
+        "kz": "Your hat put on",
+        "en": "Your hat put on"
+       },
+       {
+        "ru": "Put your hat on",
+        "kz": "Put your hat on",
+        "en": "Put your hat on"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q13",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "A key is a thing ___ you use to open doors.",
+      "kz": "A key is a thing ___ you use to open doors.",
+      "en": "A key is a thing ___ you use to open doors."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "where",
+        "kz": "where",
+        "en": "where"
+       },
+       {
+        "ru": "which",
+        "kz": "which",
+        "en": "which"
+       },
+       {
+        "ru": "who",
+        "kz": "who",
+        "en": "who"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q14",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ to the basketball match on Saturday?",
+      "kz": "___ to the basketball match on Saturday?",
+      "en": "___ to the basketball match on Saturday?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "Are you going",
+        "kz": "Are you going",
+        "en": "Are you going"
+       },
+       {
+        "ru": "Do you go",
+        "kz": "Do you go",
+        "en": "Do you go"
+       },
+       {
+        "ru": "Will you go",
+        "kz": "Will you go",
+        "en": "Will you go"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q15",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "She ___ invite him if she didn't want him to come.",
+      "kz": "She ___ invite him if she didn't want him to come.",
+      "en": "She ___ invite him if she didn't want him to come."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "won't",
+        "kz": "won't",
+        "en": "won't"
+       },
+       {
+        "ru": "not",
+        "kz": "not",
+        "en": "not"
+       },
+       {
+        "ru": "wouldn't",
+        "kz": "wouldn't",
+        "en": "wouldn't"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q16",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I need some advice. What ___ I do?",
+      "kz": "I need some advice. What ___ I do?",
+      "en": "I need some advice. What ___ I do?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "should",
+        "kz": "should",
+        "en": "should"
+       },
+       {
+        "ru": "must",
+        "kz": "must",
+        "en": "must"
+       },
+       {
+        "ru": "could",
+        "kz": "could",
+        "en": "could"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q17",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "This castle ___ in 1600.",
+      "kz": "This castle ___ in 1600.",
+      "en": "This castle ___ in 1600."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "was built",
+        "kz": "was built",
+        "en": "was built"
+       },
+       {
+        "ru": "built",
+        "kz": "built",
+        "en": "built"
+       },
+       {
+        "ru": "was build",
+        "kz": "was build",
+        "en": "was build"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q18",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I don't have ___ money left, because I bought a new jacket.",
+      "kz": "I don't have ___ money left, because I bought a new jacket.",
+      "en": "I don't have ___ money left, because I bought a new jacket."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "much",
+        "kz": "much",
+        "en": "much"
+       },
+       {
+        "ru": "many",
+        "kz": "many",
+        "en": "many"
+       },
+       {
+        "ru": "lots",
+        "kz": "lots",
+        "en": "lots"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q19",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "He ___ me not to tell anyone.",
+      "kz": "He ___ me not to tell anyone.",
+      "en": "He ___ me not to tell anyone."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "say",
+        "kz": "say",
+        "en": "say"
+       },
+       {
+        "ru": "told",
+        "kz": "told",
+        "en": "told"
+       },
+       {
+        "ru": "said",
+        "kz": "said",
+        "en": "said"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q20",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "What ___ you do if she doesn't reply to your email?",
+      "kz": "What ___ you do if she doesn't reply to your email?",
+      "en": "What ___ you do if she doesn't reply to your email?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "will",
+        "kz": "will",
+        "en": "will"
+       },
+       {
+        "ru": "would",
+        "kz": "would",
+        "en": "would"
+       },
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q21",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Let's order a pizza. We don't have ___ to cook for dinner.",
+      "kz": "Let's order a pizza. We don't have ___ to cook for dinner.",
+      "en": "Let's order a pizza. We don't have ___ to cook for dinner."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "nothing",
+        "kz": "nothing",
+        "en": "nothing"
+       },
+       {
+        "ru": "anything",
+        "kz": "anything",
+        "en": "anything"
+       },
+       {
+        "ru": "something",
+        "kz": "something",
+        "en": "something"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q22",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They've lived in the same house ___ forty years.",
+      "kz": "They've lived in the same house ___ forty years.",
+      "en": "They've lived in the same house ___ forty years."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "for",
+        "kz": "for",
+        "en": "for"
+       },
+       {
+        "ru": "since",
+        "kz": "since",
+        "en": "since"
+       },
+       {
+        "ru": "ago",
+        "kz": "ago",
+        "en": "ago"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q23",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I ___ come and see you tonight if I can borrow Joe's car.",
+      "kz": "I ___ come and see you tonight if I can borrow Joe's car.",
+      "en": "I ___ come and see you tonight if I can borrow Joe's car."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "must",
+        "kz": "must",
+        "en": "must"
+       },
+       {
+        "ru": "might",
+        "kz": "might",
+        "en": "might"
+       },
+       {
+        "ru": "have to",
+        "kz": "have to",
+        "en": "have to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q24",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I think this is the ___ song on the CD.",
+      "kz": "I think this is the ___ song on the CD.",
+      "en": "I think this is the ___ song on the CD."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "better",
+        "kz": "better",
+        "en": "better"
+       },
+       {
+        "ru": "most best",
+        "kz": "most best",
+        "en": "most best"
+       },
+       {
+        "ru": "best",
+        "kz": "best",
+        "en": "best"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q25",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "That case is too heavy for you. I ___ you.",
+      "kz": "That case is too heavy for you. I ___ you.",
+      "en": "That case is too heavy for you. I ___ you."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "'ll help",
+        "kz": "'ll help",
+        "en": "'ll help"
+       },
+       {
+        "ru": "help",
+        "kz": "help",
+        "en": "help"
+       },
+       {
+        "ru": "'m going to help",
+        "kz": "'m going to help",
+        "en": "'m going to help"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q26",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I ___ a lot more money in my new job.",
+      "kz": "I ___ a lot more money in my new job.",
+      "en": "I ___ a lot more money in my new job."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "had",
+        "kz": "had",
+        "en": "had"
+       },
+       {
+        "ru": "win",
+        "kz": "win",
+        "en": "win"
+       },
+       {
+        "ru": "earn",
+        "kz": "earn",
+        "en": "earn"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q27",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The meeting is ___ 17 May at 2.00 pm.",
+      "kz": "The meeting is ___ 17 May at 2.00 pm.",
+      "en": "The meeting is ___ 17 May at 2.00 pm."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "at",
+        "kz": "at",
+        "en": "at"
+       },
+       {
+        "ru": "on",
+        "kz": "on",
+        "en": "on"
+       },
+       {
+        "ru": "in",
+        "kz": "in",
+        "en": "in"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q28",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Dan's so ___. He pays for everything when we go out.",
+      "kz": "Dan's so ___. He pays for everything when we go out.",
+      "en": "Dan's so ___. He pays for everything when we go out."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "lazy",
+        "kz": "lazy",
+        "en": "lazy"
+       },
+       {
+        "ru": "mean",
+        "kz": "mean",
+        "en": "mean"
+       },
+       {
+        "ru": "generous",
+        "kz": "generous",
+        "en": "generous"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q29",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I'm going to ___ a cake for Bill's birthday.",
+      "kz": "I'm going to ___ a cake for Bill's birthday.",
+      "en": "I'm going to ___ a cake for Bill's birthday."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "make",
+        "kz": "make",
+        "en": "make"
+       },
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       },
+       {
+        "ru": "cook",
+        "kz": "cook",
+        "en": "cook"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q30",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "It's really sunny. Let's ___ for a walk.",
+      "kz": "It's really sunny. Let's ___ for a walk.",
+      "en": "It's really sunny. Let's ___ for a walk."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "get",
+        "kz": "get",
+        "en": "get"
+       },
+       {
+        "ru": "go",
+        "kz": "go",
+        "en": "go"
+       },
+       {
+        "ru": "have",
+        "kz": "have",
+        "en": "have"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q31",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "___ have black and yellow stripes on their bodies.",
+      "kz": "___ have black and yellow stripes on their bodies.",
+      "en": "___ have black and yellow stripes on their bodies."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "Flies",
+        "kz": "Flies",
+        "en": "Flies"
+       },
+       {
+        "ru": "Mosquitoes",
+        "kz": "Mosquitoes",
+        "en": "Mosquitoes"
+       },
+       {
+        "ru": "Wasps",
+        "kz": "Wasps",
+        "en": "Wasps"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q32",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Excuse me, could I ___ on these jeans, please?",
+      "kz": "Excuse me, could I ___ on these jeans, please?",
+      "en": "Excuse me, could I ___ on these jeans, please?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "get",
+        "kz": "get",
+        "en": "get"
+       },
+       {
+        "ru": "take",
+        "kz": "take",
+        "en": "take"
+       },
+       {
+        "ru": "try",
+        "kz": "try",
+        "en": "try"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q33",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "My new camera doesn't work. I'm going to take it ___ to the shop.",
+      "kz": "My new camera doesn't work. I'm going to take it ___ to the shop.",
+      "en": "My new camera doesn't work. I'm going to take it ___ to the shop."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "away",
+        "kz": "away",
+        "en": "away"
+       },
+       {
+        "ru": "back",
+        "kz": "back",
+        "en": "back"
+       },
+       {
+        "ru": "on",
+        "kz": "on",
+        "en": "on"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q34",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The bus was so ___ I could not move.",
+      "kz": "The bus was so ___ I could not move.",
+      "en": "The bus was so ___ I could not move."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "crowded",
+        "kz": "crowded",
+        "en": "crowded"
+       },
+       {
+        "ru": "modern",
+        "kz": "modern",
+        "en": "modern"
+       },
+       {
+        "ru": "noisy",
+        "kz": "noisy",
+        "en": "noisy"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q35",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "He will not be very happy if he ___ his driving test again.",
+      "kz": "He will not be very happy if he ___ his driving test again.",
+      "en": "He will not be very happy if he ___ his driving test again."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "misses",
+        "kz": "misses",
+        "en": "misses"
+       },
+       {
+        "ru": "passes",
+        "kz": "passes",
+        "en": "passes"
+       },
+       {
+        "ru": "fails",
+        "kz": "fails",
+        "en": "fails"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q36",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Tower Bridge goes ___ the River Thames.",
+      "kz": "Tower Bridge goes ___ the River Thames.",
+      "en": "Tower Bridge goes ___ the River Thames."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "over",
+        "kz": "over",
+        "en": "over"
+       },
+       {
+        "ru": "under",
+        "kz": "under",
+        "en": "under"
+       },
+       {
+        "ru": "through",
+        "kz": "through",
+        "en": "through"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q37",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Did you ___ sightseeing in Prague?",
+      "kz": "Did you ___ sightseeing in Prague?",
+      "en": "Did you ___ sightseeing in Prague?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       },
+       {
+        "ru": "make",
+        "kz": "make",
+        "en": "make"
+       },
+       {
+        "ru": "go",
+        "kz": "go",
+        "en": "go"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q38",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "He ___ me if I could tell him the way.",
+      "kz": "He ___ me if I could tell him the way.",
+      "en": "He ___ me if I could tell him the way."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "said",
+        "kz": "said",
+        "en": "said"
+       },
+       {
+        "ru": "told",
+        "kz": "told",
+        "en": "told"
+       },
+       {
+        "ru": "asked",
+        "kz": "asked",
+        "en": "asked"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q39",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I've bought a new ___ for the athletics competition.",
+      "kz": "I've bought a new ___ for the athletics competition.",
+      "en": "I've bought a new ___ for the athletics competition."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "trainers",
+        "kz": "trainers",
+        "en": "trainers"
+       },
+       {
+        "ru": "tracksuit",
+        "kz": "tracksuit",
+        "en": "tracksuit"
+       },
+       {
+        "ru": "boots",
+        "kz": "boots",
+        "en": "boots"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q40",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Your ___ are cold! You should wear gloves.",
+      "kz": "Your ___ are cold! You should wear gloves.",
+      "en": "Your ___ are cold! You should wear gloves."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "arms",
+        "kz": "arms",
+        "en": "arms"
+       },
+       {
+        "ru": "legs",
+        "kz": "legs",
+        "en": "legs"
+       },
+       {
+        "ru": "hands",
+        "kz": "hands",
+        "en": "hands"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q41",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Don't be so ___! You'll have to wait.",
+      "kz": "Don't be so ___! You'll have to wait.",
+      "en": "Don't be so ___! You'll have to wait."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "impatient",
+        "kz": "impatient",
+        "en": "impatient"
+       },
+       {
+        "ru": "untidy",
+        "kz": "untidy",
+        "en": "untidy"
+       },
+       {
+        "ru": "mean",
+        "kz": "mean",
+        "en": "mean"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q42",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I look ___ my mother; we have the same eyes and nose.",
+      "kz": "I look ___ my mother; we have the same eyes and nose.",
+      "en": "I look ___ my mother; we have the same eyes and nose."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "as",
+        "kz": "as",
+        "en": "as"
+       },
+       {
+        "ru": "like",
+        "kz": "like",
+        "en": "like"
+       },
+       {
+        "ru": "to",
+        "kz": "to",
+        "en": "to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q43",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "It's ___ to run when the floor is wet.",
+      "kz": "It's ___ to run when the floor is wet.",
+      "en": "It's ___ to run when the floor is wet."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "safe",
+        "kz": "safe",
+        "en": "safe"
+       },
+       {
+        "ru": "dangerous",
+        "kz": "dangerous",
+        "en": "dangerous"
+       },
+       {
+        "ru": "clean",
+        "kz": "clean",
+        "en": "clean"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q44",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I fell ___ the steps and broke my arm.",
+      "kz": "I fell ___ the steps and broke my arm.",
+      "en": "I fell ___ the steps and broke my arm."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "along",
+        "kz": "along",
+        "en": "along"
+       },
+       {
+        "ru": "into",
+        "kz": "into",
+        "en": "into"
+       },
+       {
+        "ru": "down",
+        "kz": "down",
+        "en": "down"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q45",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "This street is ___ at night - you can't hear any traffic.",
+      "kz": "This street is ___ at night - you can't hear any traffic.",
+      "en": "This street is ___ at night - you can't hear any traffic."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "clean",
+        "kz": "clean",
+        "en": "clean"
+       },
+       {
+        "ru": "safe",
+        "kz": "safe",
+        "en": "safe"
+       },
+       {
+        "ru": "quiet",
+        "kz": "quiet",
+        "en": "quiet"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q46",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Say 'please'. You have to be more ___.",
+      "kz": "Say 'please'. You have to be more ___.",
+      "en": "Say 'please'. You have to be more ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "rude",
+        "kz": "rude",
+        "en": "rude"
+       },
+       {
+        "ru": "noisy",
+        "kz": "noisy",
+        "en": "noisy"
+       },
+       {
+        "ru": "polite",
+        "kz": "polite",
+        "en": "polite"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q47",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "A ___ has a very long neck.",
+      "kz": "A ___ has a very long neck.",
+      "en": "A ___ has a very long neck."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "giraffe",
+        "kz": "giraffe",
+        "en": "giraffe"
+       },
+       {
+        "ru": "kangaroo",
+        "kz": "kangaroo",
+        "en": "kangaroo"
+       },
+       {
+        "ru": "bear",
+        "kz": "bear",
+        "en": "bear"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q48",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Can you turn ___ the radio? I want to listen to the weather forecast.",
+      "kz": "Can you turn ___ the radio? I want to listen to the weather forecast.",
+      "en": "Can you turn ___ the radio? I want to listen to the weather forecast."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "off",
+        "kz": "off",
+        "en": "off"
+       },
+       {
+        "ru": "on",
+        "kz": "on",
+        "en": "on"
+       },
+       {
+        "ru": "down",
+        "kz": "down",
+        "en": "down"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q49",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Adrian asked me if I could ___ him some money.",
+      "kz": "Adrian asked me if I could ___ him some money.",
+      "en": "Adrian asked me if I could ___ him some money."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "lend",
+        "kz": "lend",
+        "en": "lend"
+       },
+       {
+        "ru": "borrow",
+        "kz": "borrow",
+        "en": "borrow"
+       },
+       {
+        "ru": "take",
+        "kz": "take",
+        "en": "take"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e108q50",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I'm sorry I'm late. I ___ the bus.",
+      "kz": "I'm sorry I'm late. I ___ the bus.",
+      "en": "I'm sorry I'm late. I ___ the bus."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "missed",
+        "kz": "missed",
+        "en": "missed"
+       },
+       {
+        "ru": "left",
+        "kz": "left",
+        "en": "left"
+       },
+       {
+        "ru": "lost",
+        "kz": "lost",
+        "en": "lost"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "grade": 121,
+   "subject": "english",
+   "label": {
+    "ru": "Upper-Intermediate",
+    "kz": "Upper-Intermediate",
+    "en": "Upper-Intermediate"
+   },
+   "cefr": "B2",
+   "title": {
+    "ru": "Тест по английскому — Upper-Intermediate",
+    "kz": "Ағылшын тілінен тест — Upper-Intermediate",
+    "en": "English placement test — Upper-Intermediate"
+   },
+   "source": {
+    "ru": "Google-форма «Вступительный тест — Upper-Intermediate» (ключи посчитаны вручную)"
+   },
+   "minutes": 40,
+   "questions": [
+    {
+     "id": "e121q1",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "What ___ at nine o'clock last night? I tried to ring you, but there was no reply.",
+      "kz": "What ___ at nine o'clock last night? I tried to ring you, but there was no reply.",
+      "en": "What ___ at nine o'clock last night? I tried to ring you, but there was no reply."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "were you doing",
+        "kz": "were you doing",
+        "en": "were you doing"
+       },
+       {
+        "ru": "did you do",
+        "kz": "did you do",
+        "en": "did you do"
+       },
+       {
+        "ru": "had you done",
+        "kz": "had you done",
+        "en": "had you done"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q2",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They ___ a new cinema in the centre of town last year.",
+      "kz": "They ___ a new cinema in the centre of town last year.",
+      "en": "They ___ a new cinema in the centre of town last year."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "'ve build",
+        "kz": "'ve build",
+        "en": "'ve build"
+       },
+       {
+        "ru": "had built",
+        "kz": "had built",
+        "en": "had built"
+       },
+       {
+        "ru": "built",
+        "kz": "built",
+        "en": "built"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q3",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Is Mark ___ to Greece this year?",
+      "kz": "Is Mark ___ to Greece this year?",
+      "en": "Is Mark ___ to Greece this year?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "going",
+        "kz": "going",
+        "en": "going"
+       },
+       {
+        "ru": "gone",
+        "kz": "gone",
+        "en": "gone"
+       },
+       {
+        "ru": "go",
+        "kz": "go",
+        "en": "go"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q4",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "'Where's Jack?' 'He ___ to the library. He'll be back soon.'",
+      "kz": "'Where's Jack?' 'He ___ to the library. He'll be back soon.'",
+      "en": "'Where's Jack?' 'He ___ to the library. He'll be back soon.'"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "been",
+        "kz": "been",
+        "en": "been"
+       },
+       {
+        "ru": "'s gone",
+        "kz": "'s gone",
+        "en": "'s gone"
+       },
+       {
+        "ru": "going",
+        "kz": "going",
+        "en": "going"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q5",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "My brother ___ in Peru for three months. He's really enjoying himself.",
+      "kz": "My brother ___ in Peru for three months. He's really enjoying himself.",
+      "en": "My brother ___ in Peru for three months. He's really enjoying himself."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "is living",
+        "kz": "is living",
+        "en": "is living"
+       },
+       {
+        "ru": "has been living",
+        "kz": "has been living",
+        "en": "has been living"
+       },
+       {
+        "ru": "was living",
+        "kz": "was living",
+        "en": "was living"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q6",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Please drive more ___. We're near a school.",
+      "kz": "Please drive more ___. We're near a school.",
+      "en": "Please drive more ___. We're near a school."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "slow",
+        "kz": "slow",
+        "en": "slow"
+       },
+       {
+        "ru": "slower",
+        "kz": "slower",
+        "en": "slower"
+       },
+       {
+        "ru": "slowly",
+        "kz": "slowly",
+        "en": "slowly"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q7",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Students ___ talk during the exam. It's against the rules.",
+      "kz": "Students ___ talk during the exam. It's against the rules.",
+      "en": "Students ___ talk during the exam. It's against the rules."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "couldn't",
+        "kz": "couldn't",
+        "en": "couldn't"
+       },
+       {
+        "ru": "mustn't",
+        "kz": "mustn't",
+        "en": "mustn't"
+       },
+       {
+        "ru": "shouldn't",
+        "kz": "shouldn't",
+        "en": "shouldn't"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q8",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I'd love to ___ speak better French - I've been studying the language for five years now.",
+      "kz": "I'd love to ___ speak better French - I've been studying the language for five years now.",
+      "en": "I'd love to ___ speak better French - I've been studying the language for five years now."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "be able",
+        "kz": "be able",
+        "en": "be able"
+       },
+       {
+        "ru": "able to",
+        "kz": "able to",
+        "en": "able to"
+       },
+       {
+        "ru": "be able to",
+        "kz": "be able to",
+        "en": "be able to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q9",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I can't go out ___ I finish my maths homework.",
+      "kz": "I can't go out ___ I finish my maths homework.",
+      "en": "I can't go out ___ I finish my maths homework."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "unless",
+        "kz": "unless",
+        "en": "unless"
+       },
+       {
+        "ru": "if",
+        "kz": "if",
+        "en": "if"
+       },
+       {
+        "ru": "when",
+        "kz": "when",
+        "en": "when"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q10",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "If I ___ you, I wouldn't go on holiday until after my exams.",
+      "kz": "If I ___ you, I wouldn't go on holiday until after my exams.",
+      "en": "If I ___ you, I wouldn't go on holiday until after my exams."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "was",
+        "kz": "was",
+        "en": "was"
+       },
+       {
+        "ru": "am",
+        "kz": "am",
+        "en": "am"
+       },
+       {
+        "ru": "were",
+        "kz": "were",
+        "en": "were"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q11",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I ___ go out at weekends, but now I stay at home.",
+      "kz": "I ___ go out at weekends, but now I stay at home.",
+      "en": "I ___ go out at weekends, but now I stay at home."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "use to",
+        "kz": "use to",
+        "en": "use to"
+       },
+       {
+        "ru": "used to",
+        "kz": "used to",
+        "en": "used to"
+       },
+       {
+        "ru": "used",
+        "kz": "used",
+        "en": "used"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q12",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "There's only a ___ milk left. Shall I buy some more?",
+      "kz": "There's only a ___ milk left. Shall I buy some more?",
+      "en": "There's only a ___ milk left. Shall I buy some more?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "few",
+        "kz": "few",
+        "en": "few"
+       },
+       {
+        "ru": "much",
+        "kz": "much",
+        "en": "much"
+       },
+       {
+        "ru": "little",
+        "kz": "little",
+        "en": "little"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q13",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Tom really believes that ___ women can't drive very well!",
+      "kz": "Tom really believes that ___ women can't drive very well!",
+      "en": "Tom really believes that ___ women can't drive very well!"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "(–)",
+        "kz": "(–)",
+        "en": "(–)"
+       },
+       {
+        "ru": "the",
+        "kz": "the",
+        "en": "the"
+       },
+       {
+        "ru": "a",
+        "kz": "a",
+        "en": "a"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q14",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I think ___ languages is very important.",
+      "kz": "I think ___ languages is very important.",
+      "en": "I think ___ languages is very important."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "studying",
+        "kz": "studying",
+        "en": "studying"
+       },
+       {
+        "ru": "study",
+        "kz": "study",
+        "en": "study"
+       },
+       {
+        "ru": "studies",
+        "kz": "studies",
+        "en": "studies"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q15",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "James asked me if I ___ Liz that morning.",
+      "kz": "James asked me if I ___ Liz that morning.",
+      "en": "James asked me if I ___ Liz that morning."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "have seen",
+        "kz": "have seen",
+        "en": "have seen"
+       },
+       {
+        "ru": "had seen",
+        "kz": "had seen",
+        "en": "had seen"
+       },
+       {
+        "ru": "saw",
+        "kz": "saw",
+        "en": "saw"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q16",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "The exams are next month. You ___ a timetable next week.",
+      "kz": "The exams are next month. You ___ a timetable next week.",
+      "en": "The exams are next month. You ___ a timetable next week."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "have been given",
+        "kz": "have been given",
+        "en": "have been given"
+       },
+       {
+        "ru": "are given",
+        "kz": "are given",
+        "en": "are given"
+       },
+       {
+        "ru": "'ll be given",
+        "kz": "'ll be given",
+        "en": "'ll be given"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q17",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "He's the boy ___ brother is in my class.",
+      "kz": "He's the boy ___ brother is in my class.",
+      "en": "He's the boy ___ brother is in my class."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "who's",
+        "kz": "who's",
+        "en": "who's"
+       },
+       {
+        "ru": "that's",
+        "kz": "that's",
+        "en": "that's"
+       },
+       {
+        "ru": "whose",
+        "kz": "whose",
+        "en": "whose"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q18",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I would have gone to the party if I ___ you were there.",
+      "kz": "I would have gone to the party if I ___ you were there.",
+      "en": "I would have gone to the party if I ___ you were there."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "had known",
+        "kz": "had known",
+        "en": "had known"
+       },
+       {
+        "ru": "would have known",
+        "kz": "would have known",
+        "en": "would have known"
+       },
+       {
+        "ru": "known",
+        "kz": "known",
+        "en": "known"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q19",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "You're from Italy, ___?",
+      "kz": "You're from Italy, ___?",
+      "en": "You're from Italy, ___?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "are you",
+        "kz": "are you",
+        "en": "are you"
+       },
+       {
+        "ru": "isn't you",
+        "kz": "isn't you",
+        "en": "isn't you"
+       },
+       {
+        "ru": "aren't you",
+        "kz": "aren't you",
+        "en": "aren't you"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q20",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Can you tell me where ___?",
+      "kz": "Can you tell me where ___?",
+      "en": "Can you tell me where ___?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "is Park Hotel",
+        "kz": "is Park Hotel",
+        "en": "is Park Hotel"
+       },
+       {
+        "ru": "Park Hotel is",
+        "kz": "Park Hotel is",
+        "en": "Park Hotel is"
+       },
+       {
+        "ru": "be Park Hotel",
+        "kz": "be Park Hotel",
+        "en": "be Park Hotel"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q21",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They ___ the house if they'd known about the noisy neighbours.",
+      "kz": "They ___ the house if they'd known about the noisy neighbours.",
+      "en": "They ___ the house if they'd known about the noisy neighbours."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "wouldn't have bought",
+        "kz": "wouldn't have bought",
+        "en": "wouldn't have bought"
+       },
+       {
+        "ru": "hadn't bought",
+        "kz": "hadn't bought",
+        "en": "hadn't bought"
+       },
+       {
+        "ru": "wouldn't buy",
+        "kz": "wouldn't buy",
+        "en": "wouldn't buy"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q22",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Helen told me she ___ to Rome the following weekend.",
+      "kz": "Helen told me she ___ to Rome the following weekend.",
+      "en": "Helen told me she ___ to Rome the following weekend."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "'s travelling",
+        "kz": "'s travelling",
+        "en": "'s travelling"
+       },
+       {
+        "ru": "was travelling",
+        "kz": "was travelling",
+        "en": "was travelling"
+       },
+       {
+        "ru": "will travel",
+        "kz": "will travel",
+        "en": "will travel"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q23",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "They ___ have a lot of money. They go on very exotic holidays every year.",
+      "kz": "They ___ have a lot of money. They go on very exotic holidays every year.",
+      "en": "They ___ have a lot of money. They go on very exotic holidays every year."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "must",
+        "kz": "must",
+        "en": "must"
+       },
+       {
+        "ru": "may",
+        "kz": "may",
+        "en": "may"
+       },
+       {
+        "ru": "might",
+        "kz": "might",
+        "en": "might"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q24",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Do you ___ get to work early every morning?",
+      "kz": "Do you ___ get to work early every morning?",
+      "en": "Do you ___ get to work early every morning?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "must",
+        "kz": "must",
+        "en": "must"
+       },
+       {
+        "ru": "have",
+        "kz": "have",
+        "en": "have"
+       },
+       {
+        "ru": "have to",
+        "kz": "have to",
+        "en": "have to"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q25",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Unfortunately Jack doesn't get ___ his parents very well.",
+      "kz": "Unfortunately Jack doesn't get ___ his parents very well.",
+      "en": "Unfortunately Jack doesn't get ___ his parents very well."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "on after",
+        "kz": "on after",
+        "en": "on after"
+       },
+       {
+        "ru": "over with",
+        "kz": "over with",
+        "en": "over with"
+       },
+       {
+        "ru": "on with",
+        "kz": "on with",
+        "en": "on with"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q26",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I don't go running, but I ___ yoga twice a week.",
+      "kz": "I don't go running, but I ___ yoga twice a week.",
+      "en": "I don't go running, but I ___ yoga twice a week."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "go",
+        "kz": "go",
+        "en": "go"
+       },
+       {
+        "ru": "play",
+        "kz": "play",
+        "en": "play"
+       },
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q27",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I went out with Tessa last night and she paid ___ everything!",
+      "kz": "I went out with Tessa last night and she paid ___ everything!",
+      "en": "I went out with Tessa last night and she paid ___ everything!"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "with",
+        "kz": "with",
+        "en": "with"
+       },
+       {
+        "ru": "for",
+        "kz": "for",
+        "en": "for"
+       },
+       {
+        "ru": "at",
+        "kz": "at",
+        "en": "at"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q28",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The coffee you made is too ___. How much sugar did you put in it?",
+      "kz": "The coffee you made is too ___. How much sugar did you put in it?",
+      "en": "The coffee you made is too ___. How much sugar did you put in it?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "fresh",
+        "kz": "fresh",
+        "en": "fresh"
+       },
+       {
+        "ru": "strong",
+        "kz": "strong",
+        "en": "strong"
+       },
+       {
+        "ru": "sweet",
+        "kz": "sweet",
+        "en": "sweet"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q29",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Their football ___ makes them train every day for four hours.",
+      "kz": "Their football ___ makes them train every day for four hours.",
+      "en": "Their football ___ makes them train every day for four hours."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "coach",
+        "kz": "coach",
+        "en": "coach"
+       },
+       {
+        "ru": "fans",
+        "kz": "fans",
+        "en": "fans"
+       },
+       {
+        "ru": "referee",
+        "kz": "referee",
+        "en": "referee"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q30",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Some of the students ___ in the exam, so everybody had to do it again.",
+      "kz": "Some of the students ___ in the exam, so everybody had to do it again.",
+      "en": "Some of the students ___ in the exam, so everybody had to do it again."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "revised",
+        "kz": "revised",
+        "en": "revised"
+       },
+       {
+        "ru": "studied",
+        "kz": "studied",
+        "en": "studied"
+       },
+       {
+        "ru": "cheated",
+        "kz": "cheated",
+        "en": "cheated"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q31",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Mark ___ because he stole some money from the office.",
+      "kz": "Mark ___ because he stole some money from the office.",
+      "en": "Mark ___ because he stole some money from the office."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "retired",
+        "kz": "retired",
+        "en": "retired"
+       },
+       {
+        "ru": "got sacked",
+        "kz": "got sacked",
+        "en": "got sacked"
+       },
+       {
+        "ru": "applied",
+        "kz": "applied",
+        "en": "applied"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q32",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I've put on so much weight - my jeans are very tight. I need to start making ___ meals.",
+      "kz": "I've put on so much weight - my jeans are very tight. I need to start making ___ meals.",
+      "en": "I've put on so much weight - my jeans are very tight. I need to start making ___ meals."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "spicy",
+        "kz": "spicy",
+        "en": "spicy"
+       },
+       {
+        "ru": "low-fat",
+        "kz": "low-fat",
+        "en": "low-fat"
+       },
+       {
+        "ru": "frozen",
+        "kz": "frozen",
+        "en": "frozen"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q33",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The film is a ___ and it's so funny, you won't stop laughing.",
+      "kz": "The film is a ___ and it's so funny, you won't stop laughing.",
+      "en": "The film is a ___ and it's so funny, you won't stop laughing."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "thriller",
+        "kz": "thriller",
+        "en": "thriller"
+       },
+       {
+        "ru": "horror",
+        "kz": "horror",
+        "en": "horror"
+       },
+       {
+        "ru": "comedy",
+        "kz": "comedy",
+        "en": "comedy"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q34",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "We must stop at the petrol ___ on our way to the supermarket.",
+      "kz": "We must stop at the petrol ___ on our way to the supermarket.",
+      "en": "We must stop at the petrol ___ on our way to the supermarket."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "station",
+        "kz": "station",
+        "en": "station"
+       },
+       {
+        "ru": "rank",
+        "kz": "rank",
+        "en": "rank"
+       },
+       {
+        "ru": "area",
+        "kz": "area",
+        "en": "area"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q35",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "That horror film is ___! Don't watch it late at night.",
+      "kz": "That horror film is ___! Don't watch it late at night.",
+      "en": "That horror film is ___! Don't watch it late at night."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "frustrating",
+        "kz": "frustrating",
+        "en": "frustrating"
+       },
+       {
+        "ru": "annoying",
+        "kz": "annoying",
+        "en": "annoying"
+       },
+       {
+        "ru": "terrifying",
+        "kz": "terrifying",
+        "en": "terrifying"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q36",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Sarah's so ___! She loves going out and having fun.",
+      "kz": "Sarah's so ___! She loves going out and having fun.",
+      "en": "Sarah's so ___! She loves going out and having fun."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "boring",
+        "kz": "boring",
+        "en": "boring"
+       },
+       {
+        "ru": "extrovert",
+        "kz": "extrovert",
+        "en": "extrovert"
+       },
+       {
+        "ru": "mean",
+        "kz": "mean",
+        "en": "mean"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q37",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "If you walk down that ___, you'll come to the river.",
+      "kz": "If you walk down that ___, you'll come to the river.",
+      "en": "If you walk down that ___, you'll come to the river."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "path",
+        "kz": "path",
+        "en": "path"
+       },
+       {
+        "ru": "terrace",
+        "kz": "terrace",
+        "en": "terrace"
+       },
+       {
+        "ru": "building",
+        "kz": "building",
+        "en": "building"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q38",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "My brother's going on a school ___ to France this year.",
+      "kz": "My brother's going on a school ___ to France this year.",
+      "en": "My brother's going on a school ___ to France this year."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "travel",
+        "kz": "travel",
+        "en": "travel"
+       },
+       {
+        "ru": "trip",
+        "kz": "trip",
+        "en": "trip"
+       },
+       {
+        "ru": "flight",
+        "kz": "flight",
+        "en": "flight"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q39",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "There are lots of ___ in the shop today. Everything is half-price.",
+      "kz": "There are lots of ___ in the shop today. Everything is half-price.",
+      "en": "There are lots of ___ in the shop today. Everything is half-price."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "sales",
+        "kz": "sales",
+        "en": "sales"
+       },
+       {
+        "ru": "bargains",
+        "kz": "bargains",
+        "en": "bargains"
+       },
+       {
+        "ru": "refunds",
+        "kz": "refunds",
+        "en": "refunds"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q40",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "When Jack won some money on the lottery, he ___ it in his business.",
+      "kz": "When Jack won some money on the lottery, he ___ it in his business.",
+      "en": "When Jack won some money on the lottery, he ___ it in his business."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "earned",
+        "kz": "earned",
+        "en": "earned"
+       },
+       {
+        "ru": "spent",
+        "kz": "spent",
+        "en": "spent"
+       },
+       {
+        "ru": "invested",
+        "kz": "invested",
+        "en": "invested"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q41",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "He's quite tall and well-___, with short, brown hair.",
+      "kz": "He's quite tall and well-___, with short, brown hair.",
+      "en": "He's quite tall and well-___, with short, brown hair."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "built",
+        "kz": "built",
+        "en": "built"
+       },
+       {
+        "ru": "build",
+        "kz": "build",
+        "en": "build"
+       },
+       {
+        "ru": "bald",
+        "kz": "bald",
+        "en": "bald"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q42",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "John's very ___. He always tells the truth.",
+      "kz": "John's very ___. He always tells the truth.",
+      "en": "John's very ___. He always tells the truth."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "honest",
+        "kz": "honest",
+        "en": "honest"
+       },
+       {
+        "ru": "hard-working",
+        "kz": "hard-working",
+        "en": "hard-working"
+       },
+       {
+        "ru": "generous",
+        "kz": "generous",
+        "en": "generous"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q43",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "My parents will be very angry with me if I don't ___ my exams.",
+      "kz": "My parents will be very angry with me if I don't ___ my exams.",
+      "en": "My parents will be very angry with me if I don't ___ my exams."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "win",
+        "kz": "win",
+        "en": "win"
+       },
+       {
+        "ru": "succeed",
+        "kz": "succeed",
+        "en": "succeed"
+       },
+       {
+        "ru": "pass",
+        "kz": "pass",
+        "en": "pass"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q44",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Don't throw ___ your mobile phone! You can recycle it.",
+      "kz": "Don't throw ___ your mobile phone! You can recycle it.",
+      "en": "Don't throw ___ your mobile phone! You can recycle it."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "up",
+        "kz": "up",
+        "en": "up"
+       },
+       {
+        "ru": "away",
+        "kz": "away",
+        "en": "away"
+       },
+       {
+        "ru": "down",
+        "kz": "down",
+        "en": "down"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q45",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "You won't have to pay much ___ this year as you haven't earned much money.",
+      "kz": "You won't have to pay much ___ this year as you haven't earned much money.",
+      "en": "You won't have to pay much ___ this year as you haven't earned much money."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "earnings",
+        "kz": "earnings",
+        "en": "earnings"
+       },
+       {
+        "ru": "tax",
+        "kz": "tax",
+        "en": "tax"
+       },
+       {
+        "ru": "credit",
+        "kz": "credit",
+        "en": "credit"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q46",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Sorry! I can't speak now. Can I call you ___ later?",
+      "kz": "Sorry! I can't speak now. Can I call you ___ later?",
+      "en": "Sorry! I can't speak now. Can I call you ___ later?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "back",
+        "kz": "back",
+        "en": "back"
+       },
+       {
+        "ru": "from",
+        "kz": "from",
+        "en": "from"
+       },
+       {
+        "ru": "down",
+        "kz": "down",
+        "en": "down"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q47",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I wanted to buy some tickets for the play, but they'd sold ___.",
+      "kz": "I wanted to buy some tickets for the play, but they'd sold ___.",
+      "en": "I wanted to buy some tickets for the play, but they'd sold ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "out",
+        "kz": "out",
+        "en": "out"
+       },
+       {
+        "ru": "in",
+        "kz": "in",
+        "en": "in"
+       },
+       {
+        "ru": "up",
+        "kz": "up",
+        "en": "up"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q48",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I worked at the film company for four months and got lots of useful ___.",
+      "kz": "I worked at the film company for four months and got lots of useful ___.",
+      "en": "I worked at the film company for four months and got lots of useful ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "courses",
+        "kz": "courses",
+        "en": "courses"
+       },
+       {
+        "ru": "qualifications",
+        "kz": "qualifications",
+        "en": "qualifications"
+       },
+       {
+        "ru": "experience",
+        "kz": "experience",
+        "en": "experience"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q49",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "My parents have moved to a ___ just outside the city.",
+      "kz": "My parents have moved to a ___ just outside the city.",
+      "en": "My parents have moved to a ___ just outside the city."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "suburb",
+        "kz": "suburb",
+        "en": "suburb"
+       },
+       {
+        "ru": "centre",
+        "kz": "centre",
+        "en": "centre"
+       },
+       {
+        "ru": "pedestrian",
+        "kz": "pedestrian",
+        "en": "pedestrian"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e121q50",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "If you want to complain, you should speak to the ___.",
+      "kz": "If you want to complain, you should speak to the ___.",
+      "en": "If you want to complain, you should speak to the ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "manager",
+        "kz": "manager",
+        "en": "manager"
+       },
+       {
+        "ru": "assistant",
+        "kz": "assistant",
+        "en": "assistant"
+       },
+       {
+        "ru": "newsagent",
+        "kz": "newsagent",
+        "en": "newsagent"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "grade": 131,
+   "subject": "english",
+   "label": {
+    "ru": "Advanced",
+    "kz": "Advanced",
+    "en": "Advanced"
+   },
+   "cefr": "C1",
+   "title": {
+    "ru": "Тест по английскому — Advanced",
+    "kz": "Ағылшын тілінен тест — Advanced",
+    "en": "English placement test — Advanced"
+   },
+   "source": {
+    "ru": "Google-форма «Вступительный тест для 4 класса по русскому языку » (ключи посчитаны вручную)"
+   },
+   "minutes": 40,
+   "questions": [
+    {
+     "id": "e131q1",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "The thief admitted ___ the money.",
+      "kz": "The thief admitted ___ the money.",
+      "en": "The thief admitted ___ the money."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "to steal",
+        "kz": "to steal",
+        "en": "to steal"
+       },
+       {
+        "ru": "stealing",
+        "kz": "stealing",
+        "en": "stealing"
+       },
+       {
+        "ru": "steal",
+        "kz": "steal",
+        "en": "steal"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q2",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "This time tomorrow, I ___ lying on a tropical beach.",
+      "kz": "This time tomorrow, I ___ lying on a tropical beach.",
+      "en": "This time tomorrow, I ___ lying on a tropical beach."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "'ve been",
+        "kz": "'ve been",
+        "en": "'ve been"
+       },
+       {
+        "ru": "'ll be",
+        "kz": "'ll be",
+        "en": "'ll be"
+       },
+       {
+        "ru": "am",
+        "kz": "am",
+        "en": "am"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q3",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "It's very dusty here right now because the office next door ___ redecorated.",
+      "kz": "It's very dusty here right now because the office next door ___ redecorated.",
+      "en": "It's very dusty here right now because the office next door ___ redecorated."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "being",
+        "kz": "being",
+        "en": "being"
+       },
+       {
+        "ru": "is",
+        "kz": "is",
+        "en": "is"
+       },
+       {
+        "ru": "is being",
+        "kz": "is being",
+        "en": "is being"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q4",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I didn't ___ like spicy food, but now I eat it every day.",
+      "kz": "I didn't ___ like spicy food, but now I eat it every day.",
+      "en": "I didn't ___ like spicy food, but now I eat it every day."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "use to",
+        "kz": "use to",
+        "en": "use to"
+       },
+       {
+        "ru": "used to",
+        "kz": "used to",
+        "en": "used to"
+       },
+       {
+        "ru": "use",
+        "kz": "use",
+        "en": "use"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q5",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I speak Spanish, but my parents ___.",
+      "kz": "I speak Spanish, but my parents ___.",
+      "en": "I speak Spanish, but my parents ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       },
+       {
+        "ru": "doesn't",
+        "kz": "doesn't",
+        "en": "doesn't"
+       },
+       {
+        "ru": "don't",
+        "kz": "don't",
+        "en": "don't"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q6",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "You went to Iceland last year, ___ you?",
+      "kz": "You went to Iceland last year, ___ you?",
+      "en": "You went to Iceland last year, ___ you?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "didn't",
+        "kz": "didn't",
+        "en": "didn't"
+       },
+       {
+        "ru": "weren't",
+        "kz": "weren't",
+        "en": "weren't"
+       },
+       {
+        "ru": "aren't",
+        "kz": "aren't",
+        "en": "aren't"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q7",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I can't ___ used to my new schedule. It's so confusing.",
+      "kz": "I can't ___ used to my new schedule. It's so confusing.",
+      "en": "I can't ___ used to my new schedule. It's so confusing."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "be",
+        "kz": "be",
+        "en": "be"
+       },
+       {
+        "ru": "get",
+        "kz": "get",
+        "en": "get"
+       },
+       {
+        "ru": "do",
+        "kz": "do",
+        "en": "do"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q8",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "You don't look well. You'd ___ go to the doctor's.",
+      "kz": "You don't look well. You'd ___ go to the doctor's.",
+      "en": "You don't look well. You'd ___ go to the doctor's."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "should",
+        "kz": "should",
+        "en": "should"
+       },
+       {
+        "ru": "must",
+        "kz": "must",
+        "en": "must"
+       },
+       {
+        "ru": "better",
+        "kz": "better",
+        "en": "better"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q9",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "You shouldn't ___ that email when you were angry. It really hurt his feelings.",
+      "kz": "You shouldn't ___ that email when you were angry. It really hurt his feelings.",
+      "en": "You shouldn't ___ that email when you were angry. It really hurt his feelings."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "send",
+        "kz": "send",
+        "en": "send"
+       },
+       {
+        "ru": "sent",
+        "kz": "sent",
+        "en": "sent"
+       },
+       {
+        "ru": "have sent",
+        "kz": "have sent",
+        "en": "have sent"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q10",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "He has a ___ car, which he drives much too fast.",
+      "kz": "He has a ___ car, which he drives much too fast.",
+      "en": "He has a ___ car, which he drives much too fast."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "big red German",
+        "kz": "big red German",
+        "en": "big red German"
+       },
+       {
+        "ru": "German red big",
+        "kz": "German red big",
+        "en": "German red big"
+       },
+       {
+        "ru": "red German big",
+        "kz": "red German big",
+        "en": "red German big"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q11",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "We bought ___ for our flat.",
+      "kz": "We bought ___ for our flat.",
+      "en": "We bought ___ for our flat."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "new furniture",
+        "kz": "new furniture",
+        "en": "new furniture"
+       },
+       {
+        "ru": "new furnitures",
+        "kz": "new furnitures",
+        "en": "new furnitures"
+       },
+       {
+        "ru": "furnitures new",
+        "kz": "furnitures new",
+        "en": "furnitures new"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q12",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "The boat sailed across ___ Pacific Ocean.",
+      "kz": "The boat sailed across ___ Pacific Ocean.",
+      "en": "The boat sailed across ___ Pacific Ocean."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "(–)",
+        "kz": "(–)",
+        "en": "(–)"
+       },
+       {
+        "ru": "the",
+        "kz": "the",
+        "en": "the"
+       },
+       {
+        "ru": "a",
+        "kz": "a",
+        "en": "a"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q13",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I read English newspapers ___ forget my English.",
+      "kz": "I read English newspapers ___ forget my English.",
+      "en": "I read English newspapers ___ forget my English."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "so as not to",
+        "kz": "so as not to",
+        "en": "so as not to"
+       },
+       {
+        "ru": "to not",
+        "kz": "to not",
+        "en": "to not"
+       },
+       {
+        "ru": "so as not",
+        "kz": "so as not",
+        "en": "so as not"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q14",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Do you know what time ___?",
+      "kz": "Do you know what time ___?",
+      "en": "Do you know what time ___?"
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "starts the party",
+        "kz": "starts the party",
+        "en": "starts the party"
+       },
+       {
+        "ru": "the party starts",
+        "kz": "the party starts",
+        "en": "the party starts"
+       },
+       {
+        "ru": "does start the party",
+        "kz": "does start the party",
+        "en": "does start the party"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q15",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "Take my phone with you in case you ___ to call.",
+      "kz": "Take my phone with you in case you ___ to call.",
+      "en": "Take my phone with you in case you ___ to call."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "needs",
+        "kz": "needs",
+        "en": "needs"
+       },
+       {
+        "ru": "'ve need",
+        "kz": "'ve need",
+        "en": "'ve need"
+       },
+       {
+        "ru": "need",
+        "kz": "need",
+        "en": "need"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q16",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "The children promised not ___ anyone about the surprise party.",
+      "kz": "The children promised not ___ anyone about the surprise party.",
+      "en": "The children promised not ___ anyone about the surprise party."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "to tell",
+        "kz": "to tell",
+        "en": "to tell"
+       },
+       {
+        "ru": "to telling",
+        "kz": "to telling",
+        "en": "to telling"
+       },
+       {
+        "ru": "telling",
+        "kz": "telling",
+        "en": "telling"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q17",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I arrived at school half an hour late and class ___.",
+      "kz": "I arrived at school half an hour late and class ___.",
+      "en": "I arrived at school half an hour late and class ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "was started",
+        "kz": "was started",
+        "en": "was started"
+       },
+       {
+        "ru": "had started",
+        "kz": "had started",
+        "en": "had started"
+       },
+       {
+        "ru": "started",
+        "kz": "started",
+        "en": "started"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q18",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "I'll tell you as soon as I ___ to my father.",
+      "kz": "I'll tell you as soon as I ___ to my father.",
+      "en": "I'll tell you as soon as I ___ to my father."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "'ve talked",
+        "kz": "'ve talked",
+        "en": "'ve talked"
+       },
+       {
+        "ru": "would have talked",
+        "kz": "would have talked",
+        "en": "would have talked"
+       },
+       {
+        "ru": "talked",
+        "kz": "talked",
+        "en": "talked"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q19",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "We ___ the bedroom painted at the moment.",
+      "kz": "We ___ the bedroom painted at the moment.",
+      "en": "We ___ the bedroom painted at the moment."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "'re doing",
+        "kz": "'re doing",
+        "en": "'re doing"
+       },
+       {
+        "ru": "have",
+        "kz": "have",
+        "en": "have"
+       },
+       {
+        "ru": "'re having",
+        "kz": "'re having",
+        "en": "'re having"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q20",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "You can't ___ left your phone at the hotel. We used it to call a taxi.",
+      "kz": "You can't ___ left your phone at the hotel. We used it to call a taxi.",
+      "en": "You can't ___ left your phone at the hotel. We used it to call a taxi."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "haven't",
+        "kz": "haven't",
+        "en": "haven't"
+       },
+       {
+        "ru": "have",
+        "kz": "have",
+        "en": "have"
+       },
+       {
+        "ru": "had",
+        "kz": "had",
+        "en": "had"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q21",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "The woman with ___ I worked in Barcelona now lives in London.",
+      "kz": "The woman with ___ I worked in Barcelona now lives in London.",
+      "en": "The woman with ___ I worked in Barcelona now lives in London."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "whom",
+        "kz": "whom",
+        "en": "whom"
+       },
+       {
+        "ru": "who",
+        "kz": "who",
+        "en": "who"
+       },
+       {
+        "ru": "which",
+        "kz": "which",
+        "en": "which"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q22",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "It was ___ a rainy day we decided to go to the cinema.",
+      "kz": "It was ___ a rainy day we decided to go to the cinema.",
+      "en": "It was ___ a rainy day we decided to go to the cinema."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "very",
+        "kz": "very",
+        "en": "very"
+       },
+       {
+        "ru": "so",
+        "kz": "so",
+        "en": "so"
+       },
+       {
+        "ru": "such",
+        "kz": "such",
+        "en": "such"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q23",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ the plane departed late, we arrived in Hawaii on time.",
+      "kz": "___ the plane departed late, we arrived in Hawaii on time.",
+      "en": "___ the plane departed late, we arrived in Hawaii on time."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "In spite",
+        "kz": "In spite",
+        "en": "In spite"
+       },
+       {
+        "ru": "Although",
+        "kz": "Although",
+        "en": "Although"
+       },
+       {
+        "ru": "Despite",
+        "kz": "Despite",
+        "en": "Despite"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q24",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ are famous for being friendly.",
+      "kz": "___ are famous for being friendly.",
+      "en": "___ are famous for being friendly."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "The Thai people",
+        "kz": "The Thai people",
+        "en": "The Thai people"
+       },
+       {
+        "ru": "Thai",
+        "kz": "Thai",
+        "en": "Thai"
+       },
+       {
+        "ru": "The Thais",
+        "kz": "The Thais",
+        "en": "The Thais"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q25",
+     "topic": "en_grammar",
+     "points": 1,
+     "text": {
+      "ru": "___ of us went to Paris. We all stayed at home.",
+      "kz": "___ of us went to Paris. We all stayed at home.",
+      "en": "___ of us went to Paris. We all stayed at home."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "Some",
+        "kz": "Some",
+        "en": "Some"
+       },
+       {
+        "ru": "None",
+        "kz": "None",
+        "en": "None"
+       },
+       {
+        "ru": "Neither",
+        "kz": "Neither",
+        "en": "Neither"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q26",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I felt very ___ when I was late for her wedding.",
+      "kz": "I felt very ___ when I was late for her wedding.",
+      "en": "I felt very ___ when I was late for her wedding."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "furious",
+        "kz": "furious",
+        "en": "furious"
+       },
+       {
+        "ru": "embarrassed",
+        "kz": "embarrassed",
+        "en": "embarrassed"
+       },
+       {
+        "ru": "loose",
+        "kz": "loose",
+        "en": "loose"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q27",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "___ is a big problem in some cities.",
+      "kz": "___ is a big problem in some cities.",
+      "en": "___ is a big problem in some cities."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "Poorness",
+        "kz": "Poorness",
+        "en": "Poorness"
+       },
+       {
+        "ru": "Poor",
+        "kz": "Poor",
+        "en": "Poor"
+       },
+       {
+        "ru": "Poverty",
+        "kz": "Poverty",
+        "en": "Poverty"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q28",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Her brother is 18, but he behaves like a child. He's very ___.",
+      "kz": "Her brother is 18, but he behaves like a child. He's very ___.",
+      "en": "Her brother is 18, but he behaves like a child. He's very ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "fresh",
+        "kz": "fresh",
+        "en": "fresh"
+       },
+       {
+        "ru": "guilty",
+        "kz": "guilty",
+        "en": "guilty"
+       },
+       {
+        "ru": "immature",
+        "kz": "immature",
+        "en": "immature"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q29",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Nike is a ___ company.",
+      "kz": "Nike is a ___ company.",
+      "en": "Nike is a ___ company."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "multinational",
+        "kz": "multinational",
+        "en": "multinational"
+       },
+       {
+        "ru": "nation",
+        "kz": "nation",
+        "en": "nation"
+       },
+       {
+        "ru": "national",
+        "kz": "national",
+        "en": "national"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q30",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Albert Einstein was a very famous ___. He was a genius.",
+      "kz": "Albert Einstein was a very famous ___. He was a genius.",
+      "en": "Albert Einstein was a very famous ___. He was a genius."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "scientific",
+        "kz": "scientific",
+        "en": "scientific"
+       },
+       {
+        "ru": "science",
+        "kz": "science",
+        "en": "science"
+       },
+       {
+        "ru": "scientist",
+        "kz": "scientist",
+        "en": "scientist"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q31",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The person who directs an orchestra is called a ___.",
+      "kz": "The person who directs an orchestra is called a ___.",
+      "en": "The person who directs an orchestra is called a ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "rapper",
+        "kz": "rapper",
+        "en": "rapper"
+       },
+       {
+        "ru": "conductor",
+        "kz": "conductor",
+        "en": "conductor"
+       },
+       {
+        "ru": "composer",
+        "kz": "composer",
+        "en": "composer"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q32",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I'm ___ with my new bicycle.",
+      "kz": "I'm ___ with my new bicycle.",
+      "en": "I'm ___ with my new bicycle."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "delighted",
+        "kz": "delighted",
+        "en": "delighted"
+       },
+       {
+        "ru": "delighting",
+        "kz": "delighting",
+        "en": "delighting"
+       },
+       {
+        "ru": "delightful",
+        "kz": "delightful",
+        "en": "delightful"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q33",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "They can't catch the robbers because there were no ___.",
+      "kz": "They can't catch the robbers because there were no ___.",
+      "en": "They can't catch the robbers because there were no ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "judges",
+        "kz": "judges",
+        "en": "judges"
+       },
+       {
+        "ru": "criminals",
+        "kz": "criminals",
+        "en": "criminals"
+       },
+       {
+        "ru": "witnesses",
+        "kz": "witnesses",
+        "en": "witnesses"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q34",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "A ___ is someone who writes about the good and bad qualities of concerts, books, etc.",
+      "kz": "A ___ is someone who writes about the good and bad qualities of concerts, books, etc.",
+      "en": "A ___ is someone who writes about the good and bad qualities of concerts, books, etc."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "reporter",
+        "kz": "reporter",
+        "en": "reporter"
+       },
+       {
+        "ru": "freelance journalist",
+        "kz": "freelance journalist",
+        "en": "freelance journalist"
+       },
+       {
+        "ru": "critic",
+        "kz": "critic",
+        "en": "critic"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q35",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I burnt myself on the fire and now I've got a big ___.",
+      "kz": "I burnt myself on the fire and now I've got a big ___.",
+      "en": "I burnt myself on the fire and now I've got a big ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "blister",
+        "kz": "blister",
+        "en": "blister"
+       },
+       {
+        "ru": "rash",
+        "kz": "rash",
+        "en": "rash"
+       },
+       {
+        "ru": "bruise",
+        "kz": "bruise",
+        "en": "bruise"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q36",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "That hat really ___ you. You look like a film star.",
+      "kz": "That hat really ___ you. You look like a film star.",
+      "en": "That hat really ___ you. You look like a film star."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "matches",
+        "kz": "matches",
+        "en": "matches"
+       },
+       {
+        "ru": "suits",
+        "kz": "suits",
+        "en": "suits"
+       },
+       {
+        "ru": "fit",
+        "kz": "fit",
+        "en": "fit"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q37",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "You can only carry one piece of ___ on the plane with you.",
+      "kz": "You can only carry one piece of ___ on the plane with you.",
+      "en": "You can only carry one piece of ___ on the plane with you."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "baggage",
+        "kz": "baggage",
+        "en": "baggage"
+       },
+       {
+        "ru": "luggages",
+        "kz": "luggages",
+        "en": "luggages"
+       },
+       {
+        "ru": "handbag",
+        "kz": "handbag",
+        "en": "handbag"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q38",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "When I was at school, I learnt lots of poems by ___.",
+      "kz": "When I was at school, I learnt lots of poems by ___.",
+      "en": "When I was at school, I learnt lots of poems by ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "remember",
+        "kz": "remember",
+        "en": "remember"
+       },
+       {
+        "ru": "mind",
+        "kz": "mind",
+        "en": "mind"
+       },
+       {
+        "ru": "heart",
+        "kz": "heart",
+        "en": "heart"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q39",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I had a very deep cut on my head. I needed to have ___.",
+      "kz": "I had a very deep cut on my head. I needed to have ___.",
+      "en": "I had a very deep cut on my head. I needed to have ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "a scan",
+        "kz": "a scan",
+        "en": "a scan"
+       },
+       {
+        "ru": "a needle",
+        "kz": "a needle",
+        "en": "a needle"
+       },
+       {
+        "ru": "stitches",
+        "kz": "stitches",
+        "en": "stitches"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q40",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "It's really ___ when people arrive late for an appointment.",
+      "kz": "It's really ___ when people arrive late for an appointment.",
+      "en": "It's really ___ when people arrive late for an appointment."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "irritating",
+        "kz": "irritating",
+        "en": "irritating"
+       },
+       {
+        "ru": "irritate",
+        "kz": "irritate",
+        "en": "irritate"
+       },
+       {
+        "ru": "irritated",
+        "kz": "irritated",
+        "en": "irritated"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q41",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Bert is a bit down in the ___. He was sacked yesterday.",
+      "kz": "Bert is a bit down in the ___. He was sacked yesterday.",
+      "en": "Bert is a bit down in the ___. He was sacked yesterday."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "sad",
+        "kz": "sad",
+        "en": "sad"
+       },
+       {
+        "ru": "dumps",
+        "kz": "dumps",
+        "en": "dumps"
+       },
+       {
+        "ru": "low",
+        "kz": "low",
+        "en": "low"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q42",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Pull your socks ___ or you won't pass your exams.",
+      "kz": "Pull your socks ___ or you won't pass your exams.",
+      "en": "Pull your socks ___ or you won't pass your exams."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "down",
+        "kz": "down",
+        "en": "down"
+       },
+       {
+        "ru": "up",
+        "kz": "up",
+        "en": "up"
+       },
+       {
+        "ru": "(–)",
+        "kz": "(–)",
+        "en": "(–)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q43",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The airport was closed because of a ___.",
+      "kz": "The airport was closed because of a ___.",
+      "en": "The airport was closed because of a ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "snowing",
+        "kz": "snowing",
+        "en": "snowing"
+       },
+       {
+        "ru": "cloudy",
+        "kz": "cloudy",
+        "en": "cloudy"
+       },
+       {
+        "ru": "blizzard",
+        "kz": "blizzard",
+        "en": "blizzard"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q44",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "You use your ___ to breathe.",
+      "kz": "You use your ___ to breathe.",
+      "en": "You use your ___ to breathe."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "lungs",
+        "kz": "lungs",
+        "en": "lungs"
+       },
+       {
+        "ru": "heart",
+        "kz": "heart",
+        "en": "heart"
+       },
+       {
+        "ru": "stomach",
+        "kz": "stomach",
+        "en": "stomach"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q45",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "A person who plays the drums is called a ___.",
+      "kz": "A person who plays the drums is called a ___.",
+      "en": "A person who plays the drums is called a ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "drum player",
+        "kz": "drum player",
+        "en": "drum player"
+       },
+       {
+        "ru": "drummist",
+        "kz": "drummist",
+        "en": "drummist"
+       },
+       {
+        "ru": "drummer",
+        "kz": "drummer",
+        "en": "drummer"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q46",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Eugene's company ___ a good profit last year.",
+      "kz": "Eugene's company ___ a good profit last year.",
+      "en": "Eugene's company ___ a good profit last year."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "made",
+        "kz": "made",
+        "en": "made"
+       },
+       {
+        "ru": "did",
+        "kz": "did",
+        "en": "did"
+       },
+       {
+        "ru": "had",
+        "kz": "had",
+        "en": "had"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q47",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "We were relieved when Ellie got off the plane because we'd been ___ her to miss the flight.",
+      "kz": "We were relieved when Ellie got off the plane because we'd been ___ her to miss the flight.",
+      "en": "We were relieved when Ellie got off the plane because we'd been ___ her to miss the flight."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "expecting",
+        "kz": "expecting",
+        "en": "expecting"
+       },
+       {
+        "ru": "waiting",
+        "kz": "waiting",
+        "en": "waiting"
+       },
+       {
+        "ru": "hoping",
+        "kz": "hoping",
+        "en": "hoping"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q48",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "I don't believe what I see on the TV news. I think it's very ___.",
+      "kz": "I don't believe what I see on the TV news. I think it's very ___.",
+      "en": "I don't believe what I see on the TV news. I think it's very ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 1,
+      "options": [
+       {
+        "ru": "accurate",
+        "kz": "accurate",
+        "en": "accurate"
+       },
+       {
+        "ru": "biased",
+        "kz": "biased",
+        "en": "biased"
+       },
+       {
+        "ru": "objective",
+        "kz": "objective",
+        "en": "objective"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q49",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "The thief was ___ guilty and sent to prison.",
+      "kz": "The thief was ___ guilty and sent to prison.",
+      "en": "The thief was ___ guilty and sent to prison."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 2,
+      "options": [
+       {
+        "ru": "made",
+        "kz": "made",
+        "en": "made"
+       },
+       {
+        "ru": "sentenced",
+        "kz": "sentenced",
+        "en": "sentenced"
+       },
+       {
+        "ru": "found",
+        "kz": "found",
+        "en": "found"
+       }
+      ]
+     }
+    },
+    {
+     "id": "e131q50",
+     "topic": "en_vocab",
+     "points": 1,
+     "text": {
+      "ru": "Are you cold? You're ___.",
+      "kz": "Are you cold? You're ___.",
+      "en": "Are you cold? You're ___."
+     },
+     "check": {
+      "type": "choice",
+      "answer": 0,
+      "options": [
+       {
+        "ru": "shivering",
+        "kz": "shivering",
+        "en": "shivering"
+       },
+       {
+        "ru": "melting",
+        "kz": "melting",
+        "en": "melting"
+       },
+       {
+        "ru": "sweating",
+        "kz": "sweating",
+        "en": "sweating"
+       }
+      ]
+     }
     }
    ]
   }

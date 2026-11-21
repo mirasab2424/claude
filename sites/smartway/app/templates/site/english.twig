@@ -4,6 +4,16 @@
 {% set c = COURSE %}
 {{ m.course_hero(c, __('english.h1'), __('english.lead'), __('english.chips')) }}
 
+<section class="section diag-promo-wrap">
+  <div class="wrap">
+    <a class="diag-promo diag-promo--en" href="{{ url('test/english') }}">
+      <span class="diag-promo__icon" aria-hidden="true">Aa</span>
+      <span class="diag-promo__text"><small>{{ __('diag.home_eyebrow') }}</small><b>{{ __('diag_en.home_title') }}</b><span>{{ __('diag_en.home_text') }}</span></span>
+      <span class="btn btn--pink">{{ __('diag_en.course_btn') }} →</span>
+    </a>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap">
     {{ m.head(__('english.program_eyebrow'), __('english.program_title'), __('english.program_lead')) }}

@@ -1,15 +1,17 @@
 {% extends "base.twig" %}
 {% block content %}
+{% set k = subject == 'english' ? 'diag_en.' : 'diag.' %}
+{% set home = subject == 'english' ? 'test/english' : 'test' %}
 <section class="section diag-res">
   <div class="wrap">
-    <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / <a href="{{ url('test') }}">{{ __('diag.title') }}</a> / {{ __('diag.result') }}</p>
+    <p class="crumbs"><a href="{{ url('index') }}">{{ __('nav.home') }}</a> / <a href="{{ url(home) }}">{{ __(k ~ 'title') }}</a> / {{ __('diag.result') }}</p>
     <div class="diag-card diag-card--{{ level }}">
       <div class="ring" style="--p: {{ attempt.percent }}"><b>{{ pct }}%</b></div>
       <div>
         <p class="eyebrow">{{ __('diag.result') }} · {{ test.title }}</p>
         <h1>{{ attempt.name }}</h1>
         <p class="diag-card__level">{{ __('diag.level.' ~ level) }}</p>
-        <p>{{ __('diag.level_text.' ~ level) }}</p>
+        <p>{{ __(k ~ 'level_text.' ~ level) }}</p>
         <ul class="diag-card__facts">
           <li>{{ __('diag.score', attempt.score|number_format(1, ',')|replace({',0': ''}), attempt.max_score) }}</li>
           <li>⏱ {{ __('diag.minutes_spent', minutes) }}</li>
@@ -50,7 +52,7 @@
         </div>
         <div class="cta__actions">
           <a class="btn btn--wa btn--lg" href="{{ wa_text|wa }}" target="_blank" rel="noopener">{{ __('diag.cta_wa') }}</a>
-          <a class="btn btn--light" href="{{ url('test') }}">{{ __('diag.again') }}</a>
+          <a class="btn btn--light" href="{{ url(home) }}">{{ __('diag.again') }}</a>
         </div>
       </div>
     </section>

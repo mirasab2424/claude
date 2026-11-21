@@ -182,6 +182,7 @@ final class Admin
             'stats' => $stats,
             'rows' => $store->list($f, 200),
             'grades' => $store->grades(),
+            'labels' => $store->labels(),
             'topics' => $topics,
             'heat_topics' => array_values(array_filter(array_keys($topics), fn ($k) => isset($usedTopics[$k]))),
             'demo_count' => $store->demoCount(),
@@ -241,10 +242,12 @@ final class Admin
             ];
         }
         $pct = rtrim(rtrim(number_format((float) $a['percent'], 1, ',', ''), '0'), ',');
-        $wa = 'Здравствуйте! Это SMART WAY. ' . $a['name'] . ' прошёл(а) диагностику по математике за ' . $a['grade'] . ' класс: ' . $pct . '%. Предлагаем бесплатно разобрать ошибки с преподавателем. Когда вам удобно?';
+        $wa = \Smart\Diag\Store::subject($test) === 'english'
+            ? 'Здравствуйте! Это SMART WAY. ' . $a['name'] . ' прошёл(а) тест по английскому (' . $store->label((int) $a['grade']) . '): ' . $pct . '%. Предлагаем бесплатно разобрать результат с преподавателем и подобрать группу. Когда вам удобно?'
+            : 'Здравствуйте! Это SMART WAY. ' . $a['name'] . ' прошёл(а) диагностику по математике за ' . $a['grade'] . ' класс: ' . $pct . '%. Предлагаем бесплатно разобрать ошибки с преподавателем. Когда вам удобно?';
         echo $this->view('diag_attempt', [
             'a' => $a, 'items' => $items, 'lead' => $lead, 'statuses' => Leads::STATUSES, 'level' => \Smart\Diag\Store::level((float) $a['percent']),
-            'topics' => $topics, 'pct' => $pct,
+            'topics' => $topics, 'pct' => $pct, 'label' => $store->label((int) $a['grade']),
             'wa' => 'https://wa.me/' . preg_replace('~\D~', '', preg_replace('~^8~', '7', preg_replace('~\D~', '', $a['phone']))) . '?text=' . rawurlencode($wa),
         ]);
     }

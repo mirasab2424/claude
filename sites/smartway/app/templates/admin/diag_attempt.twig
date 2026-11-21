@@ -20,7 +20,7 @@
   @media (max-width: 700px) { .qa__ans, .tb li { grid-template-columns: 1fr; } }
 </style>
 <p class="small"><a href="/admin/diag">← Диагностика</a></p>
-<h1>{{ a.name }} · {{ a.grade }} класс {% if a.demo %}<span class="tag">демо</span>{% endif %}</h1>
+<h1>{{ a.name }} · {{ label }} {% if a.demo %}<span class="tag">демо</span>{% endif %}</h1>
 <div class="cards">
   <div><b>{{ pct }}%</b>{{ a.score }} из {{ a.max_score }} баллов</div>
   <div><b>{{ {high: 'Высокий', good: 'Хороший', base: 'Базовый', low: 'Нужна поддержка'}[level] }}</b>уровень</div>

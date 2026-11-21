@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="wrap diag-wrap">
-    <p class="diag-note">{{ __('diag.recommended', test.minutes) }}</p>
+    <p class="diag-note">{{ __(subject == 'english' ? 'diag_en.recommended' : 'diag.recommended', test.minutes) }}</p>
     {% for q in questions %}
     <fieldset class="dq" data-q="{{ q.id }}" data-type="{{ q.type }}">
       <legend class="dq__head"><span>{{ __('diag.task', q.n, questions|length) }}</span><span>{{ __('diag.pts', q.points) }}</span></legend>
