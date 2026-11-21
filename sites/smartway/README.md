@@ -59,6 +59,13 @@ php -S localhost:8300 -t sites/smartway/public sites/smartway/public/index.php  
 ответ был вписан в текст вопроса — заменён пропуском. Заявка: «Тест по английскому, {уровень} — N%».
 На странице теста переключатель «Математика / Английский»; ссылки — на главной, на странице курса английского и в подвале.
 
+## Фото преподавателей
+
+`public/img/teachers/*.jpg` — одна серия 600 × 800 на фоне в цветах сайта. Сейчас они сделаны из постов Instagram
+(маленькие, макушки срезаны). Новые исходники обрабатываются скриптом `tools/teacher_photos.py`
+(вырезка фона, одинаковый кадр, цвет, тень): `python sites/smartway/tools/teacher_photos.py исходники/*.jpg --out sites/smartway/public/img/teachers`.
+Имена исходников — как в `default.json` (`isaev-nuradin.jpg` …). Нужен `pip install "rembg[cpu]" pillow`.
+
 ## Деплой
 
 После пуша изменений в `sites/smartway/` GitHub Actions (`.github/workflows/deploy-smartway.yml`) ставит Twig
