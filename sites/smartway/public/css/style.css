@@ -223,7 +223,7 @@ p { margin: 0 0 1em; }
 .teachers--grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
 .teachers--row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px; }
 .teacher { display: grid; grid-template-columns: 150px 1fr; gap: 18px; padding: 16px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); min-width: 0; }
-.teachers--grid .teacher { grid-template-columns: 1fr; }
+.teachers--grid .teacher { grid-template-columns: 1fr; align-content: start; }
 .teacher__photo img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--r-sm); background: var(--teal-soft); }
 .teachers--grid .teacher__photo img { aspect-ratio: 4 / 4.2; object-position: top; }
 .teacher__body { min-width: 0; }

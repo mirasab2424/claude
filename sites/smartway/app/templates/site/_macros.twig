@@ -36,7 +36,7 @@
 
 {% macro teacher(t) %}
 <article class="teacher">
-  <div class="teacher__photo"><img src="/{{ t.photo }}" alt="{{ t.name }}" loading="lazy" width="460" height="600"></div>
+  <div class="teacher__photo"><img src="/{{ t.photo }}" alt="{{ t.name }}" loading="lazy" width="600" height="800"></div>
   <div class="teacher__body">
     <p class="teacher__tags">{% for s in t.subjects|split(',') %}<span>{{ s|trim }}</span>{% endfor %}</p>
     <h3>{{ t.name }}</h3>
