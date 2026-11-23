@@ -1,0 +1,48 @@
+{% extends "layout.twig" %}
+{% block title %}Выгрузка данных{% endblock %}
+{% block content %}
+<style>
+  .ex { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin: 18px 0; }
+  .ex .box h2 { margin: 0 0 4px; font-size: 20px; }
+  .ex .box p { margin: 0 0 14px; }
+  .ex__btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ex__btns a { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border-radius: 10px; font-weight: 700; text-decoration: none; border: 1px solid var(--line, #e3d9c9); color: inherit; background: #fff; }
+  .ex__btns a:hover { border-color: #1f6470; }
+  .ex__btns b { font-size: 12px; padding: 2px 6px; border-radius: 6px; color: #fff; }
+  .b-x { background: #1d7a45; } .b-p { background: #c43b3b; } .b-c { background: #5b6770; } .b-z { background: #1f6470; }
+  .ex-all { border: 2px solid #1f6470; }
+  .ex-all .ex__btns a { background: #1f6470; color: #fff; border-color: #1f6470; font-size: 17px; padding: 12px 18px; }
+</style>
+<h1>Выгрузка данных</h1>
+<p class="muted">Сайт стоит на бесплатном хостинге. Чтобы ничего не потерять, раз в неделю скачивайте полный архив и храните его у себя (на компьютере, Google Диске).</p>
+
+<div class="box ex-all">
+  <h2>Всё одним архивом</h2>
+  <p>Заявки и результаты тестов (Excel и CSV), все ответы учеников (JSON), база целиком, правки текстов и цен из админки, загруженные фото. Пароль в архив не попадает.</p>
+  <div class="ex__btns">
+    {% if zip %}<a href="/admin/export/all.zip">⬇ Скачать архив (ZIP)</a>{% else %}<span class="error">На хостинге нет модуля ZIP — используйте кнопки ниже.</span>{% endif %}
+  </div>
+</div>
+
+<div class="ex">
+  <section class="box">
+    <h2>Заявки</h2>
+    <p class="muted">{{ counts.leads }} шт. · пробные уроки и прохождения тестов</p>
+    <div class="ex__btns">
+      {% if zip %}<a href="/admin/export/leads.xlsx"><b class="b-x">XLSX</b> Excel</a>{% endif %}
+      <a href="/admin/export/leads.pdf"><b class="b-p">PDF</b> Для печати</a>
+      <a href="/admin/export/leads.csv"><b class="b-c">CSV</b> Таблица</a>
+    </div>
+  </section>
+  <section class="box">
+    <h2>Результаты тестов</h2>
+    <p class="muted">{{ counts.results }} шт. · математика и английский, без демо</p>
+    <div class="ex__btns">
+      {% if zip %}<a href="/admin/export/results.xlsx"><b class="b-x">XLSX</b> Excel</a>{% endif %}
+      <a href="/admin/export/results.pdf"><b class="b-p">PDF</b> Для печати</a>
+      <a href="/admin/export/results.csv"><b class="b-c">CSV</b> Таблица</a>
+    </div>
+  </section>
+</div>
+<p class="muted small">Excel открывается в Excel, Google Таблицах и на телефоне. PDF удобно распечатать или отправить. CSV подходит для любой программы и для переноса в CRM.</p>
+{% endblock %}

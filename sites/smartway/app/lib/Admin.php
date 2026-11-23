@@ -60,7 +60,10 @@ final class Admin
             $path === '/' => $this->dashboard(),
             $path === '/logout' && $method === 'POST' => $this->logout(),
             $path === '/leads' => $this->leads($method),
-            $path === '/leads.csv' => $this->csv(),
+            $path === '/leads.csv' => $this->download('leads', 'csv'),
+            $path === '/export' => $this->exportPage(),
+            (bool) preg_match('~^/export/(leads|results)\.(xlsx|pdf|csv)$~', $path, $m) => $this->download($m[1], $m[2]),
+            $path === '/export/all.zip' => $this->archive(),
             $path === '/diag' => $this->diag($method),
             (bool) preg_match('~^/diag/(\d+)$~', $path, $m) => $this->diagAttempt((int) $m[1], $method),
             $path === '/password' => $this->password($method),
@@ -274,19 +277,50 @@ final class Admin
         };
     }
 
-    private function csv(): void
+    private function exportPage(): void
     {
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="smartway-leads-' . date('Y-m-d') . '.csv"');
-        $out = fopen('php://output', 'w');
-        fwrite($out, "\xEF\xBB\xBF");
-        fputcsv($out, ['№', 'Дата', 'Имя', 'Телефон', 'Ребёнок', 'Направление', 'Филиал', 'Язык', 'Страница', 'Статус', 'Заметка'], ';');
-        foreach ($this->app->leads->list(null, 100000) as $l) {
-            $row = [$l['id'], $l['created_at'], $l['name'], $l['phone'], $l['child'], $l['course'], $l['branch'], $l['lang'], $l['page'], Leads::STATUSES[$l['status']] ?? $l['status'], $l['note']];
-            // Защита от формул при открытии в Excel
-            fputcsv($out, array_map(fn ($v) => preg_match('~^[=+\-@\t\r]~', (string) $v) ? "'" . $v : $v, $row), ';');
-        }
-        fclose($out);
+        echo $this->view('export', ['counts' => $this->exportCounts(), 'zip' => class_exists(\ZipArchive::class)]);
+    }
+
+    private function exportCounts(): array
+    {
+        $db = $this->app->leads->db();
+        $this->app->diag();
+
+        return [
+            'leads' => (int) $db->query('SELECT COUNT(*) FROM leads')->fetchColumn(),
+            'results' => (int) $db->query('SELECT COUNT(*) FROM diag_attempts WHERE finished_at IS NOT NULL AND demo = 0')->fetchColumn(),
+        ];
+    }
+
+    /** Заявки или результаты тестов в Excel, PDF или CSV. */
+    private function download(string $what, string $fmt): void
+    {
+        $export = new Export($this->app);
+        $t = $export->table($what);
+        $name = ($what === 'results' ? 'smartway-rezultaty-' : 'smartway-zayavki-') . date('Y-m-d') . '.' . $fmt;
+        [$type, $body] = match ($fmt) {
+            'xlsx' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $export->xlsx([$t])],
+            'pdf' => ['application/pdf', $export->pdf($t)],
+            default => ['text/csv; charset=utf-8', $export->csv($t)],
+        };
+        header('Content-Type: ' . $type);
+        header('Content-Disposition: attachment; filename="' . $name . '"');
+        header('Content-Length: ' . strlen($body));
+        header('Cache-Control: no-store');
+        echo $body;
+    }
+
+    /** Полный архив: Excel, CSV, JSON, база, правки сайта и фото. */
+    private function archive(): void
+    {
+        $file = (new Export($this->app))->archive();
+        header('Content-Type: application/zip');
+        header('Content-Disposition: attachment; filename="smartway-vse-dannye-' . date('Y-m-d') . '.zip"');
+        header('Content-Length: ' . filesize($file));
+        header('Cache-Control: no-store');
+        readfile($file);
+        @unlink($file);
     }
 
     private function password(string $method): void

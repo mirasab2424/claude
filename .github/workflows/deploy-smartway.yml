@@ -44,6 +44,8 @@ jobs:
           composer install --working-dir=app --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress
           # Twig без документации и тестов: меньше файлов на хостинге
           rm -rf app/vendor/twig/twig/{doc,tests,extra,bin} app/vendor/*/*/{tests,Tests,doc,docs}
+          # PDF-выгрузке нужны только два шрифта DejaVu Condensed, остальные ~9 МБ не заливаем
+          find app/vendor/setasign/tfpdf/font/unifont -name '*.ttf' ! -name 'DejaVuSansCondensed.ttf' ! -name 'DejaVuSansCondensed-Bold.ttf' -delete
           for f in app/lib/*.php app/lang/*.php app/config.php public/index.php; do php -l "$f" > /dev/null; done
           mkdir -p dist
           cp -r public/. dist/

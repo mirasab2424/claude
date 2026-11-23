@@ -4,6 +4,7 @@
     "type": "project",
     "require": {
         "php": ">=8.2",
+        "setasign/tfpdf": "^1.33",
         "twig/twig": "^3.14"
     },
     "autoload": {

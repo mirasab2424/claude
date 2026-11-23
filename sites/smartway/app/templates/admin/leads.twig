@@ -5,7 +5,7 @@
 <p class="tabs">
   <a href="/admin/leads" {% if not status %}aria-current="page"{% endif %}>Все · {{ counts.all }}</a>
   {% for k, v in statuses %}<a href="/admin/leads?status={{ k }}" {% if status == k %}aria-current="page"{% endif %}>{{ v }} · {{ counts[k] }}</a>{% endfor %}
-  <a href="/admin/leads.csv" style="margin-left:auto">Скачать CSV (Excel)</a>
+  <span style="margin-left:auto">Скачать: <a href="/admin/export/leads.xlsx">Excel</a> · <a href="/admin/export/leads.pdf">PDF</a> · <a href="/admin/export/leads.csv">CSV</a> · <a href="/admin/export">всё</a></span>
 </p>
 {% for l in leads %}
 <section class="box lead-row">

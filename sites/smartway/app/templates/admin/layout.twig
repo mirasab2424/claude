@@ -103,6 +103,7 @@
       <a href="/admin" {% if uri == '/admin' %}aria-current="page"{% endif %}>Обзор</a>
       <a href="/admin/leads" {% if uri == '/admin/leads' %}aria-current="page"{% endif %}>Заявки {% if new_leads %}<span class="pill">{{ new_leads }}</span>{% endif %}</a>
       <a href="/admin/diag" {% if uri starts with '/admin/diag' %}aria-current="page"{% endif %}>Диагностика (тест)</a>
+      <a href="/admin/export" {% if uri starts with '/admin/export' %}aria-current="page"{% endif %}>⬇ Выгрузка данных</a>
       <h3>Содержимое сайта</h3>
       {% for key, title in sections %}<a href="/admin/edit/{{ key }}" {% if uri == '/admin/edit/' ~ key %}aria-current="page"{% endif %}>{{ title }}</a>{% endfor %}
       <h3>Тексты интерфейса</h3>
