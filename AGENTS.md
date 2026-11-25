@@ -70,6 +70,11 @@ Laravel 13 + Filament 5, SQLite, PHP 8.3. Публичная часть на Bla
 `zamery.html` (лист замеров → JSON для обновления `measurements.json`). В 3D: прогулка, линейка, «Вечер», примерка пола,
 `?cam=…&layers=…` (ссылка на вид), `?room=id`. Ввод посетителя на сайте не меняет данные — только его браузер.
 
+## Пятый проект: роза-часы (`sites/rose/`)
+Личная поделка, не сайт и не деплоится: 3D-модель (`rose-hourglass.html`, Three.js) и инструкция для ручной работы
+(`rose-workshop.html`). Песочные часы 9 × ⌀ 2,5 см внутри раскрывающейся деревянной розы для букета.
+Все решения и ограничения (новичок, только шуруповёрт и нож) — в `sites/rose/README.md`.
+
 ## Команды
 - `php artisan migrate:fresh --seed`: база с демо-данными, админ `admin@example.com` / `password`.
 - `php artisan test`: тесты в `tests/Feature`.

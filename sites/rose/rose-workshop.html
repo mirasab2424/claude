@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}</style>
+<title>Чертежи розы-часов</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: одна колонка-инструкция для новичка; шаги карточками, чертежи на сетке */
+:root{
+  --bg:#f3f2ee; --paper:#fbfaf7; --fg:#1d211d; --muted:#5f6760; --line:#d9dcd3; --grid:#e6e8e1; --grid2:#ccd1c6;
+  --accent:#3c5f46; --wood:#ead9b8; --wood-line:#9a7b4c; --ink:#26302a; --green:#6f9a5e; --l1:#c0573e; --l2:#3d6fa8; --l3:#7a5aa6; --metal:#9a9a92;
+  --display:"Unbounded",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141613; --paper:#1b1e1a; --fg:#e7eae4; --muted:#9ca59d; --line:#2f352f; --grid:#242823; --grid2:#363c35;
+  --accent:#a3c8aa; --wood:#4a3f2c; --wood-line:#c8a873; --ink:#e3e7df; --green:#86b075; --l1:#e88a71; --l2:#7fa8dc; --l3:#b49ae0; --metal:#b9b9b0; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#141613; --paper:#1b1e1a; --fg:#e7eae4; --muted:#9ca59d; --line:#2f352f; --grid:#242823; --grid2:#363c35;
+  --accent:#a3c8aa; --wood:#4a3f2c; --wood-line:#c8a873; --ink:#e3e7df; --green:#86b075; --l1:#e88a71; --l2:#7fa8dc; --l3:#b49ae0; --metal:#b9b9b0; color-scheme:dark }
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15.5px;line-height:1.6}
+.wrap{max-width:900px;margin:0 auto;padding-block:28px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:44px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(24px,5vw,36px);line-height:1.15;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:500;font-size:clamp(19px,3.2vw,23px);margin:0;text-wrap:balance}
+h3{font-size:16px;margin:0 0 6px}
+p{margin:0}
+.lead{color:var(--muted);max-width:65ch;margin-top:10px}
+section{display:grid;gap:14px;min-width:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:600px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.num{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;font-family:var(--mono)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+svg{display:block;max-width:100%;height:auto}
+svg text{font-family:var(--body);fill:var(--fg)}
+.cap{font-size:13px;color:var(--muted);margin-top:8px}
+.qa{border-left:3px solid var(--accent);padding:6px 0 6px 16px;display:grid;gap:8px}
+.qa b{font-weight:600}
+.stage-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-top:10px}
+.stage-h .time{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.steps{display:grid;gap:10px;counter-reset:st;padding:0;margin:0;list-style:none}
+.steps>li{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 18px 14px 58px;position:relative;counter-increment:st}
+.steps>li::before{content:counter(st);position:absolute;left:16px;top:13px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--paper);display:grid;place-items:center;font-family:var(--mono);font-weight:500;font-size:14px}
+.steps.s2{counter-reset:st 3}.steps.s3{counter-reset:st 7}.steps.s4{counter-reset:st 10}.steps.s5{counter-reset:st 13}
+.tip{font-size:13.5px;color:var(--muted);margin-top:6px}
+ul{margin:6px 0 0;padding-left:20px}
+li{margin:3px 0}
+.tpl{display:flex;flex-direction:column;gap:8px}
+.tpl svg{margin-top:auto}
+.tpl .meta{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13.5px}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:4px}
+.check li::before{content:"□ ";color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Чертежи розы-часов</h1>
+    <p class="lead">Простая версия варианта А для первого опыта с деревом. Лепестки вырезаются из тонкого шпона ножом и ножницами, гнутся в горячей воде на бутылке и держатся на мягкой проволоке. Тонко сверлить не нужно, из инструмента хватит шуруповёрта и канцелярского ножа.</p>
+  </header>
+
+  <section>
+    <div class="qa">
+      <p><b>Можно ли сначала просверлить, а потом вырезать?</b></p>
+      <p>Да, это правильный приём: большую заготовку легко зажать, и она не трескается от сверла, а маленькая деталь лопается. В этой версии он почти не нужен. Тонких отверстий нет совсем, а одно отверстие ⌀ 8 мм под стебель сверлится в основании, пока оно ещё цельный круг.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Как это устроено</h2>
+    <div class="card">
+      <svg id="assembly" viewBox="0 104 220 200" aria-label="Схема сборки в разрезе"></svg>
+      <p class="cap">Разрез в натуральную величину. Каждый лепесток держится на своей проволоке. Проволока идёт по спинке лепестка, загибается через край деревянного круга и уходит вниз вдоль стебля. Всё это плотно обмотано зелёной тейп-лентой, получается чашечка. Чтобы раскрыть розу, лепесток отгибают пальцем: проволока гнётся у края круга и держит его в новом положении.</p>
+    </div>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>№</th><th>Деталь</th><th>Шт.</th><th>Из чего</th><th>Размер</th></tr></thead>
+        <tbody>
+          <tr><td><span class="num">1</span></td><td>Лепесток внутреннего ряда</td><td class="n">5</td><td>шпон 0,6–1 мм</td><td class="n">101 × 43</td></tr>
+          <tr><td><span class="num">2</span></td><td>Лепесток среднего ряда</td><td class="n">5</td><td>шпон</td><td class="n">98 × 45</td></tr>
+          <tr><td><span class="num">3</span></td><td>Лепесток внешнего ряда</td><td class="n">4</td><td>шпон</td><td class="n">84 × 46</td></tr>
+          <tr><td><span class="num">4</span></td><td>Проволока на каждый лепесток</td><td class="n">14</td><td>флористическая ⌀ 0,8–1 мм</td><td class="n">по 110 мм</td></tr>
+          <tr><td><span class="num">5</span></td><td>Основание</td><td class="n">1</td><td>деревянный круг для поделок</td><td class="n">⌀ 30–35, толщина 8–10</td></tr>
+          <tr><td><span class="num">6</span></td><td>Стебель</td><td class="n">1</td><td>шкант или палочка ⌀ 8</td><td class="n">150–300, под букет</td></tr>
+          <tr><td><span class="num">7</span></td><td>Сердцевина</td><td class="n">1</td><td>полоска шпона, скрученная спиралью</td><td class="n">полоска 18 × 220</td></tr>
+          <tr><td><span class="num">8</span></td><td>Магнит</td><td class="n">2</td><td>неодимовый</td><td class="n">⌀ 10 × 3</td></tr>
+          <tr><td><span class="num">9</span></td><td>Стальная шайба на крышку часов</td><td class="n">2</td><td>шайба М5</td><td class="n">⌀ 10</td></tr>
+          <tr><td><span class="num">10</span></td><td>Чашелистик</td><td class="n">5</td><td>шпон, покрашенный в зелёный</td><td class="n">30 × 8</td></tr>
+          <tr><td><span class="num">11</span></td><td>Тейп-лента зелёная</td><td class="n">1</td><td>флористическая</td><td class="n">рулон</td></tr>
+          <tr><td><span class="num">12</span></td><td>Песочные часы</td><td class="n">1</td><td>покупные</td><td class="n">90 × ⌀ 25</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Что купить</h2>
+    <div class="two">
+      <div class="card">
+        <h3>Материалы</h3>
+        <ul>
+          <li><b>Шпон натуральный</b> 0,6 мм (липа, клён или берёза), 2–3 листа. Продаётся для поделок и маркетри. Можно взять <b>авиафанеру 1 мм</b>: прочнее, но гнётся хуже.</li>
+          <li><b>Деревянный круг</b> ⌀ 30–35 мм толщиной 8–10 мм: заготовка для поделок или кусок круглой ручки от швабры.</li>
+          <li><b>Шкант</b> ⌀ 8 мм.</li>
+          <li><b>Флористическая проволока</b> ⌀ 0,8–1 мм или медная проволока ⌀ 1 мм из кабеля без изоляции.</li>
+          <li><b>Тейп-лента</b> зелёная, нитки.</li>
+          <li><b>2 неодимовых магнита</b> ⌀ 10 × 3, <b>2 шайбы</b> М5 из обычной стали (магнит должен к ним липнуть).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Клей и краска</h3>
+        <ul>
+          <li>Суперклей-гель: для проволоки и шпона.</li>
+          <li>Эпоксидный клей 5-минутный: для магнитов, шайб и стебля.</li>
+          <li>Белый грунт в баллончике и белая матовая краска в баллончике: так проще всего покрасить ровно.</li>
+          <li>Тюбик акриловой охры и кусок губки: для кремового оттенка у основания лепестков.</li>
+          <li>Зелёный акрил для чашелистиков.</li>
+          <li>Матовый лак в баллончике.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Инструмент</h3>
+        <ul>
+          <li>Канцелярский нож с запасными лезвиями и металлическая линейка.</li>
+          <li>Крепкие ножницы.</li>
+          <li>Шуруповёрт со сверлом по дереву 8 мм.</li>
+          <li>Пассатижи или кусачки для проволоки.</li>
+          <li>Наждачная бумага 180 и 240.</li>
+          <li>Стеклянная бутылка ⌀ 5–7 см, карандаш, резинки для денег, прищепки.</li>
+          <li>Таз или кастрюля с горячей водой. Пригодится утюжок для волос: им удобно подгибать край.</li>
+          <li>Старая доска или плотный картон, чтобы резать.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Время</h3>
+        <p class="mono">≈ 15–20 часов работы</p>
+        <p class="tip">Плюс сушка: после гибки 1 ночь, после покраски 1–2 дня. Реально уложиться в 1–2 недели вечерами.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Шаблоны лепестков</h2>
+    <p>Это развёртки: лепестки в плоском виде, до того как их согнуть. Клетка 5 мм, жирная линия каждые 10 мм. Перерисуйте по клеткам на миллиметровку или распечатайте скриншот так, чтобы полоса ниже была ровно 50 мм. Пунктир — где идёт проволока, стрелка — направление волокон дерева.</p>
+    <div class="card"><svg id="ruler" viewBox="-2 -2 60 12" style="max-width:240px"></svg></div>
+    <div class="two" id="templates"></div>
+  </section>
+
+  <section>
+    <h2>Шаг за шагом</h2>
+
+    <div class="stage-h"><h3>Подготовка</h3><span class="time">1 вечер</span></div>
+    <ol class="steps">
+      <li><b>Замерьте часы.</b> Диаметр крышки и полную высоту. Если высота больше 90 мм, удлините лепестки внутреннего ряда на разницу.</li>
+      <li><b>Сделайте шаблоны из картона.</b> Перерисуйте три формы, вырежьте ножницами, подпишите 1, 2, 3.</li>
+      <li><b>Пробный лепесток из обрезка.</b> Пройдите на нём шаги 4–7 полностью, прежде чем резать остальные. Так станет понятно, как ведёт себя шпон, и хорошие листы останутся целыми.</li>
+    </ol>
+
+    <div class="stage-h"><h3>Лепестки</h3><span class="time">5–7 ч + ночь сушки</span></div>
+    <ol class="steps s2">
+      <li><b>Разметка.</b> Положите шаблон на шпон так, чтобы стрелка шла вдоль волокон, обведите карандашом. Нужно 5 + 5 + 4 и пара запасных.
+        <p class="tip">Поперёк волокон шпон ломается, поэтому длинная сторона лепестка всегда вдоль волокон.</p></li>
+      <li><b>Вырезание.</b> Шпон 0,6 мм режется ножницами. Чтобы он не трескался, слегка смочите его губкой или заклейте обратную сторону малярным скотчем. Авиафанеру режьте ножом в 3–4 лёгких прохода, не давите.</li>
+      <li><b>Гибка на бутылке.</b> Замочите лепестки в горячей воде на 15–20 минут. Положите поперёк бутылки, чтобы лепесток огибал её по ширине, и прижмите резинками. Сушите ночь, лучше у батареи.
+        <p class="tip">Так лепесток получает «чашку», как у настоящей розы.</p></li>
+      <li><b>Отгиб края.</b> Смочите верхние 1,5 см лепестка, накрутите край наружу на карандаш и зажмите прищепкой до высыхания. Или прогладьте влажный край утюжком для волос, подворачивая его пальцами. У внешнего ряда край отгибайте сильнее, у внутреннего чуть-чуть.</li>
+    </ol>
+
+    <div class="stage-h"><h3>Сердцевина, основание, покраска</h3><span class="time">4–5 ч + 1–2 дня сушки</span></div>
+    <ol class="steps s3">
+      <li><b>Сердцевина.</b> Отрежьте полоску шпона 18 × 220 мм вдоль волокон, одну длинную сторону сделайте волнистой ножницами. Замочите, туго накрутите спиралью на карандаш волнистым краем вверх, обвяжите ниткой, высушите. Снимите с карандаша и капните суперклей в нижнюю часть, чтобы спираль не раскрутилась. Снизу приклейте эпоксидкой магнит.
+        <p class="tip">Это как розочка из бумажной ленты, только из дерева. Пока шпон влажный, отогните края витков сверху наружу пальцами.</p></li>
+      <li><b>Основание.</b> В центре нижней стороны круга просверлите шуруповёртом отверстие ⌀ 8 мм глубиной 10 мм. Чтобы не просверлить насквозь, намотайте на сверло изоленту в 10 мм от кончика. Верхний край круга скруглите наждачкой: здесь будет гнуться проволока, на остром краю она быстро переломится. В центр верхней стороны приклейте эпоксидкой второй магнит.</li>
+      <li><b>Покраска.</b> Слегка пройдитесь по лепесткам наждачкой 240: после воды ворс дерева поднимается. Затем:
+        <ul>
+          <li>грунт из баллончика, 2 тонких слоя с обеих сторон;</li>
+          <li>белая матовая краска, 2 слоя;</li>
+          <li>губкой с капелькой охры, смешанной с белым, промокните низ каждого лепестка и сердцевину: получится кремовый переход, как у живых роз;</li>
+          <li>чашелистики и стебель покрасьте зелёным;</li>
+          <li>сверху матовый лак.</li>
+        </ul>
+        <p class="tip">Если потом решите перекрасить в другой цвет, приём тот же: у основания темнее, к краю светлее.</p></li>
+    </ol>
+
+    <div class="stage-h"><h3>Сборка</h3><span class="time">3–4 ч</span></div>
+    <ol class="steps s4">
+      <li><b>Проволока на лепестки.</b> Нарежьте 14 кусков по 110 мм. Приклейте каждый суперклеем по центру спинки лепестка (пунктир на шаблоне) так, чтобы снизу торчало 45 мм. Сверху заклейте проволоку узкой полоской бумаги и подкрасьте белым.</li>
+      <li><b>Основание и стебель.</b> Вклейте стебель в отверстие на эпоксидку. Поставьте часы на магнит основания.
+        <p class="tip">Шайбы заранее приклейте эпоксидкой по центру обеих крышек часов и закрасьте белым. Магнит тянет шайбу с любой стороны, поэтому после переворота всё держится так же.</p></li>
+      <li><b>Лепестки по рядам.</b> Начинайте с внутреннего ряда.
+        <ul>
+          <li>Приложите 5 лепестков вокруг часов, низом к краю круга. Проволоку загните через край вниз и прижмите к стеблю.</li>
+          <li>Временно стяните резинкой. Проверьте, что ряд закрывается вокруг часов и не давит на крышку.</li>
+          <li>Туго обмотайте ниткой по бокам круга и стеблю, капая суперклей.</li>
+          <li>Так же поставьте средний ряд между лепестками первого, потом внешний.</li>
+        </ul></li>
+    </ol>
+
+    <div class="stage-h"><h3>Финиш</h3><span class="time">1 ч</span></div>
+    <ol class="steps s5">
+      <li><b>Чашечка.</b> Обмотайте бока круга и 4–5 см стебля зелёной тейп-лентой: она закроет нитки и проволоку. Тейп-лента липнет, если её натягивать. Сверху по кругу приклейте 5 чашелистиков концами вниз.</li>
+      <li><b>Проверка.</b> Раскройте и закройте розу 2–3 раза, поставьте сердцевину на верхнюю крышку.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Как пользоваться</h2>
+    <div class="two">
+      <div class="card"><h3>Раскрыть</h3><p>Отгибайте лепестки пальцем у самого основания, по рядам: внешний, средний, внутренний. Закрывать в обратном порядке.</p></div>
+      <div class="card"><h3>Перевернуть часы</h3><p>Раскрыть, снять сердцевину, вынуть часы вверх, перевернуть, поставить обратно, вернуть сердцевину.</p></div>
+      <div class="card"><h3>Беречь проволоку</h3><p>Она гнётся в одном месте и через много раскрытий может переломиться. Не раскрывайте лепестки до конца, хватит половины. Если проволока сломалась, лепесток подклеивается на новую.</p></div>
+      <div class="card"><h3>В букет</h3><p>Ставить на 3–4 см глубже соседних роз: так видимая часть совпадёт с ними по размеру.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Частые ошибки новичков</h2>
+    <ul class="check">
+      <li>Лепесток вырезан поперёк волокон и ломается при гибке.</li>
+      <li>Шпон сгибали сухим, и он треснул. Гнуть только после 15–20 минут в горячей воде.</li>
+      <li>Режут тупым лезвием, и края рвутся. Отломайте сегмент лезвия, как только нож начал тянуть.</li>
+      <li>Красят толстым слоем, и краска копится в изгибах. Лучше 3 тонких слоя, чем один толстый.</li>
+      <li>Внутренний ряд обмотали, не проверив, закрывается ли он вокруг часов.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+/* ---------- форма лепестка (та же формула, что в 3D-модели), в мм ---------- */
+function pt(o, xn, u){
+  const {w, h, cup, bulge, inward, reflex} = o;
+  const s = 0.06 + 0.94*Math.pow(u, 1.25);
+  const hw = 0.5*w*Math.pow(Math.sin(Math.PI*s), 0.45);
+  const rr = Math.max(0, (u-0.62)/0.38);
+  const Z = -cup*xn*xn*hw*0.9 + bulge*Math.sin(Math.PI*u*0.9)*h*0.12 - inward*Math.pow(u,2.5)*h*0.25 + reflex*rr*rr*h*0.30 + reflex*Math.pow(Math.abs(xn),4)*Math.pow(u,1.5)*hw*0.4;
+  return {x: xn*hw*10, y: (u*h - reflex*rr*rr*h*0.07)*10, z: Z*10};
+}
+const LAY = [
+  {name:'Ряд 1, внутренний', n:5, col:'var(--l1)', w:3.7, h:10.2, cup:.7, bulge:.3, inward:.08, reflex:.5},
+  {name:'Ряд 2, средний',    n:5, col:'var(--l2)', w:4.1, h:9.6,  cup:.6, bulge:.4, inward:.04, reflex:.75},
+  {name:'Ряд 3, внешний',    n:4, col:'var(--l3)', w:4.4, h:8.0,  cup:.5, bulge:.58, inward:0,  reflex:1.0},
+];
+const f = v => v.toFixed(1);
+/* развёртка: длина по дуге вдоль середины, ширина по дуге поперёк */
+function flat(o){
+  const N = 60, rows = []; let s = 0, prev = null;
+  for (let i=0;i<=N;i++){
+    const u = i/N, c = pt(o, 0, u);
+    if (prev) s += Math.hypot(c.y-prev.y, c.z-prev.z);
+    prev = c;
+    let aw = 0, pp = null;
+    for (let j=0;j<=20;j++){ const p = pt(o, j/10-1, u); if (pp) aw += Math.hypot(p.x-pp.x, p.z-pp.z); pp = p; }
+    rows.push({s, hw: aw/2});
+  }
+  return rows;
+}
+function grid(x0, y0, x1, y1){
+  let g = '';
+  for (let x=Math.ceil(x0/5)*5; x<=x1; x+=5) g += `<line x1="${x}" y1="${y0}" x2="${x}" y2="${y1}" stroke="${x%10===0?'var(--grid2)':'var(--grid)'}" stroke-width="${x%10===0?0.3:0.2}"/>`;
+  for (let y=Math.ceil(y0/5)*5; y<=y1; y+=5) g += `<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${y%10===0?'var(--grid2)':'var(--grid)'}" stroke-width="${y%10===0?0.3:0.2}"/>`;
+  return g;
+}
+const tplBox = document.getElementById('templates');
+LAY.forEach((o, k) => {
+  const rows = flat(o);
+  const len = rows[rows.length-1].s, wmax = Math.max(...rows.map(r => r.hw));
+  const L = rows.map(r => [-r.hw, -r.s]), R = rows.map(r => [r.hw, -r.s]).reverse();
+  const path = 'M' + L.concat(R).map(p => f(p[0]) + ',' + f(p[1])).join(' L') + ' Z';
+  const X0 = -wmax - 6, X1 = wmax + 16, Y0 = -len - 6, Y1 = 10;
+  const wireTop = -len*0.6;
+  const svg = `<svg viewBox="${f(X0)} ${f(Y0)} ${f(X1-X0)} ${f(Y1-Y0)}" aria-label="Развёртка: ${o.name}">
+    <defs><marker id="arw${k}" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--muted)"/></marker></defs>
+    ${grid(X0, Y0, X1, Y1)}
+    <path d="${path}" fill="var(--wood)" stroke="${o.col}" stroke-width="0.6"/>
+    <line x1="0" y1="${f(wireTop)}" x2="0" y2="6" stroke="var(--metal)" stroke-width="0.8" stroke-dasharray="2 1.2"/>
+    <text x="1.5" y="8" font-size="3">проволока, вниз 45</text>
+    <line x1="${f(wmax+8)}" y1="${f(-len*0.25)}" x2="${f(wmax+8)}" y2="${f(-len*0.75)}" stroke="var(--muted)" stroke-width="0.4" marker-end="url(#arw${k})"/>
+    <text x="${f(wmax+11.5)}" y="${f(-len*0.5)}" font-size="3" transform="rotate(-90 ${f(wmax+11.5)} ${f(-len*0.5)})" text-anchor="middle">волокна</text>
+  </svg>`;
+  const div = document.createElement('div');
+  div.className = 'card tpl';
+  div.innerHTML = `<h3 style="color:${o.col}">${o.name} · ${o.n} шт.</h3>
+    <div class="meta mono"><span>длина ${Math.round(len)}</span><span>ширина ${Math.round(2*wmax)}</span></div>${svg}`;
+  tplBox.appendChild(div);
+});
+document.getElementById('ruler').innerHTML =
+  `<rect x="0" y="0" width="50" height="4" fill="var(--ink)"/>` +
+  Array.from({length:11}, (_, i) => `<line x1="${i*5}" y1="4" x2="${i*5}" y2="${i%2?6:7}" stroke="var(--ink)" stroke-width="0.3"/>`).join('') +
+  `<text x="52" y="4" font-size="3.6">50 мм</text>`;
+
+/* ---------- схема сборки ---------- */
+(function(){
+  const cx = 100, top = 240;          // верх деревянного круга
+  const sm = t => t*t*(3-2*t);
+  const bulbR = y => { const s = Math.min(1, Math.abs(y)/37.8); let r = 0.75 + 5.3*(s<0.04?0:s>0.6?1:sm((s-0.04)/0.56)); if (s>0.92) r -= (s-0.92)/0.08*1.2; return r + 0.25; };
+  const gL = [], gR = [];
+  for (let i=0;i<=60;i++){ const y = -37.8 + 75.6*i/60; gL.push(`${f(cx-bulbR(y))},${f(192-y)}`); gR.push(`${f(cx+bulbR(y))},${f(192-y)}`); }
+  const prof = (o, side, r) => {
+    const pts = [];
+    for (let i=0;i<=40;i++){ const p = pt(o, 0, i/40); pts.push(`${f(cx + side*(r + p.z))},${f(top - 1 - p.y)}`); }
+    return pts.join(' ');
+  };
+  const L1c = {...LAY[0], cup:.8, bulge:.25, inward:.12, reflex:.3};
+  const L3c = {...LAY[2], cup:.55, bulge:.55, inward:0, reflex:.9};
+  const wire = (side, r) => { const x = v => cx + side*v; return `<path d="M${x(r+0.6)},${top-55} L${x(r+0.6)},${top-1} Q${x(r+1.5)},${top} ${x(17.5)},${top+2} L${x(17.5)},${top+10} Q${x(15)},${top+14} ${x(5)},${top+17} L${x(5)},${top+40}" fill="none" stroke="var(--metal)" stroke-width="0.9"/>`; };
+  const lab = (n, px, py, ly, side) => {
+    const lx = side > 0 ? 168 : 32;
+    return `<polyline points="${px},${py} ${side>0?lx-6:lx+6},${ly} ${lx},${ly}" fill="none" stroke="var(--muted)" stroke-width="0.25"/>
+      <circle cx="${side>0?lx+3:lx-3}" cy="${ly}" r="3" fill="var(--ink)"/><text x="${side>0?lx+3:lx-3}" y="${ly+1.3}" font-size="3.6" text-anchor="middle" style="fill:var(--paper)">${n}</text>`;
+  };
+  document.getElementById('assembly').innerHTML = `
+    <defs><marker id="ar3" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--muted)"/></marker></defs>
+    <rect x="96" y="240" width="8" height="63" fill="var(--wood)" stroke="var(--wood-line)" stroke-width="0.4"/>
+    <path d="M84,240 L116,240 Q117,240 117,242 L117,250 L83,250 L83,242 Q83,240 84,240 Z" fill="var(--wood)" stroke="var(--wood-line)" stroke-width="0.4"/>
+    <line x1="96" y1="250" x2="104" y2="250" stroke="var(--wood-line)" stroke-width="0.3" stroke-dasharray="1 0.6"/>
+    ${wire(1, 15.5)}${wire(-1, 16.5)}
+    <path d="M81.5,240 L81.5,251 Q86,255 94,257 L94,282 L106,282 L106,257 Q114,255 118.5,251 L118.5,240" fill="var(--green)" fill-opacity="0.3" stroke="var(--green)" stroke-width="0.5"/>
+    <path d="M82,244 C76,248 72,254 70,261 L72,261 C75,255 79,250 84,247 Z M118,244 C124,248 128,254 130,261 L128,261 C125,255 121,250 116,247 Z" fill="var(--green)" stroke="var(--green)" stroke-width="0.3"/>
+    <rect x="95" y="237" width="10" height="3" fill="var(--ink)"/>
+    <rect x="95" y="236" width="10" height="1" fill="var(--metal)"/>
+    <rect x="87.5" y="234.4" width="25" height="1.6" fill="var(--paper)" stroke="var(--muted)" stroke-width="0.3"/>
+    <rect x="91.7" y="228.4" width="16.6" height="6" fill="var(--paper)" stroke="var(--muted)" stroke-width="0.3"/>
+    <path d="M${gL.join(' L')} L${gR.reverse().join(' L')} Z" fill="none" stroke="var(--muted)" stroke-width="0.35"/>
+    <rect x="92.8" y="155.6" width="14.4" height="72.8" fill="none" stroke="var(--muted)" stroke-width="0.25" stroke-dasharray="1.5 1"/>
+    <rect x="91.7" y="149.6" width="16.6" height="6" fill="var(--paper)" stroke="var(--muted)" stroke-width="0.3"/>
+    <rect x="87.5" y="148" width="25" height="1.6" fill="var(--paper)" stroke="var(--muted)" stroke-width="0.3"/>
+    <rect x="95" y="147" width="10" height="1" fill="var(--metal)"/>
+    <polyline points="${prof(L1c, 1, 15.5)}" fill="none" stroke="var(--l1)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${prof(L3c, -1, 16.5)}" fill="none" stroke="var(--l3)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M89,130 L111,130 C112,124 110,117 104,114 C101,112.5 99,112.5 96,114 C90,117 88,124 89,130 Z" fill="var(--wood)" stroke="var(--wood-line)" stroke-width="0.4"/>
+    <path d="M100,129 C93,128 93,119 100,117 C106,116 108,124 102,126 C98,127 97,121 101,120.5" fill="none" stroke="var(--wood-line)" stroke-width="0.4"/>
+    <rect x="95" y="130" width="10" height="3" fill="var(--ink)"/>
+    <path d="M100,135 L100,144" stroke="var(--muted)" stroke-width="0.35" stroke-dasharray="1.2 1" marker-end="url(#ar3)"/>
+    ${lab(7, 108, 120, 116, 1)}
+    ${lab(8, 105, 131.5, 128, 1)}
+    ${lab(9, 105, 147.5, 141, 1)}
+    ${lab(1, 117.5, 175, 162, 1)}
+    ${lab(12, 106, 195, 196, 1)}
+    ${lab(4, 116.1, 225, 212, 1)}
+    ${lab(9, 105, 236.5, 224, 1)}
+    ${lab(8, 105, 238.5, 234, 1)}
+    ${lab(5, 112, 245, 245, 1)}
+    ${lab(11, 106, 270, 262, 1)}
+    ${lab(6, 104, 292, 290, 1)}
+    ${lab(3, 76, 200, 200, -1)}
+    ${lab(10, 72, 258, 258, -1)}
+    <text x="168" y="302" font-size="3.4" text-anchor="end" style="fill:var(--muted)">масштаб 1:1, мм</text>`;
+})();
+</script>

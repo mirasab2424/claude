@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}</style>
+<title>Роза-часы</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Unbounded:wght@500;700&display=swap">
+<style>
+/* Layout: тёмная 3D-сцена слева, описание варианта справа; на телефоне всё в одну колонку */
+:root{
+  --bg:#eef0ec; --panel:#f8f9f6; --fg:#1c231d; --muted:#5b665d; --line:#d3dacf;
+  --accent:#3c5f46; --accent-fg:#ffffff; --chip:#e4e9e1;
+  --stage-a:#3a4741; --stage-b:#141a17; --stage-fg:#c9d3cc;
+  --display:"Unbounded",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#131713; --panel:#1a1f1b; --fg:#e8ece6; --muted:#9aa59b; --line:#2c342d;
+  --accent:#a3c8aa; --accent-fg:#10200f; --chip:#232a24; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#131713; --panel:#1a1f1b; --fg:#e8ece6; --muted:#9aa59b; --line:#2c342d;
+  --accent:#a3c8aa; --accent-fg:#10200f; --chip:#232a24; color-scheme:dark }
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,4vw,30px);margin:0;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);padding:8px 14px;border-radius:999px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.tab:focus-visible,.btn:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:minmax(0,1fr)}}
+.stagebox{display:grid;gap:10px;min-width:0}
+#stage{position:relative;height:clamp(440px,72vh,780px);border-radius:18px;overflow:hidden;background:radial-gradient(110% 85% at 50% 35%,var(--stage-a),var(--stage-b));touch-action:none}
+#stage canvas{display:block;width:100%;height:100%}
+.hint{position:absolute;left:14px;bottom:12px;font-size:12px;color:var(--stage-fg);pointer-events:none}
+.timer{position:absolute;right:14px;top:12px;font-variant-numeric:tabular-nums;font-family:var(--display);font-size:14px;color:var(--fg);background:var(--panel);border:1px solid var(--line);padding:4px 10px;border-radius:10px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:600;border:0;background:var(--accent);color:var(--accent-fg);padding:10px 18px;border-radius:12px;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:default}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.seg button{font:inherit;font-size:13px;border:0;background:transparent;color:var(--fg);padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--chip);font-weight:600}
+.checks{display:flex;flex-wrap:wrap;gap:8px 18px}
+label.chk{display:inline-flex;gap:8px;align-items:center;font-size:14px;color:var(--fg);cursor:pointer}
+aside{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:14px;min-width:0}
+aside h2{font-family:var(--display);font-weight:500;font-size:19px;margin:0;text-wrap:balance}
+aside p{margin:0}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0;font-size:14px}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0}
+.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+ul{margin:0;padding-left:18px}
+li{margin:2px 0}
+.note{font-size:12.5px;color:var(--muted);margin:0}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Роза-часы</h1>
+    <p>Песочные часы 9 × 2,5 см на 10 минут внутри деревянной белой розы для букета.</p>
+  </header>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+
+  <div class="main">
+    <div class="stagebox">
+      <div id="stage">
+        <div class="timer" id="timer">—</div>
+        <div class="hint">Крутите мышью или пальцем, колёсико — приблизить</div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="bloomBtn" hidden>Раскрыть розу</button>
+        <button class="btn" id="flip">Перевернуть часы</button>
+        <div class="seg" role="group" aria-label="Скорость песка">
+          <button id="sp30" aria-pressed="true">Быстро ×30</button>
+          <button id="sp1" aria-pressed="false">Реальные 10 минут</button>
+        </div>
+      </div>
+      <div class="checks">
+        <label class="chk"><input type="checkbox" id="bouquet"> Показать в букете</label>
+        <label class="chk"><input type="checkbox" id="xray"> Полупрозрачные лепестки</label>
+        <label class="chk"><input type="checkbox" id="natural"> Дерево без покраски</label>
+      </div>
+    </div>
+    <aside id="info" aria-live="polite"></aside>
+  </div>
+  <p class="note">Размеры примерные, подобраны под часы с фото (высота 9 см, крышка ⌀ 2,5 см). Когда часы придут, замерьте крышки штангенциркулем и подгоните гнёзда. Все детали рассчитаны на ручную резьбу из дерева, белый цвет — акриловая краска.</p>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
+
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.88;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+stage.prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 400);
+camera.position.set(14, 14, 26);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.minDistance = 6; controls.maxDistance = 120;
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x5d6b62, 0.5));
+const sun = new THREE.DirectionalLight(0xfff8f0, 1.9);
+sun.position.set(8, 20, 12); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, {left:-22, right:22, top:22, bottom:-12, near:1, far:80});
+sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.03;
+scene.add(sun);
+const rim = new THREE.DirectionalLight(0xdfe9ff, 0.6); rim.position.set(-12, 6, -10); scene.add(rim);
+
+const lerp = THREE.MathUtils.lerp, sstep = THREE.MathUtils.smoothstep;
+
+/* ---------- материалы ---------- */
+const M = {
+  glass: new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.04, clearcoat:1, transparent:true, opacity:0.18, depthWrite:false, envMapIntensity:1.8}),
+  tube:  new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.03, clearcoat:1, transparent:true, opacity:0.11, depthWrite:false, envMapIntensity:1.5, side:THREE.DoubleSide}),
+  plastic: new THREE.MeshStandardMaterial({color:0xebe5d9, roughness:0.45}),
+  sand: new THREE.MeshStandardMaterial({color:0xe9e2d4, roughness:1, side:THREE.DoubleSide}),
+  petal: new THREE.MeshPhysicalMaterial({vertexColors:true, color:0xffffff, roughness:0.55, sheen:0.5, sheenRoughness:0.5, sheenColor:new THREE.Color(0xfff6ee), side:THREE.DoubleSide}),
+  real:  new THREE.MeshPhysicalMaterial({vertexColors:true, color:0xffffff, roughness:0.6, sheen:0.8, sheenRoughness:0.4, sheenColor:new THREE.Color(0xfff6ee), side:THREE.DoubleSide}),
+  leaf: new THREE.MeshStandardMaterial({color:0x4f7044, roughness:0.5, side:THREE.DoubleSide}),
+  green: new THREE.MeshStandardMaterial({color:0x557a47, roughness:0.55, side:THREE.DoubleSide}),
+  stem: new THREE.MeshStandardMaterial({color:0x4a6a3d, roughness:0.6}),
+  metal: new THREE.MeshStandardMaterial({color:0xd6c39a, metalness:0.9, roughness:0.3}),
+  box: new THREE.MeshStandardMaterial({color:0xf1efea, roughness:0.7}),
+  ribbon: new THREE.MeshStandardMaterial({color:0x1b1b1b, roughness:0.5}),
+  foam: new THREE.MeshStandardMaterial({color:0x2d3a2c, roughness:1}),
+};
+function shade(o){ o.traverse(m => { if (m.isMesh){ m.castShadow = true; m.receiveShadow = true; } }); return o; }
+
+/* ---------- песочные часы (центр в 0, высота 9 см) ---------- */
+const H = 4.5, GT = 3.78;
+function bulbR(y){
+  const s = Math.min(1, Math.abs(y)/GT);
+  let r = 0.075 + 0.53 * sstep(s, 0.04, 0.6);
+  if (s > 0.92) r -= (s-0.92)/0.08 * 0.12;
+  return r;
+}
+function makeHourglass(){
+  const g = new THREE.Group();
+  const pts = [];
+  for (let i=0;i<=90;i++){ const y = -GT + 2*GT*i/90; pts.push(new THREE.Vector2(bulbR(y)+0.025, y)); }
+  const glass = new THREE.Mesh(new THREE.LatheGeometry(pts, 48), M.glass); glass.renderOrder = 2; g.add(glass);
+  const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.72, 0.72, 2*GT, 48, 1, true), M.tube); tube.renderOrder = 3; g.add(tube);
+  for (const s of [1,-1]){
+    const fl = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.25, 0.16, 64), M.plastic); fl.position.y = s*(H-0.08);
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.84, 0.6, 48), M.plastic); cap.position.y = s*(H-0.46);
+    [fl, cap].forEach(m => { m.castShadow = true; m.receiveShadow = true; g.add(m); });
+  }
+  return g;
+}
+
+/* ---------- песок ---------- */
+const sandGroup = new THREE.Group();
+const sandTop = new THREE.Mesh(new THREE.BufferGeometry(), M.sand);
+const sandBot = new THREE.Mesh(new THREE.BufferGeometry(), M.sand);
+const stream = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 1, 6), M.sand);
+sandGroup.add(sandTop, sandBot, stream);
+const TOP_MIN = 0.07, TOP_MAX = 2.75, BOT_MIN = -GT + 0.05, BOT_SPAN = 2.65;
+function updateSand(fTop, flowing){
+  sandTop.geometry.dispose(); sandBot.geometry.dispose();
+  const topVisible = fTop > 0.003, botFill = 1 - fTop, botVisible = botFill > 0.003;
+  if (topVisible){
+    const L = TOP_MIN + (TOP_MAX-TOP_MIN) * Math.pow(fTop, 0.8);
+    const pts = [new THREE.Vector2(0, TOP_MIN)];
+    for (let i=0;i<=24;i++){ const y = TOP_MIN + (L-TOP_MIN)*i/24; pts.push(new THREE.Vector2(bulbR(y)*0.96, y)); }
+    pts.push(new THREE.Vector2(0, L - (flowing ? Math.min(0.35, (L-TOP_MIN)*0.6) : 0.04)));
+    sandTop.geometry = new THREE.LatheGeometry(pts, 40);
+  } else sandTop.geometry = new THREE.BufferGeometry();
+  let Lb = BOT_MIN, peak = 0;
+  if (botVisible){
+    Lb = BOT_MIN + BOT_SPAN * Math.pow(botFill, 0.85);
+    peak = flowing && topVisible ? Math.min(0.42, (Lb-BOT_MIN)*0.8) : 0.12;
+    const pts = [new THREE.Vector2(0, BOT_MIN)];
+    for (let i=0;i<=24;i++){ const y = BOT_MIN + (Lb-BOT_MIN)*i/24; pts.push(new THREE.Vector2(bulbR(y)*0.96, y)); }
+    pts.push(new THREE.Vector2(0, Lb + peak));
+    sandBot.geometry = new THREE.LatheGeometry(pts, 40);
+  } else sandBot.geometry = new THREE.BufferGeometry();
+  stream.visible = flowing && topVisible;
+  if (stream.visible){ const y1 = TOP_MIN, y0 = Lb + peak; stream.scale.y = Math.max(0.01, y1-y0); stream.position.y = (y1+y0)/2; }
+}
+
+/* ---------- лепесток розы ----------
+   округлый, шире в верхней части; низ — выпуклая чаша, край наверху отгибается наружу */
+const cCream = new THREE.Color(0xefe3bf), cWhite = new THREE.Color(0xfffdf8), cBase = new THREE.Color(0xdfe2c4);
+function petalGeo(o){
+  const {w, h, cup=0.6, bulge=0.3, inward=0, reflex=0.3, seed=0, cream=0.3} = o;
+  const geo = new THREE.PlaneGeometry(1, 1, 12, 16);
+  const p = geo.attributes.position, col = [];
+  const tint = cWhite.clone().lerp(cCream, cream);
+  for (let i=0;i<p.count;i++){
+    const xn = p.getX(i)*2, u = p.getY(i) + 0.5;
+    const s = 0.06 + 0.94*Math.pow(u, 1.25);
+    const hw = 0.5*w*Math.pow(Math.sin(Math.PI*s), 0.45);
+    const X = xn*hw;
+    const rr = Math.max(0, (u-0.62)/0.38);
+    let Z = -cup*xn*xn*hw*0.9;
+    Z += bulge*Math.sin(Math.PI*u*0.9)*h*0.12;
+    Z -= inward*Math.pow(u, 2.5)*h*0.25;
+    Z += reflex*rr*rr*h*0.30;
+    Z += reflex*Math.pow(Math.abs(xn), 4)*Math.pow(u, 1.5)*hw*0.4;
+    Z += 0.03*h*Math.sin(xn*5 + seed)*rr*rr;
+    const Y = u*h - reflex*rr*rr*h*0.07;
+    p.setXYZ(i, X, Y, Z);
+    const c = cBase.clone().lerp(tint, Math.min(1, u*3)).lerp(cWhite, Math.max(0, (u-0.5)*1.4) * (1-cream*0.6));
+    col.push(c.r, c.g, c.b);
+  }
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  geo.computeVertexNormals();
+  return geo;
+}
+/* голова розы: спираль из n лепестков от плотной сердцевины к раскрытым внешним */
+function roseHead(o){
+  const {n=30, H:HH=4.6, W=4.3, R=0.9, open=1, mat=M.real, seed=0} = o;
+  const g = new THREE.Group();
+  for (let i=0;i<n;i++){
+    const t = n>1 ? i/(n-1) : 0;
+    const geo = petalGeo({
+      w: W*lerp(0.32, 1, Math.pow(t, 0.5)), h: HH*lerp(0.48, 1, Math.pow(t, 0.6)),
+      cup: lerp(1.05, 0.45, t), bulge: lerp(0.1, 0.7, t), inward: lerp(0.45, 0, Math.pow(t, 0.6)),
+      reflex: lerp(0.08, 0.95, Math.pow(t, 1.2)) * (0.6 + 0.4*open), seed: seed + i*1.37, cream: lerp(0.95, 0.1, t)});
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(0, HH*lerp(0.36, 0, Math.pow(t, 0.7)), lerp(0.08, R, t));
+    m.rotation.x = lerp(-0.1, 0.95*open, Math.pow(t, 1.8));
+    const piv = new THREE.Group(); piv.rotation.y = i*2.39996 + seed; piv.add(m); g.add(piv);
+  }
+  return g;
+}
+function leafGeo(w, h, fold, bend, serr=0){
+  const geo = new THREE.PlaneGeometry(1, 1, 8, 16), p = geo.attributes.position;
+  for (let i=0;i<p.count;i++){
+    const x = p.getX(i), v = p.getY(i) + 0.5;
+    let wp = w * Math.pow(Math.sin(Math.PI*Math.min(1, v*1.02)), 0.8);
+    if (serr) wp *= 1 + serr*Math.abs(Math.sin(v*40)) * Math.abs(x*2);
+    const X = x*wp, Y = v*h;
+    const Z = fold*Math.abs(X) - bend*h*v*v;
+    p.setXYZ(i, X, Y, Z);
+  }
+  geo.computeVertexNormals();
+  return geo;
+}
+function makeLeaf(w, h, fold=0.25, bend=0.15, mat=M.leaf, serr=0.06){
+  const m = new THREE.Mesh(leafGeo(w, h, fold, bend, serr), mat); m.castShadow = true; return m;
+}
+/* чашелистики свисают вниз от чашечки */
+function sepals(n, len, w, r){
+  const g = new THREE.Group();
+  for (let i=0;i<n;i++){
+    const piv = new THREE.Group(); piv.rotation.y = i/n*Math.PI*2 + 0.4;
+    const l = makeLeaf(w, len, 0.3, -0.35, M.green, 0); l.position.z = r; l.rotation.x = 2.0 + (i%2)*0.25; piv.add(l); g.add(piv);
+  }
+  return g;
+}
+/* чашечка (зелёное утолщение под цветком), внутри гнездо под крышку часов */
+function receptacle(top, rTop, depth){
+  const pts = [
+    new THREE.Vector2(0.32, top-depth-1.4), new THREE.Vector2(0.55, top-depth-1.1), new THREE.Vector2(1.0, top-depth-0.6),
+    new THREE.Vector2(rTop, top-0.15), new THREE.Vector2(rTop+0.05, top), new THREE.Vector2(rTop-0.2, top),
+    new THREE.Vector2(rTop-0.2, top-depth), new THREE.Vector2(0, top-depth)];
+  return new THREE.Mesh(new THREE.LatheGeometry(pts, 48), M.green);
+}
+function stem(y0, y1, r=0.3){
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r*1.05, y0-y1, 16), M.stem); m.position.y = (y0+y1)/2; return m;
+}
+function leafBranch(){
+  const g = new THREE.Group();
+  const rach = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.08, 4.2, 8), M.stem); rach.position.y = 2.1; g.add(rach);
+  for (const [y, side, s] of [[1.4, 1, 0.8], [1.4, -1, 0.8], [2.7, 1, 0.9], [2.7, -1, 0.9]]){
+    const l = makeLeaf(1.3*s, 2.4*s, 0.2, 0.1); l.position.y = y; l.rotation.z = -side*1.0; l.rotation.y = side*0.3; g.add(l);
+  }
+  const tip = makeLeaf(1.4, 2.6, 0.2, 0.1); tip.position.y = 4.1; g.add(tip);
+  return shade(g);
+}
+/* склеивает голову в несколько мешей (для соседних роз в букете) */
+function bake(group){
+  group.updateMatrixWorld(true);
+  const byMat = new Map();
+  group.traverse(m => {
+    if (!m.isMesh) return;
+    const g = m.geometry.clone().applyMatrix4(m.matrixWorld);
+    if (!g.attributes.color && m.material === M.real) return;
+    if (!byMat.has(m.material)) byMat.set(m.material, []);
+    byMat.get(m.material).push(g);
+  });
+  const out = new THREE.Group();
+  for (const [mat, list] of byMat){
+    const keys = Object.keys(list[0].attributes);
+    const clean = list.map(g => { for (const k of Object.keys(g.attributes)) if (!keys.includes(k)) g.deleteAttribute(k); return g; });
+    const mesh = new THREE.Mesh(mergeGeometries(clean, false), mat); mesh.castShadow = true; mesh.receiveShadow = true; out.add(mesh);
+  }
+  return out;
+}
+
+/* ---------- обычная роза для букета: голова ⌀ около 7 см ---------- */
+function plainRose(seed){
+  const g = new THREE.Group();
+  const head = roseHead({n:28, H:4.4, W:4.1, R:0.9, open:0.85 + 0.15*Math.sin(seed*3), seed});
+  head.position.y = 0.15; g.add(head);
+  const rc = new THREE.Mesh(new THREE.SphereGeometry(0.9, 16, 12, 0, Math.PI*2, Math.PI*0.45, Math.PI*0.55), M.green);
+  rc.scale.y = 1.1; rc.position.y = 0.6; g.add(rc);
+  g.add(sepals(5, 1.6, 0.45, 0.6).translateY(0.35));
+  g.add(stem(0, -8, 0.28));
+  return bake(g);
+}
+
+/* ---------- основная роза с часами ----------
+   часы стоят в чашечке, вокруг 3 слоя лепестков (5 + 5 + 4), на верхней крышке — сердцевина на магните */
+const BASE_Y = 0.55;                    // низ часов
+const LAYERS = [
+  {n:5, r:1.50, y:1.15, h:10.2, w:3.7, off:0.0,  c:{tilt:0.00, cup:0.80, bulge:0.25, inward:0.18, reflex:0.30}, o:{tilt:0.40, cup:0.55, bulge:0.35, inward:0, reflex:0.85}, cream:0.55},
+  {n:5, r:1.72, y:1.05, h:9.6, w:4.1, off:0.63, c:{tilt:0.05, cup:0.70, bulge:0.35, inward:0.08, reflex:0.55}, o:{tilt:0.66, cup:0.50, bulge:0.45, inward:0, reflex:1.00}, cream:0.3},
+  {n:4, r:1.90, y:0.95, h:8.0, w:4.4, off:0.3,  c:{tilt:0.15, cup:0.55, bulge:0.55, inward:0.00, reflex:0.90}, o:{tilt:0.92, cup:0.45, bulge:0.60, inward:0, reflex:1.10}, cream:0.12},
+];
+function buildMain(fixedK){
+  const deco = new THREE.Group();
+  const rc = receptacle(1.2, 1.55, 0.65); deco.add(rc);
+  deco.add(sepals(5, 2.4, 0.6, 1.25).translateY(0.2));
+  deco.add(stem(-0.2, -13, 0.32));
+  const lb = leafBranch(); lb.position.set(0.25, -6, 0); lb.rotation.z = -0.75; deco.add(lb);
+  const petals = [];
+  LAYERS.forEach((L, li) => {
+    for (let i=0;i<L.n;i++){
+      const piv = new THREE.Group(); piv.rotation.y = i/L.n*Math.PI*2 + L.off;
+      const m = new THREE.Mesh(new THREE.BufferGeometry(), M.petal); m.castShadow = true; m.receiveShadow = true;
+      m.position.set(0, L.y, L.r); piv.add(m); deco.add(piv);
+      if (fixedK === undefined){
+        const hinge = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.9, 10), M.metal);
+        hinge.rotation.z = Math.PI/2; hinge.position.set(0, L.y + 0.05, L.r - 0.05); piv.add(hinge);
+      }
+      petals.push({m, L, seed: li*7.1 + i*1.9});
+    }
+  });
+  function setOpen(k){
+    for (const p of petals){
+      const a = p.L.c, b = p.L.o;
+      p.m.geometry.dispose();
+      p.m.geometry = petalGeo({w:p.L.w, h:p.L.h, cup:lerp(a.cup,b.cup,k), bulge:lerp(a.bulge,b.bulge,k), inward:lerp(a.inward,b.inward,k), reflex:lerp(a.reflex,b.reflex,k), seed:p.seed, cream:p.L.cream});
+      p.m.rotation.x = lerp(a.tilt, b.tilt, k);
+    }
+  }
+  setOpen(fixedK ?? 0);
+  /* сердцевина: плотная спираль на диске, держится на магните */
+  const heart = new THREE.Group();
+  const disc = new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.15, 0.14, 40), M.petal); disc.position.y = 0.07; heart.add(disc);
+  const hh = roseHead({n:13, H:1.75, W:2.3, R:0.7, open:0.3, mat:M.petal, seed:0.7});
+  hh.position.y = 0.05; heart.add(hh);
+  shade(heart);
+  heart.position.y = BASE_Y + 2*H; deco.add(heart);
+  const res = {deco: shade(deco), inner: new THREE.Group(), baseY: BASE_Y + H, lift: 10.5, target:[0,4.5,0], dist:34, heart,
+    animate(p, setHG){
+      const out = sstep(p, 0, 0.16) - sstep(p, 0.86, 1);
+      heart.position.set(3.4*out, BASE_Y + 2*H + 3.2*out, 0);
+      heart.rotation.z = -0.6*out;
+      setHG(Math.min(1, Math.max(0, (p-0.16)/0.7)));
+    }};
+  if (fixedK === undefined) res.bloom = {k:0, raw:0, goal:0, setOpen};
+  return res;
+}
+
+const VARIANTS = [
+{
+  id:'bloom', name:'Раскрывающаяся роза',
+  build(){ return buildMain(); },
+  info:{
+    title:'Закрытая роза раскрывается, внутри часы',
+    text:'Закрытой это обычная белая роза со спиральной сердцевиной. 14 лепестков на шарнирах в чашечке раскрываются наружу, и в центре появляются часы. Сердцевина сидит на верхней крышке часов на магните.',
+    facts:[['Закрытая','⌀ около 7 см, от чашечки до верха около 11,5 см'],['Раскрытая','⌀ около 14 см'],['Обычная роза','⌀ 6–7 см, высота головки 5–6 см'],['Лепестки','14 штук: 5 + 5 + 4, длина 8–10 см'],['Сложность','высокая']],
+    mats:['Лепестки из липы 2 мм, к краю истончать до 1–1,5 мм; выпуклость вырезать стамеской, отгиб края — выпарить и согнуть по шаблону','Чашечка — точёная деталь ⌀ 3,2 см с гнездом под крышку часов ⌀ 2,5 см, покрасить в зелёный','Шарниры: латунная шпилька 1,5 мм через «ушко» у основания лепестка','Сердцевина ⌀ 2,5 см из цельного бруска липы, в дне магнит 10 × 2 мм; ещё по магниту на каждую крышку часов','Стебель — круглый пруток 6–8 мм, вклеен в чашечку'],
+    minus:'Головка выше обычной розы, потому что часы 9 см и меньше их не сделать. В букете её ставят на 3–4 см глубже соседей, тогда видимая часть совпадает по размеру (включите «Показать в букете»). Чтобы перевернуть часы, розу раскрывают, снимают сердцевину и вынимают часы вверх.'
+  }
+},
+{
+  id:'half', name:'Полураскрытая, без шарниров',
+  build(){ return buildMain(0.62); },
+  info:{
+    title:'Роза всегда приоткрыта, стекло видно',
+    text:'Та же роза, но лепестки неподвижно вклеены в чашечку в полураскрытом положении. Стекло видно между лепестками и сверху. Делать заметно проще: нет шарниров, лепестки можно подгонять по месту.',
+    facts:[['Размер','⌀ около 10 см, от чашечки до верха около 11 см'],['Переворот','снять сердцевину, вынуть часы вверх, перевернуть'],['Видно стекло','частично, в щели и сверху'],['Сложность','средняя']],
+    mats:['14 лепестков из липы 2 мм, вклеиваются в пропилы чашечки на эпоксидку','Чашечка с гнездом ⌀ 2,5 см и внутренним кольцом ⌀ 2,7 см, чтобы часы выходили вверх','Сердцевина на магните, стебель — пруток 6–8 мм'],
+    minus:'Нижняя часть часов закрыта лепестками сильнее, чем у раскрытой розы. Включите «Полупрозрачные лепестки», чтобы увидеть, что спрятано.'
+  }
+},
+{
+  id:'plain', name:'Исходные часы',
+  build(){
+    const deco = new THREE.Group();
+    return {deco, inner: new THREE.Group(), baseY: H, lift:1.6, target:[0,4.5,0], dist:24};
+  },
+  info:{
+    title:'Как часы выглядят сейчас',
+    text:'Модель часов с фото: 9 см в высоту, крышки ⌀ 2,5 см, белый песок, время 10 минут. Для сравнения с розой.',
+    facts:[['Высота','9 см'],['Крышки','⌀ 2,5 см, пластик'],['Время','10 минут']],
+    mats:[], minus:''
+  }
+}];
+
+/* ---------- букет: шляпная коробка и соседние розы ---------- */
+const bouquet = new THREE.Group(); bouquet.visible = false; scene.add(bouquet);
+(function buildBouquet(){
+  const templates = [0.3, 2.1, 4.4].map(plainRose);
+  const BOX_TOP = 1.4;
+  const box = new THREE.Mesh(new THREE.CylinderGeometry(17, 17, 12, 96), M.box); box.position.y = BOX_TOP - 6; box.receiveShadow = true; bouquet.add(box);
+  const band = new THREE.Mesh(new THREE.CylinderGeometry(17.05, 17.05, 0.35, 96, 1, true), M.ribbon); band.position.y = BOX_TOP - 1.4; bouquet.add(band);
+  const foam = new THREE.Mesh(new THREE.CylinderGeometry(16.6, 16.6, 0.2, 64), M.foam); foam.position.y = BOX_TOP - 0.3; foam.receiveShadow = true; bouquet.add(foam);
+  const place = (r, ang, y, tilt, k) => {
+    const piv = new THREE.Group(); piv.rotation.y = ang;
+    const rose = templates[k % 3].clone(); rose.position.set(0, y, r); rose.rotation.x = tilt; rose.rotation.y = k*1.3;
+    piv.add(rose); bouquet.add(piv);
+  };
+  for (let i=0;i<6;i++) place(6.8, i/6*Math.PI*2 + 0.25, 3.2, 0.12, i);
+  for (let i=0;i<12;i++) place(12.6, i/12*Math.PI*2, 2.0, 0.38, i+1);
+})();
+const BOUQUET_DROP = -1.6;   // в букете роза-часы стоит на 1,6 см ниже
+
+/* ---------- сцена ---------- */
+const root = new THREE.Group(); scene.add(root);
+const flipGroup = new THREE.Group(); root.add(flipGroup);
+const hourglass = makeHourglass();
+hourglass.traverse(m => { if (m.isMesh && m.material.transparent) m.castShadow = false; });
+flipGroup.add(hourglass, sandGroup);
+sandGroup.traverse(m => { if (m.isMesh) m.castShadow = true; });
+
+let cur = null, curIdx = 0;
+let fTop = 0.62, turns = 0, flip = null, speed = 30, pendingFlip = false;
+
+function disposeGroup(g){ g.traverse(m => { if (m.isMesh && m.geometry) m.geometry.dispose(); }); }
+function frameCamera(){
+  const inB = bouquetChk.checked;
+  const t = inB ? [0, 4, 0] : cur.target, d = inB ? 62 : cur.dist;
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  controls.target.set(...t);
+  camera.position.copy(controls.target).addScaledVector(dir, d);
+}
+function setVariant(i){
+  if (flip) return;
+  if (cur){ root.remove(cur.deco); flipGroup.remove(cur.inner); disposeGroup(cur.deco); disposeGroup(cur.inner); }
+  curIdx = i; cur = VARIANTS[i].build();
+  root.add(cur.deco); flipGroup.add(cur.inner);
+  flipGroup.position.y = cur.baseY; flipGroup.rotation.x = 0; turns = 0; sandGroup.scale.y = 1;
+  pendingFlip = false; flipBtn.disabled = false;
+  bloomBtn.hidden = !cur.bloom; updateBloomBtn();
+  frameCamera(); renderTabs(); renderInfo();
+}
+
+/* ---------- переворот ---------- */
+const flipBtn = document.getElementById('flip');
+const bloomBtn = document.getElementById('bloomBtn');
+flipBtn.addEventListener('click', () => {
+  if (flip) return;
+  if (cur.bloom && cur.bloom.k < 1){ cur.bloom.goal = 1; pendingFlip = true; flipBtn.disabled = true; updateBloomBtn(); return; }
+  startFlip();
+});
+function startFlip(){
+  flip = {t:0, dur: cur.heart ? 3.2 : 1.7, start: turns*Math.PI};
+  flipBtn.disabled = true; bloomBtn.disabled = true;
+}
+function hgPose(q){
+  const rise = sstep(q, 0, 0.35) - sstep(q, 0.65, 1);
+  flipGroup.position.y = cur.baseY + cur.lift * rise;
+  flipGroup.rotation.x = flip.start + Math.PI * sstep(q, 0.33, 0.67);
+}
+function stepFlip(dt){
+  flip.t += dt / flip.dur;
+  const p = Math.min(1, flip.t);
+  if (cur.animate) cur.animate(p, hgPose); else hgPose(p);
+  if (p >= 1){
+    turns++;
+    flipGroup.rotation.x = turns*Math.PI; flipGroup.position.y = cur.baseY;
+    sandGroup.scale.y = turns % 2 ? -1 : 1;
+    fTop = 1 - fTop;
+    flip = null; flipBtn.disabled = false; bloomBtn.disabled = false;
+  }
+}
+
+/* ---------- элементы страницы ---------- */
+const tabsEl = document.getElementById('tabs');
+const letter = i => String.fromCharCode(1040 + i);
+function renderTabs(){
+  tabsEl.innerHTML = '';
+  VARIANTS.forEach((v, i) => {
+    const b = document.createElement('button');
+    b.className = 'tab'; b.type = 'button'; b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', String(i === curIdx));
+    b.textContent = (i < VARIANTS.length-1 ? letter(i) + '. ' : '') + v.name;
+    b.addEventListener('click', () => setVariant(i));
+    tabsEl.appendChild(b);
+  });
+}
+const infoEl = document.getElementById('info');
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function renderInfo(){
+  const d = VARIANTS[curIdx].info;
+  infoEl.innerHTML =
+    `<div><div class="lbl">${curIdx < VARIANTS.length-1 ? 'Вариант ' + letter(curIdx) : 'Исходник'}</div><h2>${esc(d.title)}</h2></div>` +
+    `<p>${esc(d.text)}</p>` +
+    `<dl class="facts">${d.facts.map(([k, val]) => `<dt>${esc(k)}</dt><dd>${esc(val)}</dd>`).join('')}</dl>` +
+    (d.mats.length ? `<div><div class="lbl">Материалы и детали</div><ul>${d.mats.map(m => `<li>${esc(m)}</li>`).join('')}</ul></div>` : '') +
+    (d.minus ? `<div><div class="lbl">Учесть</div><p>${esc(d.minus)}</p></div>` : '');
+}
+function updateBloomBtn(){ if (cur && cur.bloom) bloomBtn.textContent = cur.bloom.goal > 0.5 ? 'Закрыть розу' : 'Раскрыть розу'; }
+bloomBtn.addEventListener('click', () => { if (!cur.bloom || flip) return; cur.bloom.goal = cur.bloom.goal > 0.5 ? 0 : 1; pendingFlip = false; flipBtn.disabled = false; updateBloomBtn(); });
+
+const sp30 = document.getElementById('sp30'), sp1 = document.getElementById('sp1');
+function setSpeed(s){ speed = s; sp30.setAttribute('aria-pressed', String(s === 30)); sp1.setAttribute('aria-pressed', String(s === 1)); }
+sp30.addEventListener('click', () => setSpeed(30));
+sp1.addEventListener('click', () => setSpeed(1));
+const xray = document.getElementById('xray');
+xray.addEventListener('change', () => {
+  const on = xray.checked;
+  M.petal.transparent = on; M.petal.opacity = on ? 0.3 : 1; M.petal.depthWrite = !on; M.petal.needsUpdate = true;
+});
+const natural = document.getElementById('natural');
+natural.addEventListener('change', () => {
+  const on = natural.checked;
+  M.petal.color.set(on ? 0xdcc195 : 0xffffff);
+  M.green.color.set(on ? 0xb08a58 : 0x557a47);
+  M.stem.color.set(on ? 0xa67f4e : 0x4a6a3d);
+  M.leaf.color.set(on ? 0xb48f5c : 0x4f7044);
+});
+const bouquetChk = document.getElementById('bouquet');
+bouquetChk.addEventListener('change', () => {
+  bouquet.visible = bouquetChk.checked;
+  root.position.y = bouquetChk.checked ? BOUQUET_DROP : 0;
+  frameCamera();
+});
+const timerEl = document.getElementById('timer');
+function fmt(sec){ sec = Math.ceil(sec); return Math.floor(sec/60) + ':' + String(sec%60).padStart(2, '0'); }
+
+/* ---------- цикл ---------- */
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(stage);
+resize();
+setVariant(0);
+
+const clock = new THREE.Clock();
+let lastTxt = '';
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(0.05, clock.getDelta());
+  const b = cur.bloom;
+  if (b && b.raw !== b.goal){
+    b.raw = b.goal > b.raw ? Math.min(b.goal, b.raw + dt/2.4) : Math.max(b.goal, b.raw - dt/2.4);
+    b.k = sstep(b.raw, 0, 1); b.setOpen(b.k);
+    if (b.raw === 1 && pendingFlip){ pendingFlip = false; startFlip(); }
+  }
+  let flowing = false;
+  if (flip) stepFlip(dt);
+  else if (fTop > 0){ fTop = Math.max(0, fTop - dt*speed/600); flowing = fTop > 0; }
+  updateSand(fTop, flowing);
+  const txt = flip ? 'переворот…' : (fTop > 0 ? 'осталось ' + fmt(fTop*600) : 'время вышло');
+  if (txt !== lastTxt){ timerEl.textContent = txt; lastTxt = txt; }
+  controls.update();
+  renderer.render(scene, camera);
+});
+</script>
